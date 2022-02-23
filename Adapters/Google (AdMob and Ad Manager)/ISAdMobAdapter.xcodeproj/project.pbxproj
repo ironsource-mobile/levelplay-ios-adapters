@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2AE7D2E78BD4EB71B9D0F91E /* libPods-ISAdMobAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */; };
+		EFAEC71527AFFB2600C424B7 /* ISAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EFAEC71427AFFB2600C424B7 /* ISAdMobAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EFAEC72027AFFBD700C424B7 /* ISAdMobIsFullScreenListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAEC71B27AFFBD700C424B7 /* ISAdMobIsFullScreenListener.m */; };
+		EFAEC72127AFFBD700C424B7 /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAEC71C27AFFBD700C424B7 /* ISAdMobAdapter.m */; };
+		EFAEC72227AFFBD700C424B7 /* ISAdMobRvFullScreenListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EFAEC71D27AFFBD700C424B7 /* ISAdMobRvFullScreenListener.h */; };
+		EFAEC72327AFFBD700C424B7 /* ISAdMobRvFullScreenListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAEC71E27AFFBD700C424B7 /* ISAdMobRvFullScreenListener.m */; };
+		EFAEC72427AFFBD700C424B7 /* ISAdMobIsFullScreenListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EFAEC71F27AFFBD700C424B7 /* ISAdMobIsFullScreenListener.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AB91FCCE2B689D573579E9C6 /* Pods-ISAdMobAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAdMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFAEC71427AFFB2600C424B7 /* ISAdMobAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobAdapter.h; sourceTree = "<group>"; };
+		EFAEC71B27AFFBD700C424B7 /* ISAdMobIsFullScreenListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobIsFullScreenListener.m; sourceTree = "<group>"; };
+		EFAEC71C27AFFBD700C424B7 /* ISAdMobAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobAdapter.m; sourceTree = "<group>"; };
+		EFAEC71D27AFFBD700C424B7 /* ISAdMobRvFullScreenListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobRvFullScreenListener.h; sourceTree = "<group>"; };
+		EFAEC71E27AFFBD700C424B7 /* ISAdMobRvFullScreenListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRvFullScreenListener.m; sourceTree = "<group>"; };
+		EFAEC71F27AFFBD700C424B7 /* ISAdMobIsFullScreenListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobIsFullScreenListener.h; sourceTree = "<group>"; };
+		F1702D79B324CA9EF4BC9487 /* Pods-ISAdMobAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISAdMobAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EFAEC70E27AFFB2600C424B7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AE7D2E78BD4EB71B9D0F91E /* libPods-ISAdMobAdapter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		45946D6C7B3B1798FA4F0D0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		75FF3AC1D6E77494765BA02F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F1702D79B324CA9EF4BC9487 /* Pods-ISAdMobAdapter.debug.xcconfig */,
+				AB91FCCE2B689D573579E9C6 /* Pods-ISAdMobAdapter.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		EFAEC70727AFFB2600C424B7 = {
+			isa = PBXGroup;
+			children = (
+				EFAEC71327AFFB2600C424B7 /* ISAdMobAdapter */,
+				EFAEC71227AFFB2600C424B7 /* Products */,
+				75FF3AC1D6E77494765BA02F /* Pods */,
+				45946D6C7B3B1798FA4F0D0F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EFAEC71227AFFB2600C424B7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EFAEC71327AFFB2600C424B7 /* ISAdMobAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				EFAEC71427AFFB2600C424B7 /* ISAdMobAdapter.h */,
+				EFAEC71C27AFFBD700C424B7 /* ISAdMobAdapter.m */,
+				EFAEC71F27AFFBD700C424B7 /* ISAdMobIsFullScreenListener.h */,
+				EFAEC71B27AFFBD700C424B7 /* ISAdMobIsFullScreenListener.m */,
+				EFAEC71D27AFFBD700C424B7 /* ISAdMobRvFullScreenListener.h */,
+				EFAEC71E27AFFBD700C424B7 /* ISAdMobRvFullScreenListener.m */,
+			);
+			path = ISAdMobAdapter;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EFAEC70C27AFFB2600C424B7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFAEC71527AFFB2600C424B7 /* ISAdMobAdapter.h in Headers */,
+				EFAEC72427AFFBD700C424B7 /* ISAdMobIsFullScreenListener.h in Headers */,
+				EFAEC72227AFFBD700C424B7 /* ISAdMobRvFullScreenListener.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EFAEC71027AFFB2600C424B7 /* ISAdMobAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFAEC71827AFFB2600C424B7 /* Build configuration list for PBXNativeTarget "ISAdMobAdapter" */;
+			buildPhases = (
+				AB49DDB36B32F65EBB45643C /* [CP] Check Pods Manifest.lock */,
+				EFAEC70C27AFFB2600C424B7 /* Headers */,
+				EFAEC70D27AFFB2600C424B7 /* Sources */,
+				EFAEC70E27AFFB2600C424B7 /* Frameworks */,
+				EFAEC70F27AFFB2600C424B7 /* Resources */,
+				EFAEC72527AFFC2800C424B7 /* Create XCFramework */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISAdMobAdapter;
+			productName = ISAdMobAdapter;
+			productReference = EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EFAEC70827AFFB2600C424B7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					EFAEC71027AFFB2600C424B7 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+				};
+			};
+			buildConfigurationList = EFAEC70B27AFFB2600C424B7 /* Build configuration list for PBXProject "ISAdMobAdapter" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EFAEC70727AFFB2600C424B7;
+			productRefGroup = EFAEC71227AFFB2600C424B7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EFAEC71027AFFB2600C424B7 /* ISAdMobAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EFAEC70F27AFFB2600C424B7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AB49DDB36B32F65EBB45643C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ISAdMobAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFAEC72527AFFC2800C424B7 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../BuildAndUnitTesting/build_XCFramework.sh \n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EFAEC70D27AFFB2600C424B7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EFAEC72027AFFBD700C424B7 /* ISAdMobIsFullScreenListener.m in Sources */,
+				EFAEC72327AFFBD700C424B7 /* ISAdMobRvFullScreenListener.m in Sources */,
+				EFAEC72127AFFBD700C424B7 /* ISAdMobAdapter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EFAEC71627AFFB2600C424B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EFAEC71727AFFB2600C424B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EFAEC71927AFFB2600C424B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1702D79B324CA9EF4BC9487 /* Pods-ISAdMobAdapter.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISAdMobAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EFAEC71A27AFFB2600C424B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB91FCCE2B689D573579E9C6 /* Pods-ISAdMobAdapter.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISAdMobAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EFAEC70B27AFFB2600C424B7 /* Build configuration list for PBXProject "ISAdMobAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFAEC71627AFFB2600C424B7 /* Debug */,
+				EFAEC71727AFFB2600C424B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFAEC71827AFFB2600C424B7 /* Build configuration list for PBXNativeTarget "ISAdMobAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFAEC71927AFFB2600C424B7 /* Debug */,
+				EFAEC71A27AFFB2600C424B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EFAEC70827AFFB2600C424B7 /* Project object */;
+}
