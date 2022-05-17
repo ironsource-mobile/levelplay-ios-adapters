@@ -206,7 +206,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "../BuildAndUnitTesting/build_XCFramework.sh \n\n";
+			shellScript = "BuildScript/build_XCFramework.sh \n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
