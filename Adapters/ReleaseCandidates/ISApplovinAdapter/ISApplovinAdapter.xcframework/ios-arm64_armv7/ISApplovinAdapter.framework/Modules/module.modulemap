@@ -1,0 +1,6 @@
+framework module ISApplovinAdapter {
+  umbrella header "ISApplovinAdapter.h"
+
+  export *
+  module * { export * }
+}
