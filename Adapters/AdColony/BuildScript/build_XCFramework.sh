@@ -37,8 +37,12 @@ xcrun xcodebuild -workspace "${ADAPTER_WORKSPACE}" \
 
 
   createFramework "iphoneos" "armv7 arm64"
-  createFramework "iphonesimulator" "x86_64 i386 arm64" 
+  createFramework "iphonesimulator" "x86_64 i386" 
 
+
+if [ -d "${OUTPUT_FOLDER}" ]; then
+  rm -rf "${OUTPUT_FOLDER}"
+fi
 mkdir ${OUTPUT_FOLDER}
 
 
