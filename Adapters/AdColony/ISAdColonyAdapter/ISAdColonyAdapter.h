@@ -6,7 +6,7 @@
 #import "IronSource/ISBaseAdapter+Internal.h"
 
 static NSString * const AdColonyAdapterVersion = @"4.3.13";
-static NSString * GitHash = @"9284353";
+static NSString * GitHash = @"8d0e757";
 
 //System Frameworks For AdColony Adapter
 
