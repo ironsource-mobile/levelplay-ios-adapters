@@ -8,39 +8,27 @@
 
 #import "ISAdMobAdapter.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <ISAdMobIsFullScreenListener.h>
-#import <ISAdMobRvFullScreenListener.h>
+#import <ISAdMobInterstitialListener.h>
+#import <ISAdMobRewardedVideoListener.h>
+#import <ISAdMobBannerListener.h>
 
-
-static NSString * const kAdapterName              = @"AdMob";
-static NSString * const kAdapterVersion           = AdMobAdapterVersion;
-static NSString * const kAdUnitId                 = @"adUnitId";
-static NSString * const kCoppa                    = @"coppa";
+//AdMob requires a request agent name
 static NSString * const kRequestAgent             = @"ironSource";
 
+static NSString * const kAdapterName              = @"AdMob";
+static NSString * const kAdUnitId                 = @"adUnitId";
+static int const kMinUserAge                      = -1;
+static int const kMaxChildAge                     = 13;
+
+// Init configuration flags
 static NSString * const kNetworkOnlyInitFlag      = @"networkOnlyInit";
 static NSString * const kInitResponseRequiredFlag = @"initResponseRequired";
+
+// AdMob network id
 static NSString * const kAdMobNetworkId           = @"GADMobileAds";
 
-// Meta data keys
-static NSString * const kAdMobTFCD                = @"admob_tfcd";
-static NSString * const kAdMobTFUA                = @"admob_tfua";
-static NSString * const kAdMobContentRating       = @"admob_maxcontentrating";
 
-// Meta data content rate values
-static NSString * const kAdMobMaxContentRatingG    = @"max_ad_content_rating_g";
-static NSString * const kAdMobMaxContentRatingPG   = @"max_ad_content_rating_pg";
-static NSString * const kAdMobMaxContentRatingT    = @"max_ad_content_rating_t";
-static NSString * const kAdMobMaxContentRatingMA   = @"max_ad_content_rating_ma";
-
-static NSInteger kRVNotReadyErrorCode             = 101;
-static NSInteger kISFailedToShowErrorCode         = 102;
-static NSInteger kBNFailedToReloadErrorCode       = 103;
-static NSInteger kISNotReadyErrorCode             = 104;
-
-static BOOL _didSetConsentCollectingUserData      = NO;
-static BOOL _consentCollectingUserData            = NO;
-
+// Init state
 typedef NS_ENUM(NSInteger, InitState) {
     INIT_STATE_NONE,
     INIT_STATE_IN_PROGRESS,
@@ -48,78 +36,67 @@ typedef NS_ENUM(NSInteger, InitState) {
     INIT_STATE_SUCCESS
 };
 
+// Handle init callback for all adapter instances
+static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 static InitState _initState = INIT_STATE_NONE;
 
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+// Meta data keys
+static NSString * const kAdMobTFCD                = @"admob_tfcd";
+static NSString * const kAdMobTFUA                = @"admob_tfua";
+static NSString * const kAdMobContentRating       = @"admob_maxcontentrating";
+static NSString * const kAdMobCCPAKey             = @"gad_rdp";
 
-@interface ISAdMobAdapter () <GADBannerViewDelegate,ISAdMobRvFullScreenDelegateWrapper, ISAdMobIsFullScreenDelegateWrapper, ISNetworkInitCallbackProtocol> {
-    
+
+// Meta data content rate values
+static NSString * const kAdMobMaxContentRatingG    = @"max_ad_content_rating_g";
+static NSString * const kAdMobMaxContentRatingPG   = @"max_ad_content_rating_pg";
+static NSString * const kAdMobMaxContentRatingT    = @"max_ad_content_rating_t";
+static NSString * const kAdMobMaxContentRatingMA   = @"max_ad_content_rating_ma";
+
+// Consent flags
+static BOOL _didSetConsentCollectingUserData      = NO;
+static BOOL _consentCollectingUserData            = NO;
+
+@interface ISAdMobAdapter () <ISAdMobBannerDelegateWrapper,ISAdMobRewardedVideoDelegateWrapper, ISAdMobInterstitialDelegateWrapper, ISNetworkInitCallbackProtocol> {
 }
 
 // Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAds; // Holds placement and GADRewardedVideo
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementToDelegate;
+@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAds;
+@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdUnitIdToDelegate;
 @property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdsAvailability;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rvFullSCreenPlacementToListener;
-@property (nonatomic, strong) NSMutableSet                *rewardedVideoPlacementsForInitCallbacks;
+@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdUnitIdToListener;
+@property (nonatomic, strong) NSMutableSet                *rewardedVideoAdUnitIdForInitCallbacks;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialAds; // Holds placement and GADInterstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementToDelegate;
+@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialAds;
+@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialAdUnitIdToDelegate;
 @property (nonatomic, strong) ConcurrentMutableDictionary *interstitialAdsAvailability;
-@property (nonatomic, strong) ConcurrentMutableDictionary *isFullSCreenPlacementToListener;
+@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialAdUnitIdToListener;
 
 // Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerAds; // Holds placement and GADBannerView
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementToDelegate;
+@property (nonatomic, strong) ConcurrentMutableDictionary *bannerAds;
+@property (nonatomic, strong) ConcurrentMutableDictionary *bannerAdUnitIdToDelegate;
+@property (nonatomic, strong) ConcurrentMutableDictionary *bannerAdUnitIdToListener;
 
 
 @end
 
 @implementation ISAdMobAdapter
 
-#pragma mark - Initializations Methods
-
-- (instancetype)initAdapter:(NSString *)name
-{
-    self = [super initAdapter:name];
-    
-    if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates =  [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
-        }
-        
-        _rewardedVideoAds                 = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementToDelegate = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoAdsAvailability     = [ConcurrentMutableDictionary dictionary];
-        _rvFullSCreenPlacementToListener  = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementsForInitCallbacks = [[NSMutableSet alloc] init];
-        
-        _interstitialAds                  = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementToDelegate  = [ConcurrentMutableDictionary dictionary];
-        _interstitialAdsAvailability      = [ConcurrentMutableDictionary dictionary];
-        _isFullSCreenPlacementToListener  = [ConcurrentMutableDictionary dictionary];
-
-        
-        _bannerAds                        = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementToDelegate        = [ConcurrentMutableDictionary dictionary];
-        
-        LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
-    }
-    
-    return self;
-}
 
 #pragma mark - IronSource Protocol Methods
 
+// Get adapter version
 - (NSString *)version {
-    return kAdapterVersion;
+    return AdMobAdapterVersion;
 }
 
+// Get network sdk version
 - (NSString *)sdkVersion {
     return GADMobileAds.sharedInstance.sdkVersion;
 }
 
+// network system frameworks
 - (NSArray *)systemFrameworks {
     return @[
         @"AdSupport",
@@ -143,21 +120,676 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     ];
 }
 
+// Get network name
 - (NSString *)sdkName {
     return @"GADMobileAds";
 }
 
+
+#pragma mark - Initializations Methods And Callbacks
+
+- (instancetype)initAdapter:(NSString *)name
+{
+    self = [super initAdapter:name];
+    
+    if (self) {
+        if (initCallbackDelegates == nil) {
+            initCallbackDelegates =  [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        }
+        
+        // Rewarded video data collections
+        _rewardedVideoAds                           = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdUnitIdToDelegate            = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdsAvailability               = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdUnitIdToListener            = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdUnitIdForInitCallbacks      = [[NSMutableSet alloc] init];
+        
+        // Interstitial data collections
+        _interstitialAds                            = [ConcurrentMutableDictionary dictionary];
+        _interstitialAdUnitIdToDelegate             = [ConcurrentMutableDictionary dictionary];
+        _interstitialAdsAvailability                = [ConcurrentMutableDictionary dictionary];
+        _interstitialAdUnitIdToListener             = [ConcurrentMutableDictionary dictionary];
+
+        // Banner data collections
+        _bannerAds                                  = [ConcurrentMutableDictionary dictionary];
+        _bannerAdUnitIdToDelegate                   = [ConcurrentMutableDictionary dictionary];
+        _bannerAdUnitIdToListener                   = [ConcurrentMutableDictionary dictionary];
+        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
+        LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
+    }
+    
+    return self;
+}
+
+- (void)initAdMobSDK:(ISAdapterConfig *)adapterConfig {
+    // add self to init delegates only when init not finished yet
+    if (_initState == INIT_STATE_NONE || _initState == INIT_STATE_IN_PROGRESS) {
+        [initCallbackDelegates addObject:self];
+    }
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        LogAdapterDelegate_Internal(@"");
+        
+        _initState = INIT_STATE_IN_PROGRESS;
+        
+        // In case the platform doesn't override this flag the default is to init only the network
+        BOOL networkOnlyInit = adapterConfig.settings[kNetworkOnlyInitFlag] ? [adapterConfig.settings[kNetworkOnlyInitFlag] boolValue] : YES;
+        
+        if (networkOnlyInit) {
+            LogAdapterDelegate_Internal(@"disableMediationInitialization");
+            [[GADMobileAds sharedInstance] disableMediationInitialization];
+        }
+        
+        // In case the platform doesn't override this flag the default is not to wait for the init callback before loading an ad
+        BOOL shouldWaitForInitCallback = adapterConfig.settings[kInitResponseRequiredFlag] ? [adapterConfig.settings[kInitResponseRequiredFlag] boolValue] : NO;
+        
+        if (shouldWaitForInitCallback) {
+            LogAdapterDelegate_Internal(@"init and wait for callback");
+            
+            [[GADMobileAds sharedInstance] startWithCompletionHandler:^(GADInitializationStatus *_Nonnull status) {
+                NSDictionary *adapterStatuses = status.adapterStatusesByClassName;
+                
+                if ([adapterStatuses objectForKey:kAdMobNetworkId]) {
+                    GADAdapterStatus *initStatus = [adapterStatuses objectForKey:kAdMobNetworkId];
+                    
+                    if (initStatus.state == GADAdapterInitializationStateReady) {
+                        [self initializationSuccess];
+                        return;
+                    }
+                }
+                
+                // If we got here then either the AdMob network is missing from the initalization status dictionary
+                // or it returned as not ready
+                [self initializationFailure];
+            }];
+        }
+        else {
+            LogAdapterDelegate_Internal(@"init without callback");
+            [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+            [self initializationSuccess];
+        }
+    });
+}
+
+- (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
+    LogAdapterDelegate_Internal(@"");
+    NSError *error = [ISError createError:ERROR_CODE_INIT_FAILED withMessage:errorMessage];
+
+    // rewarded video
+    NSArray *rewardedVideoAdUnitIds = _rewardedVideoAdUnitIdToDelegate.allKeys;
+    
+    for (NSString *adUnitId in rewardedVideoAdUnitIds) {
+        id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId];
+        if ([_rewardedVideoAdUnitIdForInitCallbacks containsObject:adUnitId]) {
+            [delegate adapterRewardedVideoInitFailed:error];
+        } else {
+            [delegate adapterRewardedVideoHasChangedAvailability:NO];
+        }
+        
+    }
+    
+    // interstitial
+    NSArray *interstitialAdUnitIds = _interstitialAdUnitIdToDelegate.allKeys;
+    
+    for (NSString *adUnitId in interstitialAdUnitIds) {
+        id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToDelegate objectForKey:adUnitId];
+        [delegate adapterInterstitialInitFailedWithError:error];
+    }
+    
+    // banner
+    NSArray *bannerAdUnitIds = _bannerAdUnitIdToDelegate.allKeys;
+    
+    for (NSString *adUnitId in bannerAdUnitIds) {
+        id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:adUnitId];
+        [delegate adapterBannerInitFailedWithError:error];
+    }
+}
+
+- (void)onNetworkInitCallbackSuccess {
+    LogAdapterDelegate_Internal(@"");
+
+    NSArray *rewardedVideoAdUnitIds = _rewardedVideoAdUnitIdToDelegate.allKeys;
+    
+    for (NSString *adUnitId in rewardedVideoAdUnitIds) {
+        if ([_rewardedVideoAdUnitIdForInitCallbacks containsObject:adUnitId]) {
+            id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId];
+            [delegate adapterRewardedVideoInitSuccess];
+        } else {
+            [self loadRewardedVideoForAdMobWithAdUnitId:adUnitId];
+        }
+    }
+    
+    // interstitial
+    NSArray *interstitialAdUnitIds = _interstitialAdUnitIdToDelegate.allKeys;
+    
+    for (NSString *adUnitId in interstitialAdUnitIds) {
+        id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToDelegate objectForKey:adUnitId];
+        [delegate adapterInterstitialInitSuccess];
+    }
+    
+    // banner
+    NSArray *bannerAdUnitIds = _bannerAdUnitIdToDelegate.allKeys;
+    
+    for (NSString *adUnitId in bannerAdUnitIds) {
+        id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:adUnitId];
+        [delegate adapterBannerInitSuccess];
+    }
+}
+
+- (void)initializationSuccess {
+    LogAdapterDelegate_Internal(@"");
+    
+    _initState = INIT_STATE_SUCCESS;
+    
+    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
+    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
+        [initDelegate onNetworkInitCallbackSuccess];
+    }
+    
+    [initCallbackDelegates removeAllObjects];
+}
+
+- (void)initializationFailure {
+    LogAdapterDelegate_Internal(@"");
+
+    _initState = INIT_STATE_FAILED;
+    
+    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
+    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
+        [initDelegate onNetworkInitCallbackFailed:@"AdMob SDK init failed"];
+    }
+    
+    [initCallbackDelegates removeAllObjects];
+}
+
+#pragma mark - Rewarded Video API
+
+
+// Used for flows when the mediation needs to get a callback for init
+- (void)initRewardedVideoForCallbacksWithUserId:(NSString *)userId
+                                  adapterConfig:(ISAdapterConfig *)adapterConfig
+                                       delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+        
+        
+        /* Configuration Validation */
+        if (![self isConfigValueValid:adUnitId]) {
+            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
+            LogAdapterApi_Internal(@"error.description = %@", error.description);
+            [delegate adapterRewardedVideoInitFailed:error];
+            return;
+        }
+        
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+
+        ISAdMobRewardedVideoListener *listener = [[ISAdMobRewardedVideoListener alloc] initWithAdUnitId:adUnitId andDelegate:self];
+        [_rewardedVideoAdUnitIdToListener setObject:listener forKey:adUnitId];
+        [_rewardedVideoAdUnitIdToDelegate setObject:delegate forKey:adUnitId];
+        [_rewardedVideoAdUnitIdForInitCallbacks addObject:adUnitId];
+        
+        switch (_initState) {
+            case INIT_STATE_NONE:
+            case INIT_STATE_IN_PROGRESS:
+                [self initAdMobSDK:adapterConfig];
+                break;
+            case INIT_STATE_FAILED:
+                [delegate adapterRewardedVideoInitFailed:[ISError createError:ERROR_CODE_INIT_FAILED withMessage:@"AdMob SDK init failed"]];
+                break;
+            case INIT_STATE_SUCCESS:
+                [delegate adapterRewardedVideoInitSuccess];
+                break;
+
+        }
+    }];
+}
+
+// Used for flows when the mediation doesn't need to get a callback for init
+- (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
+                             adapterConfig:(ISAdapterConfig *)adapterConfig
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+        
+        
+        /* Configuration Validation */
+        if (![self isConfigValueValid:adUnitId]) {
+            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
+            LogAdapterApi_Internal(@"error.description = %@", error.description);
+            [delegate adapterRewardedVideoHasChangedAvailability:NO];
+            return;
+        }
+        
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+
+        ISAdMobRewardedVideoListener *listener = [[ISAdMobRewardedVideoListener alloc] initWithAdUnitId:adUnitId andDelegate:self];
+        [_rewardedVideoAdUnitIdToListener setObject:listener forKey:adUnitId];
+        
+        //add to rewarded video Delegate map
+        [_rewardedVideoAdUnitIdToDelegate setObject:delegate forKey:adUnitId];
+        
+        switch (_initState) {
+            case INIT_STATE_NONE:
+            case INIT_STATE_IN_PROGRESS:
+                [self initAdMobSDK:adapterConfig];
+                break;
+            case INIT_STATE_FAILED:
+                [delegate adapterRewardedVideoHasChangedAvailability:NO];
+                break;
+            case INIT_STATE_SUCCESS:
+                [self loadRewardedVideoForAdMobWithAdUnitId:adUnitId];
+                break;
+
+        }
+    }];
+}
+
+- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+        [self loadRewardedVideoForAdMobWithAdUnitId:adUnitId];
+    }];
+}
+
+- (void)loadRewardedVideoForAdMobWithAdUnitId:(NSString *)adUnitId {
+    [_rewardedVideoAdsAvailability setObject:@NO forKey:adUnitId];
+    if ([_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId]) {
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+        id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId];
+        if(delegate == nil) {
+            LogAdapterApi_Internal(@"delegate = nil");
+            return;
+        }
+        GADRequest *request = [self createGADRequest];
+        [GADRewardedAd
+               loadWithAdUnitID:adUnitId
+                        request:request
+              completionHandler:^(GADRewardedAd *ad, NSError *error) {
+            
+            [_rewardedVideoAds setObject:ad forKey:adUnitId];
+            if (error) {
+                LogAdapterApi_Internal(@"failed for adUnitId = %@", adUnitId);
+                [_rewardedVideoAdsAvailability setObject:@NO forKey:adUnitId];
+                // set the rewarded video availability to false
+                [delegate adapterRewardedVideoHasChangedAvailability:NO];
+                NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_RV_LOAD_NO_FILL withMessage:@"AdMob no fill"] : error;
+                [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
+            } else {
+                LogAdapterApi_Internal(@"success for adUnitId = %@", adUnitId);
+                [_rewardedVideoAdsAvailability setObject:@YES forKey:adUnitId];
+                [delegate adapterRewardedVideoHasChangedAvailability:YES];
+
+            }
+            
+        }];
+    }
+}
+
+- (void)showRewardedVideoWithViewController:(UIViewController *)viewController
+                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+        
+        GADRewardedAd *rewardedVideoAd = [_rewardedVideoAds objectForKey:adUnitId];
+        if (rewardedVideoAd && [self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
+            ISAdMobRewardedVideoListener* listener = [_rewardedVideoAdUnitIdToListener objectForKey:rewardedVideoAd.adUnitID];
+            rewardedVideoAd.fullScreenContentDelegate = listener;
+            [rewardedVideoAd presentFromRootViewController:viewController
+                                          userDidEarnRewardHandler:^{
+                LogAdapterApi_Internal(@"adapterRewardedVideoDidReceiveReward");
+                [delegate adapterRewardedVideoDidReceiveReward];
+            }];
+        }
+        else {
+            NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [delegate adapterRewardedVideoDidFailToShowWithError:error];
+        }
+        // once reward video is displayed or if it's not ready, it's no longer available
+        [_rewardedVideoAdsAvailability setObject:@NO forKey:adUnitId];
+        [delegate adapterRewardedVideoHasChangedAvailability:NO];
+    }];
+}
+
+- (BOOL)hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    NSNumber *available = [_rewardedVideoAdsAvailability objectForKey:adUnitId];
+    return (available != nil) && [available boolValue];
+}
+
+#pragma mark - Rewarded Video Delegate
+
+- (void)onRewardedVideoDidOpen:(NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterRewardedVideoDidOpen];
+    }
+}
+
+- (void)onRewardedVideoShowFail:(NSString *)adUnitId withError:(NSError *)error{
+    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId,error);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterRewardedVideoDidFailToShowWithError:error];
+    }
+}
+
+- (void)onRewardedVideoDidClick:(NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterRewardedVideoDidClick];
+    }
+}
+
+- (void)onRewardedVideoDidClose:(NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterRewardedVideoDidClose];
+    }
+}
+
+
+
+#pragma mark - Interstitial API
+
+- (void)initInterstitialWithUserId:(NSString *)userId adapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+        
+        
+        /* Configuration Validation */
+        if (![self isConfigValueValid:adUnitId]) {
+            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [delegate adapterInterstitialInitFailedWithError:error];
+            return;
+        }
+        
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+
+        ISAdMobInterstitialListener *listener = [[ISAdMobInterstitialListener alloc] initWithAdUnitId:adUnitId andDelegate:self];
+        [_interstitialAdUnitIdToListener setObject:listener forKey:adUnitId];
+        [_interstitialAdUnitIdToDelegate setObject:delegate forKey:adUnitId];
+        switch (_initState) {
+            case INIT_STATE_NONE:
+            case INIT_STATE_IN_PROGRESS:
+                [self initAdMobSDK:adapterConfig];
+                break;
+            case INIT_STATE_FAILED:
+                [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED withMessage:@"AdMob SDK init failed"]];
+                break;
+            case INIT_STATE_SUCCESS:
+                [delegate adapterInterstitialInitSuccess];
+                break;
+        }
+    }];
+}
+
+- (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+        [_interstitialAdsAvailability setObject:@NO forKey:adUnitId];
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+        id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToDelegate objectForKey:adUnitId];
+        if (delegate == nil) {
+            LogAdapterApi_Internal(@"delegate = nil");
+            return;
+        }
+        GADRequest *request = [self createGADRequest];
+        /* Create new GADInterstitial */
+        [GADInterstitialAd loadWithAdUnitID:adUnitId
+                                        request:request
+                              completionHandler:^(GADInterstitialAd *ad, NSError *error) {
+            [_interstitialAds setObject:ad forKey:adUnitId];
+            if (error) {
+            // set the interstitial ad availability to false
+              [_interstitialAdsAvailability setObject:@NO forKey:adUnitId];
+                NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_IS_LOAD_NO_FILL withMessage:@"AdMob no fill"] : error;
+              [delegate adapterInterstitialDidFailToLoadWithError:smashError];
+          } else {
+              [_interstitialAdsAvailability setObject:@YES forKey:adUnitId];
+              [delegate adapterInterstitialDidLoad];
+          }
+        }];
+    }];
+}
+
+- (void)showInterstitialWithViewController:(UIViewController *)viewController
+                             adapterConfig:(ISAdapterConfig *)adapterConfig
+                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+        GADInterstitialAd *interstitialAd = [_interstitialAds objectForKey:adUnitId];
+        ISAdMobInterstitialListener* listener = [_interstitialAdUnitIdToListener objectForKey:adUnitId];
+        interstitialAd.fullScreenContentDelegate = listener;
+        // Show the ad if it's ready.
+        if (interstitialAd != nil && [self hasInterstitialWithAdapterConfig:adapterConfig]) {
+            [interstitialAd presentFromRootViewController:viewController];
+        }
+        else {
+            NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [delegate adapterInterstitialDidFailToShowWithError:error];
+            
+        }
+        //change interstitial availability to false
+        [_interstitialAdsAvailability setObject:@NO forKey:adUnitId];
+    }];
+}
+
+- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    NSNumber *available = [_interstitialAdsAvailability objectForKey:adUnitId];
+    return (available != nil) && [available boolValue];
+}
+
+#pragma mark - Interstitial Delegate
+
+
+- (void)onInterstitialDidOpen:(NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterInterstitialDidOpen];
+        [delegate adapterInterstitialDidShow];
+    }
+}
+
+- (void)onInterstitialShowFail:(NSString *)adUnitId withError:(NSError *)error {
+    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId,error);
+    id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterInterstitialDidFailToShowWithError:error];
+    }
+}
+
+- (void)onInterstitialDidClick:(NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterInterstitialDidClick];
+    }
+}
+
+- (void)onInterstitialDidClose:(NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterInterstitialDidClose];
+    }
+}
+#pragma mark - Banner API
+
+- (void)initBannerWithUserId:(nonnull NSString *)userId
+           adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
+                delegate:(nonnull id<ISBannerAdapterDelegate>)delegate {
+    
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    
+        
+        /* Configuration Validation */
+        if (![self isConfigValueValid:adUnitId]) {
+            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [delegate adapterBannerInitFailedWithError:error];
+            return;
+        }
+        
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+        
+        //add banner to delegate map
+        [_bannerAdUnitIdToDelegate setObject:delegate forKey:adUnitId];
+        
+        ISAdMobBannerListener *listener = [[ISAdMobBannerListener alloc] initWithAdUnitId:adUnitId andDelegate:self];
+        //add banner listener to listener map
+        [_bannerAdUnitIdToListener setObject:listener forKey:adUnitId];
+        
+        switch (_initState) {
+            case INIT_STATE_NONE:
+            case INIT_STATE_IN_PROGRESS:
+                [self initAdMobSDK:adapterConfig];
+                break;
+            case INIT_STATE_FAILED:
+                [delegate adapterBannerInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED withMessage:@"AdMob SDK init failed"]];
+                break;
+            case INIT_STATE_SUCCESS:
+                [delegate adapterBannerInitSuccess];
+                break;
+        }
+    }];
+}
+
+- (void)loadBannerWithViewController:(nonnull UIViewController *)viewController
+                                size:(ISBannerSize *)size
+                       adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
+                      delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
+    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
+        
+        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+        
+        // validate banner size
+        if([self isBannerSizeSupported:size]){
+            
+            // get size
+            GADAdSize adMobSize = [self getBannerSize:size];
+            
+            // create banner
+            GADBannerView *banner = [[GADBannerView alloc] initWithAdSize:adMobSize];
+            ISAdMobBannerListener *listener = [_bannerAdUnitIdToListener objectForKey:adUnitId];
+            banner.delegate = listener;
+            banner.adUnitID = adUnitId;
+            banner.rootViewController = viewController;
+            
+            // add to dictionary
+            [_bannerAds setObject:banner forKey:adUnitId];
+            
+            // load request
+            [banner loadRequest:[self createGADRequest]];
+            
+        }else{
+             // size not supported
+             NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE withMessage:@"AdMob unsupported banner size"];
+             LogAdapterApi_Internal(@"error = %@", error);
+             [delegate adapterBannerDidFailToLoadWithError:error];
+        }
+        
+    }];
+}
+
+- (void)reloadBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig
+            delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
+    LogInternal_Warning(@"Unsupported method");
+}
+
+// destroy banner ad
+- (void)destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
+}
+
+//check if the network supports adaptive banners
+- (BOOL)getAdaptiveBannerSupport {
+    return YES;
+}
+
+#pragma mark - Banner Delegate
+
+
+- (void)onBannerLoadSuccess:(nonnull GADBannerView *)bannerView {
+    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
+    id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:bannerView.adUnitID];
+    if (delegate != nil) {
+        [delegate adapterBannerDidLoad:bannerView];
+    }
+}
+
+- (void)onBannerLoadFail:(nonnull NSString *)adUnitId withError:(nonnull NSError *)error{
+    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@ with error = %@", adUnitId,error);
+    NSError *smashError = [self isNoFillError:error]?
+    [ISError createError:ERROR_BN_LOAD_NO_FILL withMessage:@"AdMob no fill"] :
+    error;
+    id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterBannerDidFailToLoadWithError:smashError];
+    }
+}
+
+
+- (void)onBannerDidShow:(nonnull NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", adUnitId);
+    id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterBannerDidShow];
+    }
+}
+
+- (void)onBannerDidClick:(nonnull NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", adUnitId);
+    id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterBannerDidClick];
+    }
+}
+
+- (void)onBannerWillPresentScreen:(nonnull NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", adUnitId);
+    id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterBannerWillPresentScreen];
+    }
+
+}
+
+- (void)onBannerDidDismissScreen:(nonnull NSString *)adUnitId {
+    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", adUnitId);
+    id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToDelegate objectForKey:adUnitId];
+    if (delegate != nil) {
+        [delegate adapterBannerDidDismissScreen];
+    }
+}
+
+
+#pragma mark - Legal Methods
+
 - (void)setConsent:(BOOL)consent {
     LogAdapterApi_Internal(@"value = %@", consent? @"YES" : @"NO");
-
     _consentCollectingUserData = consent;
     _didSetConsentCollectingUserData = YES;
 }
 
 - (void) setCCPAValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value? @"YES" : @"NO");
+    LogAdapterApi_Internal(@"key = %@ value = %@",kAdMobCCPAKey, value? @"YES" : @"NO");
     
-    [NSUserDefaults.standardUserDefaults setBool:value forKey:@"gad_rdp"];
+    [NSUserDefaults.standardUserDefaults setBool:value forKey:kAdMobCCPAKey];
 }
 
 - (void)setMetaDataWithKey:(NSString *)key andValues:(NSMutableArray *) values {
@@ -225,549 +857,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 }
 
 
-#pragma mark - Rewarded Video
+#pragma mark - Helper Methods
 
-- (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        
-        LogAdapterApi_Internal(@"adUnitId = %@ - userId = %@", adUnitId, userId);
-        
-        /* Configuration Validation */
-        if (![self isConfigValueValid:adUnitId]) {
-            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
-            LogAdapterApi_Internal(@"error.description = %@", error.description);
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-            return;
-        }
-        
-        ISAdMobRvFullScreenListener *listener = [[ISAdMobRvFullScreenListener alloc] initWithPlacementId:adUnitId andDelegate:self]; //using dedicated listener since the callbacks of RV and IS are the same
-        [self.rvFullSCreenPlacementToListener setObject:listener forKey:adUnitId];
-        [self.rewardedVideoPlacementToDelegate setObject:delegate forKey:adUnitId];
-        
-        switch (_initState) {
-            case INIT_STATE_NONE:
-                [self initAdMobSDK:adapterConfig];
-                break;
-            case INIT_STATE_FAILED:
-                [delegate adapterRewardedVideoHasChangedAvailability:NO];
-                break;
-            case INIT_STATE_SUCCESS:
-                [self loadRewardedVideoForAdMobWithPlacement:adUnitId];
-                break;
-            case INIT_STATE_IN_PROGRESS:
-                [initCallbackDelegates addObject:self];
-                break;
-        }
-    }];
-}
-
-- (void)initRewardedVideoForCallbacksWithUserId:(NSString *)userId
-                                  adapterConfig:(ISAdapterConfig *)adapterConfig
-                                       delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        
-        LogAdapterApi_Internal(@"adUnitId = %@ - userId = %@", adUnitId, userId);
-        
-        /* Configuration Validation */
-        if (![self isConfigValueValid:adUnitId]) {
-            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
-            LogAdapterApi_Internal(@"error.description = %@", error.description);
-            [delegate adapterRewardedVideoInitFailed:error];
-            return;
-        }
-        
-        ISAdMobRvFullScreenListener *listener = [[ISAdMobRvFullScreenListener alloc] initWithPlacementId:adUnitId andDelegate:self]; //using dedicated listener since the callbacks of RV and IS are the same
-        [self.rvFullSCreenPlacementToListener setObject:listener forKey:adUnitId];
-        [self.rewardedVideoPlacementToDelegate setObject:delegate forKey:adUnitId];
-        [self.rewardedVideoPlacementsForInitCallbacks addObject:adUnitId];
-        
-        switch (_initState) {
-            case INIT_STATE_NONE:
-                [self initAdMobSDK:adapterConfig];
-                break;
-            case INIT_STATE_FAILED:
-                [delegate adapterRewardedVideoInitFailed:[ISError createError:ERROR_CODE_INIT_FAILED withMessage:@"AdMob SDK init failed"]];
-                break;
-            case INIT_STATE_SUCCESS:
-                [delegate adapterRewardedVideoInitSuccess];
-                break;
-            case INIT_STATE_IN_PROGRESS:
-                [initCallbackDelegates addObject:self];
-                break;
-        }
-    }];
-}
-
-- (void)showRewardedVideoWithViewController:(UIViewController *)viewController
-                              adapterConfig:(ISAdapterConfig *)adapterConfig
-                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        
-        GADRewardedAd *rvAd = [self.rewardedVideoAds objectForKey:adUnitId];
-        if (rvAd && [self.rewardedVideoAdsAvailability objectForKey:adUnitId]) {
-            ISAdMobRvFullScreenListener* listener = [_rvFullSCreenPlacementToListener objectForKey:rvAd.adUnitID];
-            rvAd.fullScreenContentDelegate = listener;
-            [rvAd presentFromRootViewController:viewController
-                                          userDidEarnRewardHandler:^{
-                id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementToDelegate objectForKey:rvAd.adUnitID];
-                [delegate adapterRewardedVideoDidReceiveReward];
-            }];
-        }
-        else {
-            NSError *error = [NSError errorWithDomain:@"ISAdMobAdapter" code:kRVNotReadyErrorCode userInfo:nil];
-            [delegate adapterRewardedVideoDidFailToShowWithError:error];
-        }
-        // once reward video is displayed or if it's not ready, it's no longer available
-        [self.rewardedVideoAdsAvailability setObject:@NO forKey:adUnitId];
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
-    }];
-}
-
-- (void)loadRewardedVideoForAdMobWithPlacement:(NSString *)placementID {
-    [self.rewardedVideoAdsAvailability setObject:@NO forKey:placementID];
-    if ([self.rewardedVideoPlacementToDelegate objectForKey:placementID]) {
-        id<ISRewardedVideoAdapterDelegate> delegate = [self.rewardedVideoPlacementToDelegate objectForKey:placementID];
-        LogAdapterApi_Internal(@"placementID = %@", placementID);
-        GADRequest *request = [self createGADRequest];
-        [GADRewardedAd
-               loadWithAdUnitID:placementID
-                        request:request
-              completionHandler:^(GADRewardedAd *ad, NSError *error) {
-            
-            [self.rewardedVideoAds setObject:ad forKey:placementID];
-            if (error) {
-                LogAdapterApi_Internal(@"failed for placementID = %@", placementID);
-                [self.rewardedVideoAdsAvailability setObject:@NO forKey:placementID];
-                [delegate adapterRewardedVideoHasChangedAvailability:NO];
-                NSError *smashError = (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill) ? [ISError createError:ERROR_RV_LOAD_NO_FILL withMessage:@"AdMob no fill"] : error;
-                [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
-            } else {
-                LogAdapterApi_Internal(@"success for placementID = %@", placementID);
-                [self.rewardedVideoAdsAvailability setObject:@YES forKey:placementID];
-                [delegate adapterRewardedVideoHasChangedAvailability:YES];
-
-            }
-            
-        }];
-    }
-    else {
-        LogAdapterApi_Internal(@"cannot find placementID = %@", placementID);
-    }
-}
-
-
-- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        [self loadRewardedVideoForAdMobWithPlacement:adUnitId];
-    }];
-}
-
-- (BOOL)hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-    NSNumber *available = [self.rewardedVideoAdsAvailability objectForKey:adUnitId];
-    return (available != nil) && [available boolValue];
-}
-
-#pragma mark - Interstitial
-
-- (void)initInterstitialWithUserId:(NSString *)userId adapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        
-        LogAdapterApi_Internal(@"adUnitId = %@ - userId = %@", adUnitId, userId);
-        
-        /* Configuration Validation */
-        if (![self isConfigValueValid:adUnitId]) {
-            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterInterstitialInitFailedWithError:error];
-            return;
-        }
-        
-        ISAdMobIsFullScreenListener *listener = [[ISAdMobIsFullScreenListener alloc] initWithPlacementId:adUnitId andDelegate:self]; //using dedicated listener since the callbacks of RV and IS are the same
-        [self.isFullSCreenPlacementToListener setObject:listener forKey:adUnitId];
-        [self.interstitialPlacementToDelegate setObject:delegate forKey:adUnitId];
-        switch (_initState) {
-            case INIT_STATE_NONE:
-                [self initAdMobSDK:adapterConfig];
-                break;
-            case INIT_STATE_FAILED:
-                [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED withMessage:@"AdMob SDK init failed"]];
-                break;
-            case INIT_STATE_SUCCESS:
-                [delegate adapterInterstitialInitSuccess];
-                break;
-            case INIT_STATE_IN_PROGRESS:
-                [initCallbackDelegates addObject:self];
-                break;
-        }
-    }];
-}
-
-- (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        [self.interstitialAdsAvailability setObject:@NO forKey:adUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        GADRequest *request = [self createGADRequest];
-        /* Create new GADInterstitial */
-        [GADInterstitialAd loadWithAdUnitID:adUnitId
-                                        request:request
-                              completionHandler:^(GADInterstitialAd *ad, NSError *error) {
-
-    
-            [self.interstitialAds setObject:ad forKey:adUnitId];
-            id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementToDelegate objectForKey:adUnitId];
-            if (error) {
-              [self.interstitialAdsAvailability setObject:@NO forKey:adUnitId];
-                NSError *smashError = (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill) ? [ISError createError:ERROR_IS_LOAD_NO_FILL withMessage:@"AdMob no fill"] : error;
-
-              [delegate adapterInterstitialDidFailToLoadWithError:smashError];
-          } else {
-              [self.interstitialAdsAvailability setObject:@YES forKey:adUnitId];
-              [delegate adapterInterstitialDidLoad];
-
-          }
-
-        }];
-
-
-        
-    }];
-}
-
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        GADInterstitialAd *interstitialAd = [self.interstitialAds objectForKey:adUnitId];
-        ISAdMobIsFullScreenListener* listener = [_isFullSCreenPlacementToListener objectForKey:adUnitId];
-        interstitialAd.fullScreenContentDelegate = listener;
-        if (interstitialAd != nil && [self.interstitialAdsAvailability objectForKey:adUnitId]) {
-            [interstitialAd presentFromRootViewController:viewController];
-        }
-        else {
-            NSError *error = [NSError errorWithDomain:@"ISAdMobAdapter" code:kISNotReadyErrorCode userInfo:nil];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterInterstitialDidFailToShowWithError:error];
-            
-        }
-        [self.interstitialAdsAvailability setObject:@NO forKey:adUnitId];
-    }];
-}
-
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-    NSNumber *available = [self.interstitialAdsAvailability objectForKey:adUnitId];
-    return (available != nil) && [available boolValue];
-}
-
-#pragma mark - Banner
-
-- (void)initBannerWithUserId:(nonnull NSString *)userId
-           adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                delegate:(nonnull id<ISBannerAdapterDelegate>)delegate {
-    
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-    
-        
-        /* Configuration Validation */
-        if (![self isConfigValueValid:adUnitId]) {
-            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterBannerInitFailedWithError:error];
-            return;
-        }
-        
-        LogAdapterApi_Internal(@"adUnitId = %@ - userId = %@", adUnitId, userId);
-        
-        [_bannerPlacementToDelegate setObject:delegate forKey:adUnitId];
-        
-        switch (_initState) {
-            case INIT_STATE_NONE:
-                [self initAdMobSDK:adapterConfig];
-                break;
-            case INIT_STATE_FAILED:
-                [delegate adapterBannerInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED withMessage:@"AdMob SDK init failed"]];
-                break;
-            case INIT_STATE_SUCCESS:
-                [delegate adapterBannerInitSuccess];
-                break;
-            case INIT_STATE_IN_PROGRESS:
-                [initCallbackDelegates addObject:self];
-                break;
-        }
-    }];
-}
-
-- (void)loadBannerWithViewController:(nonnull UIViewController *)viewController
-                                size:(ISBannerSize *)size
-                       adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                      delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        
-        if([self isBannerSizeSupported:size]){ // load banner
-            
-            // get size
-            GADAdSize adMobSize = [self getBannerSize:size];
-            
-            // create banner
-            GADBannerView *banner = [[GADBannerView alloc] initWithAdSize:adMobSize];
-            banner.delegate = self;
-            banner.adUnitID = adUnitId;
-            banner.rootViewController = viewController;
-            
-            // add to dictionary
-            [_bannerAds setObject:banner forKey:adUnitId];
-            
-            // load request
-            [banner loadRequest:[self createGADRequest]];
-            
-        }else{
-             // size not supported
-             
-             NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE withMessage:@"AdMob unsupported banner size"];
-             LogAdapterApi_Internal(@"error = %@", error);
-             [delegate adapterBannerDidFailToLoadWithError:error];
-        }
-        
-    }];
-}
-
-/// This method will not be called from version 6.14.0 - we leave it here for backwords compatibility
-- (void)reloadBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-            delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
-    [self.dispatcher dispatchAsyncWithQueue:dispatch_get_main_queue() withBlock:^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        
-        GADBannerView *banner = [_bannerAds objectForKey:adUnitId];
-        if(banner) {
-            [banner loadRequest:[self createGADRequest]];
-        }
-        else {
-            id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:adUnitId];
-            NSError *error = [NSError errorWithDomain:@"ISAdMobAdapter" code:kBNFailedToReloadErrorCode userInfo:@{NSLocalizedDescriptionKey : @"reloadBanner Failed"}];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterBannerDidFailToLoadWithError:error];
-        }
-    }];
-}
-
-- (void)destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
-    
-}
-
-#pragma mark - Interstitial full screen Delegate
-
-- (void)isAdDidRecordImpressionForPlacementId:(NSString *)placementId{
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-}
-
-- (void)isAdDidFailToPresentFullScreenContentWithError:(NSError *)error ForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@ , error = %@", placementId, error);
-    id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementToDelegate objectForKey:placementId];
-    [delegate adapterInterstitialDidFailToShowWithError:error];
-}
-
-- (void)isAdDidPresentFullScreenContentForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementToDelegate objectForKey:placementId];
-    [delegate adapterInterstitialDidOpen];
-    [delegate adapterInterstitialDidShow];
-}
-
-- (void)isAdWillDismissFullScreenContentForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-}
-
-- (void)isAdDidDismissFullScreenContentForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementToDelegate objectForKey:placementId];
-    [delegate adapterInterstitialDidClose];
-}
-
-- (void)isAdDidRecordClickForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementToDelegate objectForKey:placementId];
-    [delegate adapterInterstitialDidClick];
-}
-
-
-
-#pragma mark - Rewarded Video full screen Delegate
-
-- (void)rvAdDidRecordImpressionForPlacementId:(NSString *)placementId{
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-}
-
-- (void)rvAdDidFailToPresentFullScreenContentWithError:(NSError *)error ForPlacementId:(NSString *)placementId{
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementToDelegate objectForKey:placementId];
-    [delegate adapterRewardedVideoHasChangedAvailability:NO];
-    [delegate adapterRewardedVideoDidFailToShowWithError:error];
-}
-
-- (void)rvAdDidPresentFullScreenContentForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementToDelegate objectForKey:placementId];
-    [delegate adapterRewardedVideoDidOpen];
-}
-
-- (void)rvAdWillDismissFullScreenContentForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-}
-
-- (void)rvAdDidDismissFullScreenContentForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementToDelegate objectForKey:placementId];
-    [delegate adapterRewardedVideoDidClose];
-}
-
-- (void)rvAdDidRecordClickForPlacementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementToDelegate objectForKey:placementId];
-    [delegate adapterRewardedVideoDidClick];
-}
-
-
-
-#pragma mark - Banner Delegate
-
-/// Tells the delegate that an ad request successfully received an ad. The delegate may want to add
-/// the banner view to the view hierarchy if it hasn't been added yet.
-- (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
-    id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:bannerView.adUnitID];
-    [delegate adapterBannerDidLoad:bannerView];
-}
-
-
-
-/// Tells the delegate that a click has been recorded for the ad.
-- (void)bannerViewDidRecordClick:(nonnull GADBannerView *)bannerView; {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
-    id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:bannerView.adUnitID];
-    [delegate adapterBannerDidClick];
-}
-
-/// Tells the delegate that an ad request failed. The failure is normally due to network
-/// connectivity or ad availablility (i.e., no fill).
-- (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(nonnull NSError *)error {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
-    id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:bannerView.adUnitID];
-    NSError *smashError = (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill)?
-    [ISError createError:ERROR_BN_LOAD_NO_FILL withMessage:@"AdMob no fill"] :
-    error;
-    [delegate adapterBannerDidFailToLoadWithError:smashError];
-}
-
-/// Tells the delegate that an impression has been recorded for an ad.
-- (void)bannerViewDidRecordImpression:(nonnull GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
-    id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:bannerView.adUnitID];
-    [delegate adapterBannerDidShow];
-}
-#pragma mark  Click-Time Lifecycle Notifications
-
-/// Tells the delegate that a full screen view will be presented in response to the user clicking on
-/// an ad. The delegate may want to pause animations and time sensitive interactions.
-- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
-    id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:bannerView.adUnitID];
-    [delegate adapterBannerWillPresentScreen];
-
-}
-
-/// Tells the delegate that the full screen view has been dismissed. The delegate should restart
-/// anything paused while handling adViewWillPresentScreen:.
-- (void)bannerViewDidDismissScreen:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
-    id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:bannerView.adUnitID];
-    [delegate adapterBannerDidDismissScreen];
-}
-
-/// Tells the delegate that the full screen view will be dismissed.
-- (void)bannerViewWillDismissScreen:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@", bannerView.adUnitID);
-}
-
-
-
-#pragma mark - Private Methods
-
-- (void)initAdMobSDK:(ISAdapterConfig *)adapterConfig {
-    // add self to init delegates only when init not finished yet
-    if (_initState == INIT_STATE_NONE || _initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
-    }
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        LogAdapterDelegate_Info(@"");
-        
-        _initState = INIT_STATE_IN_PROGRESS;
-        
-        // In case the platform doesn't override this flag the default is to init only the network
-        BOOL networkOnlyInit = adapterConfig.settings[kNetworkOnlyInitFlag] ? [adapterConfig.settings[kNetworkOnlyInitFlag] boolValue] : YES;
-        
-        if (networkOnlyInit) {
-            LogAdapterDelegate_Info(@"disableMediationInitialization");
-            [[GADMobileAds sharedInstance] disableMediationInitialization];
-        }
-        
-        // In case the platform doesn't override this flag the default is not to wait for the init callback before loading an ad
-        BOOL shouldWaitForInitCallback = adapterConfig.settings[kInitResponseRequiredFlag] ? [adapterConfig.settings[kInitResponseRequiredFlag] boolValue] : NO;
-        
-        if (shouldWaitForInitCallback) {
-            LogAdapterDelegate_Info(@"init and wait for callback");
-            
-            [[GADMobileAds sharedInstance] startWithCompletionHandler:^(GADInitializationStatus *_Nonnull status) {
-                NSDictionary *adapterStatuses = status.adapterStatusesByClassName;
-                
-                if ([adapterStatuses objectForKey:kAdMobNetworkId]) {
-                    GADAdapterStatus *initStatus = [adapterStatuses objectForKey:kAdMobNetworkId];
-                    
-                    if (initStatus.state == GADAdapterInitializationStateReady) {
-                        [self initializationSuccess];
-                        return;
-                    }
-                }
-                
-                // If we got here then either the AdMob network is missing from the initalization status dictionary
-                // or it returned as not ready
-                [self initializationFailure];
-            }];
-        }
-        else {
-            LogAdapterDelegate_Info(@"init without callback");
-            [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
-            [self initializationSuccess];
-        }
-    });
-}
 
 - (GADRequest *)createGADRequest{
     GADRequest *request = [GADRequest request];
     request.requestAgent = kRequestAgent;
-    if ([ISConfigurations getConfigurations].userAge  > -1) {
-        LogAdapterApi_Internal(@"creating request with age=%ld tagForChildDirectedTreatment=%d", (long)[ISConfigurations getConfigurations].userAge, [ISConfigurations getConfigurations].userAge < 13);
-        [GADMobileAds.sharedInstance.requestConfiguration tagForChildDirectedTreatment:([ISConfigurations getConfigurations].userAge < 13)];
+    if ([ISConfigurations getConfigurations].userAge  > kMinUserAge) {
+        LogAdapterApi_Internal(@"creating request with age=%ld tagForChildDirectedTreatment=%d", (long)[ISConfigurations getConfigurations].userAge, [ISConfigurations getConfigurations].userAge < kMaxChildAge);
+        [GADMobileAds.sharedInstance.requestConfiguration tagForChildDirectedTreatment:([ISConfigurations getConfigurations].userAge < kMaxChildAge)];
     }
     
     if (_didSetConsentCollectingUserData && !_consentCollectingUserData) {
@@ -800,6 +898,16 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     return false;
 }
 
+- (BOOL)getIsAdaptiveBanner:(ISBannerSize *)size {
+    //only available from mediation version 7.1.14
+    //added respondsToSelector because we want to protect from a crash if the publisher is using an older mediation version and a new admob adapter
+    if (size && [size respondsToSelector:@selector(isAdaptive)]) {
+        return [size isAdaptive];
+    }
+        return NO;
+}
+
+
 - (GADAdSize)getBannerSize:(ISBannerSize *)size {
     GADAdSize adMobSize = GADAdSizeInvalid;
     
@@ -824,98 +932,18 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         adMobSize = GADAdSizeFromCGSize(CGSizeMake(size.width, size.height));
     }
     
+    if ([self getIsAdaptiveBanner:size]){
+        NSInteger originalHeight = adMobSize.size.height;
+        adMobSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(adMobSize.size.width);
+        NSInteger adaptiveHeight = adMobSize.size.height;
+        LogAdapterApi_Internal(@"original height - %lu adaptive height - %lu", originalHeight, adaptiveHeight);
+    }
     return adMobSize;
 }
 
-#pragma mark - ISNetworkInitCallbackProtocol
-
-- (void)initializationSuccess {
-    LogAdapterDelegate_Info(@"");
-    
-    _initState = INIT_STATE_SUCCESS;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackSuccess];
-    }
-    
-    [initCallbackDelegates removeAllObjects];
+- (BOOL)isNoFillError:(NSError * _Nonnull)error {
+    return (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill);
 }
 
-- (void)initializationFailure {
-    LogAdapterDelegate_Info(@"");
-
-    _initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@""];
-    }
-    
-    [initCallbackDelegates removeAllObjects];
-}
-
-- (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
-    LogAdapterDelegate_Info(@"");
-    NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementToDelegate.allKeys;
-    NSError *error = [ISError createError:ERROR_CODE_INIT_FAILED withMessage:errorMessage];
-
-    // rewarded video
-    for (NSString *placementId in rewardedVideoPlacementIDs) {
-        id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementToDelegate objectForKey:placementId];
-        if ([_rewardedVideoPlacementsForInitCallbacks containsObject:placementId]) {
-            [delegate adapterRewardedVideoInitFailed:[ISError createError:ERROR_CODE_INIT_FAILED withMessage:@"AdMob SDK init failed"]];
-        } else {
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        }
-    }
-    
-    // interstitial
-    NSArray *interstitialPlacementIDs = _interstitialPlacementToDelegate.allKeys;
-    
-    for (NSString *placementId in interstitialPlacementIDs) {
-        id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementToDelegate objectForKey:placementId];
-        [delegate adapterInterstitialInitFailedWithError:error];
-    }
-    
-    // banner
-    NSArray *bannerPlacementIDs = _bannerPlacementToDelegate.allKeys;
-    
-    for (NSString *placementId in bannerPlacementIDs) {
-        id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:placementId];
-        [delegate adapterBannerInitFailedWithError:error];
-    }
-}
-
-- (void)onNetworkInitCallbackSuccess {
-    LogAdapterDelegate_Info(@"");
-
-    NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementToDelegate.allKeys;
-    
-    for (NSString *placementId in rewardedVideoPlacementIDs) {
-        if ([_rewardedVideoPlacementsForInitCallbacks containsObject:placementId]) {
-            id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementToDelegate objectForKey:placementId];
-            [delegate adapterRewardedVideoInitSuccess];
-        } else {
-            [self loadRewardedVideoForAdMobWithPlacement:placementId];
-        }
-    }
-    
-    // interstitial
-    NSArray *interstitialPlacementIDs = _interstitialPlacementToDelegate.allKeys;
-    
-    for (NSString *placementId in interstitialPlacementIDs) {
-        id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementToDelegate objectForKey:placementId];
-        [delegate adapterInterstitialInitSuccess];
-    }
-    
-    // banner
-    NSArray *bannerPlacementIDs = _bannerPlacementToDelegate.allKeys;
-    
-    for (NSString *placementId in bannerPlacementIDs) {
-        id<ISBannerAdapterDelegate> delegate = [_bannerPlacementToDelegate objectForKey:placementId];
-        [delegate adapterBannerInitSuccess];
-    }
-}
 
 @end
