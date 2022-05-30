@@ -7,7 +7,7 @@ fi
 export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
 ADAPTER_WORKSPACE="${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace"
-OUTPUT_FOLDER="../ReleaseCandidates/"
+
 
 
 
@@ -39,11 +39,11 @@ xcrun xcodebuild -workspace "${ADAPTER_WORKSPACE}" \
   createFramework "iphoneos" "armv7 arm64"
   createFramework "iphonesimulator" "x86_64" 
 
-mkdir ${OUTPUT_FOLDER}
+
 
 
 #Create dynamic framework using the frameworks generated above.
 xcodebuild -create-xcframework \
 -framework "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework" \
 -framework "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework" \
--output "${PROJECT_DIR}/../ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework"
+-output "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework"
