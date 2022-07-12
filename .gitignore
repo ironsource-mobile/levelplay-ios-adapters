@@ -66,3 +66,5 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+Podfile.lock
+Adapters/Google (AdMob and Ad Manager)/Pods
