@@ -13,10 +13,12 @@
 - (instancetype)initWithZoneId:(NSString *)zoneId
                    andDelegate:(id<ISApplovinBannerListenerDelegate>)delegate{
     self = [super init];
+    
     if (self) {
         _delegate = delegate;
         _zoneId = zoneId;
     }
+    
     return self;
 }
 
@@ -34,8 +36,7 @@
 - (void)adService:(ALAdService *)adService
         didLoadAd:(ALAd *)ad {
     [_delegate onBannerLoadSuccess:ad
-                        zoneID:_zoneId];
-    
+                            zoneID:_zoneId];
 }
 
 /**
@@ -47,7 +48,8 @@
  * @param code      An error code that corresponds to one of the constants defined in ALErrorCodes.h.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
-    [_delegate onBannerLoadFail:_zoneId error:code];
+    [_delegate onBannerLoadFail:_zoneId
+                          error:code];
 }
 
 #pragma mark - ALAdDisplayDelegate
@@ -62,7 +64,7 @@
  */
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
     [_delegate onBannerDidShow:view
-                             zoneID:_zoneId];
+                        zoneID:_zoneId];
 
 }
 

@@ -14,10 +14,12 @@
 - (instancetype)initWithZoneId:(NSString *)zoneId
                    andDelegate:(id<ISApplovinInterstitialListenerDelegate>)delegate {
     self = [super init];
+    
     if (self) {
         _zoneId = zoneId;
         _delegate = delegate;
     }
+    
     return self;
 }
 
@@ -62,7 +64,7 @@
  */
 - (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
     [_delegate onInterstitialDidOpen:view
-                                   zoneId:_zoneId];
+                              zoneId:_zoneId];
 }
 
 /**
@@ -73,9 +75,9 @@
  * @param ad    Ad that was just clicked.
  * @param view  Ad view in which the ad was clicked.
  */
-- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
-    [_delegate onInterstitialDidClose:view
-                                zoneId:_zoneId];
+- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
+    [_delegate onInterstitialDidClick:view
+                               zoneId:_zoneId];
 }
 
 /**
@@ -86,8 +88,8 @@
  * @param ad    Ad that was just hidden.
  * @param view  Ad view in which the ad was hidden.
  */
-- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
-    [_delegate onInterstitialDidClick:view
+- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
+    [_delegate onInterstitialDidClose:view
                                zoneId:_zoneId];
 }
 

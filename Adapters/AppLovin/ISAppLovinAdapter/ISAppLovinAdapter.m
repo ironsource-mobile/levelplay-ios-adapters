@@ -120,13 +120,14 @@ static ALSdk* _appLovinSDK = nil;
         _zoneIdToBannerListener = [ConcurrentMutableDictionary dictionary];
         _zoneIdToBannerAdSize = [ConcurrentMutableDictionary dictionary];
                 
-        // load while show
+        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }
+    
     return self;
 }
 
-- (void) initSDKWithSDKKey:(NSString*)sdkKey {
+- (void)initSDKWithSDKKey:(NSString *)sdkKey {
     // add self to the init delegates only in case the initialization has not finished yet
     if (_initState == INIT_STATE_NONE || _initState == INIT_STATE_IN_PROGRESS) {
         [initCallbackDelegates addObject:self];
@@ -139,15 +140,16 @@ static ALSdk* _appLovinSDK = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             _appLovinSDK = [ALSdk sharedWithKey:sdkKey];
             _appLovinSDK.settings.isVerboseLogging = [ISConfigurations getConfigurations].adaptersDebug;
-            LogAdapterApi_Internal(@"sdkKey=%@, isVerboseLogging=%d", sdkKey, _appLovinSDK.settings.isVerboseLogging);
+            LogAdapterApi_Internal(@"sdkKey = %@, isVerboseLogging = %d", sdkKey, _appLovinSDK.settings.isVerboseLogging);
             
             // AppLovin's initialization callback currently doesn't give any indication to initialization failure.
             // Once this callback is called we will treat the initialization as successful
             [_appLovinSDK initializeSdkWithCompletionHandler:^(ALSdkConfiguration * _Nonnull configuration) {
                 _initState = INIT_STATE_SUCCESS;
                 
-                NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-                for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
+                NSArray *initDelegatesList = initCallbackDelegates.allObjects;
+                
+                for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
                     [initDelegate onNetworkInitCallbackSuccess];
                 }
                 
@@ -160,8 +162,9 @@ static ALSdk* _appLovinSDK = nil;
 - (void)onNetworkInitCallbackSuccess {
     LogAdapterDelegate_Internal(@"");
     
-    // rewarded video
+    // Rewarded video
     NSArray *rewardedVideoZoneIds = _zoneIdToRewardedVideoSmashDelegate.allKeys;
+    
     for (NSString *zoneId in rewardedVideoZoneIds) {
         if ([_zoneIdForRewardedVideoInitCallbacks containsObject:zoneId]) {
             id<ISRewardedVideoAdapterDelegate> delegate = [_zoneIdToRewardedVideoSmashDelegate objectForKey:zoneId];
@@ -171,15 +174,17 @@ static ALSdk* _appLovinSDK = nil;
         }
     }
     
-    // interstitial
+    // Interstitial
     NSArray *interstitialZoneIds = _zoneIdToInterstitialSmashDelegate.allKeys;
+    
     for (NSString *zoneId in interstitialZoneIds) {
         id<ISInterstitialAdapterDelegate> delegate = [_zoneIdToInterstitialSmashDelegate objectForKey:zoneId];
         [delegate adapterInterstitialInitSuccess];
     }
     
-    // banner
+    // Banner
     NSArray *bannerZoneIds = _zoneIdToBannerSmashDelegate.allKeys;
+    
     for (NSString *zoneId in bannerZoneIds) {
         id<ISBannerAdapterDelegate> delegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
         [delegate adapterBannerInitSuccess];
@@ -207,7 +212,7 @@ static ALSdk* _appLovinSDK = nil;
         return;
     }
     
-    LogAdapterApi_Internal(@"zoneId=%@, sdkKey=%@", zoneId, sdkKey);
+    LogAdapterApi_Internal(@"zoneId = %@, sdkKey = %@", zoneId, sdkKey);
     
     // create the ad listener
     ISApplovinRewardedVideoListener *listener = [[ISApplovinRewardedVideoListener alloc] initWithZoneId:zoneId
@@ -249,7 +254,7 @@ static ALSdk* _appLovinSDK = nil;
         return;
     }
     
-    LogAdapterApi_Internal(@"zoneId=%@, sdkKey=%@", zoneId, sdkKey);
+    LogAdapterApi_Internal(@"zoneId = %@, sdkKey = %@", zoneId, sdkKey);
     
     // create the ad listener
     ISApplovinRewardedVideoListener *listener = [[ISApplovinRewardedVideoListener alloc] initWithZoneId:zoneId
@@ -298,19 +303,16 @@ static ALSdk* _appLovinSDK = nil;
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
                               adapterConfig:(ISAdapterConfig *)adapterConfig
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-
     NSString *zoneId = [self getZoneId:adapterConfig];
+    LogAdapterApi_Internal(@"zoneId = %@", zoneId);
     
     ALIncentivizedInterstitialAd *ad = [_zoneIdToRewardedVideoAd objectForKey:zoneId];
     ISApplovinRewardedVideoListener *listener = [_zoneIdToRewardedVideoListener objectForKey:zoneId];
-    
-    LogAdapterApi_Internal(@"zoneId = %@", zoneId);
 
     [delegate adapterRewardedVideoHasChangedAvailability:NO];
 
     if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         [self setAppLovinUserId:self.dynamicUserId];
-        
         [ad showAndNotify:listener];
     } else {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
@@ -499,7 +501,6 @@ static ALSdk* _appLovinSDK = nil;
                            ad:(ALAd *)ad {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISInterstitialAdapterDelegate> delegate = [_zoneIdToInterstitialSmashDelegate objectForKey:zoneId];
-    
     [_zoneIdToInterstitialLoadedAds setObject:ad
                                         forKey:zoneId];
     
@@ -512,7 +513,6 @@ static ALSdk* _appLovinSDK = nil;
                        zoneId:(NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISInterstitialAdapterDelegate> delegate = [_zoneIdToInterstitialSmashDelegate objectForKey:zoneId];
-    
     [_zoneIdToInterstitialLoadedAds removeObjectForKey:zoneId];
 
     if (delegate != nil) {
@@ -622,7 +622,6 @@ static ALSdk* _appLovinSDK = nil;
                 [_appLovinSDK.adService loadNextAdForZoneIdentifier:zoneId
                                                           andNotify:bnListener];
             }
-            
         } else {
             // size not supported
             NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE
@@ -650,13 +649,13 @@ static ALSdk* _appLovinSDK = nil;
 #pragma mark - Banner Delegate
 
 - (void)onBannerLoadSuccess:(ALAd *)ad
-                 zoneID:(NSString *)zoneId{
+                 zoneID:(NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
-    ALAdView *bnAd = [_zoneIdToBannerAd objectForKey:zoneId];
+    ALAdView *bannerAd = [_zoneIdToBannerAd objectForKey:zoneId];
     id<ISBannerAdapterDelegate> bnSmashDelegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
     
-    if (bnAd == nil) {
-        LogAdapterDelegate_Internal(@"bnAd is nil");
+    if (bannerAd == nil) {
+        LogAdapterDelegate_Internal(@"bannerAd is nil");
         return;
     }
     
@@ -665,11 +664,12 @@ static ALSdk* _appLovinSDK = nil;
         return;
     }
     
-    [bnSmashDelegate adapterBannerDidLoad:bnAd];
-    [bnAd render:ad];
+    [bnSmashDelegate adapterBannerDidLoad:bannerAd];
+    [bannerAd render:ad];
 }
 
-- (void)onBannerLoadFail:(NSString *)zoneId error:(int)code{
+- (void)onBannerLoadFail:(NSString *)zoneId
+                   error:(int)code {
     NSString *errorReason = [self getErrorMessage:code];
     LogAdapterDelegate_Internal(@"zoneId = %@ , error code = %d, %@", zoneId, code, errorReason);
     id<ISBannerAdapterDelegate> delegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
@@ -687,12 +687,13 @@ static ALSdk* _appLovinSDK = nil;
                  zoneID:(NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISBannerAdapterDelegate> bnSmashDelegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
+    
     if (bnSmashDelegate != nil) {
         [bnSmashDelegate adapterBannerDidShow];
     }
 }
 
-- (void)onBannerDidClick:(NSString *)zoneId{
+- (void)onBannerDidClick:(NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISBannerAdapterDelegate> bnSmashDelegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
     
@@ -701,7 +702,7 @@ static ALSdk* _appLovinSDK = nil;
     }
 }
 
-- (void)onBannerWillLeaveApplication:(NSString *)zoneId{
+- (void)onBannerWillLeaveApplication:(NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISBannerAdapterDelegate> bnSmashDelegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
     
@@ -710,8 +711,7 @@ static ALSdk* _appLovinSDK = nil;
     }
 }
 
-
-- (void)onBannerDidPresentFullscreen:(NSString *)zoneId{
+- (void)onBannerDidPresentFullscreen:(NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISBannerAdapterDelegate> bnSmashDelegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
     
@@ -720,8 +720,7 @@ static ALSdk* _appLovinSDK = nil;
     }
 }
 
-
-- (void)onBannerDidDismissFullscreen:(NSString *)zoneId{
+- (void)onBannerDidDismissFullscreen:(NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISBannerAdapterDelegate> bnSmashDelegate = [_zoneIdToBannerSmashDelegate objectForKey:zoneId];
     
@@ -739,13 +738,11 @@ static ALSdk* _appLovinSDK = nil;
         [_zoneIdToRewardedVideoAd removeObjectForKey:zoneId];
         [_zoneIdToRewardedVideoListener removeObjectForKey:zoneId];
         [_zoneIdToRewardedVideoSmashDelegate removeObjectForKey:zoneId];
-        
     } else if ([_zoneIdToInterstitialAd hasObjectForKey:zoneId]) {
         [_zoneIdToInterstitialAd removeObjectForKey:zoneId];
         [_zoneIdToInterstitialListener removeObjectForKey:zoneId];
         [_zoneIdToInterstitialSmashDelegate removeObjectForKey:zoneId];
         [_zoneIdToInterstitialLoadedAds removeObjectForKey:zoneId];
-        
     } else if ([_zoneIdToBannerAd hasObjectForKey:zoneId]) {
         [_zoneIdToBannerAd removeObjectForKey:zoneId];
         [_zoneIdToBannerListener removeObjectForKey:zoneId];
@@ -754,7 +751,6 @@ static ALSdk* _appLovinSDK = nil;
     }
 }
 
-
 #pragma mark - Legal Methods
 
 - (void)setConsent:(BOOL)consent {
@@ -762,22 +758,23 @@ static ALSdk* _appLovinSDK = nil;
     [ALPrivacySettings setHasUserConsent: consent];
 }
 
-- (void) setCCPAValue:(BOOL)value {
+- (void)setCCPAValue:(BOOL)value {
     LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
     [ALPrivacySettings setDoNotSell:value];
 }
 
-- (void) setAgeRestricionValue:(BOOL)value {
+- (void)setAgeRestricionValue:(BOOL)value {
     LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
     [ALPrivacySettings setIsAgeRestrictedUser:value];
 }
 
 - (void)setMetaDataWithKey:(NSString *)key
-                 andValues:(NSMutableArray *) values {
+                 andValues:(NSMutableArray *)values {
     if (values.count == 0) {
         return;
     }
     
+    // this is an array of 1 value
     NSString *value = values[0];
     LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
     
@@ -794,7 +791,6 @@ static ALSdk* _appLovinSDK = nil;
     }
 }
 
-
 //This method checks if the Meta Data key is the age restriction key and the value is valid
 - (BOOL)isValidAgeRestrictionMetaDataWithKey:(NSString *)key
                                     andValue:(NSString *)value {
@@ -803,14 +799,12 @@ static ALSdk* _appLovinSDK = nil;
 
 #pragma mark - Helper Methods
 
-- (ALIncentivizedInterstitialAd*)createRewardedVideoAd:(NSString*)zoneId {
-    
+- (ALIncentivizedInterstitialAd *)createRewardedVideoAd:(NSString *)zoneId {
     ALIncentivizedInterstitialAd *rewardedVideoAd;
     
     if ([zoneId isEqualToString:kDefaultZoneID]) {
         rewardedVideoAd =  [[ALIncentivizedInterstitialAd alloc] initWithSdk:_appLovinSDK];
-    }
-    else {
+    } else {
         rewardedVideoAd = [[ALIncentivizedInterstitialAd alloc] initWithZoneIdentifier:zoneId
                                                                                    sdk:_appLovinSDK];
     }
@@ -836,7 +830,9 @@ static ALSdk* _appLovinSDK = nil;
     return interstitialAd;
 }
 
-- (void)createBannerAd:(ALAdSize *)applovinSize size:(ISBannerSize * _Nonnull)size zoneId:(NSString *)zoneId {
+- (void)createBannerAd:(ALAdSize *)applovinSize
+                  size:(ISBannerSize * _Nonnull)size
+                zoneId:(NSString *)zoneId {
     ISApplovinBannerListener *bnListener = [_zoneIdToBannerListener objectForKey:zoneId];
     
     // create rect
@@ -856,11 +852,11 @@ static ALSdk* _appLovinSDK = nil;
                               forKey:zoneId];
     [_zoneIdToBannerAd setObject:bnAd
                           forKey:zoneId];
-    
 }
 
 - (NSString *)getErrorMessage:(int)code {
     NSString *errorCode = @"Unknown error";
+    
     switch (code) {
         case kALErrorCodeSdkDisabled:
             errorCode = @"The SDK is currently disabled.";
@@ -921,20 +917,18 @@ static ALSdk* _appLovinSDK = nil;
     return errorCode;
 }
 
-- (ALAdSize*)getBannerSize:(ISBannerSize *)size {
-    if ([size.sizeDescription isEqualToString:@"BANNER"] || [size.sizeDescription isEqualToString:@"LARGE"]) {
+- (ALAdSize *)getBannerSize:(ISBannerSize *)size {
+    if ([size.sizeDescription isEqualToString:@"BANNER"] ||
+        [size.sizeDescription isEqualToString:@"LARGE"]) {
         return ALAdSize.banner;
-        
     } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
         return ALAdSize.mrec;
-        
     } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             return ALAdSize.leader;
         } else {
             return ALAdSize.banner;
         }
-        
     } else if (size.height >= 40 && size.height <= 60) {
         return ALAdSize.banner;
     }
@@ -943,20 +937,17 @@ static ALSdk* _appLovinSDK = nil;
 }
 
 - (CGRect)getBannerFrame:(ISBannerSize *)size {
-    if ([size.sizeDescription isEqualToString:@"BANNER"] || [size.sizeDescription isEqualToString:@"LARGE"]) {
+    if ([size.sizeDescription isEqualToString:@"BANNER"] ||
+        [size.sizeDescription isEqualToString:@"LARGE"]) {
         return CGRectMake(0, 0, 320, 50);
-        
     } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
         return CGRectMake(0, 0, 300, 250);
-        
     } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             return CGRectMake(0, 0, 728, 90);
-            
         } else {
             return CGRectMake(0, 0, 320, 50);
         }
-        
     } else if (size.height >= 40 && size.height <= 60) {
         return CGRectMake(0, 0, 320, 50);
     }
@@ -974,7 +965,7 @@ static ALSdk* _appLovinSDK = nil;
     return zoneId;
 }
 
--(void)setAppLovinUserId:(NSString *)userId {
+- (void)setAppLovinUserId:(NSString *)userId {
     if (!userId.length) {
         LogAdapterApi_Internal(@"set userID to %@", userId);
         _appLovinSDK.userIdentifier = userId;
