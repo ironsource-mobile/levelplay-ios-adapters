@@ -68,3 +68,5 @@ fastlane/test_output
 iOSInjectionProject/
 Podfile.lock
 Adapters/Google (AdMob and Ad Manager)/Pods
+Adapters/AppLovin/Pods
+Adapters/AppLovin/ReleaseCandidates
