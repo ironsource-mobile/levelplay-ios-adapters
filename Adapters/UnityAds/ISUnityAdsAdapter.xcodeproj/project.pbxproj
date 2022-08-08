@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4DAD4FA59B583BC7C2DAAB79 /* libPods-ISUnityAdsAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA910D1E45383D6022AEFED8 /* libPods-ISUnityAdsAdapter.a */; };
+		A8D9683C28A14B6A00184293 /* ISUnityAdsInterstitialListener.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */; };
+		A8D9683D28A14B6A00184293 /* ISUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A8D9683E28A14B6A00184293 /* ISUnityAdsBannerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */; };
+		A8D9683F28A14B6A00184293 /* ISUnityAdsInterstitialListener.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683828A14B6A00184293 /* ISUnityAdsInterstitialListener.h */; };
+		A8D9684028A14B6A00184293 /* ISUnityAdsBannerListener.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683928A14B6A00184293 /* ISUnityAdsBannerListener.m */; };
+		A8D9684128A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */; };
+		A8D9684228A14B6A00184293 /* ISUnityAdsAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialListener.m; sourceTree = "<group>"; };
+		A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
+		A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerListener.h; sourceTree = "<group>"; };
+		A8D9683828A14B6A00184293 /* ISUnityAdsInterstitialListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialListener.h; sourceTree = "<group>"; };
+		A8D9683928A14B6A00184293 /* ISUnityAdsBannerListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerListener.m; sourceTree = "<group>"; };
+		A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoListener.h; sourceTree = "<group>"; };
+		A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
+		DA910D1E45383D6022AEFED8 /* libPods-ISUnityAdsAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISUnityAdsAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EFE27C0128337CC500391127 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DAD4FA59B583BC7C2DAAB79 /* libPods-ISUnityAdsAdapter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */,
+				9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A8D9683428A14B4600184293 /* ISUnityAdsAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */,
+				A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */,
+				A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */,
+				A8D9683928A14B6A00184293 /* ISUnityAdsBannerListener.m */,
+				A8D9683828A14B6A00184293 /* ISUnityAdsInterstitialListener.h */,
+				A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */,
+				A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */,
+			);
+			path = ISUnityAdsAdapter;
+			sourceTree = "<group>";
+		};
+		BC81E8CEBEBC633400C70159 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA910D1E45383D6022AEFED8 /* libPods-ISUnityAdsAdapter.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EFE27BFA28337CC500391127 = {
+			isa = PBXGroup;
+			children = (
+				A8D9683428A14B4600184293 /* ISUnityAdsAdapter */,
+				EFE27C0528337CC500391127 /* Products */,
+				2B13A6DEF45C8EF527BE2EBC /* Pods */,
+				BC81E8CEBEBC633400C70159 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EFE27C0528337CC500391127 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EFE27BFF28337CC500391127 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8D9683D28A14B6A00184293 /* ISUnityAdsAdapter.h in Headers */,
+				A8D9683F28A14B6A00184293 /* ISUnityAdsInterstitialListener.h in Headers */,
+				A8D9684128A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h in Headers */,
+				A8D9683E28A14B6A00184293 /* ISUnityAdsBannerListener.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EFE27C0328337CC500391127 /* ISUnityAdsAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */;
+			buildPhases = (
+				EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */,
+				EFE27BFF28337CC500391127 /* Headers */,
+				EFE27C0028337CC500391127 /* Sources */,
+				EFE27C0128337CC500391127 /* Frameworks */,
+				EFE27C0228337CC500391127 /* Resources */,
+				EFE27C1C28337E5800391127 /* Create XCFramework */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISUnityAdsAdapter;
+			productName = ISAdColonyAdapter;
+			productReference = EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EFE27BFB28337CC500391127 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					EFE27C0328337CC500391127 = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+				};
+			};
+			buildConfigurationList = EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISUnityAdsAdapter" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EFE27BFA28337CC500391127;
+			productRefGroup = EFE27C0528337CC500391127 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EFE27C0328337CC500391127 /* ISUnityAdsAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EFE27C0228337CC500391127 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ISUnityAdsAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFE27C1C28337E5800391127 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EFE27C0028337CC500391127 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8D9684028A14B6A00184293 /* ISUnityAdsBannerListener.m in Sources */,
+				A8D9684228A14B6A00184293 /* ISUnityAdsAdapter.m in Sources */,
+				A8D9683C28A14B6A00184293 /* ISUnityAdsInterstitialListener.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EFE27C0928337CC500391127 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EFE27C0A28337CC500391127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EFE27C0C28337CC500391127 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISUnityAdsAdapter;
+				PRODUCT_NAME = ISUnityAdsAdapter;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EFE27C0D28337CC500391127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISUnityAdsAdapter;
+				PRODUCT_NAME = ISUnityAdsAdapter;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISUnityAdsAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE27C0928337CC500391127 /* Debug */,
+				EFE27C0A28337CC500391127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE27C0C28337CC500391127 /* Debug */,
+				EFE27C0D28337CC500391127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EFE27BFB28337CC500391127 /* Project object */;
+}
