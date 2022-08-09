@@ -12,6 +12,7 @@
 static NSString * const TapjoyAdapterVersion = @"4.1.21";
 static NSString * GitHash = @"";
 
+
 //System Frameworks For Tapjoy Adapter
 
 @import AdSupport;
