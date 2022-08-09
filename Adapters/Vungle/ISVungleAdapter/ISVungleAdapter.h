@@ -8,6 +8,7 @@
 static NSString * const VungleAdapterVersion = @"4.3.22";
 static NSString * GitHash = @"";
 
+
 //System Frameworks For Vungle Adapter
 
 @import AdSupport;
