@@ -7,6 +7,7 @@
 #import "ISChartboostInterstitialDelegate.h"
 #import "ISChartboostRewardedVideoDelegate.h"
 #import "ISChartboostBannerDelegate.h"
+#import "IronSource/IronSource.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
 // Mediation info
@@ -1039,7 +1040,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 - (CHBMediation *)getMediationInfo {
     if (_mediationInfo == nil) {
         _mediationInfo = [[CHBMediation alloc] initWithName:kMediationName
-                                             libraryVersion:MEDIATION_VERSION
+                                             libraryVersion:[IronSource sdkVersion]
                                              adapterVersion:kAdapterVersion];
     }
     
