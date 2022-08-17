@@ -10,6 +10,7 @@
 #import "ISFacebookRewardedVideoDelegate.h"
 #import "ISFacebookInterstitialDelegate.h"
 #import "ISFacebookBannerDelegate.h"
+#import "IronSource/IronSource.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 // Mediation keys
@@ -1070,7 +1071,7 @@ static NSString* _mediationService = nil;
 
 - (NSString *)getMediationService {
     if (!_mediationService) {
-        _mediationService = [NSString stringWithFormat:@"%@_%@:%@", kMediationName, MEDIATION_VERSION, kAdapterVersion];
+        _mediationService = [NSString stringWithFormat:@"%@_%@:%@", kMediationName, [IronSource sdkVersion], kAdapterVersion];
         LogAdapterApi_Internal(@"mediationService = %@", _mediationService);
     }
     
