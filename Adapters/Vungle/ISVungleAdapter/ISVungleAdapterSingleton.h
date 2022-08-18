@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ISVungleAdapter.h"
-#import <VungleSDK/VungleSDKHeaderBidding.h>
+#import <vng_ios_sdk/vng_ios_sdk.h>
 
 @protocol VungleDelegate <NSObject>
 
@@ -25,6 +25,8 @@
                               serverData:(NSString *)serverData;
 -(void)rewardedVideoDidCloseAdWithPlacementID:(NSString *)placementID
                                    serverData:(NSString *)serverData;
+-(void)rewardedVideoDidFailToPresentForPlacement:(NSString *)placementID
+                                       withError:(NSError * _Nonnull)error;
 
 // Interstitial
 -(void)interstitialPlayabilityUpdate:(BOOL)isAdPlayable
@@ -37,7 +39,8 @@
                                   serverData:(NSString *)serverData;
 -(void)interstitialDidCloseAdWithPlacementID:(NSString *)placementID
                                   serverData:(NSString *)serverData;
-
+-(void)interstitialDidFailToPresentForPlacement:(NSString *)placementID
+                                      withError:(NSError * _Nonnull)error;
 
 // Banner
 -(void)bannerPlayabilityUpdate:(BOOL)isAdPlayable
@@ -52,17 +55,19 @@
                        serverData:(NSString *)serverData;
 -(void)bannerDidCloseAdWithPlacementID:(NSString *)placementID
                             serverData:(NSString *)serverData;
+-(void)bannerDidFailToPresentForPlacement:(NSString *)placementID
+                                withError:(NSError * _Nonnull)error;
 
 @end
 
-@interface ISVungleAdapterSingleton : NSObject <VungleSDKHBDelegate>
+@interface ISVungleAdapterSingleton : NSObject <VungleInterstitialDelegate, VungleRewardedDelegate, VungleBannerDelegate>
 
 +(ISVungleAdapterSingleton *) sharedInstance;
 
 -(instancetype)init;
 -(void)addFirstInitiatorDelegate:(id<ISNetworkInitCallbackProtocol>)initDelegate;
 -(void)addRewardedVideoDelegate:(id<VungleDelegate>)adapterDelegate
-                         forKey:(NSString *)key;
+                 forPlacementID:(NSString *)placementID;
 -(void)addInterstitialDelegate:(id<VungleDelegate>)adapterDelegate
                 forPlacementID:(NSString *)placementID;
 -(void)addBannerDelegate:(id<VungleDelegate>)adapterDelegate

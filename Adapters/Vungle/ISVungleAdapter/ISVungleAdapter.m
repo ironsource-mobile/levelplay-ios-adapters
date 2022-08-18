@@ -348,7 +348,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     
     // add rewarded video to singleton
     [[ISVungleAdapterSingleton sharedInstance] addRewardedVideoDelegate:self
-                                                                 forKey:placementId];
+                                                         forPlacementID:placementId];
     
     switch (_initState) {
         case INIT_STATE_NONE:
@@ -377,7 +377,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     
     // add rewarded video to singleton - used here instead of Init callback for progressive loading only (supported only on bidding flow)
     [[ISVungleAdapterSingleton sharedInstance] addRewardedVideoDelegate:self
-                                                                 forKey:serverData];
+                                                         forPlacementID:serverData];
     
     [self loadRewardedVideoInternalWithPlacement:placementId];
 }
@@ -831,6 +831,9 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
         [interstitialDelegate adapterInterstitialDidClose];
     }
 }
+
+
+
 
 #pragma mark - Banner API
 
