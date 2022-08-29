@@ -3,8 +3,8 @@
 
 target 'ISAdMobAdapter' do
 
-  pod 'IronSourceSDK' , '7.2.3.1'
-  pod 'Google-Mobile-Ads-SDK','9.6.0.0'
+  pod 'IronSourceSDK' , '7.2.4.0'
+  pod 'Google-Mobile-Ads-SDK','9.9.0'
 
 
 

@@ -8,27 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		2AE7D2E78BD4EB71B9D0F91E /* libPods-ISAdMobAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */; };
-		EF51E1292844E1090030978E /* ISAdMobInterstitialListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EF51E1232844E1090030978E /* ISAdMobInterstitialListener.m */; };
-		EF51E12A2844E1090030978E /* ISAdMobInterstitialListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EF51E1242844E1090030978E /* ISAdMobInterstitialListener.h */; };
-		EF51E12B2844E1090030978E /* ISAdMobBannerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EF51E1252844E1090030978E /* ISAdMobBannerListener.h */; };
-		EF51E12C2844E1090030978E /* ISAdMobBannerListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EF51E1262844E1090030978E /* ISAdMobBannerListener.m */; };
-		EF51E12D2844E1090030978E /* ISAdMobRewardedVideoListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EF51E1272844E1090030978E /* ISAdMobRewardedVideoListener.h */; };
-		EF51E12E2844E1090030978E /* ISAdMobRewardedVideoListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EF51E1282844E1090030978E /* ISAdMobRewardedVideoListener.m */; };
-		EFAEC71527AFFB2600C424B7 /* ISAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EFAEC71427AFFB2600C424B7 /* ISAdMobAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EFAEC72127AFFBD700C424B7 /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAEC71C27AFFBD700C424B7 /* ISAdMobAdapter.m */; };
+		5619821928BCA849003C815B /* ISAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5619821828BCA849003C815B /* ISAdMobAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5619822128BCA868003C815B /* ISAdMobBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5619821A28BCA867003C815B /* ISAdMobBannerDelegate.h */; };
+		5619822228BCA868003C815B /* ISAdMobRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5619821B28BCA867003C815B /* ISAdMobRewardedVideoDelegate.h */; };
+		5619822328BCA868003C815B /* ISAdMobBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619821C28BCA867003C815B /* ISAdMobBannerDelegate.m */; };
+		5619822428BCA868003C815B /* ISAdMobInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5619821D28BCA867003C815B /* ISAdMobInterstitialDelegate.h */; };
+		5619822528BCA868003C815B /* ISAdMobRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619821E28BCA867003C815B /* ISAdMobRewardedVideoDelegate.m */; };
+		5619822628BCA868003C815B /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619821F28BCA868003C815B /* ISAdMobAdapter.m */; };
+		5619822728BCA868003C815B /* ISAdMobInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619822028BCA868003C815B /* ISAdMobInterstitialDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5619821828BCA849003C815B /* ISAdMobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobAdapter.h; sourceTree = "<group>"; };
+		5619821A28BCA867003C815B /* ISAdMobBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobBannerDelegate.h; sourceTree = "<group>"; };
+		5619821B28BCA867003C815B /* ISAdMobRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		5619821C28BCA867003C815B /* ISAdMobBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobBannerDelegate.m; sourceTree = "<group>"; };
+		5619821D28BCA867003C815B /* ISAdMobInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobInterstitialDelegate.h; sourceTree = "<group>"; };
+		5619821E28BCA867003C815B /* ISAdMobRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		5619821F28BCA868003C815B /* ISAdMobAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobAdapter.m; sourceTree = "<group>"; };
+		5619822028BCA868003C815B /* ISAdMobInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobInterstitialDelegate.m; sourceTree = "<group>"; };
 		AB91FCCE2B689D573579E9C6 /* Pods-ISAdMobAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		EF51E1232844E1090030978E /* ISAdMobInterstitialListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobInterstitialListener.m; sourceTree = "<group>"; };
-		EF51E1242844E1090030978E /* ISAdMobInterstitialListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobInterstitialListener.h; sourceTree = "<group>"; };
-		EF51E1252844E1090030978E /* ISAdMobBannerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobBannerListener.h; sourceTree = "<group>"; };
-		EF51E1262844E1090030978E /* ISAdMobBannerListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobBannerListener.m; sourceTree = "<group>"; };
-		EF51E1272844E1090030978E /* ISAdMobRewardedVideoListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedVideoListener.h; sourceTree = "<group>"; };
-		EF51E1282844E1090030978E /* ISAdMobRewardedVideoListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedVideoListener.m; sourceTree = "<group>"; };
 		EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAdMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFAEC71427AFFB2600C424B7 /* ISAdMobAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobAdapter.h; sourceTree = "<group>"; };
-		EFAEC71C27AFFBD700C424B7 /* ISAdMobAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobAdapter.m; sourceTree = "<group>"; };
 		F1702D79B324CA9EF4BC9487 /* Pods-ISAdMobAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISAdMobAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -83,14 +83,14 @@
 		EFAEC71327AFFB2600C424B7 /* ISAdMobAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				EFAEC71427AFFB2600C424B7 /* ISAdMobAdapter.h */,
-				EFAEC71C27AFFBD700C424B7 /* ISAdMobAdapter.m */,
-				EF51E1252844E1090030978E /* ISAdMobBannerListener.h */,
-				EF51E1262844E1090030978E /* ISAdMobBannerListener.m */,
-				EF51E1242844E1090030978E /* ISAdMobInterstitialListener.h */,
-				EF51E1232844E1090030978E /* ISAdMobInterstitialListener.m */,
-				EF51E1272844E1090030978E /* ISAdMobRewardedVideoListener.h */,
-				EF51E1282844E1090030978E /* ISAdMobRewardedVideoListener.m */,
+				5619821828BCA849003C815B /* ISAdMobAdapter.h */,
+				5619821F28BCA868003C815B /* ISAdMobAdapter.m */,
+				5619821A28BCA867003C815B /* ISAdMobBannerDelegate.h */,
+				5619821C28BCA867003C815B /* ISAdMobBannerDelegate.m */,
+				5619821D28BCA867003C815B /* ISAdMobInterstitialDelegate.h */,
+				5619822028BCA868003C815B /* ISAdMobInterstitialDelegate.m */,
+				5619821B28BCA867003C815B /* ISAdMobRewardedVideoDelegate.h */,
+				5619821E28BCA867003C815B /* ISAdMobRewardedVideoDelegate.m */,
 			);
 			path = ISAdMobAdapter;
 			sourceTree = "<group>";
@@ -102,10 +102,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF51E12A2844E1090030978E /* ISAdMobInterstitialListener.h in Headers */,
-				EFAEC71527AFFB2600C424B7 /* ISAdMobAdapter.h in Headers */,
-				EF51E12D2844E1090030978E /* ISAdMobRewardedVideoListener.h in Headers */,
-				EF51E12B2844E1090030978E /* ISAdMobBannerListener.h in Headers */,
+				5619821928BCA849003C815B /* ISAdMobAdapter.h in Headers */,
+				5619822428BCA868003C815B /* ISAdMobInterstitialDelegate.h in Headers */,
+				5619822128BCA868003C815B /* ISAdMobBannerDelegate.h in Headers */,
+				5619822228BCA868003C815B /* ISAdMobRewardedVideoDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,10 +222,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFAEC72127AFFBD700C424B7 /* ISAdMobAdapter.m in Sources */,
-				EF51E1292844E1090030978E /* ISAdMobInterstitialListener.m in Sources */,
-				EF51E12C2844E1090030978E /* ISAdMobBannerListener.m in Sources */,
-				EF51E12E2844E1090030978E /* ISAdMobRewardedVideoListener.m in Sources */,
+				5619822528BCA868003C815B /* ISAdMobRewardedVideoDelegate.m in Sources */,
+				5619822328BCA868003C815B /* ISAdMobBannerDelegate.m in Sources */,
+				5619822728BCA868003C815B /* ISAdMobInterstitialDelegate.m in Sources */,
+				5619822628BCA868003C815B /* ISAdMobAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
