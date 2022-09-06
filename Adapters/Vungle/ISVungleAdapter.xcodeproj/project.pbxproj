@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40A6E35F28C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A6E35928C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.m */; };
+		40A6E36028C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A6E35A28C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.h */; };
+		40A6E36128C73AA500F87C3A /* ISVungleBannerAdapterRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A6E35B28C73AA500F87C3A /* ISVungleBannerAdapterRouter.m */; };
+		40A6E36228C73AA500F87C3A /* ISVungleBannerAdapterRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A6E35C28C73AA500F87C3A /* ISVungleBannerAdapterRouter.h */; };
+		40A6E36328C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A6E35D28C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.m */; };
+		40A6E36428C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A6E35E28C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.h */; };
 		56C8660F289F90E0008ADF53 /* ISVungleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C8660B289F90E0008ADF53 /* ISVungleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		56C86610289F90E0008ADF53 /* ISVungleAdapterSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C8660C289F90E0008ADF53 /* ISVungleAdapterSingleton.h */; };
-		56C86611289F90E0008ADF53 /* ISVungleAdapterSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C8660D289F90E0008ADF53 /* ISVungleAdapterSingleton.m */; };
 		56C86612289F90E0008ADF53 /* ISVungleAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C8660E289F90E0008ADF53 /* ISVungleAdapter.m */; };
 		7636152814ADCA6D5C926299 /* libPods-ISVungleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7456AE67B84A441463F77B2 /* libPods-ISVungleAdapter.a */; };
 /* End PBXBuildFile section */
@@ -17,10 +21,14 @@
 /* Begin PBXFileReference section */
 		0EB44080EA96B75B402B5372 /* Pods-ISVungleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		36EF638E7CC8A81F06835D5A /* Pods-ISAdColonyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		40A6E35928C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleInterstitialAdapterRouter.m; sourceTree = "<group>"; };
+		40A6E35A28C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleRewardedVideoAdapterRouter.h; sourceTree = "<group>"; };
+		40A6E35B28C73AA500F87C3A /* ISVungleBannerAdapterRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleBannerAdapterRouter.m; sourceTree = "<group>"; };
+		40A6E35C28C73AA500F87C3A /* ISVungleBannerAdapterRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleBannerAdapterRouter.h; sourceTree = "<group>"; };
+		40A6E35D28C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleRewardedVideoAdapterRouter.m; sourceTree = "<group>"; };
+		40A6E35E28C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleInterstitialAdapterRouter.h; sourceTree = "<group>"; };
 		4CF7DE948E48A63C36CAE9F8 /* Pods-ISTapjoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapjoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapjoyAdapter/Pods-ISTapjoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		56C8660B289F90E0008ADF53 /* ISVungleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleAdapter.h; sourceTree = "<group>"; };
-		56C8660C289F90E0008ADF53 /* ISVungleAdapterSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleAdapterSingleton.h; sourceTree = "<group>"; };
-		56C8660D289F90E0008ADF53 /* ISVungleAdapterSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleAdapterSingleton.m; sourceTree = "<group>"; };
 		56C8660E289F90E0008ADF53 /* ISVungleAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleAdapter.m; sourceTree = "<group>"; };
 		71EAE3C88FD938AC25A3D7BE /* Pods-ISTapJoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapJoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapJoyAdapter/Pods-ISTapJoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		AA5B4F08489A9B346ABDBE48 /* Pods-ISAdColonyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.release.xcconfig"; sourceTree = "<group>"; };
@@ -87,10 +95,14 @@
 		EFE27C0628337CC500391127 /* ISVungleAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				40A6E35C28C73AA500F87C3A /* ISVungleBannerAdapterRouter.h */,
+				40A6E35B28C73AA500F87C3A /* ISVungleBannerAdapterRouter.m */,
+				40A6E35E28C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.h */,
+				40A6E35928C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.m */,
+				40A6E35A28C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.h */,
+				40A6E35D28C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.m */,
 				56C8660B289F90E0008ADF53 /* ISVungleAdapter.h */,
 				56C8660E289F90E0008ADF53 /* ISVungleAdapter.m */,
-				56C8660C289F90E0008ADF53 /* ISVungleAdapterSingleton.h */,
-				56C8660D289F90E0008ADF53 /* ISVungleAdapterSingleton.m */,
 			);
 			path = ISVungleAdapter;
 			sourceTree = "<group>";
@@ -102,8 +114,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A6E36428C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.h in Headers */,
+				40A6E36028C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.h in Headers */,
+				40A6E36228C73AA500F87C3A /* ISVungleBannerAdapterRouter.h in Headers */,
 				56C8660F289F90E0008ADF53 /* ISVungleAdapter.h in Headers */,
-				56C86610289F90E0008ADF53 /* ISVungleAdapterSingleton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +235,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				56C86612289F90E0008ADF53 /* ISVungleAdapter.m in Sources */,
-				56C86611289F90E0008ADF53 /* ISVungleAdapterSingleton.m in Sources */,
+				40A6E36128C73AA500F87C3A /* ISVungleBannerAdapterRouter.m in Sources */,
+				40A6E35F28C73AA500F87C3A /* ISVungleInterstitialAdapterRouter.m in Sources */,
+				40A6E36328C73AA500F87C3A /* ISVungleRewardedVideoAdapterRouter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
