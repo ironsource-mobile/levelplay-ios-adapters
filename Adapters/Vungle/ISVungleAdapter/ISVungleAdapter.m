@@ -619,7 +619,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     LogAdapterApi_Internal(@"placementId = %@, size = %@", placementId, size.sizeDescription);
     // Set Banner state to REQUESTING_RELOAD
     bannerRouter.bannerState = REQUESTING_RELOAD;
-    //TODO : destory or just finish playing
     [bannerRouter destroy];
 }
 
