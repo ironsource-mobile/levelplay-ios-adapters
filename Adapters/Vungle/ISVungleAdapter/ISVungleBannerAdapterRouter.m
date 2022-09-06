@@ -25,17 +25,17 @@
         _delegate = delegate;
         _bannerState = UNKNOWN;
         _bidPayload = nil;
+        self.bannerSize = BannerSizeRegular;
     }
 
     return self;
 }
 
 - (void)loadBannerAd {
-    BannerSize size = [self getBannerSize:self.bannerSize];
-    self.bannerAd = [[VungleBanner alloc] initWithPlacementId:self.placementID size:size];
+    self.bannerAd = [[VungleBanner alloc] initWithPlacementId:self.placementID size:self.bannerSize];
     self.bannerAd.delegate = self;
     self.bannerAd.enableRefresh = NO;
-    self.adView = [[UIView alloc] initWithFrame:[self getAdViewRect:size]];
+    self.adView = [[UIView alloc] initWithFrame:[self getAdViewRect:self.bannerSize]];
 
     if ([self.bannerAd canPlayAd]) {
         LogInternal_Internal(@"Banner ad: %@ is loaded", self.placementID);
@@ -58,15 +58,15 @@
     self.bidPayload = bidPayload;
 }
 
+- (void)setSize:(ISBannerSize *)size {
+    self.bannerSize = [self getBannerSize:size];
+}
+
 - (void)destroy {
     [self.adView removeFromSuperview];
     self.adView = nil;
     self.bannerAd.delegate = nil;
-    self.bannerAd = nil;;
-    self.delegate = nil;
-    self.parentAdapter = nil;
-    self.bannerSize = nil;
-    self.bidPayload = nil;
+    self.bannerAd = nil;
 }
 
 - (void)bannerAdInitSuccess {

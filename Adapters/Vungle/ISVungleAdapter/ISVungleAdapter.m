@@ -561,7 +561,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
     // get Banner state
     ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
-    bannerRouter.bannerSize = size;
+    [bannerRouter setSize:size];
     [bannerRouter setBidPayload:serverData];
 
     if (bannerRouter.bannerState == SHOWING) {
@@ -586,7 +586,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
     // get Banner state
     ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
-    bannerRouter.bannerSize = size;
+    [bannerRouter setSize:size];
 
     if (bannerRouter.bannerState == SHOWING) {
         [self dismissBannerWithServerData:nil
