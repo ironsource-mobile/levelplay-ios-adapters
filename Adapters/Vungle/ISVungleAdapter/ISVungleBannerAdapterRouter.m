@@ -25,7 +25,7 @@
         _delegate = delegate;
         _bannerState = UNKNOWN;
         _bidPayload = nil;
-        self.bannerSize = BannerSizeRegular;
+        _bannerSize = BannerSizeRegular;
     }
 
     return self;
@@ -37,13 +37,9 @@
     self.bannerAd.enableRefresh = NO;
     self.adView = [[UIView alloc] initWithFrame:[self getAdViewRect:self.bannerSize]];
 
-    if ([self.bannerAd canPlayAd]) {
-        LogInternal_Internal(@"Banner ad: %@ is loaded", self.placementID);
-        [self showBannerAd];
-        [self.delegate adapterBannerDidLoad:self.adView];
-        return;
-    }
-
+    // Because there's no auto-caching in 7.0 VungleAds,the Ad would
+    // never be ready until a load call is made. We don't need to
+    // check [VungleBanner canPlayAd] here.
     [self.bannerAd load:self.bidPayload];
 }
 
@@ -82,11 +78,7 @@
 - (BannerSize)getBannerSize:(ISBannerSize *)size {
     BannerSize vungleAdSize = BannerSizeRegular;
 
-    if ([size.sizeDescription isEqualToString:@"BANNER"]     ||
-        [size.sizeDescription isEqualToString:@"LARGE"]
-        ) {
-        vungleAdSize = BannerSizeRegular;
-    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
+    if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
         vungleAdSize = BannerSizeMrec;
     } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
