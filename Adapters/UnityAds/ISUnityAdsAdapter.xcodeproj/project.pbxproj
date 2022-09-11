@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4DAD4FA59B583BC7C2DAAB79 /* libPods-ISUnityAdsAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA910D1E45383D6022AEFED8 /* libPods-ISUnityAdsAdapter.a */; };
+		73AC4213CB04F50E799683D2 /* Pods_ISUnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */; };
+		A8765C7728CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m in Sources */ = {isa = PBXBuildFile; fileRef = A8765C7628CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m */; };
 		A8D9683C28A14B6A00184293 /* ISUnityAdsInterstitialListener.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */; };
 		A8D9683D28A14B6A00184293 /* ISUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A8D9683E28A14B6A00184293 /* ISUnityAdsBannerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */; };
@@ -18,8 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		A8765C7628CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedVideoListener.m; sourceTree = "<group>"; };
 		A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialListener.m; sourceTree = "<group>"; };
 		A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
 		A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerListener.h; sourceTree = "<group>"; };
@@ -27,7 +30,6 @@
 		A8D9683928A14B6A00184293 /* ISUnityAdsBannerListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerListener.m; sourceTree = "<group>"; };
 		A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoListener.h; sourceTree = "<group>"; };
 		A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
-		DA910D1E45383D6022AEFED8 /* libPods-ISUnityAdsAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISUnityAdsAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DAD4FA59B583BC7C2DAAB79 /* libPods-ISUnityAdsAdapter.a in Frameworks */,
+				73AC4213CB04F50E799683D2 /* Pods_ISUnityAdsAdapter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +64,7 @@
 				A8D9683828A14B6A00184293 /* ISUnityAdsInterstitialListener.h */,
 				A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */,
 				A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */,
+				A8765C7628CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m */,
 			);
 			path = ISUnityAdsAdapter;
 			sourceTree = "<group>";
@@ -69,7 +72,7 @@
 		BC81E8CEBEBC633400C70159 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA910D1E45383D6022AEFED8 /* libPods-ISUnityAdsAdapter.a */,
+				752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8765C7728CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m in Sources */,
 				A8D9684028A14B6A00184293 /* ISUnityAdsBannerListener.m in Sources */,
 				A8D9684228A14B6A00184293 /* ISUnityAdsAdapter.m in Sources */,
 				A8D9683C28A14B6A00184293 /* ISUnityAdsInterstitialListener.m in Sources */,
