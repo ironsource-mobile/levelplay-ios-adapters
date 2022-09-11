@@ -1,0 +1,11 @@
+# Uncomment the next line to define a global platform for your project
+
+# Yahoo's latest SDK supports iOS 11+
+ platform :ios, '11.0'
+ use_frameworks!
+
+target 'ISYahooAdapter' do
+  pod 'IronSourceSDK','7.2.4.0'
+  pod 'Yahoo-Mobile-SDK','1.1.0'
+
+end
