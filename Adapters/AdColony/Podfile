@@ -2,7 +2,7 @@
  platform :ios, '9.0'
 
 target 'ISAdColonyAdapter' do
-  pod 'IronSourceSDK','7.2.2.1'
-  pod 'AdColony','4.8.0'
+  pod 'IronSourceSDK','7.2.4.1'
+  pod 'AdColony','4.9.0'
 
 end

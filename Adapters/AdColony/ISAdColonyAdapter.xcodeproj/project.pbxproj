@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		484FC846632F2426FAF6B453 /* libPods-ISAdColonyAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9989DDD386B2B10B97E4DB32 /* libPods-ISAdColonyAdapter.a */; };
 		EF12BF0B2848DC0600700538 /* ISAdColonyAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EF12BF032848DC0600700538 /* ISAdColonyAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EF12BF0C2848DC0600700538 /* ISAdColonyRewardedVideoListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EF12BF042848DC0600700538 /* ISAdColonyRewardedVideoListener.m */; };
 		EF12BF0D2848DC0600700538 /* ISAdColonyAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EF12BF052848DC0600700538 /* ISAdColonyAdapter.m */; };
-		EF12BF0E2848DC0600700538 /* ISAdColonyBannerListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EF12BF062848DC0600700538 /* ISAdColonyBannerListener.m */; };
-		EF12BF0F2848DC0600700538 /* ISAdColonyBannerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EF12BF072848DC0600700538 /* ISAdColonyBannerListener.h */; };
-		EF12BF102848DC0600700538 /* ISAdColonyRewardedVideoListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EF12BF082848DC0600700538 /* ISAdColonyRewardedVideoListener.h */; };
-		EF12BF112848DC0600700538 /* ISAdColonyInterstitialListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EF12BF092848DC0600700538 /* ISAdColonyInterstitialListener.m */; };
-		EF12BF122848DC0600700538 /* ISAdColonyInterstitialListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EF12BF0A2848DC0600700538 /* ISAdColonyInterstitialListener.h */; };
+		FD47ECBF28D0B055007CA6A1 /* ISAdColonyRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD47ECB928D0B054007CA6A1 /* ISAdColonyRewardedVideoDelegate.h */; };
+		FD47ECC028D0B055007CA6A1 /* ISAdColonyBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD47ECBA28D0B054007CA6A1 /* ISAdColonyBannerDelegate.m */; };
+		FD47ECC128D0B055007CA6A1 /* ISAdColonyBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD47ECBB28D0B054007CA6A1 /* ISAdColonyBannerDelegate.h */; };
+		FD47ECC228D0B055007CA6A1 /* ISAdColonyRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD47ECBC28D0B054007CA6A1 /* ISAdColonyRewardedVideoDelegate.m */; };
+		FD47ECC328D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD47ECBD28D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.h */; };
+		FD47ECC428D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD47ECBE28D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,14 +23,14 @@
 		9989DDD386B2B10B97E4DB32 /* libPods-ISAdColonyAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISAdColonyAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA5B4F08489A9B346ABDBE48 /* Pods-ISAdColonyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		EF12BF032848DC0600700538 /* ISAdColonyAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdColonyAdapter.h; sourceTree = "<group>"; };
-		EF12BF042848DC0600700538 /* ISAdColonyRewardedVideoListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdColonyRewardedVideoListener.m; sourceTree = "<group>"; };
 		EF12BF052848DC0600700538 /* ISAdColonyAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdColonyAdapter.m; sourceTree = "<group>"; };
-		EF12BF062848DC0600700538 /* ISAdColonyBannerListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdColonyBannerListener.m; sourceTree = "<group>"; };
-		EF12BF072848DC0600700538 /* ISAdColonyBannerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdColonyBannerListener.h; sourceTree = "<group>"; };
-		EF12BF082848DC0600700538 /* ISAdColonyRewardedVideoListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdColonyRewardedVideoListener.h; sourceTree = "<group>"; };
-		EF12BF092848DC0600700538 /* ISAdColonyInterstitialListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdColonyInterstitialListener.m; sourceTree = "<group>"; };
-		EF12BF0A2848DC0600700538 /* ISAdColonyInterstitialListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdColonyInterstitialListener.h; sourceTree = "<group>"; };
 		EFE27C0428337CC500391127 /* ISAdColonyAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAdColonyAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD47ECB928D0B054007CA6A1 /* ISAdColonyRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdColonyRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		FD47ECBA28D0B054007CA6A1 /* ISAdColonyBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdColonyBannerDelegate.m; sourceTree = "<group>"; };
+		FD47ECBB28D0B054007CA6A1 /* ISAdColonyBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdColonyBannerDelegate.h; sourceTree = "<group>"; };
+		FD47ECBC28D0B054007CA6A1 /* ISAdColonyRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdColonyRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		FD47ECBD28D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdColonyInterstitialDelegate.h; sourceTree = "<group>"; };
+		FD47ECBE28D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdColonyInterstitialDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,12 +85,12 @@
 			children = (
 				EF12BF032848DC0600700538 /* ISAdColonyAdapter.h */,
 				EF12BF052848DC0600700538 /* ISAdColonyAdapter.m */,
-				EF12BF072848DC0600700538 /* ISAdColonyBannerListener.h */,
-				EF12BF062848DC0600700538 /* ISAdColonyBannerListener.m */,
-				EF12BF0A2848DC0600700538 /* ISAdColonyInterstitialListener.h */,
-				EF12BF092848DC0600700538 /* ISAdColonyInterstitialListener.m */,
-				EF12BF082848DC0600700538 /* ISAdColonyRewardedVideoListener.h */,
-				EF12BF042848DC0600700538 /* ISAdColonyRewardedVideoListener.m */,
+				FD47ECBB28D0B054007CA6A1 /* ISAdColonyBannerDelegate.h */,
+				FD47ECBA28D0B054007CA6A1 /* ISAdColonyBannerDelegate.m */,
+				FD47ECBD28D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.h */,
+				FD47ECBE28D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.m */,
+				FD47ECB928D0B054007CA6A1 /* ISAdColonyRewardedVideoDelegate.h */,
+				FD47ECBC28D0B054007CA6A1 /* ISAdColonyRewardedVideoDelegate.m */,
 			);
 			path = ISAdColonyAdapter;
 			sourceTree = "<group>";
@@ -102,10 +102,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD47ECC328D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.h in Headers */,
+				FD47ECBF28D0B055007CA6A1 /* ISAdColonyRewardedVideoDelegate.h in Headers */,
 				EF12BF0B2848DC0600700538 /* ISAdColonyAdapter.h in Headers */,
-				EF12BF102848DC0600700538 /* ISAdColonyRewardedVideoListener.h in Headers */,
-				EF12BF122848DC0600700538 /* ISAdColonyInterstitialListener.h in Headers */,
-				EF12BF0F2848DC0600700538 /* ISAdColonyBannerListener.h in Headers */,
+				FD47ECC128D0B055007CA6A1 /* ISAdColonyBannerDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,10 +222,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF12BF112848DC0600700538 /* ISAdColonyInterstitialListener.m in Sources */,
-				EF12BF0E2848DC0600700538 /* ISAdColonyBannerListener.m in Sources */,
 				EF12BF0D2848DC0600700538 /* ISAdColonyAdapter.m in Sources */,
-				EF12BF0C2848DC0600700538 /* ISAdColonyRewardedVideoListener.m in Sources */,
+				FD47ECC028D0B055007CA6A1 /* ISAdColonyBannerDelegate.m in Sources */,
+				FD47ECC428D0B055007CA6A1 /* ISAdColonyInterstitialDelegate.m in Sources */,
+				FD47ECC228D0B055007CA6A1 /* ISAdColonyRewardedVideoDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

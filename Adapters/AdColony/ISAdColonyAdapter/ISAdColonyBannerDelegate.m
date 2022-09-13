@@ -1,16 +1,17 @@
 //
-//  ISAdColonyBannerListener.m
+//  ISAdColonyBannerDelegate.m
 //  ISAdColonyAdapter
 //
 //  Created by Roi Eshel on 9/12/2021.
 //  Copyright © 2021 IronSource. All rights reserved.
 //
 
-#import "ISAdColonyBannerListener.h"
+#import "ISAdColonyBannerDelegate.h"
 
-@implementation ISAdColonyBannerListener
+@implementation ISAdColonyBannerDelegate
 
-- (instancetype)initWithZoneId:(NSString *)zoneId andDelegate:(id<ISAdColonyBannerDelegateWrapper>)delegate {
+- (instancetype)initWithZoneId:(NSString *)zoneId
+                   andDelegate:(id<ISAdColonyBannerDelegateWrapper> )delegate {
     self = [super init];
     
     if (self) {
@@ -29,7 +30,8 @@
  @param adView Loaded ad view
  */
 - (void)adColonyAdViewDidLoad:(AdColonyAdView * _Nonnull)adView {
-    [_delegate onBannerLoadSuccess:adView forZoneId:_zoneId];
+    [_delegate onBannerDidLoad:adView
+                     forZoneId:_zoneId];
 }
 
 /**
@@ -38,7 +40,17 @@
  @param error Error with failure explanation
  */
 - (void)adColonyAdViewDidFailToLoad:(AdColonyAdRequestError * _Nonnull)error {
-    [_delegate onBannerLoadFail:_zoneId WithError:error];
+    [_delegate onBannerDidFailToLoad:_zoneId
+                           withError:error];
+}
+
+/**
+ @abstract Did show notification
+ @discussion Ad view was added to a view with active window
+ @param adView Shown ad view
+ */
+- (void)adColonyAdViewDidShow:(AdColonyAdView * _Nonnull)adView {
+    [_delegate onBannerDidShow:_zoneId];
 }
 
 /**
@@ -47,7 +59,8 @@
  @param adView Ad view that received a click
  */
 - (void)adColonyAdViewDidReceiveClick:(AdColonyAdView * _Nonnull)adView {
-    [_delegate onBannerDidClick:adView forZoneId:_zoneId];
+    [_delegate onBannerDidClick:adView
+                      forZoneId:_zoneId];
 }
 
 /**
@@ -56,7 +69,8 @@
  @param adView The ad view which caused the user to leave the application.
  */
 - (void)adColonyAdViewWillLeaveApplication:(AdColonyAdView * _Nonnull)adView {
-    [_delegate onBannerBannerWillLeaveApplication:adView forZoneId:_zoneId];
+    [_delegate onBannerBannerWillLeaveApplication:adView
+                                        forZoneId:_zoneId];
 }
 
 /**
@@ -65,7 +79,8 @@
  @param adView Ad view that is going to display fullscreen content.
  */
 - (void)adColonyAdViewWillOpen:(AdColonyAdView * _Nonnull)adView {
-    [_delegate onBannerBannerWillPresentScreen:adView forZoneId:_zoneId];
+    [_delegate onBannerBannerWillPresentScreen:adView
+                                     forZoneId:_zoneId];
 }
 
 /**
@@ -74,7 +89,8 @@
  @param adView Ad view that stopped displaying fullscreen content
  */
 - (void)adColonyAdViewDidClose:(AdColonyAdView * _Nonnull)adView {
-    [_delegate onBannerBannerDidDismissScreen:adView forZoneId:_zoneId];
+    [_delegate onBannerBannerDidDismissScreen:adView
+                                    forZoneId:_zoneId];
 }
 
 @end
