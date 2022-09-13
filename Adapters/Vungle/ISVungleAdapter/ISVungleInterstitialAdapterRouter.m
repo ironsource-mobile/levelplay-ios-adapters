@@ -32,13 +32,10 @@
 - (void)loadInterstitial {
     self.interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:self.placementID];
     self.interstitialAd.delegate = self;
-    
-    if ([self.interstitialAd canPlayAd]) {
-        LogInternal_Internal(@"Interstitial ad: %@ is loaded", self.placementID);
-        [self.delegate adapterInterstitialDidLoad];
-        return;
-    }
- 
+
+    // Because there's no auto-caching in 7.0 VungleAds, the Ad would
+    // never be ready until a load call is made. We don't need to
+    // check [VungleInterstitial canPlayAd] here.
     [self.interstitialAd load:self.bidPayload];
 }
 

@@ -33,12 +33,9 @@
     self.rewardedVideoAd = [[VungleRewarded alloc] initWithPlacementId:self.placementID];
     self.rewardedVideoAd.delegate = self;
 
-    if ([self.rewardedVideoAd canPlayAd]) {
-        LogInternal_Internal(@"Rewarded ad: %@ is loaded", self.placementID);
-        [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
-        return;
-    }
-
+    // Because there's no auto-caching in 7.0 VungleAds, the Ad would
+    // never be ready until a load call is made. We don't need to
+    // check [VungleRewarded canPlayAd] here.
     [self.rewardedVideoAd load:self.bidPayload];
 }
 
