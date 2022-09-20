@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 IronSource. All rights reserved.
 //
 #import "ISVungleAdapter.h"
-#import <VungleAds/VungleAds.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 #import "ISVungleBannerAdapterRouter.h"
 #import "ISVungleRewardedVideoAdapterRouter.h"
 #import "ISVungleInterstitialAdapterRouter.h"
