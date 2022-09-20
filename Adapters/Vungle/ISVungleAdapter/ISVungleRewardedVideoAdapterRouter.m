@@ -44,7 +44,7 @@
 }
 
 - (void)setBidPayload:(NSString * _Nullable)bidPayload {
-    self.bidPayload = bidPayload;
+    _bidPayload = bidPayload;
 }
 
 - (void)rewardedVideoInitSuccess {
