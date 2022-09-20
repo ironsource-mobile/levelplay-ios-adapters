@@ -34,8 +34,9 @@
 - (void)loadBannerAd {
     self.bannerAd = [[VungleBanner alloc] initWithPlacementId:self.placementID size:self.bannerSize];
     self.bannerAd.delegate = self;
-    self.bannerAd.enableRefresh = NO;
-    self.adView = [[UIView alloc] initWithFrame:[self getAdViewRect:self.bannerSize]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.adView = [[UIView alloc] initWithFrame:[self getAdViewRect:self.bannerSize]];
+    });
 
     // Because there's no auto-caching in 7.0 VungleAds,the Ad would
     // never be ready until a load call is made. We don't need to
