@@ -168,6 +168,7 @@
     LogAdapterDelegate_Internal(@"placementID = %@, currentBannerState = %@", banner.placementId, [self getBannerStateString:self.bannerState]);
 
     if (self.delegate && self.bannerState == REQUESTING_RELOAD) {
+        [self destroy];
         [self loadBannerAd];
         return;
     }
