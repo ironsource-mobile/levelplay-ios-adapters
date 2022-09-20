@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <VungleAds/VungleAds.h>
+#import <VungleAdsSDK/VungleAdsSDK.h>
 #import "IronSource/ISBaseAdapter+Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
