@@ -47,15 +47,9 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
 @interface ISVungleAdapter() <ISNetworkInitCallbackProtocol>
 
-// Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashRouter;
-@property (nonatomic, strong) ConcurrentMutableSet        *rewardedVideoPlacementIdsForInitCallbacks;
-
-// Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToSmashRouter;
-
-// Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToSmashRouter;
+@property (nonatomic, strong) ISVungleRewardedVideoAdapterRouter *rewardedVideoAdapterRouter;
+@property (nonatomic, strong) ISVungleInterstitialAdapterRouter *interstitialAdapterRouter;
+@property (nonatomic, strong) ISVungleBannerAdapterRouter *bannerAdapterRouter;
 
 @end
 
@@ -90,16 +84,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         if (initCallbackDelegates == nil) {
             initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
-
-        // Rewarded video
-        _rewardedVideoPlacementIdToSmashRouter          = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdsForInitCallbacks      = [ConcurrentMutableSet set];
-
-        // Interstitial
-        _interstitialPlacementIdToSmashRouter           = [ConcurrentMutableDictionary dictionary];
-
-        // Banner
-        _bannerPlacementIdToSmashRouter                 = [ConcurrentMutableDictionary dictionary];
     }
 
     return self;
@@ -161,59 +145,41 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
 - (void)onNetworkInitCallbackSuccess {
     LogAdapterDelegate_Internal(@"");
-    
+
     // rewarded video
-    NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashRouter.allKeys;
-    for (NSString *placementId in rewardedVideoPlacementIDs) {
-        if ([_rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
-            [[_rewardedVideoPlacementIdToSmashRouter objectForKey:placementId] rewardedVideoInitSuccess];
-        } else {
-            [self loadRewardedVideoInternalWithPlacement:placementId];
-        }
+    if (self.rewardedVideoAdapterRouter) {
+        self.rewardedVideoAdapterRouter.isNeededInitCallback ? [self.rewardedVideoAdapterRouter rewardedVideoInitSuccess] : [self loadRewardedVideoInternalWithPlacement];
     }
-    
+
     // interstitial
-    NSArray *interstitialPlacementIDs = _interstitialPlacementIdToSmashRouter.allKeys;
-    for (NSString *placementId in interstitialPlacementIDs) {
-        ISVungleInterstitialAdapterRouter *interstitialRouter = [_interstitialPlacementIdToSmashRouter objectForKey:placementId];
-        [interstitialRouter interstitialInitSuccess];
+    if (self.interstitialAdapterRouter) {
+        [self.interstitialAdapterRouter interstitialInitSuccess];
     }
-    
+
     // banner
-    NSArray *bannerPlacementIDs = _bannerPlacementIdToSmashRouter.allKeys;
-    for (NSString *placementId in bannerPlacementIDs) {
-        ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
-        [bannerRouter bannerAdInitSuccess];
+    if (self.bannerAdapterRouter) {
+        [self.bannerAdapterRouter bannerAdInitSuccess];
     }
 }
 
 - (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
     LogInternal_Internal(@"");
-    
+
     NSError *error = [ISError createError:ERROR_CODE_INIT_FAILED withMessage:errorMessage];
-    
+
     // rewarded video
-    NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashRouter.allKeys;
-    for (NSString *placementId in rewardedVideoPlacementIDs) {
-        if ([_rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
-            [[_rewardedVideoPlacementIdToSmashRouter objectForKey:placementId] rewardedVideoInitFailed:error];
-        } else {
-            [[_rewardedVideoPlacementIdToSmashRouter objectForKey:placementId] rewardedVideoHasChangedAvailability:NO];
-        }
+    if (self.rewardedVideoAdapterRouter) {
+        self.rewardedVideoAdapterRouter.isNeededInitCallback ? [self.rewardedVideoAdapterRouter rewardedVideoInitFailed:error] : [self.rewardedVideoAdapterRouter rewardedVideoHasChangedAvailability:NO];
     }
-    
+
     // interstitial
-    NSArray *interstitialPlacementIDs = _interstitialPlacementIdToSmashRouter.allKeys;
-    for (NSString *placementId in interstitialPlacementIDs) {
-        ISVungleInterstitialAdapterRouter *interstitialRouter = [_interstitialPlacementIdToSmashRouter objectForKey:placementId];
-        [interstitialRouter interstitialInitFailed:error];
+    if (self.interstitialAdapterRouter) {
+        [self.interstitialAdapterRouter interstitialInitFailed:error];
     }
 
     // banner
-    NSArray *bannerPlacementIDs = _bannerPlacementIdToSmashRouter.allKeys;
-    for (NSString *placementId in bannerPlacementIDs) {
-        ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
-        [bannerRouter bannerAdInitFailed:error];
+    if (self.bannerAdapterRouter) {
+        [self.bannerAdapterRouter bannerAdInitFailed:error];
     }
 }
 
@@ -243,15 +209,10 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
     
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
-    
-    // add to Rewarded video router map
-    ISVungleRewardedVideoAdapterRouter *rewardedRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
-    [_rewardedVideoPlacementIdToSmashRouter setObject:rewardedRouter
-                                               forKey:placementId];
-    
-    // add to rewarded video init callback map
-    [_rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
-    
+
+    self.rewardedVideoAdapterRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
+    self.rewardedVideoAdapterRouter.isNeededInitCallback = YES;
+
     switch (_initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
@@ -294,11 +255,8 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
     
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
-    
-    // add to Rewarded video router map
-    ISVungleRewardedVideoAdapterRouter *rewardedRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
-    [_rewardedVideoPlacementIdToSmashRouter setObject:rewardedRouter
-                                               forKey:placementId];
+
+    self.rewardedVideoAdapterRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
 
     switch (_initState) {
         case INIT_STATE_NONE:
@@ -306,7 +264,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
             [self initSDKWithAppId:appId];
             break;
         case INIT_STATE_SUCCESS:
-            [self loadRewardedVideoInternalWithPlacement:placementId];
+            [self loadRewardedVideoInternalWithPlacement];
             break;
         case INIT_STATE_FAILED: {
             LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
@@ -320,22 +278,29 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                                           serverData:(NSString *)serverData
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-    ISVungleRewardedVideoAdapterRouter *rewardedRouter = [_rewardedVideoPlacementIdToSmashRouter objectForKey:placementId];
-    [rewardedRouter setBidPayload:serverData];
-    [self loadRewardedVideoInternalWithPlacement:placementId];
+    [self loadRewardedVideoInternalWithPlacement:placementId serverData:serverData];
 }
 
 - (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-    [self loadRewardedVideoInternalWithPlacement:placementId];
+    [self loadRewardedVideoInternalWithPlacement:placementId serverData:nil];
 }
 
-- (void)loadRewardedVideoInternalWithPlacement:(NSString *)placementId {
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
+- (void)loadRewardedVideoInternalWithPlacement:(NSString *)placementId
+                                    serverData:(NSString *)serverData {
+    if (![self.rewardedVideoAdapterRouter.placementID isEqualToString:placementId]) {
+        return;
+    }
+    if (serverData) {
+        [self.rewardedVideoAdapterRouter setBidPayload:serverData];
+    }
+    [self loadRewardedVideoInternalWithPlacement];
+}
 
-    ISVungleRewardedVideoAdapterRouter *rewardedRouter = [_rewardedVideoPlacementIdToSmashRouter objectForKey:placementId];
-    [rewardedRouter loadRewardedVideoAd];
+- (void)loadRewardedVideoInternalWithPlacement {
+    LogAdapterApi_Internal(@"placementId = %@", self.rewardedVideoAdapterRouter.placementID);
+    [self.rewardedVideoAdapterRouter loadRewardedVideoAd];
 }
 
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
@@ -345,9 +310,8 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     LogAdapterApi_Internal(@"placementId = %@", placementId);
 
     [delegate adapterRewardedVideoHasChangedAvailability:NO];
-    ISVungleRewardedVideoAdapterRouter *rewardedRouter  = [_rewardedVideoPlacementIdToSmashRouter objectForKey:placementId];
     
-    if (![rewardedRouter.rewardedVideoAd canPlayAd]) {
+    if (![self.rewardedVideoAdapterRouter.placementID isEqualToString:placementId] || ![self.rewardedVideoAdapterRouter.rewardedVideoAd canPlayAd]) {
         NSError *error = [NSError errorWithDomain:kAdapterName
                                              code:kShowErrorNotCached
                                          userInfo:@{NSLocalizedDescriptionKey : @"Show error. ad not cached"}];
@@ -357,22 +321,17 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [rewardedRouter playRewardedVideoAdWithViewController:viewController];
+        [self.rewardedVideoAdapterRouter playRewardedVideoAdWithViewController:viewController];
     });
 }
 
 - (BOOL)hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-
-    // Vungle cache ads that were loaded in the last week.
-    // This means that [VungleRewarded canPlayAd] could return YES for placements that we didn't try to load during this session.
-    // This is the reason we also check if the placementId is contained in the ConcurrentMutableDictionary
-    if (![_rewardedVideoPlacementIdToSmashRouter hasObjectForKey:placementId]) {
+    if (![self.rewardedVideoAdapterRouter.placementID isEqualToString:placementId]) {
         return NO;
     }
 
-    ISVungleRewardedVideoAdapterRouter *rewardedRouter  = [_rewardedVideoPlacementIdToSmashRouter objectForKey:placementId];
-    return [rewardedRouter.rewardedVideoAd canPlayAd];
+    return [self.rewardedVideoAdapterRouter.rewardedVideoAd canPlayAd];
 }
 
 - (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
@@ -411,10 +370,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
     
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
-    // add to Interstitial router map
-    ISVungleInterstitialAdapterRouter *interstitialRouter = [[ISVungleInterstitialAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
-    [_interstitialPlacementIdToSmashRouter setObject:interstitialRouter
-                                               forKey:placementId];
+    self.interstitialAdapterRouter = [[ISVungleInterstitialAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
     
     switch (_initState) {
         case INIT_STATE_NONE:
@@ -439,23 +395,26 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                                    adapterConfig:(ISAdapterConfig *)adapterConfig
                                         delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-    ISVungleInterstitialAdapterRouter *interstitialRouter = [_interstitialPlacementIdToSmashRouter objectForKey:placementId];
-    [interstitialRouter setBidPayload:serverData];
-
-    [self loadInterstitialInternalWithPlacement:placementId];
+    [self loadInterstitialInternalWithPlacement:placementId serverData:serverData];
 }
 
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-    [self loadInterstitialInternalWithPlacement:placementId];
+    [self loadInterstitialInternalWithPlacement:placementId serverData:nil];
 }
 
-- (void)loadInterstitialInternalWithPlacement:(NSString *)placementId {
-    LogAdapterApi_Internal(@"placementID = %@", placementId);
+- (void)loadInterstitialInternalWithPlacement:(NSString *)placementId
+                                   serverData:(NSString *)serverData {
+    if (![self.interstitialAdapterRouter.placementID isEqualToString:placementId]) {
+        return;
+    }
 
-    ISVungleInterstitialAdapterRouter *interstitialRouter = [_interstitialPlacementIdToSmashRouter objectForKey:placementId];
-    [interstitialRouter loadInterstitial];
+    LogAdapterApi_Internal(@"placementID = %@", placementId);
+    if (serverData) {
+        [self.interstitialAdapterRouter setBidPayload:serverData];
+    }
+    [self.interstitialAdapterRouter loadInterstitial];
 }
 
 - (void)showInterstitialWithViewController:(UIViewController *)viewController
@@ -463,9 +422,8 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                                   delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    ISVungleInterstitialAdapterRouter *interstitialRouter = [_interstitialPlacementIdToSmashRouter objectForKey:placementId];
-    
-    if (![interstitialRouter.interstitialAd canPlayAd]) {
+
+    if (![self.interstitialAdapterRouter.placementID isEqualToString:placementId] || ![self.interstitialAdapterRouter.interstitialAd canPlayAd]) {
         NSError *error = [NSError errorWithDomain:kAdapterName
                                              code:kShowErrorNotCached
                                          userInfo:@{NSLocalizedDescriptionKey : @"Show error. ad not cached"}];
@@ -475,22 +433,17 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [interstitialRouter playInterstitialAdWithViewController:viewController];
+        [self.interstitialAdapterRouter playInterstitialAdWithViewController:viewController];
     });
 }
 
 - (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-
-    // Vungle cache ads that were loaded in the last week.
-    // This means that [VungleInterstitial canPlayAd] could return YES for placements that we didn't try to load during this session.
-    // This is the reason we also check if the placementId is contained in the ConcurrentMutableDictionary
-    if (![_interstitialPlacementIdToSmashRouter hasObjectForKey:placementId]) {
+    if (![self.interstitialAdapterRouter.placementID isEqualToString:placementId]) {
         return NO;
     }
 
-    ISVungleInterstitialAdapterRouter *interstitialRouter = [_interstitialPlacementIdToSmashRouter objectForKey:placementId];
-    return [interstitialRouter.interstitialAd canPlayAd];
+    return [self.interstitialAdapterRouter.interstitialAd canPlayAd];
 }
 
 - (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
@@ -530,8 +483,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
     // add to Banner Router map
-    ISVungleBannerAdapterRouter *bannerRouter = [[ISVungleBannerAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
-    [_bannerPlacementIdToSmashRouter setObject:bannerRouter forKey:placementId];
+    self.bannerAdapterRouter = [[ISVungleBannerAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
 
     switch (_initState) {
         case INIT_STATE_NONE:
@@ -558,15 +510,16 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                              adapterConfig:(ISAdapterConfig *)adapterConfig
                                   delegate:(id<ISBannerAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
+    if (![self.bannerAdapterRouter.placementID isEqualToString:placementId]) {
+        return;
+    }
 
     // get Banner state
-    ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
-    [bannerRouter setSize:size];
-    [bannerRouter setBidPayload:serverData];
+    [self.bannerAdapterRouter setSize:size];
+    [self.bannerAdapterRouter setBidPayload:serverData];
 
-    if (bannerRouter.bannerState == SHOWING) {
+    if (self.bannerAdapterRouter.bannerState == SHOWING) {
         [self dismissBannerWithServerData:serverData
-                             bannerRouter:bannerRouter
                                      size:size
                               placementId:placementId
                                  delegate:delegate];
@@ -583,14 +536,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                        adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
                             delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
+    if (![self.bannerAdapterRouter.placementID isEqualToString:placementId]) {
+        return;
+    }
 
     // get Banner state
-    ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
-    [bannerRouter setSize:size];
+    [self.bannerAdapterRouter setSize:size];
 
-    if (bannerRouter.bannerState == SHOWING) {
+    if (self.bannerAdapterRouter.bannerState == SHOWING) {
         [self dismissBannerWithServerData:nil
-                             bannerRouter:bannerRouter
                                      size:size
                               placementId:placementId
                                  delegate:delegate];
@@ -603,7 +557,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 }
 
 - (void)dismissBannerWithServerData:(NSString *)serverData
-                      bannerRouter:(ISVungleBannerAdapterRouter *)bannerRouter
                                size:(ISBannerSize *)size
                         placementId:(NSString *)placementId
                            delegate:(id <ISBannerAdapterDelegate>)delegate {
@@ -615,11 +568,11 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         [delegate adapterBannerDidFailToLoadWithError:error];
         return;
     }
-    
+
     LogAdapterApi_Internal(@"placementId = %@, size = %@", placementId, size.sizeDescription);
     // Set Banner state to REQUESTING_RELOAD
-    bannerRouter.bannerState = REQUESTING_RELOAD;
-    [bannerRouter destroy];
+    self.bannerAdapterRouter.bannerState = REQUESTING_RELOAD;
+    [self.bannerAdapterRouter destroy];
 }
 
 - (void)loadBannerInternalWithPlacement:(NSString *)placementId
@@ -634,14 +587,12 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         [delegate adapterBannerDidFailToLoadWithError:error];
         return;
     }
-    
+
     LogAdapterApi_Internal(@"placementId = %@, size = %@", placementId, size.sizeDescription);
 
-    ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
     //Set Banner state to - REQUESTING
-    bannerRouter.bannerState = REQUESTING;
-
-    [bannerRouter loadBannerAd];
+    self.bannerAdapterRouter.bannerState = REQUESTING;
+    [self.bannerAdapterRouter loadBannerAd];
 }
 
 - (void)reloadBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig
@@ -652,11 +603,10 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 - (void)destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementID];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    ISVungleBannerAdapterRouter *bannerRouter = [_bannerPlacementIdToSmashRouter objectForKey:placementId];
-    if (bannerRouter) {
-        [_bannerPlacementIdToSmashRouter removeObjectForKey:placementId];
-        [bannerRouter destroy];
+
+    if ([self.bannerAdapterRouter.placementID isEqualToString:placementId]) {
+        [self.bannerAdapterRouter destroy];
+        self.bannerAdapterRouter.bannerState = UNKNOWN;
     }
 }
 

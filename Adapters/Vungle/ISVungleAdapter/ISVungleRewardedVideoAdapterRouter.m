@@ -24,6 +24,7 @@
         _parentAdapter = parentAdapter;
         _delegate = delegate;
         _bidPayload = nil;
+        _isNeededInitCallback = NO;
     }
 
     return self;

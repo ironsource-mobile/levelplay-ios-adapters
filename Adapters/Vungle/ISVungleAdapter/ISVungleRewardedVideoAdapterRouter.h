@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<ISRewardedVideoAdapterDelegate> delegate;
 @property (nonatomic, weak) ISVungleAdapter *parentAdapter;
 @property (nonatomic, strong) VungleRewarded *rewardedVideoAd;
+@property (nonatomic, assign) BOOL isNeededInitCallback;
 
 - (instancetype)initWithPlacementID:(NSString *)placementID
                       parentAdapter:(ISVungleAdapter *)parentAdapter
