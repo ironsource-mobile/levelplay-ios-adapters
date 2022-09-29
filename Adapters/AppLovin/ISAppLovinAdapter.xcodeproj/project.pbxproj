@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		29C05363BD63B7671A065D54 /* libPods-ISAppLovinAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFABBB11F7ED01217603BEE /* libPods-ISAppLovinAdapter.a */; };
-		EFE27C4E2833831C00391127 /* ISApplovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C4D2833831C00391127 /* ISApplovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EFE27C5B28338A2E00391127 /* ISApplovinBannerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C5428338A2E00391127 /* ISApplovinBannerListener.h */; };
+		EFE27C4E2833831C00391127 /* ISAppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C4D2833831C00391127 /* ISAppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EFE27C5B28338A2E00391127 /* ISApplovinBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C5428338A2E00391127 /* ISApplovinBannerDelegate.h */; };
 		EFE27C5C28338A2E00391127 /* ISAppLovinAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE27C5528338A2E00391127 /* ISAppLovinAdapter.m */; };
-		EFE27C5D28338A2E00391127 /* ISApplovinInterstitialListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C5628338A2E00391127 /* ISApplovinInterstitialListener.h */; };
-		EFE27C5E28338A2E00391127 /* ISApplovinRewardedVideoListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C5728338A2E00391127 /* ISApplovinRewardedVideoListener.h */; };
-		EFE27C5F28338A2E00391127 /* ISApplovinRewardedVideoListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE27C5828338A2E00391127 /* ISApplovinRewardedVideoListener.m */; };
-		EFE27C6028338A2E00391127 /* ISApplovinInterstitialListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE27C5928338A2E00391127 /* ISApplovinInterstitialListener.m */; };
-		EFE27C6128338A2E00391127 /* ISApplovinBannerListener.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE27C5A28338A2E00391127 /* ISApplovinBannerListener.m */; };
+		EFE27C5D28338A2E00391127 /* ISApplovinInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C5628338A2E00391127 /* ISApplovinInterstitialDelegate.h */; };
+		EFE27C5E28338A2E00391127 /* ISApplovinRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE27C5728338A2E00391127 /* ISApplovinRewardedVideoDelegate.h */; };
+		EFE27C5F28338A2E00391127 /* ISApplovinRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE27C5828338A2E00391127 /* ISApplovinRewardedVideoDelegate.m */; };
+		EFE27C6028338A2E00391127 /* ISApplovinInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE27C5928338A2E00391127 /* ISApplovinInterstitialDelegate.m */; };
+		EFE27C6128338A2E00391127 /* ISApplovinBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE27C5A28338A2E00391127 /* ISApplovinBannerDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,14 +25,14 @@
 		4D65FD6A09068DCFDF32EDFC /* Pods-ISApplovinAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISApplovinAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISApplovinAdapter/Pods-ISApplovinAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		A8BAA3CC03C74D4F66AB5D9D /* Pods-ISAppLovinAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAppLovinAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAppLovinAdapter/Pods-ISAppLovinAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		EFE27C4A2833831C00391127 /* ISAppLovinAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAppLovinAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFE27C4D2833831C00391127 /* ISApplovinAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISApplovinAdapter.h; sourceTree = "<group>"; };
-		EFE27C5428338A2E00391127 /* ISApplovinBannerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISApplovinBannerListener.h; sourceTree = "<group>"; };
+		EFE27C4D2833831C00391127 /* ISAppLovinAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinAdapter.h; sourceTree = "<group>"; };
+		EFE27C5428338A2E00391127 /* ISApplovinBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISApplovinBannerDelegate.h; sourceTree = "<group>"; };
 		EFE27C5528338A2E00391127 /* ISAppLovinAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinAdapter.m; sourceTree = "<group>"; };
-		EFE27C5628338A2E00391127 /* ISApplovinInterstitialListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISApplovinInterstitialListener.h; sourceTree = "<group>"; };
-		EFE27C5728338A2E00391127 /* ISApplovinRewardedVideoListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISApplovinRewardedVideoListener.h; sourceTree = "<group>"; };
-		EFE27C5828338A2E00391127 /* ISApplovinRewardedVideoListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISApplovinRewardedVideoListener.m; sourceTree = "<group>"; };
-		EFE27C5928338A2E00391127 /* ISApplovinInterstitialListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISApplovinInterstitialListener.m; sourceTree = "<group>"; };
-		EFE27C5A28338A2E00391127 /* ISApplovinBannerListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISApplovinBannerListener.m; sourceTree = "<group>"; };
+		EFE27C5628338A2E00391127 /* ISApplovinInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISApplovinInterstitialDelegate.h; sourceTree = "<group>"; };
+		EFE27C5728338A2E00391127 /* ISApplovinRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISApplovinRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		EFE27C5828338A2E00391127 /* ISApplovinRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISApplovinRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		EFE27C5928338A2E00391127 /* ISApplovinInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISApplovinInterstitialDelegate.m; sourceTree = "<group>"; };
+		EFE27C5A28338A2E00391127 /* ISApplovinBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISApplovinBannerDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,14 +87,14 @@
 		EFE27C4C2833831C00391127 /* ISApplovinAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				EFE27C4D2833831C00391127 /* ISApplovinAdapter.h */,
+				EFE27C4D2833831C00391127 /* ISAppLovinAdapter.h */,
 				EFE27C5528338A2E00391127 /* ISAppLovinAdapter.m */,
-				EFE27C5428338A2E00391127 /* ISApplovinBannerListener.h */,
-				EFE27C5A28338A2E00391127 /* ISApplovinBannerListener.m */,
-				EFE27C5628338A2E00391127 /* ISApplovinInterstitialListener.h */,
-				EFE27C5928338A2E00391127 /* ISApplovinInterstitialListener.m */,
-				EFE27C5728338A2E00391127 /* ISApplovinRewardedVideoListener.h */,
-				EFE27C5828338A2E00391127 /* ISApplovinRewardedVideoListener.m */,
+				EFE27C5428338A2E00391127 /* ISApplovinBannerDelegate.h */,
+				EFE27C5A28338A2E00391127 /* ISApplovinBannerDelegate.m */,
+				EFE27C5628338A2E00391127 /* ISApplovinInterstitialDelegate.h */,
+				EFE27C5928338A2E00391127 /* ISApplovinInterstitialDelegate.m */,
+				EFE27C5728338A2E00391127 /* ISApplovinRewardedVideoDelegate.h */,
+				EFE27C5828338A2E00391127 /* ISApplovinRewardedVideoDelegate.m */,
 			);
 			path = ISApplovinAdapter;
 			sourceTree = "<group>";
@@ -106,10 +106,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFE27C4E2833831C00391127 /* ISApplovinAdapter.h in Headers */,
-				EFE27C5E28338A2E00391127 /* ISApplovinRewardedVideoListener.h in Headers */,
-				EFE27C5B28338A2E00391127 /* ISApplovinBannerListener.h in Headers */,
-				EFE27C5D28338A2E00391127 /* ISApplovinInterstitialListener.h in Headers */,
+				EFE27C4E2833831C00391127 /* ISAppLovinAdapter.h in Headers */,
+				EFE27C5E28338A2E00391127 /* ISApplovinRewardedVideoDelegate.h in Headers */,
+				EFE27C5B28338A2E00391127 /* ISApplovinBannerDelegate.h in Headers */,
+				EFE27C5D28338A2E00391127 /* ISApplovinInterstitialDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,9 +262,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFE27C6028338A2E00391127 /* ISApplovinInterstitialListener.m in Sources */,
-				EFE27C5F28338A2E00391127 /* ISApplovinRewardedVideoListener.m in Sources */,
-				EFE27C6128338A2E00391127 /* ISApplovinBannerListener.m in Sources */,
+				EFE27C6028338A2E00391127 /* ISApplovinInterstitialDelegate.m in Sources */,
+				EFE27C5F28338A2E00391127 /* ISApplovinRewardedVideoDelegate.m in Sources */,
+				EFE27C6128338A2E00391127 /* ISApplovinBannerDelegate.m in Sources */,
 				EFE27C5C28338A2E00391127 /* ISAppLovinAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
