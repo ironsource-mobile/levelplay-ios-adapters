@@ -11,7 +11,6 @@
 #import "ISUnityAdsRewardedVideoListener.h"
 #import <UnityAds/UnityAds.h>
 #import "IronSource/IronSource.h"
-#import "IronSource/ISGlobals.h"
 
 
 // UnityAds Mediation MetaData
