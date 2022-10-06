@@ -2,8 +2,7 @@
 //  ISUnityAdsBannerListener.h
 //  ISUnityAdsAdapter
 //
-//  Created by Roi Eshel on 02/11/2021.
-//  Copyright © 2021 ironSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,9 +11,9 @@
 
 @protocol ISUnityAdsBannerDelegateWrapper <NSObject>
 
-- (void)onBannerLoadSuccess:(UADSBannerView * _Nonnull)bannerView;
-- (void)onBannerLoadFail:(UADSBannerView * _Nonnull)bannerView
-               withError:(UADSBannerError * _Nullable)error;
+- (void)onBannerDidLoad:(UADSBannerView * _Nonnull)bannerView;
+- (void)onBannerDidFailToLoad:(UADSBannerView * _Nonnull)bannerView
+                    withError:(UADSBannerError * _Nullable)error;
 - (void)onBannerDidClick:(UADSBannerView * _Nonnull)bannerView;
 - (void)onBannerWillLeaveApplication:(UADSBannerView * _Nonnull)bannerView;
 

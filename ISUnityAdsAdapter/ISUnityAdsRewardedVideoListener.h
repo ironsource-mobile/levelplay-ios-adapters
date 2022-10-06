@@ -2,8 +2,7 @@
 //  ISUnityAdsRewardedVideoListener.h
 //  ISUnityAdsAdapter
 //
-//  Created by Roi Eshel on 01/11/2021.
-//  Copyright © 2021 ironSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,15 +11,14 @@
 
 @protocol ISUnityAdsRewardedVideoDelegateWrapper <NSObject>
 
-- (void)onRewardedVideoLoadSuccess:(NSString * _Nonnull)placementId;
-- (void)onRewardedVideoLoadFail:(NSString * _Nonnull)placementId
-                      withError:(UnityAdsLoadError)error;
-- (void)onRewardedVideoDidShow:(NSString * _Nonnull)placementId;
+- (void)onRewardedVideoDidLoad:(NSString * _Nonnull)placementId;
+- (void)onRewardedVideoDidFailToLoad:(NSString * _Nonnull)placementId
+                           withError:(UnityAdsLoadError)error;
+- (void)onRewardedVideoDidOpen:(NSString * _Nonnull)placementId;
 - (void)onRewardedVideoShowFail:(NSString * _Nonnull)placementId
                       withError:(UnityAdsShowError)error
                      andMessage:(NSString * _Nonnull)errorMessage;
 - (void)onRewardedVideoDidClick:(NSString * _Nonnull)placementId;
-
 - (void)onRewardedVideoDidShowComplete:(NSString * _Nonnull)placementId
                        withFinishState:(UnityAdsShowCompletionState)state;
 

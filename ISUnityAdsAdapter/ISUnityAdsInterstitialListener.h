@@ -2,8 +2,7 @@
 //  ISUnityAdsInterstitialListener.h
 //  ISUnityAdsAdapter
 //
-//  Created by Roi Eshel on 02/11/2021.
-//  Copyright © 2021 ironSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,10 +11,10 @@
 
 @protocol ISUnityAdsInterstitialDelegateWrapper <NSObject>
 
-- (void)onInterstitialLoadSuccess:(NSString * _Nonnull)placementId;
-- (void)onInterstitialLoadFail:(NSString * _Nonnull)placementId
-                     withError:(UnityAdsLoadError)error;
-- (void)onInterstitialDidShow:(NSString * _Nonnull)placementId;
+- (void)onInterstitialDidLoad:(NSString * _Nonnull)placementId;
+- (void)onInterstitialDidFailToLoad:(NSString * _Nonnull)placementId
+                          withError:(UnityAdsLoadError)error;
+- (void)onInterstitialDidOpen:(NSString * _Nonnull)placementId;
 - (void)onInterstitialShowFail:(NSString * _Nonnull)placementId
                      withError:(UnityAdsShowError)error
                     andMessage:(NSString * _Nonnull)errorMessage;

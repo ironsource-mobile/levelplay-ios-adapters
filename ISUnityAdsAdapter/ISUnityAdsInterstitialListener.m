@@ -2,8 +2,7 @@
 //  ISUnityAdsInterstitialListener.m
 //  ISUnityAdsAdapter
 //
-//  Created by Roi Eshel on 02/11/2021.
-//  Copyright © 2021 ironSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISUnityAdsInterstitialListener.h"
@@ -26,11 +25,10 @@
 
 /**
  *  Callback triggered when a load request has successfully filled the specified placementId with an ad that is ready to show.
- *
  *  @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsAdLoaded:(nonnull NSString *)placementId {
-    [_delegate onInterstitialLoadSuccess:_placementId];
+    [_delegate onInterstitialDidLoad:_placementId];
 }
 
 /**
@@ -42,8 +40,8 @@
 - (void) unityAdsAdFailedToLoad:(nonnull NSString *)placementId
                       withError:(UnityAdsLoadError)error
                     withMessage:(nonnull NSString *)message {
-    [_delegate onInterstitialLoadFail:_placementId
-                            withError:error];
+    [_delegate onInterstitialDidFailToLoad:_placementId
+                                 withError:error];
 }
 
 #pragma mark UnityAdsShowDelegate
@@ -53,7 +51,7 @@
  * @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsShowStart:(nonnull NSString *)placementId {
-    [_delegate onInterstitialDidShow:_placementId];
+    [_delegate onInterstitialDidOpen:_placementId];
 }
 
 /**
