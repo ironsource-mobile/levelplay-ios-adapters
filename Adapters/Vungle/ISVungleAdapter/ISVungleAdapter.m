@@ -229,6 +229,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                                              userInfo:@{NSLocalizedDescriptionKey:@"Vungle SDK init failed"}];
             LogAdapterApi_Internal(@"error.description = %@", error.description);
             [delegate adapterRewardedVideoInitFailed:error];
+            self.rewardedVideoAdapterRouter = nil;
             break;
         }
     }
@@ -273,6 +274,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         case INIT_STATE_FAILED: {
             LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
             [delegate adapterRewardedVideoHasChangedAvailability:NO];
+            self.rewardedVideoAdapterRouter = nil;
             break;
         }
     }
@@ -392,6 +394,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                                              userInfo:@{NSLocalizedDescriptionKey:@"Vungle SDK init failed"}];
             LogAdapterApi_Internal(@"error = %@", error);
             [delegate adapterInterstitialInitFailedWithError:error];
+            self.interstitialAdapterRouter = nil;
             break;
         }
     }
@@ -507,6 +510,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                                              userInfo:@{NSLocalizedDescriptionKey:@"Vungle SDK init failed"}];
             LogAdapterApi_Internal(@"error = %@", error);
             [delegate adapterBannerInitFailedWithError:error];
+            self.bannerAdapterRouter = nil;
             break;
         }
     }
