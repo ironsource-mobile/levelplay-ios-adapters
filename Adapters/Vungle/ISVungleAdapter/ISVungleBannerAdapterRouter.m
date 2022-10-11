@@ -115,8 +115,6 @@
             return @"UNKNOWN";
         case REQUESTING:
             return @"REQUESTING";
-        case REQUESTING_RELOAD:
-            return @"REQUESTING_RELOAD";
         case SHOWING:
             return @"SHOWING";
     }
@@ -165,13 +163,6 @@
 
 - (void)bannerAdDidClose:(VungleBanner * _Nonnull)banner {
     LogAdapterDelegate_Internal(@"placementID = %@, currentBannerState = %@", banner.placementId, [self getBannerStateString:self.bannerState]);
-
-    if (self.delegate && self.bannerState == REQUESTING_RELOAD) {
-        [self destroy];
-        [self loadBannerAd];
-        return;
-    }
-
     [self.delegate adapterBannerDidDismissScreen];
 }
 

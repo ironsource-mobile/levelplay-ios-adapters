@@ -526,21 +526,13 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         return;
     }
 
-    // get Banner state
     [self.bannerAdapterRouter setSize:size];
     [self.bannerAdapterRouter setBidPayload:serverData];
 
-    if (self.bannerAdapterRouter.bannerState == SHOWING) {
-        [self dismissBannerWithServerData:serverData
+    [self loadBannerInternalWithPlacement:placementId
+                           viewController:viewController
                                      size:size
-                              placementId:placementId
                                  delegate:delegate];
-    } else {
-        [self loadBannerInternalWithPlacement:placementId
-                               viewController:viewController
-                                         size:size
-                                     delegate:delegate];
-    }
 }
 
 - (void)loadBannerWithViewController:(nonnull UIViewController *)viewController
@@ -552,39 +544,11 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         return;
     }
 
-    // get Banner state
     [self.bannerAdapterRouter setSize:size];
-
-    if (self.bannerAdapterRouter.bannerState == SHOWING) {
-        [self dismissBannerWithServerData:nil
+    [self loadBannerInternalWithPlacement:placementId
+                           viewController:viewController
                                      size:size
-                              placementId:placementId
                                  delegate:delegate];
-    } else {
-        [self loadBannerInternalWithPlacement:placementId
-                               viewController:viewController
-                                         size:size
-                                     delegate:delegate];
-    }
-}
-
-- (void)dismissBannerWithServerData:(NSString *)serverData
-                               size:(ISBannerSize *)size
-                        placementId:(NSString *)placementId
-                           delegate:(id <ISBannerAdapterDelegate>)delegate {
-    // verify size
-    if (![self isBannerSizeSupported:size]) {
-        NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE
-                                  withMessage:[NSString stringWithFormat:@"Vungle unsupported banner size - %@", size.sizeDescription]];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerDidFailToLoadWithError:error];
-        return;
-    }
-
-    LogAdapterApi_Internal(@"placementId = %@, size = %@", placementId, size.sizeDescription);
-    // Set Banner state to REQUESTING_RELOAD
-    self.bannerAdapterRouter.bannerState = REQUESTING_RELOAD;
-    [self.bannerAdapterRouter destroy];
 }
 
 - (void)loadBannerInternalWithPlacement:(NSString *)placementId
