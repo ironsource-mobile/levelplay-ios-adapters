@@ -17,11 +17,9 @@
 @implementation ISVungleBannerAdapterRouter
 
 - (instancetype)initWithPlacementID:(NSString *)placementID
-                      parentAdapter:(ISVungleAdapter *)parentAdapter
                            delegate:(id<ISBannerAdapterDelegate>)delegate {
     if (self = [super init]) {
         _placementID = placementID;
-        _parentAdapter = parentAdapter;
         _delegate = delegate;
         _bannerState = UNKNOWN;
         _bidPayload = nil;

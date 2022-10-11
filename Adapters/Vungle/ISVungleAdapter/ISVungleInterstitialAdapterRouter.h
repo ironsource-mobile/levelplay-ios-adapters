@@ -16,11 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString* placementID;
 @property (nonatomic, weak) id<ISInterstitialAdapterDelegate> delegate;
-@property (nonatomic, weak) ISVungleAdapter *parentAdapter;
 @property (nonatomic, strong) VungleInterstitial *interstitialAd;
 
 - (instancetype)initWithPlacementID:(NSString *)placementID
-                      parentAdapter:(ISVungleAdapter *)parentAdapter
                            delegate:(id<ISInterstitialAdapterDelegate>)delegate;
 
 - (void)loadInterstitial;

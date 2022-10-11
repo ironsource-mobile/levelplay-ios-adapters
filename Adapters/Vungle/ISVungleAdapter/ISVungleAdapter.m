@@ -91,7 +91,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
 - (void)initSDKWithAppId:(NSString *)appId {
     // add self to the init delegates only in case the initialization has not finished yet
-    if ((_initState == INIT_STATE_NONE) || (_initState == INIT_STATE_IN_PROGRESS)) {
+    if (_initState == INIT_STATE_NONE) {
         [initCallbackDelegates addObject:self];
     }
 
@@ -210,13 +210,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
 
-    self.rewardedVideoAdapterRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
+    self.rewardedVideoAdapterRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId delegate:delegate];
     self.rewardedVideoAdapterRouter.isNeededInitCallback = YES;
 
     switch (_initState) {
         case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
             [self initSDKWithAppId:appId];
+            break;
+        case INIT_STATE_IN_PROGRESS:
+            [initCallbackDelegates addObject:self];
             break;
         case INIT_STATE_SUCCESS:
             [delegate adapterRewardedVideoInitSuccess];
@@ -256,12 +258,14 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
 
-    self.rewardedVideoAdapterRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
+    self.rewardedVideoAdapterRouter = [[ISVungleRewardedVideoAdapterRouter alloc] initWithPlacementID:placementId delegate:delegate];
 
     switch (_initState) {
         case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
             [self initSDKWithAppId:appId];
+            break;
+        case INIT_STATE_IN_PROGRESS:
+            [initCallbackDelegates addObject:self];
             break;
         case INIT_STATE_SUCCESS:
             [self loadRewardedVideoInternalWithPlacement];
@@ -370,12 +374,14 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
     
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
-    self.interstitialAdapterRouter = [[ISVungleInterstitialAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
+    self.interstitialAdapterRouter = [[ISVungleInterstitialAdapterRouter alloc] initWithPlacementID:placementId delegate:delegate];
     
     switch (_initState) {
         case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
             [self initSDKWithAppId:appId];
+            break;
+        case INIT_STATE_IN_PROGRESS:
+            [initCallbackDelegates addObject:self];
             break;
         case INIT_STATE_SUCCESS:
             [delegate adapterInterstitialInitSuccess];
@@ -483,12 +489,14 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
     LogInternal_Internal(@"appId = %@, placementId = %@", appId, placementId);
     // add to Banner Router map
-    self.bannerAdapterRouter = [[ISVungleBannerAdapterRouter alloc] initWithPlacementID:placementId parentAdapter:self delegate:delegate];
+    self.bannerAdapterRouter = [[ISVungleBannerAdapterRouter alloc] initWithPlacementID:placementId delegate:delegate];
 
     switch (_initState) {
         case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
             [self initSDKWithAppId:appId];
+            break;
+        case INIT_STATE_IN_PROGRESS:
+            [initCallbackDelegates addObject:self];
             break;
         case INIT_STATE_SUCCESS:
             [delegate adapterBannerInitSuccess];

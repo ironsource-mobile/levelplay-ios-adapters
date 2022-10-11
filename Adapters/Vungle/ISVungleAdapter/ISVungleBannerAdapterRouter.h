@@ -24,14 +24,12 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 
 @property (nonatomic, strong) NSString *placementID;
 @property (nonatomic, weak) id<ISBannerAdapterDelegate> delegate;
-@property (nonatomic, weak) ISVungleAdapter *parentAdapter;
 @property (nonatomic, strong, nullable) UIView *adView;
 @property (nonatomic, strong, nullable) VungleBanner *bannerAd;
 @property (nonatomic, assign) BannerSize bannerSize;
 @property (nonatomic, assign) BANNER_STATE bannerState;
 
 - (instancetype)initWithPlacementID:(NSString *)placementID
-                      parentAdapter:(ISVungleAdapter *)parentAdapter
                            delegate:(id<ISBannerAdapterDelegate>)delegate;
 
 - (void)loadBannerAd;

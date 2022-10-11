@@ -17,11 +17,9 @@
 @implementation ISVungleInterstitialAdapterRouter
 
 - (instancetype)initWithPlacementID:(NSString *)placementID
-                      parentAdapter:(ISVungleAdapter *)parentAdapter
                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     if (self = [super init]) {
         _placementID = placementID;
-        _parentAdapter = parentAdapter;
         _delegate = delegate;
         _bidPayload = nil;
     }
