@@ -1,13 +1,11 @@
 //
-//  Created by IronSource on 2015.
-//  Copyright (c) 2014 IronSource. All rights reserved.
+// Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISChartboostAdapter.h"
 #import "ISChartboostInterstitialDelegate.h"
 #import "ISChartboostRewardedVideoDelegate.h"
 #import "ISChartboostBannerDelegate.h"
-#import "IronSource/IronSource.h"
 #import <ChartboostSDK/ChartboostSDK.h>
 
 // Mediation info

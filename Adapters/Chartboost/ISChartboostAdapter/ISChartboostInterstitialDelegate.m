@@ -2,8 +2,7 @@
 //  ISChartboostInterstitialDelegate.m
 //  ISChartboostAdapter
 //
-//  Created by Hadar Pur on 12/03/2020.
-//  Copyright © 2020 ironSource. All rights reserved.
+// Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISChartboostInterstitialDelegate.h"
