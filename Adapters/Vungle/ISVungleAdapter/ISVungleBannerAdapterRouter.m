@@ -80,7 +80,7 @@
     if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
         vungleAdSize = BannerSizeMrec;
     } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
             vungleAdSize = BannerSizeLeaderboard;
         } else {
             vungleAdSize = BannerSizeRegular;
