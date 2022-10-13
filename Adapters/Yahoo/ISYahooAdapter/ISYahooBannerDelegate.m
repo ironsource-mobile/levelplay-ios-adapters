@@ -2,8 +2,7 @@
 //  ISYahooBannerDelegate.m
 //  ISYahooAdapter
 //
-//  Created by Moshe Aviv Aslanov on 21/10/2021.
-//  Copyright © 2021 IronSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISYahooBannerDelegate.h"

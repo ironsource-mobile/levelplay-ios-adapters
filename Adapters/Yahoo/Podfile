@@ -5,7 +5,7 @@
  use_frameworks!
 
 target 'ISYahooAdapter' do
-  pod 'IronSourceSDK','7.2.4.0'
-  pod 'Yahoo-Mobile-SDK','1.1.0'
+  pod 'IronSourceSDK','7.2.5.0'
+  pod 'Yahoo-Mobile-SDK','1.2.0'
 
 end
