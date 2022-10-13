@@ -21,17 +21,8 @@ static NSString * const kPlacementID            = @"PlacementId";
 static NSString * const kMetaDataCOPPAKey       = @"Vungle_COPPA";
 
 // Vungle Constants
-static NSString * const kOrientationFlag        = @"vungle_adorientation";
-static NSString * const kPortraitOrientation    = @"PORTRAIT";
-static NSString * const kLandscapeOrientation   = @"LANDSCAPE";
-static NSString * const kAutoRotateOrientation  = @"AUTO_ROTATE";
-
 static NSString * const kLWSSupportedState      = @"isSupportedLWSByInstance";
 static NSInteger const kShowErrorNotCached = 6000;
-
-// members for network
-static NSNumber * uiOrientation = nil;
-static NSString * adOrientation = nil;
 
 // init state possible values
 typedef NS_ENUM(NSInteger, InitState) {
@@ -652,8 +643,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getCCPABooleanValue:value]];
-    } else if ([[key lowercaseString] isEqual:kOrientationFlag]) {
-        adOrientation = value;
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                            forType:(META_DATA_VALUE_BOOL)];
