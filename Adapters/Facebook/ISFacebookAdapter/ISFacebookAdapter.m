@@ -10,7 +10,6 @@
 #import "ISFacebookRewardedVideoDelegate.h"
 #import "ISFacebookInterstitialDelegate.h"
 #import "ISFacebookBannerDelegate.h"
-#import "IronSource/IronSource.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 // Mediation keys
