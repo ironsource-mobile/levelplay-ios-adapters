@@ -41,11 +41,10 @@ typedef NS_ENUM(NSInteger, InitState) {
 static InitState _initState = INIT_STATE_NONE;
 static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 
-// Feature flag key for getting token asynchronically
-static NSString * const kIsAsyncTokenEnabled    = @"isAsyncTokenEnabled";
-static NSString *asyncToken                     = nil;
+// UnityAds asynchronous token
+static NSString *asyncToken = nil;
 
-// Feature flag key to support the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
+// Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 @interface ISUnityAdsAdapter () <UnityAdsInitializationDelegate, ISNetworkInitCallbackProtocol, ISUnityAdsBannerDelegateWrapper, ISUnityAdsInterstitialDelegateWrapper, ISUnityAdsRewardedVideoDelegateWrapper>
@@ -159,8 +158,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
             [UnityAds initialize:gameId testMode:NO initializationDelegate:self];
             
-            // trying to fetch async token for the first load
-            [self getAsyncToken:adapterConfig];
+            // Trying to fetch async token for the first load
+            [self getAsyncToken];
         });
         
     });
@@ -913,7 +912,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     if (bannerAd) {
         [self destroyBannerWithAdapterConfig:adapterConfig];
     }
-} 
+}
 
 #pragma mark - Legal Methods
 
@@ -992,20 +991,14 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     return @{@"token": returnedToken};
 }
 
--(void) getAsyncToken:(ISAdapterConfig *)adapterConfig {
-    if (adapterConfig != nil && [adapterConfig.settings objectForKey:kIsAsyncTokenEnabled] != nil) {
-        BOOL isAsyncTokenEnabled = [[adapterConfig.settings objectForKey:kIsAsyncTokenEnabled] boolValue];
-        
-        if (isAsyncTokenEnabled) {
-            LogInternal_Internal(@"Trying to get UnityAds async token");
-            [UnityAds getToken:^(NSString * _Nullable token) {
-                if (token.length) {
-                    LogInternal_Internal(@"async token returned");
-                    asyncToken = token;
-                }
-            }];
+-(void) getAsyncToken {
+    LogInternal_Internal(@"");
+    [UnityAds getToken:^(NSString * _Nullable token) {
+        if (token.length) {
+            LogInternal_Internal(@"async token returned");
+            asyncToken = token;
         }
-    }
+    }];
 }
 
 - (BOOL) isBannerSizeSupported:(ISBannerSize *)size {
@@ -1118,13 +1111,13 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 - (ISLoadWhileShowSupportState) getLWSSupportState:(ISAdapterConfig *)adapterConfig {
-    ISLoadWhileShowSupportState state = LWSState;
+    ISLoadWhileShowSupportState state = LOAD_WHILE_SHOW_BY_INSTANCE;
     
     if (adapterConfig != nil && [adapterConfig.settings objectForKey:kIsLWSSupported] != nil) {
         BOOL isLWSSupported = [[adapterConfig.settings objectForKey:kIsLWSSupported] boolValue];
         
-        if (isLWSSupported) {
-            state =  LOAD_WHILE_SHOW_BY_INSTANCE;
+        if (!isLWSSupported) {
+            state = LOAD_WHILE_SHOW_NONE;
         }
     }
     
