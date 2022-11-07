@@ -2,8 +2,7 @@
 //  ISTapjoyAdapter.m
 //  ISTapjoyAdapter
 //
-//  Created by Daniil Bystrov on 4/13/16.
-//  Copyright © 2016 IronSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISTapjoyAdapter.h"
@@ -11,8 +10,8 @@
 #import "ISTapjoyInterstitialDelegate.h"
 #import <Tapjoy/TJPlacement.h>
 #import <Tapjoy/Tapjoy.h>
-
-// Tapjoy requires a mediation name
+ 
+// Mediation keys
 static NSString * const kMediationName      = @"ironsource";
 
 // Network keys
@@ -62,42 +61,6 @@ static NSString *userId = @"";
 
 @implementation ISTapjoyAdapter
 
-#pragma mark - Initializations Methods
-
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    if (self) {
-        
-        if(initCallbackDelegates == nil) {
-            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
-        }
-        
-        // Rewarded video
-        _rewardedVideoPlacementNameToSmashDelegate      = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementNameToTapjoyDelegate     = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementToIsReady                = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementNameToPlacement          = [NSMutableDictionary dictionary];
-        _rewardedVideoPlacementNamesForInitCallbacks           = [ConcurrentMutableSet new];
-
-        // Interstitial
-        _interstitialPlacementNameToSmashDelegate       = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementNameToTapjoyDelegate      = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementToIsReady                 = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementNameToPlacement           = [NSMutableDictionary dictionary];
-
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
-        
-        _privacyPolicy = [Tapjoy getPrivacyPolicy];
-    }
-    return self;
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark - IronSource Protocol Methods
 
 // get adapter version
@@ -115,10 +78,40 @@ static NSString *userId = @"";
 }
 
 - (NSString *)sdkName {
-    return @"Tapjoy";
+    return kAdapterName;
 }
 
 #pragma mark - Initializations Methods And Callbacks
+
+- (instancetype)initAdapter:(NSString *)name {
+    self = [super initAdapter:name];
+    if (self) {
+        
+        if(initCallbackDelegates == nil) {
+            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        }
+        
+        // Rewarded video
+        _rewardedVideoPlacementNameToSmashDelegate      = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementNameToTapjoyDelegate     = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementToIsReady                = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementNamesForInitCallbacks    = [ConcurrentMutableSet new];
+        _rewardedVideoPlacementNameToPlacement          = [NSMutableDictionary dictionary];
+
+        // Interstitial
+        _interstitialPlacementNameToSmashDelegate       = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementNameToTapjoyDelegate      = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementToIsReady                 = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementNameToPlacement           = [NSMutableDictionary dictionary];
+
+        
+        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
+        LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
+        
+        _privacyPolicy = [Tapjoy getPrivacyPolicy];
+    }
+    return self;
+}
 
 - (void)initSDKWithUserId:(NSString *)userId
                 andSdkKey:(NSString *)sdkKey {
@@ -185,6 +178,10 @@ static NSString *userId = @"";
     [initCallbackDelegates removeAllObjects];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)onNetworkInitCallbackSuccess {
     LogInternal_Internal(@"");
 
@@ -196,6 +193,7 @@ static NSString *userId = @"";
     
     for (NSString* placementName in rewardedVideoPlacementIDs) {
         id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
+        
         if ([_rewardedVideoPlacementNamesForInitCallbacks hasObject:placementName]) {
             [delegate adapterRewardedVideoInitSuccess];
         } else {
@@ -419,7 +417,7 @@ static NSString *userId = @"";
         [delegate adapterRewardedVideoHasChangedAvailability:NO];
 
         if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
-            TJPlacement* placement = [_rewardedVideoPlacementNameToPlacement objectForKey:placementName];
+            TJPlacement* placement = [self.rewardedVideoPlacementNameToPlacement objectForKey:placementName];
             [placement showContentWithViewController:viewController];
             
         } else {
@@ -431,8 +429,8 @@ static NSString *userId = @"";
             
         }
         
-        [_rewardedVideoPlacementToIsReady setObject:@NO
-                                             forKey:placementName];
+        [self.rewardedVideoPlacementToIsReady setObject:@NO
+                                                 forKey:placementName];
     });
 }
 
@@ -460,9 +458,7 @@ static NSString *userId = @"";
     
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
     
-    if (delegate) {
-        [delegate adapterRewardedVideoHasChangedAvailability:YES];
-    }
+    [delegate adapterRewardedVideoHasChangedAvailability:YES];
 }
 
 - (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)placementName
@@ -470,12 +466,10 @@ static NSString *userId = @"";
     LogAdapterDelegate_Internal(@"placementName = %@, error = %@", placementName, error);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
+    [delegate adapterRewardedVideoHasChangedAvailability:NO];
         
-        if (error) {
-            [delegate adapterRewardedVideoDidFailToLoadWithError:error];
-        }
+    if (error) {
+        [delegate adapterRewardedVideoDidFailToLoadWithError:error];
     }
 }
 
@@ -483,10 +477,8 @@ static NSString *userId = @"";
     LogAdapterDelegate_Internal(@"placementName = %@", placementName);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
     
-    if (delegate) {
-        [delegate adapterRewardedVideoDidOpen];
-        [delegate adapterRewardedVideoDidStart];
-    }
+    [delegate adapterRewardedVideoDidOpen];
+    [delegate adapterRewardedVideoDidStart];
 }
 
 - (void)onRewardedVideoShowFail:(nonnull NSString *)placementName
@@ -494,42 +486,34 @@ static NSString *userId = @"";
     LogAdapterDelegate_Internal(@"placementName = %@, error = %@", placementName, errorMessage);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        NSString *desc = [NSString stringWithFormat:@"Show failed for placement: %@ with reason - %@", placementName, errorMessage];
-        NSError *error = [NSError errorWithDomain:kAdapterName
-                                             code:ERROR_CODE_GENERIC
-                                         userInfo:@{NSLocalizedDescriptionKey : desc}];
+    NSString *desc = [NSString stringWithFormat:@"Show failed for placement: %@ with reason - %@", placementName, errorMessage];
+    NSError *error = [NSError errorWithDomain:kAdapterName
+                                         code:ERROR_CODE_GENERIC
+                                     userInfo:@{NSLocalizedDescriptionKey : desc}];
 
-        [delegate adapterRewardedVideoDidFailToShowWithError:error];
-    }
+    [delegate adapterRewardedVideoDidFailToShowWithError:error];
 }
 
 - (void)onRewardedVideoDidClick:(nonnull NSString *)placementName {
     LogAdapterDelegate_Internal(@"placementName = %@", placementName);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
     
-    if (delegate) {
-        [delegate adapterRewardedVideoDidClick];
-    }
+    [delegate adapterRewardedVideoDidClick];
 }
 
 - (void)onRewardedVideoDidEnd:(nonnull NSString *)placementName {
     LogAdapterDelegate_Internal(@"placementName = %@", placementName);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
     
-    if (delegate) {
-        [delegate adapterRewardedVideoDidReceiveReward];
-        [delegate adapterRewardedVideoDidEnd];
-    }
+    [delegate adapterRewardedVideoDidReceiveReward];
+    [delegate adapterRewardedVideoDidEnd];
 }
 
 - (void)onRewardedVideoDidClose:(nonnull NSString *)placementName {
     LogAdapterDelegate_Internal(@"placementName = %@", placementName);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementNameToSmashDelegate objectForKey:placementName];
     
-    if (delegate) {
-        [delegate adapterRewardedVideoDidClose];
-    }
+    [delegate adapterRewardedVideoDidClose];
 }
 
 #pragma mark - Interstitial API
@@ -664,7 +648,7 @@ static NSString *userId = @"";
         LogAdapterApi_Internal(@"placementName = %@", placementName);
 
         if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
-            TJPlacement* placement = [_interstitialPlacementNameToPlacement objectForKey:placementName];
+            TJPlacement* placement = [self.interstitialPlacementNameToPlacement objectForKey:placementName];
             [placement showContentWithViewController:viewController];
             
         } else {
@@ -676,8 +660,8 @@ static NSString *userId = @"";
             [delegate adapterInterstitialDidFailToShowWithError:error];
         }
         
-        [_interstitialPlacementToIsReady setObject:@NO
-                                            forKey:placementName];
+        [self.interstitialPlacementToIsReady setObject:@NO
+                                                forKey:placementName];
     });
 }
 
@@ -704,9 +688,7 @@ static NSString *userId = @"";
     
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        [delegate adapterInterstitialDidLoad];
-    }
+    [delegate adapterInterstitialDidLoad];
 }
 
 - (void)onInterstitialDidFailToLoad:(nonnull NSString *)placementName
@@ -714,26 +696,21 @@ static NSString *userId = @"";
     LogAdapterDelegate_Internal(@"placementName = %@, error = %@", placementName, error);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        
-        if (!error) {
-            error = [NSError errorWithDomain:kAdapterName
-                                        code:ERROR_CODE_GENERIC
-                                    userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat: @"%@ load failed", kAdapterName]}];
-        }
-
-        [delegate adapterInterstitialDidFailToLoadWithError:error];
+    if (!error) {
+        error = [NSError errorWithDomain:kAdapterName
+                                    code:ERROR_CODE_GENERIC
+                                userInfo:@{NSLocalizedDescriptionKey:[NSString stringWithFormat: @"%@ load failed", kAdapterName]}];
     }
+
+    [delegate adapterInterstitialDidFailToLoadWithError:error];
 }
 
 - (void)onInterstitialDidOpen:(nonnull NSString *)placementName {
     LogAdapterDelegate_Internal(@"placementName = %@", placementName);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        [delegate adapterInterstitialDidOpen];
-        [delegate adapterInterstitialDidShow];
-    }
+    [delegate adapterInterstitialDidOpen];
+    [delegate adapterInterstitialDidShow];
 }
 
 - (void)onInterstitialShowFail:(nonnull NSString *)placementName
@@ -741,32 +718,26 @@ static NSString *userId = @"";
     LogAdapterDelegate_Internal(@"placementName = %@, error = %@", placementName, errorMessage);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        NSString *desc = [NSString stringWithFormat:@"Show failed for placement: %@ with reason - %@", placementName, errorMessage];
-        NSError *error = [NSError errorWithDomain:kAdapterName
-                                             code:ERROR_CODE_GENERIC
-                                         userInfo:@{NSLocalizedDescriptionKey : desc}];
+    NSString *desc = [NSString stringWithFormat:@"Show failed for placement: %@ with reason - %@", placementName, errorMessage];
+    NSError *error = [NSError errorWithDomain:kAdapterName
+                                         code:ERROR_CODE_GENERIC
+                                     userInfo:@{NSLocalizedDescriptionKey : desc}];
         
-        [delegate adapterInterstitialDidFailToShowWithError:error];
-    }
+    [delegate adapterInterstitialDidFailToShowWithError:error];
 }
 
 - (void)onInterstitialDidClick:(nonnull NSString *)placementName {
     LogAdapterDelegate_Internal(@"placementName = %@", placementName);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        [delegate adapterInterstitialDidClick];
-    }
+    [delegate adapterInterstitialDidClick];
 }
 
 - (void)onInterstitialDidClose:(nonnull NSString *)placementName {
     LogAdapterDelegate_Internal(@"placementName = %@", placementName);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementNameToSmashDelegate objectForKey:placementName];
 
-    if (delegate) {
-        [delegate adapterInterstitialDidClose];
-    }
+    [delegate adapterInterstitialDidClose];
 }
 
 #pragma mark - Memory Handling

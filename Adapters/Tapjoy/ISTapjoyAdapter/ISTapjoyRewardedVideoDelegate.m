@@ -2,8 +2,7 @@
 //  ISTapjoyRewardedVideoListener.m
 //  ISTapjoyAdapter
 //
-//  Created by Hadar Pur on 06/07/2022.
-//  Copyright © 2022 ironSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISTapjoyRewardedVideoDelegate.h"
@@ -14,8 +13,8 @@
                           andDelegate:(id<ISTapjoyRewardedVideoDelegateWrapper>)delegate {
     self = [super init];
     if (self) {
-        _placementName = placementName;
-        _delegate = delegate;
+        self.placementName = placementName;
+        self.delegate = delegate;
     }
     return self;
 }
@@ -25,13 +24,14 @@
  * @param placement The TJPlacement that was sent
  */
 - (void)requestDidSucceed:(TJPlacement *)placement {
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if (placement.isContentAvailable) {
             return;
         }
         
-        [_delegate onRewardedVideoDidFailToLoad:_placementName
-                                      withError:nil];
+        [self.delegate onRewardedVideoDidFailToLoad:self.placementName
+                                          withError:nil];
     });
 }
 
@@ -40,7 +40,7 @@
  * @param placement The TJPlacement that was sent
  */
 - (void)contentIsReady:(TJPlacement *)placement {
-    [_delegate onRewardedVideoDidLoad:_placementName];
+    [self.delegate onRewardedVideoDidLoad:self.placementName];
 }
 
 /**
@@ -50,8 +50,8 @@
  */
 - (void)requestDidFail:(TJPlacement *)placement
                  error:(NSError *)error {
-    [_delegate onRewardedVideoDidFailToLoad:_placementName
-                                  withError:error];
+    [self.delegate onRewardedVideoDidFailToLoad:self.placementName
+                                      withError:error];
 }
 
 /**
@@ -59,7 +59,7 @@
  * @param placement The TJPlacement that was sent
  */
 - (void)videoDidStart:(TJPlacement *)placement{
-    [_delegate onRewardedVideoDidOpen:_placementName];
+    [self.delegate onRewardedVideoDidOpen:self.placementName];
 }
 
 /**
@@ -69,8 +69,8 @@
  */
 - (void)videoDidFail:(TJPlacement *)placement
                error:(NSString *)errorMessage {
-    [_delegate onRewardedVideoShowFail:_placementName
-                      withErrorMessage:errorMessage];
+    [self.delegate onRewardedVideoShowFail:self.placementName
+                          withErrorMessage:errorMessage];
 }
 
 /**
@@ -78,7 +78,7 @@
  * @param placement The TJPlacement that was sent
  */
 - (void)didClick:(TJPlacement*)placement {
-    [_delegate onRewardedVideoDidClick:_placementName];
+    [self.delegate onRewardedVideoDidClick:self.placementName];
 }
 
 /**
@@ -86,7 +86,7 @@
  * @param placement The TJPlacement that was sent
  */
 - (void)videoDidComplete:(TJPlacement *)placement {
-    [_delegate onRewardedVideoDidEnd:_placementName];
+    [self.delegate onRewardedVideoDidEnd:self.placementName];
 }
 
 /**
@@ -94,7 +94,7 @@
  * @param placement The TJPlacement that was sent
  */
 - (void)contentDidDisappear:(TJPlacement *)placement {
-    [_delegate onRewardedVideoDidClose:_placementName];
+    [self.delegate onRewardedVideoDidClose:self.placementName];
 }
 
 /**

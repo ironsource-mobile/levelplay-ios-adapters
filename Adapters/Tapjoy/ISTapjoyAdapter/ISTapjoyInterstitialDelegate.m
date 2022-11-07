@@ -2,8 +2,7 @@
 //  ISTapjoyInterstitialListener.m
 //  ISTapjoyAdapter
 //
-//  Created by Hadar Pur on 06/07/2022.
-//  Copyright © 2022 ironSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISTapjoyInterstitialDelegate.h"
@@ -16,8 +15,8 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
                           andDelegate:(id<ISTapjoyInterstitialDelegateWrapper>)delegate {
     self = [super init];
     if (self) {
-        _placementName = placementName;
-        _delegate = delegate;
+        self.placementName = placementName;
+        self.delegate = delegate;
     }
     return self;
 }
@@ -27,6 +26,7 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
  * @param placement The TJPlacement that was sent
  */
 - (void)requestDidSucceed:(TJPlacement *)placement {
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         if (placement.isContentAvailable) {
             return;
@@ -36,8 +36,8 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
                                              code:LOAD_ERROR_NOT_AVAILABLE
                                          userInfo:@{NSLocalizedDescriptionKey : @"No content available"}];
 
-        [_delegate onInterstitialDidFailToLoad:_placementName
-                                      withError:error];
+        [self.delegate onInterstitialDidFailToLoad:self.placementName
+                                         withError:error];
     });
 }
 
@@ -48,8 +48,8 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
  */
 - (void)requestDidFail:(TJPlacement *)placement
                  error:(NSError *)error {
-    [_delegate onInterstitialDidFailToLoad:_placementName
-                                  withError:error];
+    [self.delegate onInterstitialDidFailToLoad:self.placementName
+                                     withError:error];
 }
 
 /**
@@ -57,7 +57,7 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
  * @param placement The TJPlacement that was sent
  */
 - (void)contentIsReady:(TJPlacement *)placement {
-    [_delegate onInterstitialVideoDidLoad:_placementName];
+    [self.delegate onInterstitialVideoDidLoad:self.placementName];
 }
 
 /**
@@ -65,7 +65,7 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
  * @param placement The TJPlacement that was sent
  */
 - (void)videoDidStart:(TJPlacement *)placement{
-    [_delegate onInterstitialDidOpen:_placementName];
+    [self.delegate onInterstitialDidOpen:self.placementName];
 }
 
 /**
@@ -75,8 +75,8 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
  */
 - (void)videoDidFail:(TJPlacement *)placement
                error:(NSString *)errorMessage {
-    [_delegate onInterstitialShowFail:_placementName
-                     withErrorMessage:errorMessage];
+    [self.delegate onInterstitialShowFail:self.placementName
+                         withErrorMessage:errorMessage];
 
 }
 
@@ -85,7 +85,7 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
  * @param placement The TJPlacement that was sent
  */
 - (void)didClick:(TJPlacement*)placement {
-    [_delegate onInterstitialDidClick:_placementName];
+    [self.delegate onInterstitialDidClick:self.placementName];
 }
 
 /**
@@ -93,7 +93,7 @@ static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
  * @param placement The TJPlacement that was sent
  */
 - (void)contentDidDisappear:(TJPlacement *)placement {
-    [_delegate onInterstitialDidClose:_placementName];
+    [self.delegate onInterstitialDidClose:self.placementName];
 }
 
 /**
