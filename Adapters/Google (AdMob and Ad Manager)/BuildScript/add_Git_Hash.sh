@@ -7,7 +7,7 @@ cd ..
 
   echo 'Adding Git Hash To '${PROJECT_DIR}''  
   cd ${PROJECT_DIR}/${PROJECT_NAME}
-  sed -i -e 's/GitHash.*/GitHash = @"'$version'";/g' ${PROJECT_NAME}.h
+  sed -i -e 's/Githash.*/Githash = @"'$version'";/g' ${PROJECT_NAME}.h
   rm -f ${PROJECT_NAME}.h-e 
   cd ../BuildScript
   
