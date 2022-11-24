@@ -3,5 +3,5 @@
 
 target 'ISAppLovinAdapter' do
   pod 'IronSourceSDK','7.2.5.0'
-  pod 'AppLovinSDK','11.5.0'
+  pod 'AppLovinSDK','11.5.5'
 end
