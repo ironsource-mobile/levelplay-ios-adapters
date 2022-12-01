@@ -11,6 +11,7 @@
 static NSString * const AppLovinAdapterVersion = @"4.3.36";
 static NSString * GitHash = @"";
 
+
 //System Frameworks For AppLovin Adapter
 @import AdSupport;
 @import AppTrackingTransparency;
