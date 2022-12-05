@@ -9,7 +9,7 @@
 #import "IronSource/ISBaseAdapter+Internal.h"
 
 static NSString * const PangleAdapterVersion = @"4.3.17";
-static NSString * Githash = @"5ab0a39";
+static NSString * Githash = @"";
 
 // System Frameworks For Pangle Adapter
 @import Accelerate;
