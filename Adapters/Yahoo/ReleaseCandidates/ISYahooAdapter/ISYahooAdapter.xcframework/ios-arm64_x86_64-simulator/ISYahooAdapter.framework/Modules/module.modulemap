@@ -1,0 +1,6 @@
+framework module ISYahooAdapter {
+  umbrella header "ISYahooAdapter.h"
+
+  export *
+  module * { export * }
+}
