@@ -16,7 +16,25 @@
 		5619822528BCA868003C815B /* ISAdMobRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619821E28BCA867003C815B /* ISAdMobRewardedVideoDelegate.m */; };
 		5619822628BCA868003C815B /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619821F28BCA868003C815B /* ISAdMobAdapter.m */; };
 		5619822728BCA868003C815B /* ISAdMobInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619822028BCA868003C815B /* ISAdMobInterstitialDelegate.m */; };
+		FDA2182229546B44001FBD8C /* ISAdMobNativeViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA2182129546B44001FBD8C /* ISAdMobNativeViewLayout.h */; };
+		FDA2182429546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA2182329546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h */; };
+		FDA2182629546B9D001FBD8C /* ISAdMobNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA2182529546B9D001FBD8C /* ISAdMobNativeView.h */; };
+		FDA2183329546BE2001FBD8C /* ISAdMobNativeBannerSmallView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDA2183129546BE2001FBD8C /* ISAdMobNativeBannerSmallView.xib */; };
+		FDA2183429546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDA2183229546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib */; };
+		FDA2183629546C25001FBD8C /* ISAdMobNativeViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA2183529546C25001FBD8C /* ISAdMobNativeViewLayout.m */; };
+		FDA2183829546C34001FBD8C /* ISAdMobNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA2183729546C34001FBD8C /* ISAdMobNativeView.m */; };
+		FDA2183A29546C45001FBD8C /* ISAdMobNativeViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA2183929546C45001FBD8C /* ISAdMobNativeViewLayout.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FDA2182F29546BCA001FBD8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFAEC70827AFFB2600C424B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDA2182A29546BC3001FBD8C;
+			remoteInfo = ISAdMobResources;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5619821828BCA849003C815B /* ISAdMobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobAdapter.h; sourceTree = "<group>"; };
@@ -31,6 +49,15 @@
 		EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAdMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1702D79B324CA9EF4BC9487 /* Pods-ISAdMobAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISAdMobAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDA2182129546B44001FBD8C /* ISAdMobNativeViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeViewLayout.h; sourceTree = "<group>"; };
+		FDA2182329546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerDelegate.h; sourceTree = "<group>"; };
+		FDA2182529546B9D001FBD8C /* ISAdMobNativeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeView.h; sourceTree = "<group>"; };
+		FDA2182B29546BC3001FBD8C /* ISAdMobResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ISAdMobResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDA2183129546BE2001FBD8C /* ISAdMobNativeBannerSmallView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ISAdMobNativeBannerSmallView.xib; sourceTree = "<group>"; };
+		FDA2183229546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ISAdMobNativeBannerMediumView.xib; sourceTree = "<group>"; };
+		FDA2183529546C25001FBD8C /* ISAdMobNativeViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeViewLayout.m; sourceTree = "<group>"; };
+		FDA2183729546C34001FBD8C /* ISAdMobNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeView.m; sourceTree = "<group>"; };
+		FDA2183929546C45001FBD8C /* ISAdMobNativeViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeViewLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +66,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AE7D2E78BD4EB71B9D0F91E /* libPods-ISAdMobAdapter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDA2182829546BC3001FBD8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */,
+				FDA2182B29546BC3001FBD8C /* ISAdMobResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,6 +126,14 @@
 				5619822028BCA868003C815B /* ISAdMobInterstitialDelegate.m */,
 				5619821B28BCA867003C815B /* ISAdMobRewardedVideoDelegate.h */,
 				5619821E28BCA867003C815B /* ISAdMobRewardedVideoDelegate.m */,
+				FDA2182329546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h */,
+				FDA2183929546C45001FBD8C /* ISAdMobNativeViewLayout.m */,
+				FDA2182529546B9D001FBD8C /* ISAdMobNativeView.h */,
+				FDA2183729546C34001FBD8C /* ISAdMobNativeView.m */,
+				FDA2182129546B44001FBD8C /* ISAdMobNativeViewLayout.h */,
+				FDA2183529546C25001FBD8C /* ISAdMobNativeViewLayout.m */,
+				FDA2183229546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib */,
+				FDA2183129546BE2001FBD8C /* ISAdMobNativeBannerSmallView.xib */,
 			);
 			path = ISAdMobAdapter;
 			sourceTree = "<group>";
@@ -103,6 +146,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5619821928BCA849003C815B /* ISAdMobAdapter.h in Headers */,
+				FDA2182629546B9D001FBD8C /* ISAdMobNativeView.h in Headers */,
+				FDA2182429546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h in Headers */,
+				FDA2182229546B44001FBD8C /* ISAdMobNativeViewLayout.h in Headers */,
 				5619822428BCA868003C815B /* ISAdMobInterstitialDelegate.h in Headers */,
 				5619822128BCA868003C815B /* ISAdMobBannerDelegate.h in Headers */,
 				5619822228BCA868003C815B /* ISAdMobRewardedVideoDelegate.h in Headers */,
@@ -126,11 +172,30 @@
 			buildRules = (
 			);
 			dependencies = (
+				FDA2183029546BCA001FBD8C /* PBXTargetDependency */,
 			);
 			name = ISAdMobAdapter;
 			productName = ISAdMobAdapter;
 			productReference = EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		FDA2182A29546BC3001FBD8C /* ISAdMobResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDA2182C29546BC3001FBD8C /* Build configuration list for PBXNativeTarget "ISAdMobResources" */;
+			buildPhases = (
+				FDA2182729546BC3001FBD8C /* Sources */,
+				FDA2182829546BC3001FBD8C /* Frameworks */,
+				FDA2182929546BC3001FBD8C /* Resources */,
+				FDA2183B29547027001FBD8C /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISAdMobResources;
+			productName = ISAdMobResources;
+			productReference = FDA2182B29546BC3001FBD8C /* ISAdMobResources.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -143,6 +208,9 @@
 				TargetAttributes = {
 					EFAEC71027AFFB2600C424B7 = {
 						CreatedOnToolsVersion = 13.2.1;
+					};
+					FDA2182A29546BC3001FBD8C = {
+						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
 			};
@@ -160,6 +228,7 @@
 			projectRoot = "";
 			targets = (
 				EFAEC71027AFFB2600C424B7 /* ISAdMobAdapter */,
+				FDA2182A29546BC3001FBD8C /* ISAdMobResources */,
 			);
 		};
 /* End PBXProject section */
@@ -169,6 +238,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDA2182929546BC3001FBD8C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDA2183329546BE2001FBD8C /* ISAdMobNativeBannerSmallView.xib in Resources */,
+				FDA2183429546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +293,23 @@
 			shellPath = /bin/sh;
 			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n\n";
 		};
+		FDA2183B29547027001FBD8C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "[ -d \"${PWD}/ReleaseCandidates/${ADAPTER}\" ] || mkdir -p \"${PWD}/ReleaseCandidates/${ADAPTER}\"\ncp -a ''${BUILT_PRODUCTS_DIR}/ISAdMobResources.bundle'' 'ReleaseCandidates/ISAdMobAdapter/'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerSmallView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerMediumView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/Info.plist'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobResources'\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -225,11 +320,29 @@
 				5619822528BCA868003C815B /* ISAdMobRewardedVideoDelegate.m in Sources */,
 				5619822328BCA868003C815B /* ISAdMobBannerDelegate.m in Sources */,
 				5619822728BCA868003C815B /* ISAdMobInterstitialDelegate.m in Sources */,
+				FDA2183829546C34001FBD8C /* ISAdMobNativeView.m in Sources */,
+				FDA2183A29546C45001FBD8C /* ISAdMobNativeViewLayout.m in Sources */,
+				FDA2183629546C25001FBD8C /* ISAdMobNativeViewLayout.m in Sources */,
 				5619822628BCA868003C815B /* ISAdMobAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FDA2182729546BC3001FBD8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FDA2183029546BCA001FBD8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FDA2182A29546BC3001FBD8C /* ISAdMobResources */;
+			targetProxy = FDA2182F29546BCA001FBD8C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		EFAEC71627AFFB2600C424B7 /* Debug */ = {
@@ -412,6 +525,58 @@
 			};
 			name = Release;
 		};
+		FDA2182D29546BC3001FBD8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				ENABLE_BITCODE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISAdMobResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		FDA2182E29546BC3001FBD8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				ENABLE_BITCODE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISAdMobResources;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -429,6 +594,15 @@
 			buildConfigurations = (
 				EFAEC71927AFFB2600C424B7 /* Debug */,
 				EFAEC71A27AFFB2600C424B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FDA2182C29546BC3001FBD8C /* Build configuration list for PBXNativeTarget "ISAdMobResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDA2182D29546BC3001FBD8C /* Debug */,
+				FDA2182E29546BC3001FBD8C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

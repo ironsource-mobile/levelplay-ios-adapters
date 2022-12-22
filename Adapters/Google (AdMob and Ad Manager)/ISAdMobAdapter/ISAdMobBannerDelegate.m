@@ -2,8 +2,7 @@
 //  ISAdMobBannerDelegate.m
 //  ISAdMobAdapter
 //
-//  Created by maoz.elbaz on 21/05/2022.
-//  Copyright © 2022 ironSource. All rights reserved.
+//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
 //
 
 
