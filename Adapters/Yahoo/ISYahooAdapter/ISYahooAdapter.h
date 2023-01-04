@@ -9,7 +9,7 @@
 #import "IronSource/ISBaseAdapter+Internal.h"
 
 static NSString * const YahooAdapterVersion = @"4.3.4";
-static NSString * GitHash = @"f82c10fcf";
+static NSString * Githash = @"";
 
 //No System Frameworks For Yahoo Adapter are required
 
