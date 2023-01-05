@@ -38,7 +38,7 @@
 }
 
 /// Tells the delegate that a click has been recorded for the ad.
-- (void)bannerViewDidRecordClick:(GADBannerView *)bannerView; {
+- (void)bannerViewDidRecordClick:(GADBannerView *)bannerView {
     [_delegate onBannerDidClick:_adUnitId];
 }
 

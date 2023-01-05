@@ -16,6 +16,7 @@
 		5619822528BCA868003C815B /* ISAdMobRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619821E28BCA867003C815B /* ISAdMobRewardedVideoDelegate.m */; };
 		5619822628BCA868003C815B /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619821F28BCA868003C815B /* ISAdMobAdapter.m */; };
 		5619822728BCA868003C815B /* ISAdMobInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5619822028BCA868003C815B /* ISAdMobInterstitialDelegate.m */; };
+		FD4D17232966CA4700998137 /* ISAdMobNativeBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4D17222966CA4700998137 /* ISAdMobNativeBannerDelegate.m */; };
 		FDA2182229546B44001FBD8C /* ISAdMobNativeViewLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA2182129546B44001FBD8C /* ISAdMobNativeViewLayout.h */; };
 		FDA2182429546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA2182329546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h */; };
 		FDA2182629546B9D001FBD8C /* ISAdMobNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA2182529546B9D001FBD8C /* ISAdMobNativeView.h */; };
@@ -23,7 +24,6 @@
 		FDA2183429546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDA2183229546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib */; };
 		FDA2183629546C25001FBD8C /* ISAdMobNativeViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA2183529546C25001FBD8C /* ISAdMobNativeViewLayout.m */; };
 		FDA2183829546C34001FBD8C /* ISAdMobNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA2183729546C34001FBD8C /* ISAdMobNativeView.m */; };
-		FDA2183A29546C45001FBD8C /* ISAdMobNativeViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA2183929546C45001FBD8C /* ISAdMobNativeViewLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +49,7 @@
 		EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAdMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1702D79B324CA9EF4BC9487 /* Pods-ISAdMobAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISAdMobAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD4D17222966CA4700998137 /* ISAdMobNativeBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeBannerDelegate.m; sourceTree = "<group>"; };
 		FDA2182129546B44001FBD8C /* ISAdMobNativeViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeViewLayout.h; sourceTree = "<group>"; };
 		FDA2182329546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerDelegate.h; sourceTree = "<group>"; };
 		FDA2182529546B9D001FBD8C /* ISAdMobNativeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeView.h; sourceTree = "<group>"; };
@@ -57,7 +58,6 @@
 		FDA2183229546BE2001FBD8C /* ISAdMobNativeBannerMediumView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ISAdMobNativeBannerMediumView.xib; sourceTree = "<group>"; };
 		FDA2183529546C25001FBD8C /* ISAdMobNativeViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeViewLayout.m; sourceTree = "<group>"; };
 		FDA2183729546C34001FBD8C /* ISAdMobNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeView.m; sourceTree = "<group>"; };
-		FDA2183929546C45001FBD8C /* ISAdMobNativeViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeViewLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +127,7 @@
 				5619821B28BCA867003C815B /* ISAdMobRewardedVideoDelegate.h */,
 				5619821E28BCA867003C815B /* ISAdMobRewardedVideoDelegate.m */,
 				FDA2182329546B8D001FBD8C /* ISAdMobNativeBannerDelegate.h */,
-				FDA2183929546C45001FBD8C /* ISAdMobNativeViewLayout.m */,
+				FD4D17222966CA4700998137 /* ISAdMobNativeBannerDelegate.m */,
 				FDA2182529546B9D001FBD8C /* ISAdMobNativeView.h */,
 				FDA2183729546C34001FBD8C /* ISAdMobNativeView.m */,
 				FDA2182129546B44001FBD8C /* ISAdMobNativeViewLayout.h */,
@@ -308,7 +308,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ -d \"${PWD}/ReleaseCandidates/${ADAPTER}\" ] || mkdir -p \"${PWD}/ReleaseCandidates/${ADAPTER}\"\ncp -a ''${BUILT_PRODUCTS_DIR}/ISAdMobResources.bundle'' 'ReleaseCandidates/ISAdMobAdapter/'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerSmallView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerMediumView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/Info.plist'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobResources'\n";
+			shellScript = "[ -d \"${PWD}/ReleaseCandidates/${ADAPTER}\" ] || mkdir -p \"${PWD}/ReleaseCandidates/${ADAPTER}\"\ncp -a ''${BUILT_PRODUCTS_DIR}/ISAdMobResources.bundle'' 'ReleaseCandidates/ISAdMobAdapter/'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerSmallView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerMediumView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobResources'\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -320,8 +320,8 @@
 				5619822528BCA868003C815B /* ISAdMobRewardedVideoDelegate.m in Sources */,
 				5619822328BCA868003C815B /* ISAdMobBannerDelegate.m in Sources */,
 				5619822728BCA868003C815B /* ISAdMobInterstitialDelegate.m in Sources */,
+				FD4D17232966CA4700998137 /* ISAdMobNativeBannerDelegate.m in Sources */,
 				FDA2183829546C34001FBD8C /* ISAdMobNativeView.m in Sources */,
-				FDA2183A29546C45001FBD8C /* ISAdMobNativeViewLayout.m in Sources */,
 				FDA2183629546C25001FBD8C /* ISAdMobNativeViewLayout.m in Sources */,
 				5619822628BCA868003C815B /* ISAdMobAdapter.m in Sources */,
 			);
@@ -533,7 +533,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
 				ENABLE_BITCODE = NO;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPrincipalClass = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
@@ -559,7 +559,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
 				ENABLE_BITCODE = NO;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPrincipalClass = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
