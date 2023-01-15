@@ -11,6 +11,9 @@
 #import "ISApplovinBannerDelegate.h"
 #import "AppLovinSDK/AppLovinSDK.h"
 
+// Mediation info
+static NSString * const kMediationName             = @"IronSource";
+
 // Network keys
 static NSString * const kAdapterVersion            = AppLovinAdapterVersion;
 static NSString * const kAdapterName               = @"ALSdk";
@@ -146,9 +149,11 @@ static ALSdk* _appLovinSDK = nil;
             
             _appLovinSDK = [ALSdk sharedWithKey:sdkKey];
             
-            _appLovinSDK.settings.isVerboseLogging = [ISConfigurations getConfigurations].adaptersDebug;
+            _appLovinSDK.mediationProvider = kMediationName;
             
-            LogAdapterApi_Internal(@"sdkKey = %@, isVerboseLogging = %d", sdkKey, _appLovinSDK.settings.isVerboseLogging);
+            _appLovinSDK.settings.verboseLoggingEnabled = [ISConfigurations getConfigurations].adaptersDebug;
+            
+            LogAdapterApi_Internal(@"sdkKey = %@, isVerboseLogging = %d", sdkKey, _appLovinSDK.settings.isVerboseLoggingEnabled);
             
             // AppLovin's initialization callback currently doesn't give any indication to initialization failure.
             // Once this callback is called we will treat the initialization as successful
