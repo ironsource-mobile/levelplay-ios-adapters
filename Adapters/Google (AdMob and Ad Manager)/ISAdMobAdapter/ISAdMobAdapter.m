@@ -11,11 +11,13 @@
 #import <ISAdMobRewardedVideoDelegate.h>
 #import <ISAdMobBannerDelegate.h>
 #import <ISAdMobNativeBannerDelegate.h>
-#import "ISAdMobNativeView.h"
-#import "ISAdMobNativeViewLayout.h"
+#import <ISAdMobNativeView.h>
+#import <ISAdMobNativeViewLayout.h>
+#import <IronSource/ISBiddingDataDelegate.h>
 
 //AdMob requires a request agent name
-static NSString * const kRequestAgent             = @"ironSource";
+static NSString * const kRequestAgent             = @"unity";
+static NSString * const kPlatformName             = @"unity";
 
 static NSString * const kAdapterName              = @"AdMob";
 static NSString * const kAdUnitId                 = @"adUnitId";
@@ -67,6 +69,7 @@ static BOOL _consentCollectingUserData            = NO;
 @property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdUnitIdToSmashDelegate;
 @property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdsAvailability;
 @property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdUnitIdToAdMobAdDelegate;
+@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdUnitIdToAdData;
 @property (nonatomic, strong) NSMutableSet                *rewardedVideoAdUnitIdForInitCallbacks;
 
 // Interstitial
@@ -146,6 +149,7 @@ static BOOL _consentCollectingUserData            = NO;
         _rewardedVideoAdUnitIdToSmashDelegate       = [ConcurrentMutableDictionary dictionary];
         _rewardedVideoAdsAvailability               = [ConcurrentMutableDictionary dictionary];
         _rewardedVideoAdUnitIdToAdMobAdDelegate     = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdUnitIdToAdData              = [ConcurrentMutableDictionary dictionary];
         _rewardedVideoAdUnitIdForInitCallbacks      = [[NSMutableSet alloc] init];
         
         // Interstitial data collections
@@ -261,7 +265,10 @@ static BOOL _consentCollectingUserData            = NO;
         if ([_rewardedVideoAdUnitIdForInitCallbacks containsObject:adUnitId]) {
             [delegate adapterRewardedVideoInitSuccess];
         } else {
+            NSDictionary *adData = [_rewardedVideoAdUnitIdToAdData objectForKey:adUnitId];
             [self loadRewardedVideoInternal:adUnitId
+                                     adData:adData
+                                 serverData:nil
                                    delegate:delegate];
         }
     }
@@ -361,6 +368,7 @@ static BOOL _consentCollectingUserData            = NO;
 // Used for flows when the mediation doesn't need to get a callback for init
 - (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *adUnitId = adapterConfig.settings[kAdUnitId];
@@ -388,6 +396,11 @@ static BOOL _consentCollectingUserData            = NO;
         switch (_initState) {
             case INIT_STATE_NONE:
             case INIT_STATE_IN_PROGRESS:
+                if (adData) {
+                    [self->_rewardedVideoAdUnitIdToAdData setObject:adData
+                                                             forKey:adUnitId];
+                }
+                
                 [self initAdMobSDKWithAdapterConfig:adapterConfig];
                 break;
             case INIT_STATE_FAILED: {
@@ -397,6 +410,8 @@ static BOOL _consentCollectingUserData            = NO;
             }
             case INIT_STATE_SUCCESS:
                 [self loadRewardedVideoInternal:adUnitId
+                                         adData:adData
+                                     serverData:nil
                                        delegate:delegate];
                 break;
 
@@ -404,50 +419,69 @@ static BOOL _consentCollectingUserData            = NO;
     });
 }
 
+- (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
+                                          serverData:(NSString *)serverData
+                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+    [self loadRewardedVideoInternal:adUnitId
+                             adData:adData
+                         serverData:serverData
+                           delegate:delegate];
+
+}
+
 - (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                     adData:(NSDictionary *)adData
                                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        [self loadRewardedVideoInternal:adUnitId
-                               delegate:delegate];
-    });
+    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+    [self loadRewardedVideoInternal:adUnitId
+                             adData:adData
+                         serverData:nil
+                           delegate:delegate];
 }
 
 - (void)loadRewardedVideoInternal:(NSString *)adUnitId
+                           adData:(NSDictionary *)adData
+                       serverData:(NSString *)serverData
                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    [_rewardedVideoAdsAvailability setObject:@NO
-                                      forKey:adUnitId];
-    if ([_rewardedVideoAdUnitIdToSmashDelegate objectForKey:adUnitId]) {
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        GADRequest *request = [self createGADRequest];
-        
-        ISAdMobAdapter * __weak weakSelf = self;
-        [GADRewardedAd loadWithAdUnitID:adUnitId
-                                request:request
-                      completionHandler:^(GADRewardedAd *ad, NSError *error) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self->_rewardedVideoAdsAvailability setObject:@NO
+                                                forKey:adUnitId];
+        if ([self->_rewardedVideoAdUnitIdToSmashDelegate objectForKey:adUnitId]) {
+            LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+            GADRequest *request = [self createGADRequestForLoadWithAdData:adData
+                                                               serverData:serverData];
             
-            __typeof__(self) strongSelf = weakSelf;
-            
-            [strongSelf.rewardedVideoAds setObject:ad
-                                          forKey:adUnitId];
-            if (error) {
-                LogAdapterApi_Internal(@"failed for adUnitId = %@", adUnitId);
-                [strongSelf.rewardedVideoAdsAvailability setObject:@NO
-                                                          forKey:adUnitId];
-                // set the rewarded video availability to false
-                [delegate adapterRewardedVideoHasChangedAvailability:NO];
-                NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_RV_LOAD_NO_FILL
-                                                                            withMessage:@"AdMob no fill"] : error;
-                [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
-            } else {
-                LogAdapterApi_Internal(@"success for adUnitId = %@", adUnitId);
-                [strongSelf.rewardedVideoAdsAvailability setObject:@YES
-                                                          forKey:adUnitId];
-                [delegate adapterRewardedVideoHasChangedAvailability:YES];
-            }
-        }];
-    }
+            ISAdMobAdapter * __weak weakSelf = self;
+            [GADRewardedAd loadWithAdUnitID:adUnitId
+                                    request:request
+                          completionHandler:^(GADRewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {
+                
+                __typeof__(self) strongSelf = weakSelf;
+                
+                [strongSelf.rewardedVideoAds setObject:rewardedAd
+                                                forKey:adUnitId];
+                if (error) {
+                    LogAdapterApi_Internal(@"failed for adUnitId = %@", adUnitId);
+                    [strongSelf.rewardedVideoAdsAvailability setObject:@NO
+                                                                forKey:adUnitId];
+                    // set the rewarded video availability to false
+                    [delegate adapterRewardedVideoHasChangedAvailability:NO];
+                    NSError *smashError = [strongSelf isNoFillError:error] ? [ISError createError:ERROR_RV_LOAD_NO_FILL
+                                                                                      withMessage:@"AdMob no fill"] : error;
+                    [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
+                } else {
+                    LogAdapterApi_Internal(@"success for adUnitId = %@", adUnitId);
+                    [strongSelf.rewardedVideoAdsAvailability setObject:@YES
+                                                                forKey:adUnitId];
+                    [delegate adapterRewardedVideoHasChangedAvailability:YES];
+                }
+            }];
+        }
+    });
 }
 
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
@@ -487,6 +521,14 @@ static BOOL _consentCollectingUserData            = NO;
     return (available != nil) && [available boolValue];
 }
 
+- (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                  adData:(NSDictionary *)adData
+                                                delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self collectBiddingDataWithAdData:adData
+                              adFormat:GADAdFormatRewarded
+                              delegate:delegate];
+}
+
 #pragma mark - Rewarded Video Delegate
 
 - (void)onRewardedVideoDidOpen:(nonnull NSString *)adUnitId {
@@ -517,6 +559,14 @@ static BOOL _consentCollectingUserData            = NO;
 
 
 #pragma mark - Interstitial API
+
+- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
+                               adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    [self initInterstitialWithUserId:userId
+                       adapterConfig:adapterConfig
+                            delegate:delegate];
+}
 
 - (void)initInterstitialWithUserId:(NSString *)userId
                      adapterConfig:(ISAdapterConfig *)adapterConfig
@@ -560,36 +610,65 @@ static BOOL _consentCollectingUserData            = NO;
     });
 }
 
+- (void)loadInterstitialForBiddingWithServerData:(NSString *)serverData
+                                   adapterConfig:(ISAdapterConfig *)adapterConfig
+                                          adData:(NSDictionary *)adData
+                                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    LogAdapterApi_Internal(@"");
+    [self loadInterstitialInternal:adapterConfig
+                            adData:adData
+                        serverData:serverData
+                        delegate:delegate];
+}
+
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    LogAdapterApi_Internal(@"");
+    [self loadInterstitialInternal:adapterConfig
+                            adData:adData
+                        serverData:nil
+                          delegate:delegate];
+}
+
+- (void)loadInterstitialInternal:(ISAdapterConfig *)adapterConfig
+                          adData:(NSDictionary *)adData
+                      serverData:(NSString *)serverData
+                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     dispatch_async(dispatch_get_main_queue(), ^{
         
         NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+
         [self->_interstitialAdsAvailability setObject:@NO
                                                forKey:adUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
         id<ISInterstitialAdapterDelegate> delegate = [self->_interstitialAdUnitIdToSmashDelegate objectForKey:adUnitId];
+        
         if (delegate == nil) {
             LogAdapterApi_Internal(@"delegate = nil");
             return;
         }
-        GADRequest *request = [self createGADRequest];
-        /* Create new GADInterstitial */
+        
+        GADRequest *request = [self createGADRequestForLoadWithAdData:adData
+                                                           serverData:serverData];
+        ISAdMobAdapter * __weak weakSelf = self;
         [GADInterstitialAd loadWithAdUnitID:adUnitId
                                     request:request
-                          completionHandler:^(GADInterstitialAd *ad, NSError *error) {
-            [self->_interstitialAds setObject:ad
-                                       forKey:adUnitId];
+                          completionHandler:^(GADInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
+    
+            __typeof__(self) strongSelf = weakSelf;
+            
+            [strongSelf->_interstitialAds setObject:interstitialAd
+                                             forKey:adUnitId];
             if (error) {
                 // set the interstitial ad availability to false
-                [self->_interstitialAdsAvailability setObject:@NO
-                                                       forKey:adUnitId];
-                NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_IS_LOAD_NO_FILL
-                                                                            withMessage:@"AdMob no fill"] : error;
+                [strongSelf->_interstitialAdsAvailability setObject:@NO
+                                                             forKey:adUnitId];
+                NSError *smashError = [strongSelf isNoFillError:error] ? [ISError createError:ERROR_IS_LOAD_NO_FILL
+                                                                                  withMessage:@"AdMob no fill"] : error;
                 [delegate adapterInterstitialDidFailToLoadWithError:smashError];
             } else {
-                [self->_interstitialAdsAvailability setObject:@YES
-                                                       forKey:adUnitId];
+                [strongSelf->_interstitialAdsAvailability setObject:@YES
+                                                             forKey:adUnitId];
                 [delegate adapterInterstitialDidLoad];
             }
         }];
@@ -628,6 +707,14 @@ static BOOL _consentCollectingUserData            = NO;
     return (available != nil) && [available boolValue];
 }
 
+- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData
+                                               delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self collectBiddingDataWithAdData:adData
+                              adFormat:GADAdFormatInterstitial
+                              delegate:delegate];
+}
+
 #pragma mark - Interstitial Delegate
 
 
@@ -656,59 +743,93 @@ static BOOL _consentCollectingUserData            = NO;
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToSmashDelegate objectForKey:adUnitId];
     [delegate adapterInterstitialDidClose];
 }
+
 #pragma mark - Banner API
+
+- (void)initBannerForBiddingWithUserId:(NSString *)userId
+                         adapterConfig:(ISAdapterConfig *)adapterConfig
+                              delegate:(id<ISBannerAdapterDelegate>)delegate {
+    [self initBannerWithUserId:userId
+                 adapterConfig:adapterConfig
+                      delegate:delegate];
+}
 
 - (void)initBannerWithUserId:(NSString *)userId
                adapterConfig:(ISAdapterConfig *)adapterConfig
                     delegate:(id<ISBannerAdapterDelegate>)delegate {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        
-        /* Configuration Validation */
-        if (![self isConfigValueValid:adUnitId]) {
-            NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterBannerInitFailedWithError:error];
-            return;
+    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    
+    /* Configuration Validation */
+    if (![self isConfigValueValid:adUnitId]) {
+        NSError *error = [self errorForMissingCredentialFieldWithName:kAdUnitId];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterBannerInitFailedWithError:error];
+        return;
+    }
+    
+    [self->_bannerAdUnitIdToSmashDelegate setObject:delegate
+                                             forKey:adUnitId];
+    
+    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
+    
+    switch (_initState) {
+        case INIT_STATE_NONE:
+        case INIT_STATE_IN_PROGRESS:
+            [self initAdMobSDKWithAdapterConfig:adapterConfig];
+            break;
+        case INIT_STATE_FAILED: {
+            LogAdapterApi_Internal(@"init failed - adUnitId = %@", adUnitId);
+            [delegate adapterBannerInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
+                                                                withMessage:@"AdMob SDK init failed"]];
+            break;
         }
-        
-        [self->_bannerAdUnitIdToSmashDelegate setObject:delegate
-                                                 forKey:adUnitId];
-        
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-                
-        switch (_initState) {
-            case INIT_STATE_NONE:
-            case INIT_STATE_IN_PROGRESS:
-                [self initAdMobSDKWithAdapterConfig:adapterConfig];
-                break;
-            case INIT_STATE_FAILED: {
-                LogAdapterApi_Internal(@"init failed - adUnitId = %@", adUnitId);
-                [delegate adapterBannerInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                    withMessage:@"AdMob SDK init failed"]];
-                break;
-            }
-            case INIT_STATE_SUCCESS:
-                [delegate adapterBannerInitSuccess];
-                break;
-        }
-    });
+        case INIT_STATE_SUCCESS:
+            [delegate adapterBannerInitSuccess];
+            break;
+    }
+}
+
+- (void)loadBannerForBiddingWithServerData:(NSString *)serverData
+                            viewController:(UIViewController *)viewController
+                                      size:(ISBannerSize *)size
+                             adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id <ISBannerAdapterDelegate>)delegate {
+    [self loadBannerInternalWithViewController:viewController
+                                          size:size
+                                 adapterConfig:adapterConfig
+                                        adData:adData
+                                    serverData:serverData
+                                      delegate:delegate];
 }
 
 - (void)loadBannerWithViewController:(UIViewController *)viewController
                                 size:(ISBannerSize *)size
                        adapterConfig:(ISAdapterConfig *)adapterConfig
+                              adData:(NSDictionary *)adData
                             delegate:(id<ISBannerAdapterDelegate>)delegate {
+    [self loadBannerInternalWithViewController:viewController
+                                          size:size
+                                 adapterConfig:adapterConfig
+                                        adData:adData
+                                    serverData:nil
+                                      delegate:delegate];
+}
 
+- (void)loadBannerInternalWithViewController:(UIViewController *)viewController
+                                        size:(ISBannerSize *)size
+                               adapterConfig:(ISAdapterConfig *)adapterConfig
+                                      adData:(NSDictionary *)adData
+                                  serverData:(NSString *)serverData
+                                    delegate:(id<ISBannerAdapterDelegate>)delegate {
     dispatch_async(dispatch_get_main_queue(), ^{
-
         NSString *adUnitId = adapterConfig.settings[kAdUnitId];
         LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
         BOOL isNative = [adapterConfig.settings[kIsNative] boolValue];
-
-        GADRequest *request = [self createGADRequest];
+        
+        GADRequest *request = [self createGADRequestForLoadWithAdData:adData
+                                                           serverData:serverData];
         
         if (isNative) {
             [self loadNativeBannerWithViewController:viewController
@@ -814,6 +935,14 @@ static BOOL _consentCollectingUserData            = NO;
     return YES;
 }
 
+- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                           adData:(NSDictionary *)adData
+                                         delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self collectBiddingDataWithAdData:adData
+                              adFormat:GADAdFormatBanner
+                              delegate:delegate];
+}
+
 #pragma mark - Banner Delegate
 
 - (void)onBannerDidLoad:(nonnull GADBannerView *)bannerView {
@@ -821,6 +950,7 @@ static BOOL _consentCollectingUserData            = NO;
     id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToSmashDelegate objectForKey:bannerView.adUnitID];
     [delegate adapterBannerDidLoad:bannerView];
 }
+
 - (void)onBannerDidFailToLoad:(nonnull NSString *)adUnitId
                     withError:(nonnull NSError *)error {
     LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@ with error = %@", adUnitId,error);
@@ -939,7 +1069,7 @@ static BOOL _consentCollectingUserData            = NO;
 - (void)setMetaDataWithKey:(NSString *)key
                  andValues:(NSMutableArray *) values {
     if (values.count == 0) {
-            return;
+        return;
     }
     
     // this is a list of 1 value
@@ -994,6 +1124,7 @@ static BOOL _consentCollectingUserData            = NO;
     }
     
     GADMaxAdContentRating contentValue = nil;
+    
     if ([value isEqualToString:kAdMobMaxContentRatingG]) {
         contentValue = GADMaxAdContentRatingGeneral;
     } else if ([value isEqualToString:kAdMobMaxContentRatingPG]) {
@@ -1012,10 +1143,29 @@ static BOOL _consentCollectingUserData            = NO;
 
 #pragma mark - Helper Methods
 
-
-- (GADRequest *)createGADRequest{
+- (GADRequest *)createGADRequestForLoadWithAdData:(NSDictionary *)adData
+                                       serverData:(NSString *)serverData {
     GADRequest *request = [GADRequest request];
     request.requestAgent = kRequestAgent;
+    NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
+    additionalParameters[@"platform_name"] = kPlatformName;
+    
+    if (serverData.length) {
+        request.adString = serverData;
+    }
+    
+    if (adData) {
+        NSString *requestId = [adData objectForKey:@"requestId"];
+        BOOL hybridMode = [[adData objectForKey:@"isHybrid"] boolValue];
+        
+        if (requestId.length) {
+            additionalParameters[@"placement_req_id"] = requestId;
+            NSString *hybridString = hybridMode? @"true" : @"false";
+            additionalParameters[@"is_hybrid_setup"] = hybridString;
+            LogInternal_Internal(@"adData requestId = %@, isHybrid = %@", requestId, hybridString);
+        }
+    }
+    
     if ([ISConfigurations getConfigurations].userAge  > kMinUserAge) {
         LogAdapterApi_Internal(@"creating request with age=%ld tagForChildDirectedTreatment=%d", (long)[ISConfigurations getConfigurations].userAge, [ISConfigurations getConfigurations].userAge < kMaxChildAge);
         [GADMobileAds.sharedInstance.requestConfiguration tagForChildDirectedTreatment:([ISConfigurations getConfigurations].userAge < kMaxChildAge)];
@@ -1024,12 +1174,87 @@ static BOOL _consentCollectingUserData            = NO;
     if (_didSetConsentCollectingUserData && !_consentCollectingUserData) {
         // The default behavior of the Google Mobile Ads SDK is to serve personalized ads
         // If a user has consented to receive only non-personalized ads, you can configure an GADRequest object with the following code to specify that only non-personalized ads should be returned:
-        GADExtras *extras = [[GADExtras alloc] init];
-        extras.additionalParameters = @{@"npa": @"1"};
-        [request registerAdNetworkExtras:extras];
+        additionalParameters[@"npa"] = @"1";
+
     }
+    GADExtras *extras = [[GADExtras alloc] init];
+    extras.additionalParameters = additionalParameters;
+    [request registerAdNetworkExtras:extras];
+    
     return request;
 }
+
+- (void)createGADRequestForBiddingDataWithAdData:(NSDictionary *)adData
+                                      completion:(void (^)(GADRequest *request))completion {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        GADRequest *request = [GADRequest request];
+        request.requestAgent = kRequestAgent;
+        NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
+        additionalParameters[@"query_info_type"] = @"requester_type_2";
+                
+        if (adData) {
+            if ([adData objectForKey:@"bannerSize"]) {
+                ISBannerSize *size = [adData objectForKey:@"bannerSize"];
+                
+                if (size.adaptive) {
+                    GADAdSize adSize = [self getBannerSize:size];
+                    additionalParameters[@"adaptive_banner_w"] = @(adSize.size.width);
+                    additionalParameters[@"adaptive_banner_h"] = @(adSize.size.height);
+                    LogInternal_Internal(@"adaptive banner width = %@, height = %@", @(adSize.size.width), @(adSize.size.height));
+                }
+            }
+        }
+        GADExtras *extras = [[GADExtras alloc] init];
+        extras.additionalParameters = additionalParameters;
+        [request registerAdNetworkExtras:extras];
+        
+        completion(request);
+    });
+}
+
+- (void)collectBiddingDataWithAdData:(NSDictionary *)adData
+                            adFormat:(GADAdFormat)adFormat
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    
+    if (_initState == INIT_STATE_NONE) {
+        NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't started"];
+        LogAdapterApi_Internal(@"%@", error);
+        [delegate failureWithError:error];
+        return;
+    }
+    
+    [self createGADRequestForBiddingDataWithAdData:adData
+                                        completion:^(GADRequest *request) {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+
+            [GADQueryInfo createQueryInfoWithRequest:request
+                                            adFormat:adFormat
+                                   completionHandler:^(GADQueryInfo *_Nullable queryInfo, NSError *_Nullable error) {
+                
+                if (error) {
+                    LogAdapterApi_Internal(@"%@", error.localizedDescription);
+                    [delegate failureWithError:error.localizedDescription];
+                    return;
+                }
+                
+                if (!queryInfo) {
+                    [delegate failureWithError:@"queryInfo is nil"];
+                    return;
+                }
+                
+                NSString *sdkVersion = [self sdkVersion];
+                NSString *returnedToken = queryInfo.query? queryInfo.query : @"";
+                LogAdapterApi_Internal(@"token = %@, sdkVersion = %@", returnedToken, sdkVersion);
+                NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", sdkVersion, @"sdkVersion", nil];
+                
+                [delegate successWithBiddingData:biddingDataDictionary];
+            }];
+        });
+    }];
+}
+
 - (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
     if ([size.sizeDescription isEqualToString:@"BANNER"]     ||
         [size.sizeDescription isEqualToString:@"LARGE"]      ||
@@ -1051,10 +1276,12 @@ static BOOL _consentCollectingUserData            = NO;
         ) {
         return YES;
     }
+    
     //in this case banner size is returned
     if ([size.sizeDescription isEqualToString:@"SMART"]) {
         return ![self isLargeScreen];
     }
+    
     return NO;
 }
 
@@ -1072,31 +1299,27 @@ static BOOL _consentCollectingUserData            = NO;
     
     if ([size.sizeDescription isEqualToString:@"BANNER"]) {
         adMobSize = GADAdSizeBanner;
-    }
-    else if ([size.sizeDescription isEqualToString:@"LARGE"]) {
+    } else if ([size.sizeDescription isEqualToString:@"LARGE"]) {
         adMobSize = GADAdSizeLargeBanner;
-    }
-    else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
+    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
         adMobSize = GADAdSizeMediumRectangle;
-    }
-    else if ([size.sizeDescription isEqualToString:@"SMART"]) {
+    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
         if ([self isLargeScreen]) {
             adMobSize = GADAdSizeLeaderboard;
-        }
-        else {
+        } else {
             adMobSize = GADAdSizeBanner;
         }
-    }
-    else if ([size.sizeDescription isEqualToString:@"CUSTOM"]) {
+    } else if ([size.sizeDescription isEqualToString:@"CUSTOM"]) {
         adMobSize = GADAdSizeFromCGSize(CGSizeMake(size.width, size.height));
     }
     
-    if ([self getIsAdaptiveBanner:size]){
+    if ([self getIsAdaptiveBanner:size]) {
         CGFloat originalHeight = adMobSize.size.height;
         adMobSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(adMobSize.size.width);
         CGFloat adaptiveHeight = adMobSize.size.height;
-        LogAdapterApi_Internal(@"original height - %f adaptive height - %f", originalHeight, adaptiveHeight);
+        LogAdapterApi_Internal(@"original height - %@ adaptive height - %@", @(originalHeight), @(adaptiveHeight));
     }
+    
     return adMobSize;
 }
 
@@ -1107,4 +1330,5 @@ static BOOL _consentCollectingUserData            = NO;
 - (BOOL) isLargeScreen {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
 }
+
 @end
