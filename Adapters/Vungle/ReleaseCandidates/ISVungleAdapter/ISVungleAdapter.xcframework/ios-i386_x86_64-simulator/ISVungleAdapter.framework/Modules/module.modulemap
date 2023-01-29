@@ -1,0 +1,6 @@
+framework module ISVungleAdapter {
+  umbrella header "ISVungleAdapter.h"
+
+  export *
+  module * { export * }
+}
