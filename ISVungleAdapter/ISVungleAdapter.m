@@ -1442,8 +1442,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
         return nil;
     }
     
-    NSString *placementId = adapterConfig.settings[kPlacementID];
-    NSString *bidderToken = [[VungleSDK sharedSDK] currentSuperTokenForPlacementID:placementId forSize:0];
+    NSString *bidderToken = [[VungleSDK sharedSDK] currentSuperTokenForPlacementID:nil forSize:0];
     NSString *returnedToken = bidderToken? bidderToken : @"";
     NSString *sdkVersion = [self sdkVersion];
     LogAdapterApi_Internal(@"token = %@", returnedToken);
