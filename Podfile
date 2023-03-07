@@ -2,7 +2,7 @@
  platform :ios, '9.0'
 use_frameworks!
 target 'ISUnityAdsAdapter' do
-  pod 'IronSourceSDK','7.2.5.0'
-  pod 'UnityAds','4.4.1'
+  pod 'IronSourceSDK','7.2.7.0'
+  pod 'UnityAds','4.6.0'
 
 end
