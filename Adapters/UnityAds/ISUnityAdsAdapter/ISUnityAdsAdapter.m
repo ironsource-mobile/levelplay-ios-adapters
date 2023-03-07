@@ -980,8 +980,10 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
         bidderToken = [UnityAds getToken];
     } else if (asyncToken.length) {
         bidderToken = asyncToken;
+        // Fetching a fresh async token for the next load
+        [self getAsyncToken];
     } else {
-        LogAdapterApi_Internal(@"returning nil as token since init did not finish successfully");
+        LogAdapterApi_Internal(@"returning nil as token since init did not finish successfully and async token did not return");
         return nil;
     }
     
