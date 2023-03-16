@@ -1,11 +1,11 @@
 //
-//  ISTapjoyRewardedVideoListener.m
+//  ISTapjoyRewardedVideoDelegate.m
 //  ISTapjoyAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISTapjoyRewardedVideoDelegate.h"
+#import <ISTapjoyRewardedVideoDelegate.h>
 
 @implementation ISTapjoyRewardedVideoDelegate
 

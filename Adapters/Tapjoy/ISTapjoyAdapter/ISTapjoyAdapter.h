@@ -2,14 +2,14 @@
 //  ISTapjoyAdapter.h
 //  ISTapjoyAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "IronSource/ISBaseAdapter+Internal.h"
+#import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const TapjoyAdapterVersion = @"4.1.23";
-static NSString * Githash = @"9acdedd";
+static NSString * const TapjoyAdapterVersion = @"4.1.24";
+static NSString * Githash = @"abe5c7bb3";
 
 //System Frameworks For Tapjoy Adapter
 

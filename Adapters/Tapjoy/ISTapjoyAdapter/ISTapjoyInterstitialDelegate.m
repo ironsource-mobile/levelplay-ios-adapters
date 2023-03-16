@@ -1,11 +1,11 @@
 //
-//  ISTapjoyInterstitialListener.m
+//  ISTapjoyInterstitialDelegate.m
 //  ISTapjoyAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISTapjoyInterstitialDelegate.h"
+#import <ISTapjoyInterstitialDelegate.h>
 
 static NSInteger const LOAD_ERROR_NOT_AVAILABLE = 5001;
 

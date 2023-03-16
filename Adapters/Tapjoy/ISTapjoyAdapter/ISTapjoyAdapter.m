@@ -2,12 +2,12 @@
 //  ISTapjoyAdapter.m
 //  ISTapjoyAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISTapjoyAdapter.h"
-#import "ISTapjoyRewardedVideoDelegate.h"
-#import "ISTapjoyInterstitialDelegate.h"
+#import <ISTapjoyAdapter.h>
+#import <ISTapjoyRewardedVideoDelegate.h>
+#import <ISTapjoyInterstitialDelegate.h>
 #import <Tapjoy/TJPlacement.h>
 #import <Tapjoy/Tapjoy.h>
  
@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, InitState) {
 };
 
 // Handle init callback for all adapter instances
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 static InitState _initState = INIT_STATE_NONE;
 
 // Tapjoy members
@@ -42,19 +42,19 @@ static NSString *userId = @"";
 @interface ISTapjoyAdapter () <ISTapjoyRewardedVideoDelegateWrapper, ISTapjoyInterstitialDelegateWrapper, ISNetworkInitCallbackProtocol>
 
 // Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary   *rewardedVideoPlacementNameToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *rewardedVideoPlacementNameToTapjoyDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *rewardedVideoPlacementToIsReady;
-@property (nonatomic, strong) ConcurrentMutableSet          *rewardedVideoPlacementNamesForInitCallbacks;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementNameToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementNameToTapjoyDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementToIsReady;
+@property (nonatomic, strong) ISConcurrentMutableSet          *rewardedVideoPlacementNamesForInitCallbacks;
 // Tapjoy Placements cannot be released from a background thread and therefore they are stored in NSMutableDictionary instead of ConcurrentMutableDictionary
-@property (nonatomic, strong) NSMutableDictionary           *rewardedVideoPlacementNameToPlacement;
+@property (nonatomic, strong) NSMutableDictionary             *rewardedVideoPlacementNameToPlacement;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary   *interstitialPlacementNameToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *interstitialPlacementNameToTapjoyDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *interstitialPlacementToIsReady;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialPlacementNameToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialPlacementNameToTapjoyDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialPlacementToIsReady;
 // Tapjoy Placements cannot be released from a background thread and therefore they are stored in NSMutableDictionary instead of ConcurrentMutableDictionary
-@property (nonatomic, strong) NSMutableDictionary           *interstitialPlacementNameToPlacement;
+@property (nonatomic, strong) NSMutableDictionary             *interstitialPlacementNameToPlacement;
 
 
 @end
@@ -73,14 +73,6 @@ static NSString *userId = @"";
     return [Tapjoy getVersion];
 }
 
-- (NSArray *)systemFrameworks {
-    return @[@"AdSupport", @"CFNetwork", @"CoreData", @"CoreTelephony", @"SystemConfiguration", @"StoreKit", @"UIKit", @"WebKit"];
-}
-
-- (NSString *)sdkName {
-    return kAdapterName;
-}
-
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
@@ -88,20 +80,20 @@ static NSString *userId = @"";
     if (self) {
         
         if(initCallbackDelegates == nil) {
-            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
         
         // Rewarded video
-        _rewardedVideoPlacementNameToSmashDelegate      = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementNameToTapjoyDelegate     = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementToIsReady                = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementNamesForInitCallbacks    = [ConcurrentMutableSet new];
+        _rewardedVideoPlacementNameToSmashDelegate      = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementNameToTapjoyDelegate     = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementToIsReady                = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementNamesForInitCallbacks    = [ISConcurrentMutableSet new];
         _rewardedVideoPlacementNameToPlacement          = [NSMutableDictionary dictionary];
 
         // Interstitial
-        _interstitialPlacementNameToSmashDelegate       = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementNameToTapjoyDelegate      = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementToIsReady                 = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementNameToSmashDelegate       = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementNameToTapjoyDelegate      = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementToIsReady                 = [ISConcurrentMutableDictionary dictionary];
         _interstitialPlacementNameToPlacement           = [NSMutableDictionary dictionary];
 
         
@@ -183,8 +175,6 @@ static NSString *userId = @"";
 }
 
 - (void)onNetworkInitCallbackSuccess {
-    LogInternal_Internal(@"");
-
     // set user id
     [self setUserId];
     
@@ -213,9 +203,9 @@ static NSString *userId = @"";
 }
 
 - (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
-    LogInternal_Internal(@"");
-
-    NSError *error = [ISError createError:ERROR_CODE_INIT_FAILED withMessage:errorMessage];
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementNameToSmashDelegate.allKeys;
@@ -263,19 +253,10 @@ static NSString *userId = @"";
     }
     
     LogAdapterApi_Internal(@"placementName = %@", placementName);
-    
-    ISTapjoyRewardedVideoDelegate *rewardedVideoDelegate = [[ISTapjoyRewardedVideoDelegate alloc] initWithPlacementName:placementName
-                                                                                                            andDelegate:self];
 
     //add to rewarded video delegate map
     [_rewardedVideoPlacementNameToSmashDelegate setObject:delegate
                                                    forKey:placementName];
-    
-    [_rewardedVideoPlacementNameToTapjoyDelegate setObject:rewardedVideoDelegate
-                                                    forKey:placementName];
-    
-    [_rewardedVideoPlacementToIsReady setObject:@NO
-                                         forKey:placementName];
     
     //add to rewarded video init callback map
     [_rewardedVideoPlacementNamesForInitCallbacks addObject:placementName];
@@ -303,6 +284,7 @@ static NSString *userId = @"";
 // used for flows when the mediation doesn't need to get a callback for init
 - (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString* sdkKey = adapterConfig.settings[kSdkKey];
     NSString* placementName = adapterConfig.settings[kPlacementName];
@@ -324,18 +306,9 @@ static NSString *userId = @"";
     
     LogAdapterApi_Internal(@"placementName = %@", placementName);
     
-    ISTapjoyRewardedVideoDelegate *rewardedVideoDelegate = [[ISTapjoyRewardedVideoDelegate alloc] initWithPlacementName:placementName
-                                                                                                            andDelegate:self];
-
     //add to rewarded video delegate map
     [_rewardedVideoPlacementNameToSmashDelegate setObject:delegate
                                                    forKey:placementName];
-    
-    [_rewardedVideoPlacementNameToTapjoyDelegate setObject:rewardedVideoDelegate
-                                                    forKey:placementName];
-    
-    [_rewardedVideoPlacementToIsReady setObject:@NO
-                                         forKey:placementName];
     
     switch (_initState) {
         case INIT_STATE_NONE:
@@ -356,8 +329,9 @@ static NSString *userId = @"";
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
-                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate{
+                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString* placementName = adapterConfig.settings[kPlacementName];
     
     [self loadRewardedVideoInternal:placementName
@@ -365,8 +339,9 @@ static NSString *userId = @"";
                            delegate:delegate];
 }
 
-- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString* placementName = adapterConfig.settings[kPlacementName];
     
     [self loadRewardedVideoInternal:placementName
@@ -377,19 +352,28 @@ static NSString *userId = @"";
 - (void)loadRewardedVideoInternal:(NSString *)placementName
                        serverData:(NSString *)serverData
                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-
     LogAdapterApi_Internal(@"placementName = %@", placementName);
+    
+    [self.rewardedVideoPlacementToIsReady setObject:@NO
+                                             forKey:placementName];
+    TJPlacement *placement = nil;
+    
+    //add to rewarded video delegate map
+    [_rewardedVideoPlacementNameToSmashDelegate setObject:delegate
+                                                   forKey:placementName];
+    
+    ISTapjoyRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISTapjoyRewardedVideoDelegate alloc] initWithPlacementName:placementName
+                                                                                                              andDelegate:self];
+    [_rewardedVideoPlacementNameToTapjoyDelegate setObject:rewardedVideoAdDelegate
+                                                    forKey:placementName];
 
-    TJPlacement* placement = nil;
-    ISTapjoyRewardedVideoDelegate *rewardedVideoDelegate = [_rewardedVideoPlacementNameToTapjoyDelegate objectForKey:placementName];
-
-    if (serverData.length > 0) {
+    if (serverData.length) {
         placement = [self getTJBiddingPlacement:placementName
                                      serverData:serverData
-                                 tapjoyDelegate:rewardedVideoDelegate];
+                                 tapjoyDelegate:rewardedVideoAdDelegate];
     } else {
         placement = [self getTJPlacement:placementName
-                          tapjoyDelegate:rewardedVideoDelegate];
+                          tapjoyDelegate:rewardedVideoAdDelegate];
     }
     
     if (placement == nil) {
@@ -397,12 +381,11 @@ static NSString *userId = @"";
         return;
     }
             
-    placement.videoDelegate = rewardedVideoDelegate;
+    placement.videoDelegate = rewardedVideoAdDelegate;
     
     [_rewardedVideoPlacementNameToPlacement setObject:placement forKey:placementName];
 
     [placement requestContent];
-    
 }
 
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
@@ -410,14 +393,11 @@ static NSString *userId = @"";
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString* placementName = adapterConfig.settings[kPlacementName];
+        NSString *placementName = adapterConfig.settings[kPlacementName];
         LogAdapterApi_Internal(@"placementName = %@", placementName);
         
-        // change rewarded video availability to false
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
-
         if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
-            TJPlacement* placement = [self.rewardedVideoPlacementNameToPlacement objectForKey:placementName];
+            TJPlacement *placement = [self.rewardedVideoPlacementNameToPlacement objectForKey:placementName];
             [placement showContentWithViewController:viewController];
             
         } else {
@@ -426,7 +406,6 @@ static NSString *userId = @"";
                                              userInfo:@{NSLocalizedDescriptionKey : @"No ads to show"}];
             LogAdapterApi_Internal(@"error = %@", error);
             [delegate adapterRewardedVideoDidFailToShowWithError:error];
-            
         }
         
         [self.rewardedVideoPlacementToIsReady setObject:@NO
@@ -436,7 +415,8 @@ static NSString *userId = @"";
 
 
 - (BOOL)hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString* placementName = adapterConfig.settings[kPlacementName];
+    NSString *placementName = adapterConfig.settings[kPlacementName];
+    
     if ([_rewardedVideoPlacementToIsReady objectForKey:placementName] && [_rewardedVideoPlacementNameToPlacement objectForKey:placementName]) {
         return [[_rewardedVideoPlacementToIsReady objectForKey:placementName] boolValue];
     } else {
@@ -444,7 +424,8 @@ static NSString *userId = @"";
     }
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -550,13 +531,7 @@ static NSString *userId = @"";
     
     LogAdapterApi_Internal(@"placementName = %@", placementName);
     
-    ISTapjoyInterstitialDelegate *interstitialDelegate = [[ISTapjoyInterstitialDelegate alloc] initWithPlacementName:placementName
-                                                                                                         andDelegate:self];
-
     //add to interstitial delegate map
-    [_interstitialPlacementNameToTapjoyDelegate setObject:interstitialDelegate
-                                                   forKey:placementName];
-    
     [_interstitialPlacementNameToSmashDelegate setObject:delegate
                                                   forKey:placementName];
     
@@ -580,9 +555,11 @@ static NSString *userId = @"";
     }
 }
 
-- (void)loadInterstitialForBiddingWithServerData:(NSString *)serverData
-                                   adapterConfig:(ISAdapterConfig *)adapterConfig
-                                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
     NSString *placementName = adapterConfig.settings[kPlacementName];
    
     [self loadInterstitialInternal:placementName
@@ -591,6 +568,7 @@ static NSString *userId = @"";
 }
 
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementName = adapterConfig.settings[kPlacementName];
     
@@ -605,16 +583,24 @@ static NSString *userId = @"";
     
     LogAdapterApi_Internal(@"placementName = %@", placementName);
 
-    TJPlacement* placement = nil;
-    ISTapjoyInterstitialDelegate *interstitialDelegate = [_interstitialPlacementNameToTapjoyDelegate objectForKey:placementName];
+    TJPlacement *placement = nil;
+    
+    //add to interstitial delegate map
+    [_interstitialPlacementNameToSmashDelegate setObject:delegate
+                                                  forKey:placementName];
+    
+    ISTapjoyInterstitialDelegate *interstitialAdDelegate = [[ISTapjoyInterstitialDelegate alloc] initWithPlacementName:placementName
+                                                                                                           andDelegate:self];
+    [_interstitialPlacementNameToTapjoyDelegate setObject:interstitialAdDelegate
+                                                   forKey:placementName];
 
-    if (serverData.length > 0) {
+    if (serverData.length) {
         placement = [self getTJBiddingPlacement:placementName
                                      serverData:serverData
-                                 tapjoyDelegate:interstitialDelegate];
+                                 tapjoyDelegate:interstitialAdDelegate];
     } else {
         placement = [self getTJPlacement:placementName
-                          tapjoyDelegate:interstitialDelegate];
+                          tapjoyDelegate:interstitialAdDelegate];
     }
     
     if (placement == nil) {
@@ -626,7 +612,7 @@ static NSString *userId = @"";
         return;
     }
     
-    placement.videoDelegate = interstitialDelegate;
+    placement.videoDelegate = interstitialAdDelegate;
     
     [_interstitialPlacementNameToPlacement setObject:placement
                                               forKey:placementName];
@@ -674,7 +660,8 @@ static NSString *userId = @"";
     }
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -780,13 +767,17 @@ static NSString *userId = @"";
     NSString *value = values[0];
     LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
     
-    if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key andValue:value]) {
-        [self setCCPAValue:[ISMetaDataUtils getCCPABooleanValue:value]];
+    if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
+                                           andValue:value]) {
+        [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                            forType:(META_DATA_VALUE_BOOL)];
-        if ([self isValidCOPPAMetaDataWithKey:key andValue:formattedValue]) {
-            [self setCOPPAValue:[ISMetaDataUtils getCCPABooleanValue:formattedValue]];
+        
+        if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                               flag:kMetaDataCOPPAKey
+                                           andValue:formattedValue]) {
+            [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
 }
@@ -800,10 +791,6 @@ static NSString *userId = @"";
 - (void) setCOPPAValue:(BOOL)value {
     LogAdapterApi_Internal(@"value = %@", value? @"YES" : @"NO");
     [_privacyPolicy setBelowConsentAge:value];
-}
-
-- (BOOL) isValidCOPPAMetaDataWithKey:(NSString*)key andValue:(NSString*)value {
-    return (([key caseInsensitiveCompare:kMetaDataCOPPAKey] == NSOrderedSame) && (value.length > 0));
 }
 
 #pragma mark - Helper Methods
@@ -823,7 +810,8 @@ static NSString *userId = @"";
 - (void)setUserId {
     if (userId.length) {
         LogAdapterApi_Internal(@"set userID to %@", userId);
-        [Tapjoy setUserIDWithCompletion:userId completion:^(BOOL success, NSError * _Nullable error) {
+        [Tapjoy setUserIDWithCompletion:userId
+                             completion:^(BOOL success, NSError * _Nullable error) {
             if(success) {
                 LogAdapterDelegate_Internal(@"setUserIdSuccess");
             } else {
