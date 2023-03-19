@@ -1,16 +1,16 @@
 //
-//  ISApplovinBannerDelegate.m
-//  ISApplovinBannerDelegate
+//  ISAppLovinBannerDelegate.m
+//  ISAppLovinAdapter
 //
-//  Copyright © 2022 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISApplovinBannerDelegate.h"
+#import <ISAppLovinBannerDelegate.h>
 
-@implementation ISApplovinBannerDelegate
+@implementation ISAppLovinBannerDelegate
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISApplovinBannerDelegateWrapper>)delegate{
+                      delegate:(id<ISAppLovinBannerDelegateWrapper>)delegate{
     self = [super init];
     
     if (self) {

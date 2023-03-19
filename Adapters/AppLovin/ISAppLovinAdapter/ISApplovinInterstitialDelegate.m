@@ -1,17 +1,17 @@
 //
-//  ISApplovinInterstitialDelegate.m
-//  ISApplovinInterstitialDelegate
+//  ISAppLovinInterstitialDelegate.m
+//  ISAppLovinAdapter
 //
-//  Copyright © 2022 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISApplovinInterstitialDelegate.h"
+#import <ISAppLovinInterstitialDelegate.h>
 
-@implementation ISApplovinInterstitialDelegate
+@implementation ISAppLovinInterstitialDelegate
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISApplovinInterstitialDelegateWrapper>)delegate {
+                      delegate:(id<ISAppLovinInterstitialDelegateWrapper>)delegate {
     self = [super init];
     
     if (self) {

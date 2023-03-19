@@ -1,17 +1,17 @@
 //
-//  ISApplovinRewardedVideoDelegate.m
-//  ISApplovinRewardedVideoDelegate
+//  ISAppLovinRewardedVideoDelegate.m
+//  ISAppLovinAdapter
 //
-//  Copyright © 2022 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISApplovinRewardedVideoDelegate.h"
+#import <ISAppLovinRewardedVideoDelegate.h>
 
-@implementation ISApplovinRewardedVideoDelegate
+@implementation ISAppLovinRewardedVideoDelegate
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISApplovinRewardedVideoDelegateWrapper>)delegate {
+                      delegate:(id<ISAppLovinRewardedVideoDelegateWrapper>)delegate {
     self = [super init];
     
     if (self) {

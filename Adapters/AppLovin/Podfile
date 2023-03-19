@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '9.0'
+platform :ios, '10.0'
 
 target 'ISAppLovinAdapter' do
-  pod 'IronSourceSDK','7.2.6.0'
-  pod 'AppLovinSDK','11.6.1'
+  pod 'IronSourceSDK','7.3.0.0'
+  pod 'AppLovinSDK','11.7.1'
 end

@@ -1,16 +1,16 @@
 //
-//  ISApplovinRewardedVideoDelegate.h
-//  ISApplovinRewardedVideoDelegate
+//  ISAppLovinRewardedVideoDelegate.h
+//  ISAppLovinAdapter
 //
-//  Copyright © 2022 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "AppLovinSDK/AppLovinSDK.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ISApplovinRewardedVideoDelegateWrapper <NSObject>
+@protocol ISAppLovinRewardedVideoDelegateWrapper <NSObject>
 
 - (void)onRewardedVideoDidLoad:(nonnull NSString *)zoneId;
 
@@ -32,14 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ISApplovinRewardedVideoDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdRewardDelegate, ALAdVideoPlaybackDelegate>
+@interface ISAppLovinRewardedVideoDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdRewardDelegate, ALAdVideoPlaybackDelegate>
 
 @property (nonatomic, strong) NSString* zoneId;
-@property (nonatomic, weak) id<ISApplovinRewardedVideoDelegateWrapper> delegate;
+@property (nonatomic, weak) id<ISAppLovinRewardedVideoDelegateWrapper> delegate;
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISApplovinRewardedVideoDelegateWrapper>)delegate;
+                      delegate:(id<ISAppLovinRewardedVideoDelegateWrapper>)delegate;
 
 @end
 

@@ -1,16 +1,16 @@
 //
-//  ISApplovinBannerDelegate.h
-//  ISApplovinBannerDelegate
+//  ISAppLovinBannerDelegate.h
+//  ISAppLovinAdapter
 //
-//  Copyright © 2022 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "AppLovinSDK/AppLovinSDK.h"
+#import <AppLovinSDK/AppLovinSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol ISApplovinBannerDelegateWrapper <NSObject>
+@protocol ISAppLovinBannerDelegateWrapper <NSObject>
 
 - (void)onBannerDidLoad:(nonnull NSString *)zoneId
                  adView:(ALAd *)adView;
@@ -30,14 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ISApplovinBannerDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
+@interface ISAppLovinBannerDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdViewEventDelegate>
 
 @property (nonatomic, strong) NSString* zoneId;
-@property (nonatomic, weak) id<ISApplovinBannerDelegateWrapper> delegate;
+@property (nonatomic, weak) id<ISAppLovinBannerDelegateWrapper> delegate;
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISApplovinBannerDelegateWrapper>)delegate;
+                      delegate:(id<ISAppLovinBannerDelegateWrapper>)delegate;
 
 @end
 
