@@ -37,7 +37,7 @@ xcrun xcodebuild -workspace "${ADAPTER_WORKSPACE}" \
 
 
   createFramework "iphoneos" "arm64"
-  createFramework "iphonesimulator" "arm64 x86_64"
+  createFramework "iphonesimulator" "x86_64"
 
 
 
