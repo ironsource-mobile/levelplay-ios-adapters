@@ -2,14 +2,13 @@
 //  ISFacebookAdapter.m
 //  ISFacebookAdapter
 //
-//  Created by Yotam Ohayon on 02/02/2016.
-//  Copyright © 2016 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISFacebookAdapter.h"
-#import "ISFacebookRewardedVideoDelegate.h"
-#import "ISFacebookInterstitialDelegate.h"
-#import "ISFacebookBannerDelegate.h"
+#import <ISFacebookAdapter.h>
+#import <ISFacebookRewardedVideoDelegate.h>
+#import <ISFacebookInterstitialDelegate.h>
+#import <ISFacebookBannerDelegate.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 // Mediation keys
@@ -36,7 +35,7 @@ typedef NS_ENUM(NSInteger, InitState) {
 };
 
 // Handle init callback for all adapter instances
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 static InitState _initState = INIT_STATE_NONE;
 static NSString* _mediationService = nil;
 
@@ -44,20 +43,20 @@ static NSString* _mediationService = nil;
 @interface ISFacebookAdapter () <ISFacebookRewardedVideoDelegateWrapper, ISFacebookInterstitialDelegateWrapper, ISFacebookBannerDelegateWrapper, ISNetworkInitCallbackProtocol>
 
 // Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary*       rewardedVideoPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary*       rewardedVideoPlacementIdToFacebookAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary*       rewardedVideoPlacementIdToAd;
-@property (nonatomic, strong) ConcurrentMutableSet*              rewardedVideoPlacementIdsForInitCallbacks;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       rewardedVideoPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       rewardedVideoPlacementIdToFacebookAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       rewardedVideoPlacementIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableSet*              rewardedVideoPlacementIdsForInitCallbacks;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary*       interstitialPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary*       interstitialPlacementIdToFacebookAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary*       interstitialPlacementIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       interstitialPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       interstitialPlacementIdToFacebookAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       interstitialPlacementIdToAd;
     
 // Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary*       bannerPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary*       bannerPlacementIdToFacebookAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary*       bannerPlacementIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       bannerPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       bannerPlacementIdToFacebookAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary*       bannerPlacementIdToAd;
 
 @end
 
@@ -73,14 +72,6 @@ static NSString* _mediationService = nil;
     return FB_AD_SDK_VERSION;
 }
 
-- (NSArray *)systemFrameworks {
-    return @[@"AdSupport", @"AudioToolbox", @"AVFoundation", @"CFNetwork", @"CoreGraphics", @"CoreImage", @"CoreMedia", @"CoreMotion", @"CoreTelephony", @"LocalAuthentication", @"SafariServices", @"Security", @"StoreKit", @"SystemConfiguration", @"UIKit", @"VideoToolbox", @"WebKit"];
-}
-
-- (NSString *)sdkName {
-    return @"FBAudienceNetworkAds";
-}
-
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name
@@ -89,24 +80,24 @@ static NSString* _mediationService = nil;
     
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates =  [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates =  [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
         
         // Rewarded video
-        _rewardedVideoPlacementIdToSmashDelegate        = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToFacebookAdDelegate     = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToAd                   = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdsForInitCallbacks      = [ConcurrentMutableSet set];
+        _rewardedVideoPlacementIdToSmashDelegate        = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToFacebookAdDelegate   = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToAd                   = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdsForInitCallbacks      = [ISConcurrentMutableSet set];
         
         // Interstitial
-        _interstitialPlacementIdToSmashDelegate         = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToFacebookAdDelegate      = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToAd                    = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToFacebookAdDelegate    = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToAd                    = [ISConcurrentMutableDictionary dictionary];
         
         // Banner
-        _bannerPlacementIdToSmashDelegate               = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToFacebookAdDelegate            = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToAd                          = [ConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToSmashDelegate               = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToFacebookAdDelegate          = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToAd                          = [ISConcurrentMutableDictionary dictionary];
         
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
@@ -138,15 +129,16 @@ static NSString* _mediationService = nil;
         
         LogAdapterApi_Internal(@"Initialize Meta with placementIDs = %@", placementIdsArray);
         
+        ISFacebookAdapter * __weak weakSelf = self;
         [FBAudienceNetworkAds initializeWithSettings:initSettings
                                    completionHandler:^(FBAdInitResults *results) {
                                 
             if (results.success) {
                 // call init callback delegate success
-                [self initializationSuccess];
+                [weakSelf initializationSuccess];
             } else {
                 // call init callback delegate failed
-                [self initializationFailure];
+                [weakSelf initializationFailure];
             }
         }];
     });
@@ -161,6 +153,7 @@ static NSString* _mediationService = nil;
     [FBAdSettings setMediationService:[self getMediationService]];
 
     NSArray* initDelegatesList = initCallbackDelegates.allObjects;
+    
     for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
         [initDelegate onNetworkInitCallbackSuccess];
     }
@@ -174,6 +167,7 @@ static NSString* _mediationService = nil;
     _initState = INIT_STATE_FAILED;
     
     NSArray* initDelegatesList = initCallbackDelegates.allObjects;
+    
     for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
         [initDelegate onNetworkInitCallbackFailed:@"Meta SDK init failed"];
     }
@@ -218,9 +212,9 @@ static NSString* _mediationService = nil;
 
 - (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
     
-    NSError *error = [NSError errorWithDomain:kAdapterName
-                                         code:ERROR_CODE_INIT_FAILED
-                                     userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
@@ -277,13 +271,7 @@ static NSString* _mediationService = nil;
     
     LogAdapterApi_Internal(@"placementID = %@", placementID);
 
-    ISFacebookRewardedVideoDelegate *rewardedVideoDelegate = [[ISFacebookRewardedVideoDelegate alloc] initWithPlacementID:placementID
-                                                                                                              andDelegate:self];
-    
     //add to rewarded video delegate map
-    [_rewardedVideoPlacementIdToFacebookAdDelegate setObject:rewardedVideoDelegate
-                                                    forKey:placementID];
-
     [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                  forKey:placementID];
     
@@ -312,6 +300,7 @@ static NSString* _mediationService = nil;
 // used for flows when the mediation doesn't need to get a callback for init
 - (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementID = adapterConfig.settings[kPlacementId];
     NSString *allPlacementIDs = adapterConfig.settings[kAllPlacementIds];
@@ -331,13 +320,7 @@ static NSString* _mediationService = nil;
         return;
     }
     
-    ISFacebookRewardedVideoDelegate *rewardedVideoDelegate = [[ISFacebookRewardedVideoDelegate alloc] initWithPlacementID:placementID
-                                                                                                              andDelegate:self];
-    
     //add to rewarded video delegate map
-    [_rewardedVideoPlacementIdToFacebookAdDelegate setObject:rewardedVideoDelegate
-                                                    forKey:placementID];
-    
     [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                  forKey:placementID];
 
@@ -360,8 +343,9 @@ static NSString* _mediationService = nil;
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
-                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate{
+                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
    
     NSString *placementID = adapterConfig.settings[kPlacementId];
     [self loadRewardedVideoInternal:placementID
@@ -369,9 +353,9 @@ static NSString* _mediationService = nil;
                          serverData:serverData];
 }
 
-- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    
+- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementID = adapterConfig.settings[kPlacementId];
     [self loadRewardedVideoInternal:placementID
                            delegate:delegate
@@ -386,27 +370,33 @@ static NSString* _mediationService = nil;
         LogAdapterApi_Internal(@"placementID = %@", placementID);
 
         @try {
-            ISFacebookRewardedVideoDelegate *rewardedVideoDelegate = [_rewardedVideoPlacementIdToFacebookAdDelegate objectForKey:placementID];
+            
+            //add to rewarded video delegate map
+            [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
+                                                         forKey:placementID];
+            
+            ISFacebookRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISFacebookRewardedVideoDelegate alloc] initWithPlacementID:placementID
+                                                                                                                        andDelegate:self];
+            [self.rewardedVideoPlacementIdToFacebookAdDelegate setObject:rewardedVideoAdDelegate
+                                                              	  forKey:placementID];
 
             FBRewardedVideoAd *rewardedVideoAd = [[FBRewardedVideoAd alloc] initWithPlacementID:placementID];
-            rewardedVideoAd.delegate = rewardedVideoDelegate;
+            rewardedVideoAd.delegate = rewardedVideoAdDelegate;
             
-            [_rewardedVideoPlacementIdToAd setObject:rewardedVideoAd
-                                              forKey:placementID];
+            [self.rewardedVideoPlacementIdToAd setObject:rewardedVideoAd
+                                                  forKey:placementID];
             
             if (serverData == nil) {
                 [rewardedVideoAd loadAd];
             } else {
                 [rewardedVideoAd loadAdWithBidPayload:serverData];
             }
-            
         } @catch (NSException *exception) {
             LogAdapterApi_Internal(@"exception = %@", exception);
             [delegate adapterRewardedVideoHasChangedAvailability:NO];
         }
     });
 }
-
 
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
                               adapterConfig:(ISAdapterConfig *)adapterConfig
@@ -417,12 +407,10 @@ static NSString* _mediationService = nil;
         LogAdapterApi_Internal(@"placementID = %@", placementID);
 
         @try {
-            // change rewarded video availability to false
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
             
             if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
                 
-                FBRewardedVideoAd *ad = [_rewardedVideoPlacementIdToAd objectForKey:placementID];
+                FBRewardedVideoAd *ad = [self.rewardedVideoPlacementIdToAd objectForKey:placementID];
                 
                 // set dynamic user id to ad if exists
                 if ([self dynamicUserId]) {
@@ -453,7 +441,8 @@ static NSString* _mediationService = nil;
     return rewardedVideoAd != nil && rewardedVideoAd.adValid;
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self getBiddingData];
 }
@@ -565,13 +554,7 @@ static NSString* _mediationService = nil;
     
     LogAdapterApi_Internal(@"placementID = %@", placementID);
 
-    ISFacebookInterstitialDelegate *interstitialDelegate = [[ISFacebookInterstitialDelegate alloc] initWithPlacementID:placementID
-                                                                                                           andDelegate:self];
-
     //add to interstitial delegate map
-    [_interstitialPlacementIdToFacebookAdDelegate setObject:interstitialDelegate
-                                                   forKey:placementID];
-
     [_interstitialPlacementIdToSmashDelegate setObject:delegate
                                                 forKey:placementID];
     
@@ -594,9 +577,10 @@ static NSString* _mediationService = nil;
     }
 }
 
-- (void)loadInterstitialForBiddingWithServerData:(NSString *)serverData
-                                   adapterConfig:(ISAdapterConfig *)adapterConfig
-                                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     
     [self loadInterstitialInternal:adapterConfig
                           delegate:delegate
@@ -604,8 +588,8 @@ static NSString* _mediationService = nil;
 }
 
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
     [self loadInterstitialInternal:adapterConfig
                           delegate:delegate
                         serverData:nil];
@@ -620,20 +604,26 @@ static NSString* _mediationService = nil;
         LogAdapterApi_Internal(@"placementID = %@", placementID);
         
         @try {
-            ISFacebookInterstitialDelegate *interstitialDelegate = [_interstitialPlacementIdToFacebookAdDelegate objectForKey:placementID];
+            // add delegate to dictionary
+            [self.interstitialPlacementIdToSmashDelegate setObject:delegate
+                                                            forKey:placementID];
+            
+            ISFacebookInterstitialDelegate *interstitialAdDelegate = [[ISFacebookInterstitialDelegate alloc] initWithPlacementID:placementID
+                                                                                                                   	 andDelegate:self];
+            [self.interstitialPlacementIdToFacebookAdDelegate setObject:interstitialAdDelegate
+                                                           		 forKey:placementID];
 
             FBInterstitialAd *interstitialAd = [[FBInterstitialAd alloc] initWithPlacementID:placementID];
-            interstitialAd.delegate = interstitialDelegate;
+            interstitialAd.delegate = interstitialAdDelegate;
             
-            [_interstitialPlacementIdToAd setObject:interstitialAd
-                                             forKey:placementID];
+            [self.interstitialPlacementIdToAd setObject:interstitialAd
+                                                 forKey:placementID];
             
             if (serverData == nil) {
                 [interstitialAd loadAd];
             } else {
                 [interstitialAd loadAdWithBidPayload:serverData];
             }
-            
         } @catch (NSException *exception) {
             LogAdapterApi_Internal(@"exception = %@", exception);
             NSError *error = [NSError errorWithDomain:kAdapterName
@@ -655,7 +645,7 @@ static NSString* _mediationService = nil;
         @try {
             
             if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
-                FBInterstitialAd *ad = [_interstitialPlacementIdToAd objectForKey:placementID];
+                FBInterstitialAd *ad = [self.interstitialPlacementIdToAd objectForKey:placementID];
                 [ad showAdFromRootViewController:viewController];
                 
             } else {
@@ -681,7 +671,8 @@ static NSString* _mediationService = nil;
     return interstitialAd != nil && interstitialAd.adValid;
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self getBiddingData];
 }
@@ -786,13 +777,7 @@ static NSString* _mediationService = nil;
     
     LogAdapterApi_Internal(@"placementID = %@", placementID);
 
-    ISFacebookBannerDelegate *bannerDelegate = [[ISFacebookBannerDelegate alloc] initWithPlacementID:placementID
-                                                                                         andDelegate:self];
-
     //add to banner delegate map
-    [_bannerPlacementIdToFacebookAdDelegate setObject:bannerDelegate
-                                             forKey:placementID];
-    
     [_bannerPlacementIdToSmashDelegate setObject:delegate
                                           forKey:placementID];
     
@@ -815,11 +800,12 @@ static NSString* _mediationService = nil;
     }
 }
 
-- (void)loadBannerForBiddingWithServerData:(NSString *)serverData
-                            viewController:(UIViewController *)viewController
-                                      size:(ISBannerSize *)size
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id <ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                               viewController:(UIViewController *)viewController
+                                         size:(ISBannerSize *)size
+                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
     
     [self loadBannerInternal:serverData
               viewController:viewController
@@ -828,10 +814,11 @@ static NSString* _mediationService = nil;
                     delegate:delegate];
 }
 
-- (void)loadBannerWithViewController:(UIViewController *)viewController
-                                size:(ISBannerSize *)size
-                       adapterConfig:(ISAdapterConfig *)adapterConfig
-                            delegate:(id <ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                             adData:(NSDictionary *)adData
+                     viewController:(UIViewController *)viewController
+                               size:(ISBannerSize *)size
+                           delegate:(id <ISBannerAdapterDelegate>)delegate {
     
     [self loadBannerInternal:nil
               viewController:viewController
@@ -845,12 +832,18 @@ static NSString* _mediationService = nil;
                       size:(ISBannerSize *)size
              adapterConfig:(ISAdapterConfig *)adapterConfig
                   delegate:(id <ISBannerAdapterDelegate>)delegate {
-    
+
+    NSString *placementID = adapterConfig.settings[kPlacementId];
+    LogAdapterApi_Internal(@"placementID = %@", placementID);
+
+    //add to banner delegate map
+    [self.bannerPlacementIdToSmashDelegate setObject:delegate
+                                              forKey:placementID];
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *placementID = adapterConfig.settings[kPlacementId];
-        LogAdapterApi_Internal(@"placementID = %@", placementID);
 
         @try {
+
             // get size
             FBAdSize fbSize = [self getBannerSize:size];
             
@@ -865,7 +858,10 @@ static NSString* _mediationService = nil;
                 return;
             }
             
-            ISFacebookBannerDelegate *bannerDelegate = [_bannerPlacementIdToFacebookAdDelegate objectForKey:placementID];
+            ISFacebookBannerDelegate *bannerAdDelegate = [[ISFacebookBannerDelegate alloc] initWithPlacementID:placementID
+                                                                                                   andDelegate:self];
+            [self.bannerPlacementIdToFacebookAdDelegate setObject:bannerAdDelegate
+                                                     	   forKey:placementID];
 
             // create banner view
             FBAdView *bannerAd = [[FBAdView alloc] initWithPlacementID:placementID
@@ -874,11 +870,11 @@ static NSString* _mediationService = nil;
             bannerAd.frame = bannerFrame;
             
             // Set a delegate
-            bannerAd.delegate = bannerDelegate;
+            bannerAd.delegate = bannerAdDelegate;
             
             // add banner ad to dictionary
-            [_bannerPlacementIdToAd setObject:bannerAd
-                                       forKey:placementID];
+            [self.bannerPlacementIdToAd setObject:bannerAd
+                                           forKey:placementID];
             
             // load the ad
             if (serverData == nil) {
@@ -897,16 +893,12 @@ static NSString* _mediationService = nil;
     });
 }
 
-- (void)reloadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                             delegate:(id <ISBannerAdapterDelegate>)delegate {
-    LogInternal_Warning(@"Unsupported method");
-}
-
 - (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     // there is no required implementation for Meta destroy banner
 }
 
-- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self getBiddingData];
 }
@@ -980,15 +972,14 @@ static NSString* _mediationService = nil;
     NSString *value = values[0];
     LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
     
-    NSString *formattedValue = [ISMetaDataUtils formatValue:value forType:(META_DATA_VALUE_BOOL)];
-    if ([self isValidMixedAudienceMetaData:key andValue:formattedValue]) {
-        [self setMixedAudience:[ISMetaDataUtils getCCPABooleanValue:formattedValue]];
+    NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                    forType:(META_DATA_VALUE_BOOL)];
+    
+    if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                           flag:kMetaDataMixAudienceKey
+                                       andValue:formattedValue]) {
+        [self setMixedAudience:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
     }
-}
-
-- (BOOL)isValidMixedAudienceMetaData:(NSString *)key
-                            andValue:(NSString *)value {
-    return ([key caseInsensitiveCompare:kMetaDataMixAudienceKey] == NSOrderedSame && (value.length));
 }
 
 - (void)setMixedAudience:(BOOL)isMixedAudience {

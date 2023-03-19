@@ -2,11 +2,10 @@
 //  ISFacebookInterstitialDelegate.m
 //  ISFacebookAdapter
 //
-//  Created by Hadar Pur on 01/08/2022.
-//  Copyright © 2022 ironSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISFacebookInterstitialDelegate.h"
+#import <ISFacebookInterstitialDelegate.h>
 
 @implementation ISFacebookInterstitialDelegate
 
