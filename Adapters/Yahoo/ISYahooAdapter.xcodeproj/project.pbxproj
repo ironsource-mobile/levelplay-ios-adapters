@@ -408,6 +408,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISYahooAdapter;
 				PRODUCT_NAME = ISYahooAdapter;
 				SKIP_INSTALL = YES;
@@ -439,6 +440,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISYahooAdapter;
 				PRODUCT_NAME = ISYahooAdapter;
 				SKIP_INSTALL = YES;
