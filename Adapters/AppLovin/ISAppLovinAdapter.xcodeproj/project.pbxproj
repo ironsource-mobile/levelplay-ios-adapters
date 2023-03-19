@@ -14,7 +14,7 @@
 		561EF17129C73F3A0056916F /* ISAppLovinInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 561EF16929C73F3A0056916F /* ISAppLovinInterstitialDelegate.h */; };
 		561EF17229C73F3A0056916F /* ISAppLovinBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EF16A29C73F3A0056916F /* ISAppLovinBannerDelegate.m */; };
 		561EF17329C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EF16B29C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.m */; };
-		561EF17429C73F3A0056916F /* ISAppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 561EF16C29C73F3A0056916F /* ISAppLovinAdapter.h */; };
+		561EF17429C73F3A0056916F /* ISAppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 561EF16C29C73F3A0056916F /* ISAppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		561EF17529C73F3A0056916F /* ISAppLovinInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EF16D29C73F3A0056916F /* ISAppLovinInterstitialDelegate.m */; };
 /* End PBXBuildFile section */
 
@@ -106,10 +106,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				561EF17429C73F3A0056916F /* ISAppLovinAdapter.h in Headers */,
 				561EF17029C73F3A0056916F /* ISAppLovinBannerDelegate.h in Headers */,
 				561EF17129C73F3A0056916F /* ISAppLovinInterstitialDelegate.h in Headers */,
 				561EF16E29C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.h in Headers */,
-				561EF17429C73F3A0056916F /* ISAppLovinAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
