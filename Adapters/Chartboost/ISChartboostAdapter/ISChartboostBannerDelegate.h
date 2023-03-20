@@ -2,11 +2,11 @@
 //  ISChartboostBannerDelegate.h
 //  ISChartboostAdapter
 //
-// Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import <ChartboostSDK/ChartboostSDK.h>
 #import <Foundation/Foundation.h>
+#import <ChartboostSDK/ChartboostSDK.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

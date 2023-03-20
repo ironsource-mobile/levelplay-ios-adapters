@@ -2,7 +2,7 @@
 //  ISChartboostInterstitialDelegate.h
 //  ISChartboostAdapter
 //
-// Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <ChartboostSDK/ChartboostSDK.h>

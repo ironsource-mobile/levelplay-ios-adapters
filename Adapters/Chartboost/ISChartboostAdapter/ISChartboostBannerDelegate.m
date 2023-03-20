@@ -2,10 +2,10 @@
 //  ISChartboostBannerDelegate.m
 //  ISChartboostAdapter
 //
-// Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISChartboostBannerDelegate.h"
+#import <ISChartboostBannerDelegate.h>
 
 @implementation ISChartboostBannerDelegate
 

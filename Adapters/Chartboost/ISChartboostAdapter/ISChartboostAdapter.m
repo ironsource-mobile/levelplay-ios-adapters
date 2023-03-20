@@ -1,11 +1,14 @@
 //
-// Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  ISChartboostAdapter.m
+//  ISChartboostAdapter
+//
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISChartboostAdapter.h"
-#import "ISChartboostInterstitialDelegate.h"
-#import "ISChartboostRewardedVideoDelegate.h"
-#import "ISChartboostBannerDelegate.h"
+#import <ISChartboostAdapter.h>
+#import <ISChartboostInterstitialDelegate.h>
+#import <ISChartboostRewardedVideoDelegate.h>
+#import <ISChartboostBannerDelegate.h>
 #import <ChartboostSDK/ChartboostSDK.h>
 
 // Mediation info
@@ -30,27 +33,27 @@ typedef NS_ENUM(NSInteger, InitState) {
 
 // Handle init callback for all adapter instances
 static InitState _initState = INIT_STATE_NONE;
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 
 @interface ISChartboostAdapter () <ISChartboostInterstitialDelegateWrapper, ISChartboostRewardedVideoDelegateWrapper, ISChartboostBannerDelegateWrapper, ISNetworkInitCallbackProtocol>
 
 // rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoLocationIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoLocationIdToChartboostAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoLocationIdToAd;
-@property (nonatomic, strong) ConcurrentMutableSet        *rewardedVideoLocationIdsForInitCallbacks;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoLocationIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoLocationIdToChartboostAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoLocationIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableSet        *rewardedVideoLocationIdsForInitCallbacks;
 
 // interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialLocationIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialLocationIdToChartboostAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialLocationIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialLocationIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialLocationIdToChartboostAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialLocationIdToAd;
 
 // banner
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerLocationIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerLocationIdToChartboostAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerLocationIdToAd;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerLocationIdToViewController;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerLocationIdToSize;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerLocationIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerLocationIdToChartboostAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerLocationIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerLocationIdToViewController;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerLocationIdToSize;
 
 @end
 
@@ -68,14 +71,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     return [Chartboost getSDKVersion];
 }
 
-- (NSArray *)systemFrameworks {
-    return @[@"AdSupport", @"AVFoundation", @"CoreGraphics", @"CoreMedia", @"Foundation", @"StoreKit", @"UIKit", @"WebKit"];
-}
-
-- (NSString *)sdkName {
-    return @"Chartboost";
-}
-
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
@@ -83,26 +78,26 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
         
         // rewarded video
-        _rewardedVideoLocationIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoLocationIdToChartboostAdDelegate = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoLocationIdToAd = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoLocationIdsForInitCallbacks = [ConcurrentMutableSet set];
+        _rewardedVideoLocationIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoLocationIdToChartboostAdDelegate = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoLocationIdToAd = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoLocationIdsForInitCallbacks = [ISConcurrentMutableSet set];
         
         // interstitial
-        _interstitialLocationIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _interstitialLocationIdToChartboostAdDelegate = [ConcurrentMutableDictionary dictionary];
-        _interstitialLocationIdToAd = [ConcurrentMutableDictionary dictionary];
+        _interstitialLocationIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _interstitialLocationIdToChartboostAdDelegate = [ISConcurrentMutableDictionary dictionary];
+        _interstitialLocationIdToAd = [ISConcurrentMutableDictionary dictionary];
 
         // banner
-        _bannerLocationIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _bannerLocationIdToChartboostAdDelegate = [ConcurrentMutableDictionary dictionary];
-        _bannerLocationIdToAd = [ConcurrentMutableDictionary dictionary];
-        _bannerLocationIdToViewController = [ConcurrentMutableDictionary dictionary];
-        _bannerLocationIdToSize = [ConcurrentMutableDictionary dictionary];
+        _bannerLocationIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _bannerLocationIdToChartboostAdDelegate = [ISConcurrentMutableDictionary dictionary];
+        _bannerLocationIdToAd = [ISConcurrentMutableDictionary dictionary];
+        _bannerLocationIdToViewController = [ISConcurrentMutableDictionary dictionary];
+        _bannerLocationIdToSize = [ISConcurrentMutableDictionary dictionary];
         
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
@@ -128,13 +123,16 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         CBLoggingLevel logLevel = ([ISConfigurations getConfigurations].adaptersDebug) ? CBLoggingLevelVerbose : CBLoggingLevelError;
         [Chartboost setLoggingLevel:logLevel];
 
+        ISChartboostAdapter * __weak weakSelf = self;
         [Chartboost startWithAppID:appId
                       appSignature:appSignature
                         completion:^(CHBStartError * _Nullable error) {
             if (!error) {
-                [self initSuccess];
+                [weakSelf initSuccess];
             } else {
-                [self initFailedWithError:error];
+                NSString *errorMsg = [NSString stringWithFormat:@"Chartboost SDK init failed %@", error ? error.description : @""];
+                
+                [weakSelf initFailedWithError:errorMsg];
             }
         }];
     });
@@ -153,16 +151,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     [initCallbackDelegates removeAllObjects];
 }
 
-- (void)initFailedWithError:(NSError *)error {
-    LogAdapterDelegate_Internal(@"error = %@", error.description);
+- (void)initFailedWithError:(NSString *)errorMsg {
+    LogAdapterDelegate_Internal(@"error = %@", errorMsg);
 
     _initState = INIT_STATE_FAILED;
     
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
 
     for (id<ISNetworkInitCallbackProtocol> delegate in initDelegatesList) {
-        NSString *errorReason = [NSString stringWithFormat:@"Chartboost SDK init failed - %@", (error ? error.localizedDescription : @"")];
-        [delegate onNetworkInitCallbackFailed:errorReason];
+        [delegate onNetworkInitCallbackFailed:errorMsg];
     }
     
     [initCallbackDelegates removeAllObjects];
@@ -201,9 +198,9 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 }
 
 - (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
-    NSError *error = [NSError errorWithDomain:kAdapterName
-                                         code:ERROR_CODE_INIT_FAILED
-                                     userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // rewarded video
     NSArray *rewardedVideoLocationIDs = _rewardedVideoLocationIdToSmashDelegate.allKeys;
@@ -270,13 +267,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"locationId = %@", locationId);
     
-    ISChartboostRewardedVideoDelegate *rewardedVideoDelegate = [[ISChartboostRewardedVideoDelegate alloc] initWithLocationId:locationId
-                                                                                                                 andDelegate:self];
-
     //add to rewarded video delegate map
-    [_rewardedVideoLocationIdToChartboostAdDelegate setObject:rewardedVideoDelegate
-                                                       forKey:locationId];
-    
     [_rewardedVideoLocationIdToSmashDelegate setObject:delegate
                                                 forKey:locationId];
     
@@ -306,8 +297,8 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 // used for flows when the mediation doesn't need to get a callback for init
 - (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-
     NSString *appId = adapterConfig.settings[kAppID];
     NSString *appSignature = adapterConfig.settings[kAppSignature];
     NSString *locationId = adapterConfig.settings[kLocationId];
@@ -336,13 +327,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"locationId = %@", locationId);
     
-    ISChartboostRewardedVideoDelegate *rewardedVideoDelegate = [[ISChartboostRewardedVideoDelegate alloc] initWithLocationId:locationId
-                                                                                                                 andDelegate:self];
-
     //add to rewarded video delegate map
-    [_rewardedVideoLocationIdToChartboostAdDelegate setObject:rewardedVideoDelegate
-                                                       forKey:locationId];
-    
     [_rewardedVideoLocationIdToSmashDelegate setObject:delegate
                                                 forKey:locationId];
     
@@ -365,8 +350,9 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 }
 
 
-- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *locationId = adapterConfig.settings[kLocationId];
     
     [self loadRewardedVideoInternal:locationId
@@ -377,6 +363,10 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
 
     LogAdapterApi_Internal(@"locationId = %@", locationId);
+    
+    //add to rewarded video delegate map
+    [_rewardedVideoLocationIdToSmashDelegate setObject:delegate
+                                                forKey:locationId];
     
     CHBRewarded *rewardedVideoAd = [self getRewardedVideAdForLocationId:locationId];
     
@@ -394,9 +384,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     NSString *locationId = adapterConfig.settings[kLocationId];
     LogAdapterApi_Internal(@"locationId = %@", locationId);
-    
-    [delegate adapterRewardedVideoHasChangedAvailability:NO];
-    
+        
     CHBRewarded *rewardedVideoAd = [_rewardedVideoLocationIdToAd objectForKey:locationId];
     
     if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
@@ -543,13 +531,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"locationId = %@", locationId);
     
-    ISChartboostInterstitialDelegate *interstitialDelegate = [[ISChartboostInterstitialDelegate alloc] initWithLocationId:locationId
-                                                                                                              andDelegate:self];
-    
     //add to interstitial delegate map
-    [_interstitialLocationIdToChartboostAdDelegate setObject:interstitialDelegate
-                                                      forKey:locationId];
-    
     [_interstitialLocationIdToSmashDelegate setObject:delegate
                                                forKey:locationId];
     
@@ -574,9 +556,14 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 }
 
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *locationId = adapterConfig.settings[kLocationId];
     LogAdapterApi_Internal(@"locationId = %@", locationId);
+    
+    // add delegate to dictionary
+    [_interstitialLocationIdToSmashDelegate setObject:delegate
+                                               forKey:locationId];
     
     CHBInterstitial *interstitialAd = [self getInterstitialAdForLocationId:locationId];
 
@@ -726,13 +713,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"locationId = %@", locationId);
     
-    ISChartboostBannerDelegate *bannerDelegate = [[ISChartboostBannerDelegate alloc] initWithLocationId:locationId
-                                                                                            andDelegate:self];
-
     //add to banner delegate map
-    [_bannerLocationIdToChartboostAdDelegate setObject:bannerDelegate
-                                                forKey:locationId];
-    
     [_bannerLocationIdToSmashDelegate setObject:delegate
                                          forKey:locationId];
     
@@ -756,13 +737,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
 }
 
-- (void)loadBannerWithViewController:(nonnull UIViewController *)viewController
-                                size:(ISBannerSize *)size
-                       adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                            delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                             adData:(NSDictionary *)adData
+                     viewController:(UIViewController *)viewController
+                               size:(ISBannerSize *)size
+                           delegate:(id <ISBannerAdapterDelegate>)delegate {
 
     NSString *locationId = adapterConfig.settings[kLocationId];
-    
+   
+
     if (![self isBannerSizeSupported:size]) {
         NSError *error = [NSError errorWithDomain:kAdapterName
                                              code:ERROR_BN_UNSUPPORTED_SIZE
@@ -774,6 +757,11 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"locationId = %@", locationId);
 
+    //add to banner delegate map
+    [_bannerLocationIdToSmashDelegate setObject:delegate
+                                         forKey:locationId];
+
+    
     CHBBanner *bannerAd = [self getBannerAdForLocationId:viewController
                                                     size:size
                                               locationId:locationId];
@@ -791,11 +779,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
 }
 
-- (void)reloadBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                             delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
-    LogInternal_Warning(@"Unsupported method");
-}
-
 - (void) destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {    
     NSString *locationId = adapterConfig.settings[kLocationId];
     LogAdapterApi_Internal(@"locationId = %@", locationId);
@@ -805,12 +788,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     [_bannerLocationIdToViewController removeObjectForKey:locationId];
     [_bannerLocationIdToChartboostAdDelegate removeObjectForKey:locationId];
     [_bannerLocationIdToSmashDelegate removeObjectForKey:locationId];
-}
-
-//network does not support banner reload
-//return true if banner view needs to be bound again on reload
-- (BOOL) shouldBindBannerViewOnReload {
-    return YES;
 }
 
 #pragma mark - Banner Delegate
@@ -923,7 +900,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
-        [self setCCPAValue:[ISMetaDataUtils getCCPABooleanValue:value]];
+        [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
     }
 }
 
@@ -969,11 +946,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
     if (!rewardedVideoAd) {
         //create rewarded video delegate
-        ISChartboostRewardedVideoDelegate *delegate = [_rewardedVideoLocationIdToChartboostAdDelegate objectForKey:locationId];
+        ISChartboostRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISChartboostRewardedVideoDelegate alloc] initWithLocationId:locationId
+                                                                                                                       andDelegate:self];
+
+        [_rewardedVideoLocationIdToChartboostAdDelegate setObject:rewardedVideoAdDelegate
+                                                           forKey:locationId];
 
         // create rewarded video
         rewardedVideoAd = [[CHBRewarded alloc] initWithLocation:locationId
-                                                       delegate:delegate];
+                                                       delegate:rewardedVideoAdDelegate];
         // add to dictionaries
         [_rewardedVideoLocationIdToAd setObject:rewardedVideoAd
                                         forKey:locationId];
@@ -987,12 +968,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         
     if (!interstitialAd) {
         //create interstitial delegate
-        ISChartboostInterstitialDelegate *delegate = [_interstitialLocationIdToChartboostAdDelegate objectForKey:locationId];
+        ISChartboostInterstitialDelegate *interstitialAdDelegate = [[ISChartboostInterstitialDelegate alloc] initWithLocationId:locationId
+                                                                                                                    andDelegate:self];
+        [_interstitialLocationIdToChartboostAdDelegate setObject:interstitialAdDelegate
+                                                          forKey:locationId];
             
         // create interstitial
         interstitialAd = [[CHBInterstitial alloc] initWithLocation:locationId
                                                          mediation:[self getMediationInfo]
-                                                          delegate:delegate];
+                                                          delegate:interstitialAdDelegate];
         // add to dictionaries
         [_interstitialLocationIdToAd setObject:interstitialAd
                                        forKey:locationId];
@@ -1009,7 +993,10 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 
     if (!bannerAd) {
         //create banner delegate
-        ISChartboostBannerDelegate *delegate = [_bannerLocationIdToChartboostAdDelegate objectForKey:locationId];
+        ISChartboostBannerDelegate *bannerAdDelegate = [[ISChartboostBannerDelegate alloc] initWithLocationId:locationId
+                                                                                                  andDelegate:self];
+        [_bannerLocationIdToChartboostAdDelegate setObject:bannerAdDelegate
+                                                    forKey:locationId];
         
         // get size
         CHBBannerSize chartboostSize = [self getBannerSize:size];
@@ -1018,7 +1005,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         bannerAd = [[CHBBanner alloc] initWithSize:chartboostSize
                                           location:locationId
                                          mediation:[self getMediationInfo]
-                                          delegate:delegate];
+                                          delegate:bannerAdDelegate];
         
         // add to dictionaries
         [_bannerLocationIdToAd setObject:bannerAd
