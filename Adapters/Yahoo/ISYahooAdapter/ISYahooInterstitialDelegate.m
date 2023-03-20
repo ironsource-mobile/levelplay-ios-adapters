@@ -2,10 +2,10 @@
 //  ISYahooInterstitialDelegate.m
 //  ISYahooAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISYahooInterstitialDelegate.h"
+#import <ISYahooInterstitialDelegate.h>
 
 @implementation ISYahooInterstitialDelegate : NSObject
 

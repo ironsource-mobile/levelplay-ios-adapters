@@ -2,13 +2,13 @@
 //  ISYahooAdapter.m
 //  ISYahooAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISYahooAdapter.h"
-#import "ISYahooRewardedVideoDelegate.h"
-#import "ISYahooInterstitialDelegate.h"
-#import "ISYahooBannerDelegate.h"
+#import <ISYahooAdapter.h>
+#import <ISYahooRewardedVideoDelegate.h>
+#import <ISYahooInterstitialDelegate.h>
+#import <ISYahooBannerDelegate.h>
 #import <YahooAds/YahooAds.h>
 
 // Mediation info
@@ -41,27 +41,27 @@ typedef NS_ENUM(NSInteger, InitState) {
 
 // Handle init callback for all adapter instances
 static InitState _initState = INIT_STATE_NONE;
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 
 @interface ISYahooAdapter () <ISYahooRewardedVideoDelegateWrapper, ISYahooInterstitialDelegateWrapper, ISYahooBannerDelegateWrapper, ISNetworkInitCallbackProtocol>
 
 // Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToYahooAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToAd;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdsAvailability;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToYahooAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoAdsAvailability;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToYahooAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToAd;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialAdsAvailability;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToYahooAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialAdsAvailability;
 
 // Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToYahooAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToAd;
-@property (nonatomic, strong) UIViewController            *bannerViewController;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToYahooAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToAd;
+@property (nonatomic, strong) UIViewController              *bannerViewController;
 
 @end
 
@@ -79,14 +79,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     return YASAds.sdkInfo.version;
 }
 
-- (NSArray *)systemFrameworks {
-    return @[];
-}
-
-- (NSString *)sdkName {
-    return @"YASAds";
-}
-
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
@@ -94,25 +86,25 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
         
         // Rewrded video
-        _rewardedVideoPlacementIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToYahooAdDelegate = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToAd = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoAdsAvailability = [ConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToYahooAdDelegate = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToAd = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdsAvailability = [ISConcurrentMutableDictionary dictionary];
         
         // Interstitial
-        _interstitialPlacementIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToYahooAdDelegate = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToAd = [ConcurrentMutableDictionary dictionary];
-        _interstitialAdsAvailability = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToYahooAdDelegate = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToAd = [ISConcurrentMutableDictionary dictionary];
+        _interstitialAdsAvailability = [ISConcurrentMutableDictionary dictionary];
         
         // Banner
-        _bannerPlacementIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToYahooAdDelegate = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToAd = [ConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToYahooAdDelegate = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToAd = [ISConcurrentMutableDictionary dictionary];
         _bannerViewController = nil;
         
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
@@ -161,15 +153,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     [initCallbackDelegates removeAllObjects];
 }
 
-- (void)initializationFailure:(NSString *)error {
-    LogAdapterDelegate_Internal(@"error = %@", error.description);
+- (void)initializationFailure:(NSString *)errorMsg {
+    LogAdapterDelegate_Internal(@"error = %@", errorMsg);
     
     _initState = INIT_STATE_FAILED;
     
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
 
     for (id<ISNetworkInitCallbackProtocol> delegate in initDelegatesList) {
-        [delegate onNetworkInitCallbackFailed:error];
+        [delegate onNetworkInitCallbackFailed:errorMsg];
     }
     
     [initCallbackDelegates removeAllObjects];
@@ -202,8 +194,10 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 }
 
 - (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createError:ERROR_CODE_INIT_FAILED
-                              withMessage:errorMessage];
+    
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // Rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
@@ -228,9 +222,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
         id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:placementId];
         [delegate adapterBannerInitFailedWithError:error];
     }
-}
-
-- (void)onNetworkInitCallbackLoadSuccess:(NSString *)placement {
 }
 
 #pragma mark - Rewarded Video API
@@ -259,12 +250,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
-    ISYahooRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISYahooRewardedVideoDelegate alloc] initWithPlacementId:placementId
-                                                                                                          andDelegate:self];
-    
     // Add to rewarded video delegate map
-    [self.rewardedVideoPlacementIdToYahooAdDelegate setObject:rewardedVideoAdDelegate
-                                                       forKey:placementId];
     [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                      forKey:placementId];
     
@@ -287,6 +273,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
@@ -294,8 +281,15 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     [self.rewardedVideoAdsAvailability setObject:@NO forKey:placementId];
     
+    // Add to rewarded video delegate map
+    [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
+                                                     forKey:placementId];
+    
     YASInterstitialAd *rewardedVideoAd = [[YASInterstitialAd alloc] initWithPlacementId:placementId];
-    ISYahooRewardedVideoDelegate *rewardedVideoAdDelegate = [self.rewardedVideoPlacementIdToYahooAdDelegate objectForKey:placementId];
+    ISYahooRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISYahooRewardedVideoDelegate alloc] initWithPlacementId:placementId
+                                                                                                          andDelegate:self];
+    [self.rewardedVideoPlacementIdToYahooAdDelegate setObject:rewardedVideoAdDelegate
+                                                       forKey:placementId];
     rewardedVideoAd.delegate = rewardedVideoAdDelegate;
     [self.rewardedVideoPlacementIdToAd setObject:rewardedVideoAd
                                           forKey:placementId];
@@ -313,9 +307,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    [delegate adapterRewardedVideoHasChangedAvailability:NO];
-    
+        
     if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         [self.rewardedVideoAdsAvailability setObject:@NO
                                               forKey:placementId];
@@ -339,7 +331,8 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     return (available != nil) && [available boolValue];
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -427,12 +420,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
-    ISYahooInterstitialDelegate *interstitialAdDelegate = [[ISYahooInterstitialDelegate alloc] initWithPlacementId:placementId
-                                                                                                       andDelegate:self];
-    
     // Add to interstitial delegate map
-    [self.interstitialPlacementIdToYahooAdDelegate setObject:interstitialAdDelegate
-                                                      forKey:placementId];
     [self.interstitialPlacementIdToSmashDelegate setObject:delegate
                                                     forKey:placementId];
     
@@ -454,16 +442,25 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     };
 }
 
-- (void)loadInterstitialForBiddingWithServerData:(NSString *)serverData
-                                   adapterConfig:(ISAdapterConfig *)adapterConfig
-                                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     [self.interstitialAdsAvailability setObject:@NO forKey:placementId];
     
+    // Add to interstitial delegate map
+    [self.interstitialPlacementIdToSmashDelegate setObject:delegate
+                                                    forKey:placementId];
+    
     YASInterstitialAd *interstitialAd = [[YASInterstitialAd alloc] initWithPlacementId:placementId];
-    ISYahooInterstitialDelegate *interstitialAdDelegate = [self.interstitialPlacementIdToYahooAdDelegate objectForKey:placementId];
+    ISYahooInterstitialDelegate *interstitialAdDelegate = [[ISYahooInterstitialDelegate alloc] initWithPlacementId:placementId
+                                                                                                       andDelegate:self];
+    [self.interstitialPlacementIdToYahooAdDelegate setObject:interstitialAdDelegate
+                                                      forKey:placementId];
     interstitialAd.delegate = interstitialAdDelegate;
     [self.interstitialPlacementIdToAd setObject:interstitialAd
                                          forKey:placementId];
@@ -505,7 +502,8 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     return (placementId != nil) && [available boolValue];
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -584,12 +582,7 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
-    ISYahooBannerDelegate *bannerAdDelegate = [[ISYahooBannerDelegate alloc] initWithPlacementId:placementId
-                                                                                     andDelegate:self];
-    
     // Add to banner delegate map
-    [self.bannerPlacementIdToYahooAdDelegate setObject:bannerAdDelegate
-                                                forKey:placementId];
     [self.bannerPlacementIdToSmashDelegate setObject:delegate
                                               forKey:placementId];
     
@@ -611,13 +604,19 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     };
 }
 
-- (void)loadBannerForBiddingWithServerData:(NSString *)serverData
-                            viewController:(UIViewController *)viewController
-                                      size:(ISBannerSize *)size
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                               viewController:(UIViewController *)viewController
+                                         size:(ISBannerSize *)size
+                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
+    
+    // Add to banner delegate map
+    [self.bannerPlacementIdToSmashDelegate setObject:delegate
+                                              forKey:placementId];
+
     
     // Hold view controller in a property to return it in Yahoo׳s callback
     _bannerViewController = (viewController != nil) ? viewController : [self topMostController];
@@ -625,7 +624,10 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     dispatch_async(dispatch_get_main_queue(), ^{
         @try {
             YASInlineAdView *bannerAd = [[YASInlineAdView alloc] initWithPlacementId:placementId];
-            ISYahooBannerDelegate *bannerAdDelegate = [self.bannerPlacementIdToYahooAdDelegate objectForKey:placementId];
+            ISYahooBannerDelegate *bannerAdDelegate = [[ISYahooBannerDelegate alloc] initWithPlacementId:placementId
+                                                                                             andDelegate:self];
+            [self.bannerPlacementIdToYahooAdDelegate setObject:bannerAdDelegate
+                                                        forKey:placementId];
             bannerAd.delegate = bannerAdDelegate;
             [self.bannerPlacementIdToAd setObject:bannerAd
                                            forKey:placementId];
@@ -648,11 +650,6 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     });
 }
 
-- (void)reloadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                             delegate:(id<ISBannerAdapterDelegate>)delegate {
-    LogInternal_Warning(@"Unsupported method");
-}
-
 - (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
@@ -671,7 +668,8 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     }
 }
 
-- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -747,16 +745,21 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
-        [self setCCPAValue:[ISMetaDataUtils getCCPABooleanValue:value]];
-    } else if ([self isValidGDPRMetaDataWithKey:key]) {
+        [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
+        
+    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                                  flag:kMetaDataGDPRKey
+                                              andValue:value]) {
         [self setGDPRConsentString:value];
+        
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                         forType:(META_DATA_VALUE_BOOL)];
             
-        if ([self isValidCOPPAMetaDataWithKey:key
-                                     andValue:formattedValue]) {
-            [self setCOPPAValue:[ISMetaDataUtils getCCPABooleanValue:formattedValue]];
+        if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                               flag:kMetaDataCOPPAKey
+                                           andValue:value]) {
+            [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
 }
@@ -770,20 +773,11 @@ static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegate
     [YASAds.sharedInstance addConsent:ccpaConsent];
 }
 
-- (BOOL)isValidGDPRMetaDataWithKey:(NSString *)key {
-    return ([key caseInsensitiveCompare:kMetaDataGDPRKey] == NSOrderedSame);
-}
-
 - (void)setGDPRConsentString:(NSString *)consentString {
     LogAdapterApi_Internal(@"consentString = %@", consentString);
     [YASAds.sharedInstance applyGdpr];
     YASGdprConsent *gdprConsent = [[YASGdprConsent alloc] initWithConsentString:consentString];
     [YASAds.sharedInstance addConsent:gdprConsent];
-}
-
-- (BOOL)isValidCOPPAMetaDataWithKey:(NSString *)key
-                           andValue:(NSString *)value {
-    return ([key caseInsensitiveCompare:kMetaDataCOPPAKey] == NSOrderedSame && (value.length));
 }
 
 - (void)setCOPPAValue:(BOOL)value {
