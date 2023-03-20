@@ -2,14 +2,13 @@
 //  ISAdColonyAdapter.m
 //  ISAdColonyAdapter
 //
-//  Created by Amit Goldhecht on 8/19/14.
-//  Copyright (c) 2014 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISAdColonyAdapter.h"
-#import "ISAdColonyBannerDelegate.h"
-#import "ISAdColonyInterstitialDelegate.h"
-#import "ISAdColonyRewardedVideoDelegate.h"
+#import <ISAdColonyAdapter.h>
+#import <ISAdColonyBannerDelegate.h>
+#import <ISAdColonyInterstitialDelegate.h>
+#import <ISAdColonyRewardedVideoDelegate.h>
 #import <AdColony/AdColony.h>
 
 // Mediation keys
@@ -21,9 +20,6 @@ static NSString * const kAdapterName        = @"AdColony";
 static NSString * const kAppId              = @"appID";
 static NSString * const kZoneId             = @"zoneId";
 static NSString * const kAdMarkupKey        = @"adm";
-
-// AdColony network id
-static NSString * const kAdColonyetworkId   = @"AdColony";
 
 // AdColony options
 static AdColonyAppOptions *adColonyOptions  = nil;
@@ -48,22 +44,22 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 @interface ISAdColonyAdapter() <ISAdColonyInterstitialDelegateWrapper, ISAdColonyRewardedVideoDelegateWrapper, ISAdColonyBannerDelegateWrapper, ISNetworkInitCallbackProtocol>
 
 // Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoZoneIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoZoneIdToAdColonyAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoZoneIdToAd;
-@property (nonatomic, strong) ConcurrentMutableSet        *rewardedVideoZoneIdsForInitCallbacks;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoZoneIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoZoneIdToAdColonyAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoZoneIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableSet        *rewardedVideoZoneIdsForInitCallbacks;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialZoneIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialZoneIdToAdColonyAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialZoneIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialZoneIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialZoneIdToAdColonyAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialZoneIdToAd;
 
 // Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerZoneIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerZoneIdToAdColonyAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerZoneIdToSize;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerZoneIdToViewController;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerZoneIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerZoneIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerZoneIdToAdColonyAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerZoneIdToSize;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerZoneIdToViewController;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerZoneIdToAd;
 
 @end
 
@@ -77,14 +73,6 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 
 - (NSString *)sdkVersion {
     return [AdColony getSDKVersion];
-}
-
-- (NSArray *)systemFrameworks {
-    return @[@"AdSupport", @"AppTrackingTransparency", @"AudioToolbox", @"AVFoundation", @"CoreMedia", @"CoreServices", @"CoreTelephony", @"JavaScriptCore", @"MessageUI", @"SafariServices", @"Social", @"StoreKit", @"SystemConfiguration", @"WatchConnectivity", @"WebKit"];
-}
-
-- (NSString *)sdkName {
-    return kAdColonyetworkId;
 }
 
 #pragma mark - Initializations Methods And Callbacks
@@ -102,22 +90,22 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
         }
         
         // rewarded video
-        _rewardedVideoZoneIdToSmashDelegate       = [ConcurrentMutableDictionary new];
-        _rewardedVideoZoneIdToAd                  = [ConcurrentMutableDictionary new];
-        _rewardedVideoZoneIdToAdColonyAdDelegate  = [ConcurrentMutableDictionary new];
-        _rewardedVideoZoneIdsForInitCallbacks     = [[ConcurrentMutableSet alloc] init];
+        _rewardedVideoZoneIdToSmashDelegate       = [ISConcurrentMutableDictionary new];
+        _rewardedVideoZoneIdToAd                  = [ISConcurrentMutableDictionary new];
+        _rewardedVideoZoneIdToAdColonyAdDelegate  = [ISConcurrentMutableDictionary new];
+        _rewardedVideoZoneIdsForInitCallbacks     = [[ISConcurrentMutableSet alloc] init];
         
         // interstital
-        _interstitialZoneIdToSmashDelegate        = [ConcurrentMutableDictionary new];
-        _interstitialZoneIdToAdColonyAdDelegate   = [ConcurrentMutableDictionary new];
-        _interstitialZoneIdToAd                   = [ConcurrentMutableDictionary new];
+        _interstitialZoneIdToSmashDelegate        = [ISConcurrentMutableDictionary new];
+        _interstitialZoneIdToAdColonyAdDelegate   = [ISConcurrentMutableDictionary new];
+        _interstitialZoneIdToAd                   = [ISConcurrentMutableDictionary new];
         
         // banner
-        _bannerZoneIdToSmashDelegate              = [ConcurrentMutableDictionary new];
-        _bannerZoneIdToAdColonyAdDelegate         = [ConcurrentMutableDictionary new];
-        _bannerZoneIdToSize                       = [ConcurrentMutableDictionary new];
-        _bannerZoneIdToViewController             = [ConcurrentMutableDictionary new];
-        _bannerZoneIdToAd                         = [ConcurrentMutableDictionary new];
+        _bannerZoneIdToSmashDelegate              = [ISConcurrentMutableDictionary new];
+        _bannerZoneIdToAdColonyAdDelegate         = [ISConcurrentMutableDictionary new];
+        _bannerZoneIdToSize                       = [ISConcurrentMutableDictionary new];
+        _bannerZoneIdToViewController             = [ISConcurrentMutableDictionary new];
+        _bannerZoneIdToAd                         = [ISConcurrentMutableDictionary new];
         
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
@@ -148,16 +136,18 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
         adColonyOptions.disableLogging = ![ISConfigurations getConfigurations].adaptersDebug;
         
         LogAdapterApi_Internal(@"Initialize AdColony with appID  = %@", appID);
+        
+        ISAdColonyAdapter * __weak weakSelf = self;
         [AdColony configureWithAppID:appID
                              options:adColonyOptions
                           completion:^(NSArray<AdColonyZone *> *adColonyZones) {
             if (adColonyZones.count) {
                 adColonyInitZones = adColonyZones;
                 // call init callback delegate success
-                [self initializationSuccess];
+                [weakSelf initializationSuccess];
             } else {
                 // call init callback delegate failed
-                [self initializationFailure];
+                [weakSelf initializationFailure];
             }
         }];
     });
@@ -169,6 +159,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     _initState = INIT_STATE_SUCCESS;
     
     NSArray* initDelegatesList = initCallbackDelegates.allObjects;
+    
     for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
         [initDelegate onNetworkInitCallbackSuccess];
     }
@@ -182,6 +173,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     _initState = INIT_STATE_FAILED;
     
     NSArray* initDelegatesList = initCallbackDelegates.allObjects;
+    
     for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
         [initDelegate onNetworkInitCallbackFailed:@"AdColony SDK init failed"];
     }
@@ -196,16 +188,22 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 
     // rewarded video
     NSArray *rewardedVideoZoneIDs = _rewardedVideoZoneIdToSmashDelegate.allKeys;
+    
     for (NSString *zoneId in rewardedVideoZoneIDs) {
+        id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoZoneIdToSmashDelegate objectForKey:zoneId];
+
         if ([_rewardedVideoZoneIdsForInitCallbacks hasObject:zoneId]) {
-            [[_rewardedVideoZoneIdToSmashDelegate objectForKey:zoneId] adapterRewardedVideoInitSuccess];
+            [delegate adapterRewardedVideoInitSuccess];
         } else {
-            [self loadRewardedVideoInternal:zoneId withAdOptions:nil];
+            [self loadRewardedVideoInternal:zoneId
+                                  adOptions:nil
+                                   delegate:delegate];
         }
     }
     
     // interstitial
     NSArray *interstitialZoneIDs = _interstitialZoneIdToSmashDelegate.allKeys;
+    
     for (NSString *zoneId in interstitialZoneIDs) {
         id<ISInterstitialAdapterDelegate> delegate = [_interstitialZoneIdToSmashDelegate objectForKey:zoneId];
         [delegate adapterInterstitialInitSuccess];
@@ -213,6 +211,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     
     // banner
     NSArray *bannerZoneIDs = _bannerZoneIdToSmashDelegate.allKeys;
+    
     for (NSString *zoneId in bannerZoneIDs) {
         id<ISBannerAdapterDelegate> delegate = [_bannerZoneIdToSmashDelegate objectForKey:zoneId];
         [delegate adapterBannerInitSuccess];
@@ -221,9 +220,9 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 
 - (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
 
-    NSError *error = [NSError errorWithDomain:kAdapterName
-                                         code:ERROR_CODE_INIT_FAILED
-                                     userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // rewarded video
     NSArray *rewardedVideoZoneIDs = _rewardedVideoZoneIdToSmashDelegate.allKeys;
@@ -277,14 +276,10 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     
     LogAdapterApi_Internal(@"appId = %@, zoneId = %@", appId, zoneId);
 
-    ISAdColonyRewardedVideoDelegate *rewardedVideoDelegate = [[ISAdColonyRewardedVideoDelegate alloc] initWithZoneId:zoneId
-                                                                                                         andDelegate:self];
     //add to rewarded video delegate map
-    [_rewardedVideoZoneIdToAdColonyAdDelegate setObject:rewardedVideoDelegate
-                                                 forKey:zoneId];
     [_rewardedVideoZoneIdToSmashDelegate setObject:delegate
                                             forKey:zoneId];
-    
+
     //add to rewarded video init callback map
     [_rewardedVideoZoneIdsForInitCallbacks addObject:zoneId];
     
@@ -312,6 +307,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 // Used for flows when the mediation doesn't need to get a callback for init
 - (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *appId = adapterConfig.settings[kAppId];
     NSString *zoneId = adapterConfig.settings[kZoneId];
@@ -333,11 +329,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     
     LogAdapterApi_Internal(@"appId = %@, zoneId = %@", appId, zoneId);
 
-    ISAdColonyRewardedVideoDelegate *rewardedVideoDelegate = [[ISAdColonyRewardedVideoDelegate alloc] initWithZoneId:zoneId
-                                                                                                         andDelegate:self];
     //add to rewarded video delegate map
-    [_rewardedVideoZoneIdToAdColonyAdDelegate setObject:rewardedVideoDelegate
-                                                 forKey:zoneId];
     [_rewardedVideoZoneIdToSmashDelegate setObject:delegate
                                             forKey:zoneId];
     
@@ -351,7 +343,8 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
             // register rewarded video zones
             [self registerRewardedVideoZones];
             [self loadRewardedVideoInternal:zoneId
-                              withAdOptions:nil];
+                                  adOptions:nil
+                                   delegate:delegate];
             break;
         case INIT_STATE_FAILED: {
             LogAdapterApi_Internal(@"init failed - zoneId = %@", zoneId);
@@ -362,6 +355,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *zoneId = adapterConfig.settings[kZoneId];
@@ -371,38 +365,47 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
          withStringValue:serverData];
     
     [self loadRewardedVideoInternal:zoneId
-                      withAdOptions:adOptions];
+                          adOptions:adOptions
+                           delegate:delegate];
 
 }
 
-- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
 
     NSString *zoneId = adapterConfig.settings[kZoneId];
     
     [self loadRewardedVideoInternal:zoneId
-                      withAdOptions:nil];
+                          adOptions:nil
+                           delegate:delegate];
 }
 
 - (void)loadRewardedVideoInternal:(NSString *)zoneId
-                    withAdOptions:(AdColonyAdOptions *)adOptions {
+                        adOptions:(AdColonyAdOptions *)adOptions
+                         delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     
     LogAdapterApi_Internal(@"");
-    ISAdColonyRewardedVideoDelegate *rewardedVideoDelegate = [_rewardedVideoZoneIdToAdColonyAdDelegate objectForKey:zoneId];
+    
+    // add delegate to dictionary
+    [_rewardedVideoZoneIdToSmashDelegate setObject:delegate
+                                            forKey:zoneId];
+    
+    ISAdColonyRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISAdColonyRewardedVideoDelegate alloc] initWithZoneId:zoneId
+                                                                                                           andDelegate:self];
+    [_rewardedVideoZoneIdToAdColonyAdDelegate setObject:rewardedVideoAdDelegate
+                                                 forKey:zoneId];
     
     [AdColony requestInterstitialInZone:zoneId
                                 options:adOptions
-                            andDelegate:rewardedVideoDelegate];
+                            andDelegate:rewardedVideoAdDelegate];
 }
-
 
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
                               adapterConfig:(ISAdapterConfig *)adapterConfig
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *zoneId = adapterConfig.settings[kZoneId];
     LogAdapterApi_Internal(@"zoneId = %@", zoneId);
-    
-    [delegate adapterRewardedVideoHasChangedAvailability:NO];
     
     AdColonyInterstitial *ad = [_rewardedVideoZoneIdToAd objectForKey:zoneId];
     
@@ -429,7 +432,8 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     return (ad != nil) && !ad.expired;
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -533,11 +537,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     
     LogAdapterApi_Internal(@"appId = %@, zoneId = %@", appId, zoneId);
     
-    ISAdColonyInterstitialDelegate *interstitialDelegate = [[ISAdColonyInterstitialDelegate alloc] initWithZoneId:zoneId
-                                                                                                      andDelegate:self];
     //add to interstitial delegate map
-    [_interstitialZoneIdToAdColonyAdDelegate setObject:interstitialDelegate
-                                                forKey:zoneId];
     [_interstitialZoneIdToSmashDelegate setObject:delegate
                                            forKey:zoneId];
     
@@ -561,9 +561,11 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     }
 }
 
-- (void)loadInterstitialForBiddingWithServerData:(NSString *)serverData
-                                   adapterConfig:(ISAdapterConfig *)adapterConfig
-                                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
     NSString *zoneId = adapterConfig.settings[kZoneId];
     
     AdColonyAdOptions *adOptions = [AdColonyAdOptions new];
@@ -571,25 +573,37 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
          withStringValue:serverData];
     
     [self loadInterstitialInternal:zoneId
-                     withAdOptions:adOptions];
+                     withAdOptions:adOptions
+                          delegate:delegate];
 }
 
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *zoneId = adapterConfig.settings[kZoneId];
     
     [self loadInterstitialInternal:zoneId
-                     withAdOptions:nil];
+                     withAdOptions:nil
+                          delegate:delegate];
 }
 
 - (void)loadInterstitialInternal:(NSString *)zoneId
-                   withAdOptions:(AdColonyAdOptions *)adOptions{
-    LogAdapterApi_Internal(@"");
-    ISAdColonyInterstitialDelegate *interstitialDelegate = [_interstitialZoneIdToAdColonyAdDelegate objectForKey:zoneId];
+                   withAdOptions:(AdColonyAdOptions *)adOptions
+                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     
+    LogAdapterApi_Internal(@"");
+    
+    // add delegate to dictionary
+    [_interstitialZoneIdToSmashDelegate setObject:delegate
+                                               forKey:zoneId];
+    
+    ISAdColonyInterstitialDelegate *interstitialAdDelegate = [[ISAdColonyInterstitialDelegate alloc] initWithZoneId:zoneId
+                                                                                                        andDelegate:self];
+    [_interstitialZoneIdToAdColonyAdDelegate setObject:interstitialAdDelegate
+                                                forKey:zoneId];
     [AdColony requestInterstitialInZone:zoneId
                                 options:adOptions
-                            andDelegate:interstitialDelegate];
+                            andDelegate:interstitialAdDelegate];
 }
 
 - (void)showInterstitialWithViewController:(UIViewController *)viewController
@@ -622,7 +636,8 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     return (ad != nil) && !ad.expired;
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -717,11 +732,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     
     LogAdapterApi_Internal(@"appId = %@, zoneId = %@", appId, zoneId);
     
-    ISAdColonyBannerDelegate *bannerDelegate = [[ISAdColonyBannerDelegate alloc] initWithZoneId:zoneId
-                                                                                    andDelegate:self];
     //add to banner delegate map
-    [_bannerZoneIdToAdColonyAdDelegate setObject:bannerDelegate
-                                          forKey:zoneId];
     [_bannerZoneIdToSmashDelegate setObject:delegate
                                      forKey:zoneId];
     
@@ -745,10 +756,11 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     }
 }
 
-- (void)loadBannerWithViewController:(UIViewController *)viewController
-                                size:(ISBannerSize *)size
-                       adapterConfig:(ISAdapterConfig *)adapterConfig
-                            delegate:(id <ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                             adData:(NSDictionary *)adData
+                     viewController:(UIViewController *)viewController
+                               size:(ISBannerSize *)size
+                           delegate:(id <ISBannerAdapterDelegate>)delegate {
     [self loadBannerInternal:adapterConfig
                     delegate:delegate
                         size:size
@@ -756,11 +768,12 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
                    adOptions:nil];
 }
 
-- (void)loadBannerForBiddingWithServerData:(NSString *)serverData
-                            viewController:(UIViewController *)viewController
-                                      size:(ISBannerSize *)size
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id <ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                               viewController:(UIViewController *)viewController
+                                         size:(ISBannerSize *)size
+                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
     AdColonyAdOptions *adOptions = [AdColonyAdOptions new];
     [adOptions setOption:kAdMarkupKey withStringValue:serverData];
     
@@ -801,19 +814,17 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     
     AdColonyAdSize bannerSize = [self getBannerSize:size];
     
-    ISAdColonyBannerDelegate *bannerDelegate = [_bannerZoneIdToAdColonyAdDelegate objectForKey:zoneId];
+    ISAdColonyBannerDelegate *bannerAdDelegate = [[ISAdColonyBannerDelegate alloc] initWithZoneId:zoneId
+                                                                                      andDelegate:self];
+    [_bannerZoneIdToAdColonyAdDelegate setObject:bannerAdDelegate
+                                          forKey:zoneId];
     
     // load banner
     [AdColony requestAdViewInZone:zoneId
                          withSize:bannerSize
                        andOptions:adOptions
                    viewController:viewController
-                      andDelegate:bannerDelegate];
-}
-
-- (void)reloadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                             delegate:(id <ISBannerAdapterDelegate>)delegate {
-    LogInternal_Warning(@"Unsupported method");
+                      andDelegate:bannerAdDelegate];
 }
 
 - (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
@@ -836,13 +847,8 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     }
 }
 
-//network does not support banner reload
-//return true if banner view needs to be bound again on reload
-- (BOOL)shouldBindBannerViewOnReload {
-    return YES;
-}
-
-- (nonnull NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData {
     return [self getBiddingData];
 }
 
@@ -953,8 +959,10 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     } else  {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                         forType:(META_DATA_VALUE_BOOL)];
-        if ([self isValidCOPPAMetaDataKey:key
-                                 andValue:formattedValue]) {
+        
+        if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                               flag:kMetaDataCOPPAKey
+                                           andValue:formattedValue]) {
             [self setCOPPAValue:formattedValue];
         }
     }
@@ -976,7 +984,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 - (void)setCCPAValue:(NSString *)value {
     //When "do_not_sell" is YES --> report consentString = NO
     //When "do_not_sell" is NO --> report consentString = YES
-    BOOL isCCPAOptedIn = ![ISMetaDataUtils getCCPABooleanValue:value];
+    BOOL isCCPAOptedIn = ![ISMetaDataUtils getMetaDataBooleanValue:value];
     NSString *consentString = isCCPAOptedIn ? @"1" : @"0";
     [adColonyOptions setPrivacyFrameworkOfType:ADC_CCPA
                                     isRequired:YES];
@@ -991,7 +999,7 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 
 - (void)setCOPPAValue:(NSString *)value {
     
-    BOOL isCOPPAOptedIn = [ISMetaDataUtils getCCPABooleanValue:value];
+    BOOL isCOPPAOptedIn = [ISMetaDataUtils getMetaDataBooleanValue:value];
     
     [adColonyOptions setPrivacyFrameworkOfType:ADC_COPPA
                                     isRequired:isCOPPAOptedIn];
@@ -1001,14 +1009,6 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
         [AdColony setAppOptions:adColonyOptions];
     }
 }
-
-
-//This method checks if the Meta Data key is the AdColony COPPA key
-- (BOOL)isValidCOPPAMetaDataKey:(NSString *)key andValue:(NSString *)value {
-    return ([key caseInsensitiveCompare:kMetaDataCOPPAKey] == NSOrderedSame && (value.length > 0));
-}
-
-
 
 #pragma mark - Helper Methods
 

@@ -2,8 +2,7 @@
 //  ISAdColonyInterstitialDelegate.h
 //  ISAdColonyAdapter
 //
-//  Created by Roi Eshel on 24/9/2019.
-//  Copyright © 2019 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

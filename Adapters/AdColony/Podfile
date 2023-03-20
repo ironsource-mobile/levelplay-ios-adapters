@@ -3,7 +3,7 @@
 
 
 target 'ISAdColonyAdapter' do
-  pod 'IronSourceSDK','7.2.4.0'
+  pod 'IronSourceSDK','7.3.0.0'
   pod 'AdColony','4.9.0'
 
 end

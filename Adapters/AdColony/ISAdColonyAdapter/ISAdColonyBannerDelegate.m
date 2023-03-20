@@ -2,11 +2,10 @@
 //  ISAdColonyBannerDelegate.m
 //  ISAdColonyAdapter
 //
-//  Created by Roi Eshel on 9/12/2021.
-//  Copyright © 2021 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISAdColonyBannerDelegate.h"
+#import <ISAdColonyBannerDelegate.h>
 
 @implementation ISAdColonyBannerDelegate
 
