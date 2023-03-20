@@ -16,17 +16,11 @@
 
 /* Begin PBXFileReference section */
 		0EB44080EA96B75B402B5372 /* Pods-ISVungleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		36EF638E7CC8A81F06835D5A /* Pods-ISAdColonyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		4CF7DE948E48A63C36CAE9F8 /* Pods-ISTapjoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapjoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapjoyAdapter/Pods-ISTapjoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		56C8660B289F90E0008ADF53 /* ISVungleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleAdapter.h; sourceTree = "<group>"; };
 		56C8660C289F90E0008ADF53 /* ISVungleAdapterSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleAdapterSingleton.h; sourceTree = "<group>"; };
 		56C8660D289F90E0008ADF53 /* ISVungleAdapterSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleAdapterSingleton.m; sourceTree = "<group>"; };
 		56C8660E289F90E0008ADF53 /* ISVungleAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleAdapter.m; sourceTree = "<group>"; };
-		71EAE3C88FD938AC25A3D7BE /* Pods-ISTapJoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapJoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapJoyAdapter/Pods-ISTapJoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		AA5B4F08489A9B346ABDBE48 /* Pods-ISAdColonyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		B71CE3A1CD069CE6442F3BFC /* Pods-ISVungleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		C4ECFDE93EDDD973182ADD7F /* Pods-ISTapJoyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapJoyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISTapJoyAdapter/Pods-ISTapJoyAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		C7889FF5E37EE76C891938E4 /* Pods-ISTapjoyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapjoyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISTapjoyAdapter/Pods-ISTapjoyAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		E7456AE67B84A441463F77B2 /* libPods-ISVungleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISVungleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE27C0428337CC500391127 /* ISVungleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISVungleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -46,12 +40,6 @@
 		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				36EF638E7CC8A81F06835D5A /* Pods-ISAdColonyAdapter.debug.xcconfig */,
-				AA5B4F08489A9B346ABDBE48 /* Pods-ISAdColonyAdapter.release.xcconfig */,
-				71EAE3C88FD938AC25A3D7BE /* Pods-ISTapJoyAdapter.debug.xcconfig */,
-				C4ECFDE93EDDD973182ADD7F /* Pods-ISTapJoyAdapter.release.xcconfig */,
-				4CF7DE948E48A63C36CAE9F8 /* Pods-ISTapjoyAdapter.debug.xcconfig */,
-				C7889FF5E37EE76C891938E4 /* Pods-ISTapjoyAdapter.release.xcconfig */,
 				0EB44080EA96B75B402B5372 /* Pods-ISVungleAdapter.debug.xcconfig */,
 				B71CE3A1CD069CE6442F3BFC /* Pods-ISVungleAdapter.release.xcconfig */,
 			);

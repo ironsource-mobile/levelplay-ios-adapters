@@ -2,11 +2,10 @@
 //  ISVungleAdapterSingleton.m
 //  ISVungleAdapter
 //
-//  Created by Bar David on 18/05/2020.
-//  Copyright © 2020 ironSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISVungleAdapterSingleton.h"
+#import <ISVungleAdapterSingleton.h>
 
 @interface ISVungleAdapterSingleton()
 

@@ -2,11 +2,11 @@
 //  ISVungleAdapter.m
 //  ISVungleAdapter
 //
-//  Created by Amit Goldhecht on 8/20/14.
-//  Copyright (c) 2014 IronSource. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
-#import "ISVungleAdapterSingleton.h"
-#import "ISVungleAdapter.h"
+
+#import <ISVungleAdapter.h>
+#import <ISVungleAdapterSingleton.h>
 #import <VungleSDK/VungleSDK.h>
 #import <VungleSDK/VungleSDKHeaderBidding.h>
 
@@ -26,7 +26,8 @@ static NSString * const kLandscapeOrientation   = @"LANDSCAPE";
 static NSString * const kAutoRotateOrientation  = @"AUTO_ROTATE";
 
 static NSString * const kLWSSupportedState      = @"isSupportedLWSByInstance";
-static NSInteger const kShowErrorNotCached = 6000;
+
+static NSInteger  const kShowErrorNotCached     = 6000;
 
 // members for network
 static NSNumber * uiOrientation = nil;
@@ -42,7 +43,7 @@ typedef NS_ENUM(NSInteger, InitState) {
 
 // Handle init callback for all adapter instances
 static InitState _initState = INIT_STATE_NONE;
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 
 // Banner state possible values
 typedef NS_ENUM(NSUInteger, BANNER_STATE) {
@@ -56,23 +57,23 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 }
 
 // Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToServerData;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoServerDataToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableSet        *rewardedVideoPlacementIdsForInitCallbacks;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToServerData;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoServerDataToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableSet        *rewardedVideoPlacementIdsForInitCallbacks;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToServerData;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialServerDataToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToServerData;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialServerDataToSmashDelegate;
 
 // Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToSize;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToViewController;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToBannerState;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToServerData;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerServerDataToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToSize;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToViewController;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToBannerState;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToServerData;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerServerDataToSmashDelegate;
 
 @end
 
@@ -90,14 +91,6 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     return VungleSDKVersion;
 }
 
-- (NSArray *)systemFrameworks {
-    return @[@"AdSupport", @"AudioToolbox", @"AVFoundation", @"CFNetwork", @"CoreGraphics", @"CoreMedia", @"Foundation", @"MediaPlayer", @"QuartzCore", @"StoreKit", @"SystemConfiguration", @"UIKit", @"WebKit"];
-}
-
-- (NSString *)sdkName {
-    return @"VungleSDK";
-}
-
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
@@ -105,27 +98,27 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
         
         // Rewarded video
-        _rewardedVideoPlacementIdToSmashDelegate        = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToServerData           = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoServerDataToSmashDelegate         = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdsForInitCallbacks      = [ConcurrentMutableSet set];
+        _rewardedVideoPlacementIdToSmashDelegate        = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToServerData           = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoServerDataToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdsForInitCallbacks      = [ISConcurrentMutableSet set];
         
         // Interstitial
-        _interstitialPlacementIdToSmashDelegate         = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToServerData            = [ConcurrentMutableDictionary dictionary];
-        _interstitialServerDataToSmashDelegate          = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToServerData            = [ISConcurrentMutableDictionary dictionary];
+        _interstitialServerDataToSmashDelegate          = [ISConcurrentMutableDictionary dictionary];
         
         // Banner
-        _bannerPlacementIdToSmashDelegate               = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToSize                        = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToViewController              = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToBannerState                 = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToServerData                  = [ConcurrentMutableDictionary dictionary];
-        _bannerServerDataToSmashDelegate                = [ConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToSmashDelegate               = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToSize                        = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToViewController              = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToBannerState                 = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToServerData                  = [ISConcurrentMutableDictionary dictionary];
+        _bannerServerDataToSmashDelegate                = [ISConcurrentMutableDictionary dictionary];
     }
     
     return self;
@@ -188,22 +181,23 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 }
 
 - (void)initFailedWithError:(NSError *)error {
+    NSString *errorMsg = [NSString stringWithFormat:@"Vungle SDK init failed %@", error ? error.description : @""];
     
+    LogAdapterDelegate_Internal(@"error - %@", errorMsg);
+
     _initState = INIT_STATE_FAILED;
     
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
     
     // call init callback delegate fail
     for (id<ISNetworkInitCallbackProtocol> delegate in initDelegatesList) {
-        [delegate onNetworkInitCallbackFailed:@"Vungle SDK init failed"];
+        [delegate onNetworkInitCallbackFailed:errorMsg];
     }
     
     [initCallbackDelegates removeAllObjects];
 }
 
 - (void)onNetworkInitCallbackSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
     // rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
     
@@ -211,7 +205,9 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
         if ([_rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
             [[_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId] adapterRewardedVideoInitSuccess];
         } else {
-            [self loadRewardedVideoInternalWithPlacement:placementId];
+            id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
+            [self loadRewardedVideoInternalWithPlacement:placementId
+                                                delegate:delegate];
         }
     }
     
@@ -233,9 +229,9 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 }
 
 - (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
-    LogInternal_Internal(@"");
-    
-    NSError *error = [ISError createError:ERROR_CODE_INIT_FAILED withMessage:errorMessage];
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
@@ -321,6 +317,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 // used for flows when the mediation doesn't need to get a callback for init
 - (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *appId = adapterConfig.settings[kAppID];
     NSString *placementId = adapterConfig.settings[kPlacementID];
@@ -346,17 +343,14 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                  forKey:placementId];
     
-    // add rewarded video to singleton
-    [[ISVungleAdapterSingleton sharedInstance] addRewardedVideoDelegate:self
-                                                                 forKey:placementId];
-    
     switch (_initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
             [self initSDKWithAppId:appId];
             break;
         case INIT_STATE_SUCCESS:
-            [self loadRewardedVideoInternalWithPlacement:placementId];
+            [self loadRewardedVideoInternalWithPlacement:placementId
+                                                delegate:delegate];
             break;
         case INIT_STATE_FAILED: {
             LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
@@ -367,6 +361,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
@@ -375,33 +370,45 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     [_rewardedVideoServerDataToSmashDelegate setObject:delegate
                                                 forKey:serverData];
     
-    // add rewarded video to singleton - used here instead of Init callback for progressive loading only (supported only on bidding flow)
-    [[ISVungleAdapterSingleton sharedInstance] addRewardedVideoDelegate:self
-                                                                 forKey:serverData];
-    
-    [self loadRewardedVideoInternalWithPlacement:placementId];
+    [self loadRewardedVideoInternalWithPlacement:placementId
+                                        delegate:delegate];
 }
 
-- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-    [self loadRewardedVideoInternalWithPlacement:placementId];
+    
+    [self loadRewardedVideoInternalWithPlacement:placementId
+                                        delegate:delegate];
 }
 
-- (void)loadRewardedVideoInternalWithPlacement:(NSString *)placementId {
+- (void)loadRewardedVideoInternalWithPlacement:(NSString *)placementId
+                                      delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     LogAdapterApi_Internal(@"placementId = %@", placementId);
 
-    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
+    // add to rewarded video delegate map
+    [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
+                                                 forKey:placementId];
+
     NSString *serverData = [_rewardedVideoPlacementIdToServerData objectForKey:placementId];
     BOOL loadAttemptSucceeded = YES;
     NSError *error = nil;
     
     if (serverData) {
+        // add rewarded video to singleton - used here instead of Init callback for progressive loading only (supported only on bidding flow)
+        [[ISVungleAdapterSingleton sharedInstance] addRewardedVideoDelegate:self
+                                                                     forKey:serverData];
+        
         // Load rewarded video for bidding instance
         loadAttemptSucceeded = [[VungleSDK sharedSDK] loadPlacementWithID:placementId
                                                                  adMarkup:serverData
                                                                     error:&error];
     } else {
+        // add rewarded video to singleton
+        [[ISVungleAdapterSingleton sharedInstance] addRewardedVideoDelegate:self
+                                                                     forKey:placementId];
+        
         // Load rewarded video for non bidding instance
         loadAttemptSucceeded = [[VungleSDK sharedSDK] loadPlacementWithID:placementId
                                                                     error:&error];
@@ -422,9 +429,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    [delegate adapterRewardedVideoHasChangedAvailability:NO];
-    
+        
     if (![self isAdCachedForPlacement:placementId]) {
         NSError *error = [NSError errorWithDomain:kAdapterName
                                              code:kShowErrorNotCached
@@ -436,7 +441,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSDictionary *options = [self createAdOptionsWithDynamicUserID:YES];
-        NSString *serverData = [_rewardedVideoPlacementIdToServerData objectForKey:placementId];
+        NSString *serverData = [self.rewardedVideoPlacementIdToServerData objectForKey:placementId];
         BOOL showAttemptSucceeded = YES;
         NSError *error;
         
@@ -488,7 +493,8 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementId];
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
     return [self getBiddingDataWithAdapterConfig:adapterConfig];
 }
 
@@ -616,10 +622,6 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     // add to interstitial delegate map
     [_interstitialPlacementIdToSmashDelegate setObject:delegate
                                                 forKey:placementId];
-
-    // add interstitial to singleton
-    [[ISVungleAdapterSingleton sharedInstance] addInterstitialDelegate:self
-                                                        forPlacementID:placementId];
     
     switch (_initState) {
         case INIT_STATE_NONE:
@@ -640,28 +642,43 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     }
 }
 
-- (void)loadInterstitialForBiddingWithServerData:(NSString *)serverData
-                                   adapterConfig:(ISAdapterConfig *)adapterConfig
-                                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
     NSString *placementId = adapterConfig.settings[kPlacementID];
     [_interstitialPlacementIdToServerData setObject:serverData
                                              forKey:adapterConfig.settings[kPlacementID]];
+    
     [_interstitialServerDataToSmashDelegate setObject:delegate
                                                forKey:serverData];
     
-    [self loadInterstitialInternalWithPlacement:placementId];
+    [self loadInterstitialInternalWithPlacement:placementId
+                                       delegate:delegate];
 }
 
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
-    [self loadInterstitialInternalWithPlacement:placementId];
+    
+    [self loadInterstitialInternalWithPlacement:placementId
+                                       delegate:delegate];
 }
 
-- (void)loadInterstitialInternalWithPlacement:(NSString *)placementId {
+- (void)loadInterstitialInternalWithPlacement:(NSString *)placementId
+                                     delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     LogAdapterApi_Internal(@"placementID = %@", placementId);
+    
+    // add to interstitial delegate map
+    [_interstitialPlacementIdToSmashDelegate setObject:delegate
+                                                forKey:placementId];
+    
+    // add interstitial to singleton
+    [[ISVungleAdapterSingleton sharedInstance] addInterstitialDelegate:self
+                                                        forPlacementID:placementId];
 
-    id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
     NSString *serverData = [_interstitialPlacementIdToServerData objectForKey:placementId];
     BOOL loadAttemptSucceeded = YES;
     NSError *error;
@@ -706,7 +723,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSDictionary *options = [self createAdOptionsWithDynamicUserID:NO];
-        NSString *serverData = [_interstitialPlacementIdToServerData objectForKey:placementId];
+        NSString *serverData = [self.interstitialPlacementIdToServerData objectForKey:placementId];
         BOOL showAttemptSucceeded = YES;
         NSError *error;
         
@@ -758,7 +775,8 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     return [[VungleSDK sharedSDK] isAdCachedForPlacementID:placementId];
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
     return [self getBiddingDataWithAdapterConfig:adapterConfig];
 }
 
@@ -872,10 +890,6 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     [_bannerPlacementIdToSmashDelegate setObject:delegate
                                           forKey:placementId];
        
-    // add banner to singleton
-    [[ISVungleAdapterSingleton sharedInstance] addBannerDelegate:self
-                                                  forPlacementID:placementId];
-
     switch (_initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
@@ -896,12 +910,14 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 }
 
 
-- (void)loadBannerForBiddingWithServerData:(NSString *)serverData
-                            viewController:(UIViewController *)viewController
-                                      size:(ISBannerSize *)size
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                               viewController:(UIViewController *)viewController
+                                         size:(ISBannerSize *)size
+                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementID];
+    
     [_bannerPlacementIdToServerData setObject:serverData
                                        forKey:placementId];
     [_bannerServerDataToSmashDelegate setObject:delegate
@@ -924,11 +940,13 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     }
 }
 
-- (void)loadBannerWithViewController:(nonnull UIViewController *)viewController
-                                size:(ISBannerSize *)size
-                       adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                            delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
 
+- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                             adData:(NSDictionary *)adData
+                     viewController:(UIViewController *)viewController
+                               size:(ISBannerSize *)size
+                           delegate:(id <ISBannerAdapterDelegate>)delegate {
+    
     NSString *placementId = adapterConfig.settings[kPlacementID];
 
     // get current state
@@ -986,6 +1004,16 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
                                    size:(ISBannerSize *)size
                                delegate:(id <ISBannerAdapterDelegate>)delegate {
 
+    
+    // add to banner delegate map
+    [_bannerPlacementIdToSmashDelegate setObject:delegate
+                                          forKey:placementId];
+
+    // add banner to singleton
+    [[ISVungleAdapterSingleton sharedInstance] addBannerDelegate:self
+                                                  forPlacementID:placementId];
+
+    
     // verify size
     if (![self isBannerSizeSupported:size]) {
         NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE
@@ -1048,20 +1076,18 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     }
 }
 
-- (void)reloadBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                             delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
-    LogInternal_Warning(@"Unsupported method");
-}
-
 - (void)destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementID];
     NSString *serverData = [_bannerPlacementIdToServerData objectForKey:placementId];
     
     // remove from dictionaries
-    [_bannerPlacementIdToSize removeObjectForKey:placementId];
-    [_bannerPlacementIdToViewController removeObjectForKey:placementId];
-    [_bannerPlacementIdToBannerState removeObjectForKey:placementId];
-    
+    [_bannerPlacementIdToSmashDelegate removeAllObjects];
+    [_bannerPlacementIdToSize removeAllObjects];
+    [_bannerPlacementIdToViewController removeAllObjects];
+    [_bannerPlacementIdToBannerState removeAllObjects];
+    [_bannerPlacementIdToServerData removeAllObjects];
+    [_bannerServerDataToSmashDelegate removeAllObjects];
+
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     // call Vungle finish
@@ -1073,13 +1099,8 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     }
 }
 
-//network does not support banner reload
-//return true if banner view needs to be bound again on reload
-- (BOOL)shouldBindBannerViewOnReload {
-    return YES;
-}
-
-- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData {
     return [self getBiddingDataWithAdapterConfig:adapterConfig];
 }
 
@@ -1138,8 +1159,8 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
                         [bannerDelegate adapterBannerDidFailToLoadWithError:vungleError];
                     } else {
                         // update banner state - SHOWING
-                        [_bannerPlacementIdToBannerState setObject:[self getBannerStateObject:SHOWING]
-                                                            forKey:placementID];
+                        [self.bannerPlacementIdToBannerState setObject:[self getBannerStateObject:SHOWING]
+                                                                forKey:placementID];
                         // call delegate success
                         [bannerDelegate adapterBannerDidLoad:containerView];
                     }
@@ -1231,13 +1252,7 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 #pragma mark - Memory Handling
 
 - (void)releaseMemoryWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
-    // releasing memory currently only for banners
-    NSString *placementId = adapterConfig.settings[kPlacementID];
-    ISBannerSize *size = [_bannerPlacementIdToSize objectForKey:placementId];
-    
-    if (size) {
-        [self destroyBannerWithAdapterConfig:adapterConfig];
-    }
+    [self destroyBannerWithAdapterConfig:adapterConfig];
 }
 
 #pragma mark - Progressive loading handling
@@ -1289,15 +1304,21 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
     
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
-        [self setCCPAValue:[ISMetaDataUtils getCCPABooleanValue:value]];
-    } else if ([[key lowercaseString] isEqual:kOrientationFlag]) {
+        [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
+        
+    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                                  flag:kOrientationFlag
+                                              andValue:value]) {
         adOrientation = value;
+        
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                            forType:(META_DATA_VALUE_BOOL)];
-        if ([self isValidCOPPAMetaDataWithKey:key
-                                     andValue:formattedValue]) {
-            [self setCOPPAValue:[ISMetaDataUtils getCCPABooleanValue:formattedValue]];
+        
+        if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                               flag:kMetaDataCOPPAKey
+                                           andValue:formattedValue]) {
+            [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
 }
@@ -1305,10 +1326,6 @@ typedef NS_ENUM(NSUInteger, BANNER_STATE) {
 - (void) setCOPPAValue:(BOOL)value {
     LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
     [[VungleSDK sharedSDK] updateCOPPAStatus:value];
-}
-
-- (BOOL) isValidCOPPAMetaDataWithKey:(NSString*)key andValue:(NSString*)value {
-    return (([key caseInsensitiveCompare:kMetaDataCOPPAKey] == NSOrderedSame) && (value.length > 0));
 }
 
 #pragma mark - Helper Methods
