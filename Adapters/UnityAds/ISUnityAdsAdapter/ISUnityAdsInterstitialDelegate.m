@@ -1,16 +1,16 @@
 //
-//  ISUnityAdsRewardedVideoListener.m
+//  ISUnityAdsInterstitialDelegate.m
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISUnityAdsRewardedVideoListener.h"
+#import <ISUnityAdsInterstitialDelegate.h>
 
-@implementation ISUnityAdsRewardedVideoListener
+@implementation ISUnityAdsInterstitialDelegate
 
 - (instancetype) initWithPlacementId:(NSString *)placementId
-                         andDelegate:(id<ISUnityAdsRewardedVideoDelegateWrapper>)delegate {
+                         andDelegate:(id<ISUnityAdsInterstitialDelegateWrapper>)delegate {
     self = [super init];
     
     if (self) {
@@ -28,7 +28,7 @@
  *  @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsAdLoaded:(nonnull NSString *)placementId {
-    [_delegate onRewardedVideoDidLoad:_placementId];
+    [_delegate onInterstitialDidLoad:_placementId];
 }
 
 /**
@@ -40,8 +40,8 @@
 - (void) unityAdsAdFailedToLoad:(nonnull NSString *)placementId
                       withError:(UnityAdsLoadError)error
                     withMessage:(nonnull NSString *)message {
-    [_delegate onRewardedVideoDidFailToLoad:_placementId
-                                  withError:error];
+    [_delegate onInterstitialDidFailToLoad:_placementId
+                                 withError:error];
 }
 
 #pragma mark UnityAdsShowDelegate
@@ -51,7 +51,7 @@
  * @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsShowStart:(nonnull NSString *)placementId {
-    [_delegate onRewardedVideoDidOpen:_placementId];
+    [_delegate onInterstitialDidOpen:_placementId];
 }
 
 /**
@@ -70,9 +70,9 @@
 - (void) unityAdsShowFailed:(nonnull NSString *)placementId
                   withError:(UnityAdsShowError)error
                 withMessage:(nonnull NSString *)message {
-    [_delegate onRewardedVideoShowFail:_placementId
-                             withError:error
-                            andMessage:message];
+    [_delegate onInterstitialShowFail:_placementId
+                            withError:error
+                           andMessage:message];
 }
 
 /**
@@ -80,7 +80,7 @@
  * @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsShowClick:(nonnull NSString *)placementId {
-    [_delegate onRewardedVideoDidClick:_placementId];
+    [_delegate onInterstitialDidClick:_placementId];
 }
 
 /**
@@ -90,8 +90,8 @@
  */
 - (void) unityAdsShowComplete:(nonnull NSString *)placementId
               withFinishState:(UnityAdsShowCompletionState)state {
-    [_delegate onRewardedVideoDidShowComplete:_placementId
-                              withFinishState:state];
+    [_delegate onInterstitialDidShowComplete:_placementId
+                             withFinishState:state];
 }
 
 @end

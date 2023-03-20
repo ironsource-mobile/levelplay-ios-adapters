@@ -2,16 +2,14 @@
 //  ISUnityAdsAdapter.m
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISUnityAdsAdapter.h"
-#import "ISUnityAdsBannerListener.h"
-#import "ISUnityAdsInterstitialListener.h"
-#import "ISUnityAdsRewardedVideoListener.h"
+#import <ISUnityAdsAdapter.h>
+#import <ISUnityAdsRewardedVideoDelegate.h>
+#import <ISUnityAdsInterstitialDelegate.h>
+#import <ISUnityAdsBannerDelegate.h>
 #import <UnityAds/UnityAds.h>
-#import "IronSource/IronSource.h"
-
 
 // UnityAds Mediation MetaData
 static NSString * const kMediationName = @"ironSource";
@@ -39,7 +37,7 @@ typedef NS_ENUM(NSInteger, InitState) {
 
 // Handle init callback for all adapter instances
 static InitState _initState = INIT_STATE_NONE;
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 
 // UnityAds asynchronous token
 static NSString *asyncToken = nil;
@@ -47,28 +45,32 @@ static NSString *asyncToken = nil;
 // Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
-@interface ISUnityAdsAdapter () <UnityAdsInitializationDelegate, ISNetworkInitCallbackProtocol, ISUnityAdsBannerDelegateWrapper, ISUnityAdsInterstitialDelegateWrapper, ISUnityAdsRewardedVideoDelegateWrapper>
+@interface ISUnityAdsAdapter () <UnityAdsInitializationDelegate,
+ISNetworkInitCallbackProtocol,
+ISUnityAdsBannerDelegateWrapper,
+ISUnityAdsInterstitialDelegateWrapper,
+ISUnityAdsRewardedVideoDelegateWrapper>
 
 // Rewrded video
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToObjectId;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoPlacementIdToListener;
-@property (nonatomic, strong) ConcurrentMutableDictionary *rewardedVideoAdsAvailability;
-@property (nonatomic, strong) ConcurrentMutableSet        *rewardedVideoPlacementIdsForInitCallbacks;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToObjectId;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoAdsAvailability;
+@property (nonatomic, strong) ISConcurrentMutableSet        *rewardedVideoPlacementIdsForInitCallbacks;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToObjectId;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialPlacementIdToListener;
-@property (nonatomic, strong) ConcurrentMutableDictionary *interstitialAdsAvailability;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToObjectId;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialPlacementIdToDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialAdsAvailability;
 
 // Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToListener;
-@property (nonatomic, strong) ConcurrentMutableDictionary *bannerPlacementIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary *bannerPlacementIdToAd;
 
 // synchronization lock
-@property (nonatomic, strong) NSObject                    *UnityAdsStorageLock;
+@property (nonatomic, strong) NSObject                      *unityAdsStorageLock;
 
 @end
 
@@ -86,50 +88,42 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     return [UnityAds getVersion];
 }
 
-// network system frameworks
-- (NSArray *) systemFrameworks {
-    return @[@"AdSupport", @"CoreTelephony", @"StoreKit"];
-}
-    
-- (NSString *) sdkName {
-    return kAdapterName;
-}
-
 #pragma mark - Initializations Methods And Callbacks
 
-- (instancetype) initAdapter:(NSString *)name {
+- (instancetype)initAdapter:(NSString *)name {
     self = [super initAdapter:name];
     
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
         
         // Rewarded video
-        _rewardedVideoPlacementIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToObjectId = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToListener = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoAdsAvailability = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdsForInitCallbacks = [ConcurrentMutableSet set];
+        _rewardedVideoPlacementIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToObjectId = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToDelegate = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdsAvailability = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdsForInitCallbacks = [ISConcurrentMutableSet set];
         
         // Interstitial
-        _interstitialPlacementIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToObjectId = [ConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToListener = [ConcurrentMutableDictionary dictionary];
-        _interstitialAdsAvailability = [ConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToObjectId = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToDelegate = [ISConcurrentMutableDictionary dictionary];
+        _interstitialAdsAvailability = [ISConcurrentMutableDictionary dictionary];
         
         // Banner
-        _bannerPlacementIdToSmashDelegate = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToListener = [ConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToAd = [ConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToSmashDelegate = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToDelegate = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToAd = [ISConcurrentMutableDictionary dictionary];
         
-        _UnityAdsStorageLock = [NSObject new];
+        _unityAdsStorageLock = [NSObject new];
     }
     
     return self;
 }
 
-- (void) initSDKWithGameId:(NSString *)gameId adapterConfig:(ISAdapterConfig *)adapterConfig  {
+- (void)initSDKWithGameId:(NSString *)gameId
+            adapterConfig:(ISAdapterConfig *)adapterConfig  {
 
     // add self to the init delegates only in case the initialization has not finished yet
     if (_initState == INIT_STATE_NONE || _initState == INIT_STATE_IN_PROGRESS) {
@@ -143,20 +137,21 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             _initState = INIT_STATE_IN_PROGRESS;
             LogAdapterApi_Internal(@"gameId = %@", gameId);
 
-
-
-            @synchronized (_UnityAdsStorageLock) {
+            @synchronized (self.unityAdsStorageLock) {
                 UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
                 [mediationMetaData setName:kMediationName];
                 [mediationMetaData setVersion:[IronSource sdkVersion]];
-                [mediationMetaData set:kAdapterVersionKey value:kAdapterVersion];
+                [mediationMetaData set:kAdapterVersionKey
+                                 value:kAdapterVersion];
                 [mediationMetaData commit];
             }
 
             [UnityAds setDebugMode:[ISConfigurations getConfigurations].adaptersDebug];
             LogAdapterApi_Internal(@"setDebugMode = %d", [ISConfigurations getConfigurations].adaptersDebug);
 
-            [UnityAds initialize:gameId testMode:NO initializationDelegate:self];
+            [UnityAds initialize:gameId
+                        testMode:NO
+          initializationDelegate:self];
             
             // Trying to fetch async token for the first load
             [self getAsyncToken];
@@ -165,7 +160,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     });
 }
 
-- (void) initializationComplete {
+- (void)initializationComplete {
     LogAdapterDelegate_Internal(@"UnityAds init success");
     
     _initState = INIT_STATE_SUCCESS;
@@ -180,10 +175,16 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [initCallbackDelegates removeAllObjects];
 }
 
-- (void)initializationFailed: (UnityAdsInitializationError)error
-                 withMessage: (NSString *)message {
-    NSString *initError = [NSString stringWithFormat:@"%@ - %@", [self unityAdsInitErrorToString:error], message];
-    LogAdapterDelegate_Internal(@"init failed error - %@", initError);
+- (void)initializationFailed:(UnityAdsInitializationError)error
+                 withMessage:(NSString *)message {
+    
+    NSString *errorMsg = @"UnityAds SDK init failed";
+    
+    if (message) {
+        errorMsg = [NSString stringWithFormat:@"UnityAds SDK init failed with error code: %@, error message: %@", [self unityAdsInitErrorToString:error], message];
+    }
+    
+    LogAdapterDelegate_Internal(@"error - %@", errorMsg);
 
     _initState = INIT_STATE_FAILED;
     
@@ -191,22 +192,24 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     
     // call init callback delegate fail
     for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackFailed:initError];
+        [initDelegate onNetworkInitCallbackFailed:errorMsg];
     }
     
     [initCallbackDelegates removeAllObjects];
 }
 
-- (void) onNetworkInitCallbackSuccess {
+- (void)onNetworkInitCallbackSuccess {
     // rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
     
     for (NSString *placementId in rewardedVideoPlacementIDs) {
+        id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
         if ([_rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
-            id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
             [delegate adapterRewardedVideoInitSuccess];
         } else {
-            [self loadRewardedVideoInternal:placementId andServerData:nil];
+            [self loadRewardedVideoInternal:placementId
+                                 serverData:nil
+                                   delegate:delegate];
         }
     }
     
@@ -227,10 +230,11 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     }
 }
 
-- (void) onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
-    NSError *error = [NSError errorWithDomain:kAdapterName
-                                         code:ERROR_CODE_INIT_FAILED
-                                     userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+- (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
+    
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
@@ -261,15 +265,14 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
         [delegate adapterBannerInitFailedWithError:error];
     }
 }
-
   
 #pragma mark - Rewarded Video API
 
 
 // used for flows when the mediation needs to get a callback for init
-- (void) initRewardedVideoForCallbacksWithUserId:(NSString *)userId
-                                   adapterConfig:(ISAdapterConfig *)adapterConfig
-                                        delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)initRewardedVideoForCallbacksWithUserId:(NSString *)userId
+                                  adapterConfig:(ISAdapterConfig *)adapterConfig
+                                       delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *gameId = adapterConfig.settings[kGameId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
 
@@ -291,11 +294,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     // Register Delegate for placement
-    [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate forKey:placementId];
-    
-    // Create rewarded video listener
-    ISUnityAdsRewardedVideoListener *rewardedVideoListener = [[ISUnityAdsRewardedVideoListener alloc] initWithPlacementId:placementId andDelegate:self];
-    [_rewardedVideoPlacementIdToListener setObject:rewardedVideoListener forKey:placementId];
+    [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
+                                                 forKey:placementId];
     
     // Register rewarded video to init callback
     [_rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
@@ -303,7 +303,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     switch (_initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithGameId:gameId adapterConfig:adapterConfig];
+            [self initSDKWithGameId:gameId
+                      adapterConfig:adapterConfig];
             break;
         case INIT_STATE_FAILED:
             [delegate adapterRewardedVideoInitFailed:[NSError errorWithDomain:kAdapterName
@@ -317,9 +318,10 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 }
 
 // used for flows when the mediation doesn't need to get a callback for init
-- (void) initAndLoadRewardedVideoWithUserId:(NSString *)userId
-                              adapterConfig:(ISAdapterConfig *)adapterConfig
-                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
+                             adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *gameId = adapterConfig.settings[kGameId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
 
@@ -341,80 +343,105 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     // Register Delegate for placement
-    [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate forKey:placementId];
-    
-    // Create rewarded video listener
-    ISUnityAdsRewardedVideoListener *rewardedVideoListener = [[ISUnityAdsRewardedVideoListener alloc] initWithPlacementId:placementId andDelegate:self];
-    [_rewardedVideoPlacementIdToListener setObject:rewardedVideoListener forKey:placementId];
+    [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
+                                                 forKey:placementId];
     
     switch (_initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithGameId:gameId adapterConfig:adapterConfig];
+            [self initSDKWithGameId:gameId
+                      adapterConfig:adapterConfig];
             break;
         case INIT_STATE_FAILED:
             [delegate adapterRewardedVideoHasChangedAvailability:NO];
             break;
         case INIT_STATE_SUCCESS:
-            [self loadRewardedVideoInternal:placementId andServerData:nil];
+            [self loadRewardedVideoInternal:placementId
+                                 serverData:nil
+                                   delegate:delegate];
             break;
     }
 }
 
-- (void) loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                           serverData:(NSString *)serverData
-                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate{
+- (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
+                                          serverData:(NSString *)serverData
+                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    [self loadRewardedVideoInternal:placementId andServerData:serverData];
+    
+    [self loadRewardedVideoInternal:placementId
+                         serverData:serverData
+                           delegate:delegate];
 }
 
-- (void) fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    [self loadRewardedVideoInternal:placementId andServerData:nil];
+    
+    [self loadRewardedVideoInternal:placementId
+                         serverData:nil
+                           delegate:delegate];
 }
 
-- (void) loadRewardedVideoInternal:(NSString *)placementId andServerData:(NSString *)serverData {
+- (void)loadRewardedVideoInternal:(NSString *)placementId
+                       serverData:(NSString *)serverData
+                         delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    [_rewardedVideoAdsAvailability setObject:@NO forKey:placementId];
-    if(serverData != nil) {
-        UADSLoadOptions *options = [UADSLoadOptions new];
-        // objectId is used to identify a loaded ad and to show it
-        NSString *objectId = [[NSUUID UUID] UUIDString];
-        [options setObjectId:objectId];
+    
+    [_rewardedVideoAdsAvailability setObject:@NO
+                                      forKey:placementId];
+    
+    // Register Rewarded Video delegate for placement in order to support OPW flow- the delegate passes as a param through adapter's API
+    [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
+                                                 forKey:placementId];
+    
+    // Create rewarded video delegate
+    ISUnityAdsRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISUnityAdsRewardedVideoDelegate alloc]
+                                                                initWithPlacementId:placementId
+                                                                           delegate:self];
+    [_rewardedVideoPlacementIdToDelegate setObject:rewardedVideoAdDelegate
+                                            forKey:placementId];
+    
+    UADSLoadOptions *options = [UADSLoadOptions new];
+    
+    // objectId is used to identify a loaded ad and to show it
+    NSString *objectId = [[NSUUID UUID] UUIDString];
+    [options setObjectId:objectId];
+    
+    if (serverData != nil) {
+        // add adMarkup for bidder instances
         [options setAdMarkup:serverData];
-        [_rewardedVideoPlacementIdToObjectId setObject:objectId forKey:placementId];
-        
-        // Load rewarded video for bidding instance
-        [UnityAds load:placementId options:options loadDelegate:[_rewardedVideoPlacementIdToListener objectForKey:placementId]];
-    } else {
-        // Load rewarded video for non bidding instance
-        [UnityAds load:placementId loadDelegate:[_rewardedVideoPlacementIdToListener objectForKey:placementId]];
     }
-
+    
+    [_rewardedVideoPlacementIdToObjectId setObject:objectId
+                                            forKey:placementId];
+    
+    [UnityAds load:placementId
+           options:options
+      loadDelegate:rewardedVideoAdDelegate];
 }
 
-- (void) showRewardedVideoWithViewController:(UIViewController *)viewController
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+- (void)showRewardedVideoWithViewController:(UIViewController *)viewController
+                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     if (![self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
-        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
+                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
         LogAdapterApi_Internal(@"error = %@", error);
         [delegate adapterRewardedVideoDidFailToShowWithError:error];
         return;
     }
     
-    [delegate adapterRewardedVideoHasChangedAvailability:NO];
-
     dispatch_async(dispatch_get_main_queue(), ^{
         @try {
             if ([self dynamicUserId]) {
-                @synchronized (_UnityAdsStorageLock) {
+                @synchronized (self.unityAdsStorageLock) {
                     id playerMetaData = [[UADSPlayerMetaData alloc] init];
                     [playerMetaData setServerId:[self dynamicUserId]];
                     [playerMetaData commit];
@@ -422,19 +449,19 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             }
             
             UIViewController *vc = viewController == nil ? [self topMostController] : viewController;
-            id<UnityAdsShowDelegate>showDelegate = [_rewardedVideoPlacementIdToListener objectForKey:placementId];;
+            id<UnityAdsShowDelegate>showDelegate = [self.rewardedVideoPlacementIdToDelegate objectForKey:placementId];;
             
-            if ([_rewardedVideoPlacementIdToObjectId hasObjectForKey:placementId]) {
-                // Show rewarded video for bidding instance
-                UADSShowOptions *options = [UADSShowOptions new];
-                [options setObjectId:[_rewardedVideoPlacementIdToObjectId objectForKey:placementId]];
-                [UnityAds show:vc placementId:placementId options:options showDelegate:showDelegate];
-            } else {
-                // Show rewarded video for non bidding instance
-                [UnityAds show:vc placementId:placementId showDelegate:showDelegate];
-            }
-        }
-        @catch (NSException *exception) {
+            UADSShowOptions *options = [UADSShowOptions new];
+            
+            NSString *objectId = [self.rewardedVideoPlacementIdToObjectId objectForKey:placementId];
+            [options setObjectId:objectId];
+            
+            [UnityAds show:vc
+               placementId:placementId
+                   options:options
+              showDelegate:showDelegate];
+            
+        } @catch (NSException *exception) {
             NSString *message = [NSString stringWithFormat:@"ISUnityAdsAdapter: Exception while trying to show a rewarded video ad. Description: '%@'", exception.description];
             LogAdapterApi_Internal(@"message = %@", message);
             NSError *showError = [NSError errorWithDomain:kAdapterName
@@ -443,24 +470,26 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             [delegate adapterRewardedVideoDidFailToShowWithError:showError];
         }
         
-        [_rewardedVideoAdsAvailability setObject:@NO forKey:placementId];
+        [self.rewardedVideoAdsAvailability setObject:@NO
+                                              forKey:placementId];
     });
 }
 
-- (BOOL) hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (BOOL)hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     NSNumber *available = [_rewardedVideoAdsAvailability objectForKey:placementId];
     return (available != nil) && [available boolValue];
 }
 
-- (NSDictionary *) getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self getBiddingData];
 }
 
 #pragma mark - Rewarded Video Delegate
 
-- (void) onRewardedVideoDidLoad:(NSString * _Nonnull)placementId {
+- (void)onRewardedVideoDidLoad:(NSString * _Nonnull)placementId {
     LogAdapterDelegate_Internal(@"placementId = %@", placementId);
     [_rewardedVideoAdsAvailability setObject:@YES forKey:placementId];
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
@@ -468,8 +497,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterRewardedVideoHasChangedAvailability:YES];
 }
 
-- (void) onRewardedVideoDidFailToLoad:(NSString * _Nonnull)placementId
-                            withError:(UnityAdsLoadError)error {
+- (void)onRewardedVideoDidFailToLoad:(NSString * _Nonnull)placementId
+                           withError:(UnityAdsLoadError)error {
     NSString *loadError = [self unityAdsLoadErrorToString:error];
     LogAdapterDelegate_Internal(@"placementId = %@ reason - %@", placementId, loadError);
     [_rewardedVideoAdsAvailability setObject:@NO forKey:placementId];
@@ -483,7 +512,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
 }
 
-- (void) onRewardedVideoDidOpen:(NSString * _Nonnull)placementId {
+- (void)onRewardedVideoDidOpen:(NSString * _Nonnull)placementId {
     LogAdapterDelegate_Internal(@"placementId = %@", placementId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
     
@@ -491,9 +520,9 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterRewardedVideoDidStart];
 }
 
-- (void) onRewardedVideoShowFail:(NSString * _Nonnull)placementId
-                       withError:(UnityAdsShowError)error
-                      andMessage:(NSString * _Nonnull)errorMessage {
+- (void)onRewardedVideoShowFail:(NSString * _Nonnull)placementId
+                      withError:(UnityAdsShowError)error
+                     andMessage:(NSString * _Nonnull)errorMessage {
     NSString *showError = [NSString stringWithFormat:@"%@ - %@", [self unityAdsShowErrorToString:error], errorMessage];
     LogAdapterDelegate_Internal(@"placementId = %@ reason = %@", placementId, showError);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
@@ -504,15 +533,15 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterRewardedVideoDidFailToShowWithError:smashError];
 }
 
-- (void) onRewardedVideoDidClick:(NSString * _Nonnull)placementId {
+- (void)onRewardedVideoDidClick:(NSString * _Nonnull)placementId {
     LogAdapterDelegate_Internal(@"placementId = %@", placementId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
     
     [delegate adapterRewardedVideoDidClick];
 }
 
-- (void) onRewardedVideoDidShowComplete:(NSString * _Nonnull)placementId
-                        withFinishState:(UnityAdsShowCompletionState)state {
+- (void)onRewardedVideoDidShowComplete:(NSString * _Nonnull)placementId
+                       withFinishState:(UnityAdsShowCompletionState)state {
     LogAdapterDelegate_Internal(@"placementId = %@ and completion state = %d", placementId, (int)state);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
        
@@ -534,14 +563,18 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 #pragma mark - Interstitial API
 
-- (void) initInterstitialForBiddingWithUserId:(NSString *)userId
-                                adapterConfig:(ISAdapterConfig *)adapterConfig
-                                     delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
+                               adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     LogAdapterApi_Internal(@"");
-    [self initInterstitialWithUserId:userId adapterConfig:adapterConfig delegate:delegate];
+    [self initInterstitialWithUserId:userId
+                       adapterConfig:adapterConfig
+                            delegate:delegate];
 }
 
-- (void) initInterstitialWithUserId:(NSString *)userId adapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)initInterstitialWithUserId:(NSString *)userId
+                     adapterConfig:(ISAdapterConfig *)adapterConfig
+                          delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *gameId = adapterConfig.settings[kGameId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
@@ -563,16 +596,14 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     // Register Delegate for placement
-    [_interstitialPlacementIdToSmashDelegate setObject:delegate forKey:placementId];
-    
-    // Create interstitial listener
-    ISUnityAdsInterstitialListener *interstitialListener = [[ISUnityAdsInterstitialListener alloc] initWithPlacementId:placementId andDelegate:self];
-    [_interstitialPlacementIdToListener setObject:interstitialListener forKey:placementId];
+    [_interstitialPlacementIdToSmashDelegate setObject:delegate
+                                                forKey:placementId];
     
     switch (_initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithGameId:gameId adapterConfig:adapterConfig];
+            [self initSDKWithGameId:gameId
+                      adapterConfig:adapterConfig];
             break;
         case INIT_STATE_FAILED:
             [delegate adapterInterstitialInitFailedWithError:[NSError errorWithDomain:kAdapterName
@@ -585,45 +616,69 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     }
 }
 
-- (void) loadInterstitialForBiddingWithServerData:(NSString *)serverData
-                                    adapterConfig:(ISAdapterConfig *)adapterConfig
-                                         delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    [self loadInterstitialInternal:placementId andServerData:serverData];
-
+    
+    [self loadInterstitialInternal:placementId
+                     andServerData:serverData
+                          delegate:delegate];
 }
 
-- (void) loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
+                                 delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    [self loadInterstitialInternal:placementId andServerData:nil];
+    
+    [self loadInterstitialInternal:placementId
+                     andServerData:nil
+                          delegate:delegate];
 }
 
-
-- (void) loadInterstitialInternal:(NSString *)placementId andServerData:(NSString *)serverData {
+- (void)loadInterstitialInternal:(NSString *)placementId
+                   andServerData:(NSString *)serverData
+                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    [_interstitialAdsAvailability setObject:@NO forKey:placementId];
+    [_interstitialAdsAvailability setObject:@NO
+                                     forKey:placementId];
+    
+    // Register delegate for placement
+    [_interstitialPlacementIdToSmashDelegate setObject:delegate
+                                                forKey:placementId];
+    
+    // Create interstitial Delegate
+    ISUnityAdsInterstitialDelegate *interstitialAdDelegate = [[ISUnityAdsInterstitialDelegate alloc] initWithPlacementId:placementId
+                                                                                                             andDelegate:self];
+    [_interstitialPlacementIdToDelegate setObject:interstitialAdDelegate
+                                           forKey:placementId];
 
-    if(serverData != nil) {
-        UADSLoadOptions *options = [UADSLoadOptions new];
-        // objectId is used to identify a loaded ad and to show it
-        NSString *objectId = [[NSUUID UUID] UUIDString];
-        [options setObjectId:objectId];
+    UADSLoadOptions *options = [UADSLoadOptions new];
+
+    // objectId is used to identify a loaded ad and to show it
+    NSString *objectId = [[NSUUID UUID] UUIDString];
+    [options setObjectId:objectId];
+    
+    if (serverData != nil) {
+        // add adMarkup for bidder instances
         [options setAdMarkup:serverData];
-        [_interstitialPlacementIdToObjectId setObject:objectId forKey:placementId];
-        // Load interstitial for bidding instance
-        [UnityAds load:placementId options:options loadDelegate:[_interstitialPlacementIdToListener objectForKey:placementId]];
-
-    } else {
-        // Load interstitial for non bidding instance
-        [UnityAds load:placementId loadDelegate:[_interstitialPlacementIdToListener objectForKey:placementId]];
     }
-
+    
+    [_interstitialPlacementIdToObjectId setObject:objectId
+                                           forKey:placementId];
+    
+    [UnityAds load:placementId
+           options:options
+      loadDelegate:interstitialAdDelegate];
 }
-- (void) showInterstitialWithViewController:(UIViewController *)viewController
-                              adapterConfig:(ISAdapterConfig *)adapterConfig
-                                   delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+
+- (void)showInterstitialWithViewController:(UIViewController *)viewController
+                             adapterConfig:(ISAdapterConfig *)adapterConfig
+                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
@@ -637,7 +692,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     dispatch_async(dispatch_get_main_queue(), ^{
         @try {
             if ([self dynamicUserId]) {
-                @synchronized (_UnityAdsStorageLock) {
+                @synchronized (self.unityAdsStorageLock) {
                     id playerMetaData = [[UADSPlayerMetaData alloc] init];
                     [playerMetaData setServerId:[self dynamicUserId]];
                     [playerMetaData commit];
@@ -645,17 +700,18 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             }
             
             UIViewController *vc = viewController == nil ? [self topMostController] : viewController;
-            id<UnityAdsShowDelegate>showDelegate = [_interstitialPlacementIdToListener objectForKey:placementId];;
+            id<UnityAdsShowDelegate>showDelegate = [self.interstitialPlacementIdToDelegate objectForKey:placementId];;
             
-            if ([_interstitialPlacementIdToObjectId hasObjectForKey:placementId]) {
-                // Show interstitial for bidding instance
-                UADSShowOptions *options = [UADSShowOptions new];
-                [options setObjectId:[_interstitialPlacementIdToObjectId objectForKey:placementId]];
-                [UnityAds show:vc placementId:placementId options:options showDelegate:showDelegate];
-            } else {
-                // Show interstitial for non bidding instance
-                [UnityAds show:vc placementId:placementId showDelegate:showDelegate];
-            }
+            UADSShowOptions *options = [UADSShowOptions new];
+            
+            NSString *objectId = [self.interstitialPlacementIdToObjectId objectForKey:placementId];
+            [options setObjectId:objectId];
+           
+            [UnityAds show:vc
+               placementId:placementId
+                   options:options
+              showDelegate:showDelegate];
+        
         }
         @catch (NSException *exception) {
             NSString *message = [NSString stringWithFormat:@"ISUnityAdsAdapter: Exception while trying to show an interstitial ad. Description: '%@'", exception.description];
@@ -666,24 +722,26 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             [delegate adapterInterstitialDidFailToShowWithError:showError];
         }
         
-        [_interstitialAdsAvailability setObject:@NO forKey:placementId];
+        [self.interstitialAdsAvailability setObject:@NO
+                                             forKey:placementId];
     });
 }
 
-- (BOOL) hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     NSNumber *available = [_interstitialAdsAvailability objectForKey:placementId];
     return (available != nil) && [available boolValue];
 }
 
-- (NSDictionary *) getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self getBiddingData];
 }
 
 #pragma mark - Interstitial Delegate
 
-- (void) onInterstitialDidLoad:(nonnull NSString *)placementId {
+- (void)onInterstitialDidLoad:(nonnull NSString *)placementId {
     LogAdapterDelegate_Internal(@"placementId = %@", placementId);
     [_interstitialAdsAvailability setObject:@YES forKey:placementId];
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
@@ -691,8 +749,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterInterstitialDidLoad];
 }
 
-- (void) onInterstitialDidFailToLoad:(nonnull NSString *)placementId
-                           withError:(UnityAdsLoadError)error {
+- (void)onInterstitialDidFailToLoad:(nonnull NSString *)placementId
+                          withError:(UnityAdsLoadError)error {
     NSString *loadError = [self unityAdsLoadErrorToString:error];
     LogAdapterDelegate_Internal(@"placementId = %@ reason - %@", placementId, loadError);
     [_interstitialAdsAvailability setObject:@NO forKey:placementId];
@@ -705,7 +763,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterInterstitialDidFailToLoadWithError:smashError];
 }
 
-- (void) onInterstitialDidOpen:(NSString * _Nonnull)placementId {
+- (void)onInterstitialDidOpen:(NSString * _Nonnull)placementId {
     LogAdapterDelegate_Internal(@"placementId = %@", placementId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
     
@@ -713,9 +771,9 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterInterstitialDidShow];
 }
 
-- (void) onInterstitialShowFail:(NSString * _Nonnull)placementId
-                      withError:(UnityAdsShowError)error
-                     andMessage:(NSString * _Nonnull)errorMessage {
+- (void)onInterstitialShowFail:(NSString * _Nonnull)placementId
+                     withError:(UnityAdsShowError)error
+                    andMessage:(NSString * _Nonnull)errorMessage {
     NSString *showError = [NSString stringWithFormat:@"%@ - %@", [self unityAdsShowErrorToString:error], errorMessage];
     LogAdapterDelegate_Internal(@"placementId = %@ reason = %@", placementId, showError);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
@@ -726,14 +784,15 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterInterstitialDidFailToShowWithError:smashError];
 }
 
-- (void) onInterstitialDidClick:(NSString * _Nonnull)placementId {
+- (void)onInterstitialDidClick:(NSString * _Nonnull)placementId {
     LogAdapterDelegate_Internal(@"placementId = %@", placementId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
     
     [delegate adapterInterstitialDidClick];
 }
 
-- (void) onInterstitialDidShowComplete:(NSString * _Nonnull)placementId withFinishState:(UnityAdsShowCompletionState)state {
+- (void)onInterstitialDidShowComplete:(NSString * _Nonnull)placementId
+                      withFinishState:(UnityAdsShowCompletionState)state {
     LogAdapterDelegate_Internal(@"placementId = %@ and completion state = %d", placementId, (int)state);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
     
@@ -750,9 +809,9 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 #pragma mark - Banner API
 
-- (void) initBannerWithUserId:(nonnull NSString *)userId
-                adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                     delegate:(nonnull id<ISBannerAdapterDelegate>)delegate {
+- (void)initBannerWithUserId:(nonnull NSString *)userId
+               adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
+                    delegate:(nonnull id<ISBannerAdapterDelegate>)delegate {
     NSString *gameId = adapterConfig.settings[kGameId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
@@ -774,11 +833,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     // add to banner delegate dictionary
-    [_bannerPlacementIdToSmashDelegate setObject:delegate forKey:placementId];
-    
-    // Create banner listener
-    ISUnityAdsBannerListener *bannerListener = [[ISUnityAdsBannerListener alloc] initWithDelegate:self];
-    [_bannerPlacementIdToListener setObject:bannerListener forKey:placementId];
+    [_bannerPlacementIdToSmashDelegate setObject:delegate
+                                          forKey:placementId];
     
     switch (_initState) {
         case INIT_STATE_NONE:
@@ -796,10 +852,11 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     }
 }
 
-- (void) loadBannerWithViewController:(nonnull UIViewController *)viewController
-                                 size:(ISBannerSize *)size
-                        adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                             delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
+- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                             adData:(NSDictionary *)adData
+                     viewController:(UIViewController *)viewController
+                               size:(ISBannerSize *)size
+                           delegate:(id <ISBannerAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
     // Verify size
@@ -812,24 +869,34 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
-    
+    // add to banner delegate dictionary
+    [_bannerPlacementIdToSmashDelegate setObject:delegate
+                                          forKey:placementId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
         @try {
             // Create banner
-            UADSBannerView *bannerView = [[UADSBannerView alloc] initWithPlacementId:placementId size:[self getBannerSize:size]];
+            UADSBannerView *bannerView = [[UADSBannerView alloc] initWithPlacementId:placementId
+                                                                                size:[self getBannerSize:size]];
             
             // Add to ad dictionary
-            [_bannerPlacementIdToAd setObject:bannerView forKey:placementId];
+            [self.bannerPlacementIdToAd setObject:bannerView
+                                           forKey:placementId];
+            
+            // Create banner Delegate
+            ISUnityAdsBannerDelegate *bannerAdDelegate = [[ISUnityAdsBannerDelegate alloc] initWithDelegate:self];
+            [self.bannerPlacementIdToDelegate setObject:bannerAdDelegate
+                                                 forKey:placementId];
             
             // Set delegate
-            bannerView.delegate = [_bannerPlacementIdToListener objectForKey:placementId];
+            bannerView.delegate = bannerAdDelegate;
             
             // Load banner
             [bannerView load];
         } @catch (NSException *exception) {
             NSString *message = [NSString stringWithFormat:@"ISUnityAdsAdapter: Exception while trying to load a banner ad. Description: '%@'", exception.description];
             LogAdapterApi_Internal(@"message = %@", message);
-            id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:placementId];
+            id<ISBannerAdapterDelegate> delegate = [self.bannerPlacementIdToSmashDelegate objectForKey:placementId];
             NSError *smashError = [NSError errorWithDomain:kAdapterName
                                                       code:ERROR_CODE_GENERIC
                                                   userInfo:@{NSLocalizedDescriptionKey:message}];
@@ -838,12 +905,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     });
 }
 
-- (void) reloadBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                              delegate:(nonnull id <ISBannerAdapterDelegate>)delegate {
-    LogInternal_Warning(@"Unsupported method");
-}
-
-- (void) destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
+- (void)destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
     // Get banner
@@ -859,17 +921,9 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     bannerView = nil;
 }
 
-
-//network does not support banner reload
-//return true if banner view needs to be bound again on reload
-- (BOOL) shouldBindBannerViewOnReload {
-    return YES;
-}
-
-
 #pragma mark - Banner Delegate
 
-- (void) onBannerDidLoad:(UADSBannerView * _Nonnull)bannerView {
+- (void)onBannerDidLoad:(UADSBannerView * _Nonnull)bannerView {
     LogAdapterDelegate_Internal(@"placementId = %@", bannerView.placementId);
     id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:bannerView.placementId];
     
@@ -877,8 +931,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterBannerDidShow];
 }
 
-- (void) onBannerDidFailToLoad:(UADSBannerView * _Nonnull)bannerView
-                     withError:(UADSBannerError * _Nullable)error {
+- (void)onBannerDidFailToLoad:(UADSBannerView * _Nonnull)bannerView
+                    withError:(UADSBannerError * _Nullable)error {
     LogAdapterDelegate_Internal(@"placementId = %@ reason - %@", bannerView.placementId, error);
     id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:bannerView.placementId];
     
@@ -889,14 +943,14 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [delegate adapterBannerDidFailToLoadWithError:smashError];
 }
 
-- (void) onBannerDidClick:(UADSBannerView * _Nonnull)bannerView {
+- (void)onBannerDidClick:(UADSBannerView * _Nonnull)bannerView {
     LogAdapterDelegate_Internal(@"placementId = %@", bannerView.placementId);
     id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:bannerView.placementId];
     
     [delegate adapterBannerDidClick];
 }
 
-- (void) onBannerWillLeaveApplication:(UADSBannerView * _Nonnull)bannerView {
+- (void)onBannerWillLeaveApplication:(UADSBannerView * _Nonnull)bannerView {
     LogAdapterDelegate_Internal(@"placementId = %@", bannerView.placementId);
     id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:bannerView.placementId];
     
@@ -912,12 +966,12 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     if (bannerAd) {
         [self destroyBannerWithAdapterConfig:adapterConfig];
     }
-}
+} 
 
 #pragma mark - Legal Methods
 
-- (void) setMetaDataWithKey:(NSString *)key
-                  andValues:(NSMutableArray *)values {
+- (void)setMetaDataWithKey:(NSString *)key
+                 andValues:(NSMutableArray *)values {
     if (values.count == 0) {
         return;
     }
@@ -926,44 +980,45 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     NSString *value = values[0];
     LogAdapterApi_Internal(@"setMetaData: key=%@, value=%@", key, value);
     
-    if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key andValue:value]) {
-        [self setCCPAValue:[ISMetaDataUtils getCCPABooleanValue:value]];
+    if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
+                                           andValue:value]) {
+        [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
     } else {
-        NSString *formattedValue = [ISMetaDataUtils formatValue:value forType:(META_DATA_VALUE_BOOL)];
+        NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                        forType:(META_DATA_VALUE_BOOL)];
         
-        if ([self isValidCOPPAMetaDataWithKey:key andValue:formattedValue]) {
-            [self setCOPPAValue:[ISMetaDataUtils getCCPABooleanValue:formattedValue]];
+        if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                               flag:kMetaDataCOPPAKey
+                                           andValue:formattedValue]) {
+            [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
 }
 
-- (void) setCCPAValue:(BOOL)value {
+- (void)setCCPAValue:(BOOL)value {
     // The UnityAds CCPA API expects an indication if the user opts in to targeted advertising.
     // Given that this is opposite to the ironSource Mediation CCPA flag of do_not_sell
     // we will use the opposite value of what is passed to this method
     BOOL optIn = !value;
-    [self setUnityAdsMetaDataWithKey:kCCPAUnityAdsFlag value:optIn];
+    [self setUnityAdsMetaDataWithKey:kCCPAUnityAdsFlag
+                               value:optIn];
 }
 
-
-- (void) setConsent:(BOOL)consent {
-    [self setUnityAdsMetaDataWithKey:kGDPRUnityAdsFlag value:consent];
+- (void)setConsent:(BOOL)consent {
+    [self setUnityAdsMetaDataWithKey:kGDPRUnityAdsFlag
+                               value:consent];
 }
 
-- (void) setCOPPAValue:(BOOL)value {
-    [self setUnityAdsMetaDataWithKey:kCOPPAUnityAdsFlag value:value];
+- (void)setCOPPAValue:(BOOL)value {
+    [self setUnityAdsMetaDataWithKey:kCOPPAUnityAdsFlag
+                               value:value];
 }
 
-- (BOOL) isValidCOPPAMetaDataWithKey:(NSString *)key
-                            andValue:(NSString *)value {
-    return ([key caseInsensitiveCompare:kMetaDataCOPPAKey] == NSOrderedSame && (value.length));
-}
-
-- (void) setUnityAdsMetaDataWithKey:(NSString *)key
-                              value:(BOOL)value {
+- (void)setUnityAdsMetaDataWithKey:(NSString *)key
+                             value:(BOOL)value {
     LogAdapterApi_Internal(@"key = %@, value = %@", key, value? @"YES" : @"NO");
     
-    @synchronized (_UnityAdsStorageLock) {
+    @synchronized (_unityAdsStorageLock) {
         UADSMetaData *unityAdsMetaData = [[UADSMetaData alloc] init];
         [unityAdsMetaData set:key value:value ? @YES : @NO];
         [unityAdsMetaData commit];
@@ -973,7 +1028,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 #pragma mark - Private Methods
 
 // in case this method is called before the init we will try using the token that was received asynchronically
-- (NSDictionary *) getBiddingData {
+- (NSDictionary *)getBiddingData {
     NSString *bidderToken = nil;
 
     if (_initState == INIT_STATE_SUCCESS) {
@@ -993,7 +1048,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     return @{@"token": returnedToken};
 }
 
--(void) getAsyncToken {
+- (void)getAsyncToken {
     LogInternal_Internal(@"");
     [UnityAds getToken:^(NSString * _Nullable token) {
         if (token.length) {
@@ -1003,7 +1058,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     }];
 }
 
-- (BOOL) isBannerSizeSupported:(ISBannerSize *)size {
+- (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
     if ([size.sizeDescription isEqualToString:@"BANNER"] ||
         [size.sizeDescription isEqualToString:@"LARGE"] ||
         [size.sizeDescription isEqualToString:@"SMART"]) {
@@ -1013,7 +1068,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     return NO;
 }
 
-- (CGSize) getBannerSize:(ISBannerSize *)size {
+- (CGSize)getBannerSize:(ISBannerSize *)size {
     if ([size.sizeDescription isEqualToString:@"BANNER"] ||
         [size.sizeDescription isEqualToString:@"LARGE"]) {
         return CGSizeMake(320, 50);
@@ -1030,7 +1085,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     return CGSizeZero;
 }
 
-- (NSString *) unityAdsInitErrorToString:(UnityAdsInitializationError)error {
+- (NSString *)unityAdsInitErrorToString:(UnityAdsInitializationError)error {
     NSString *result = nil;
     
     switch (error) {
@@ -1050,7 +1105,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     return result;
 }
 
-- (NSString *) unityAdsLoadErrorToString:(UnityAdsLoadError)error {
+- (NSString *)unityAdsLoadErrorToString:(UnityAdsLoadError)error {
     NSString *result = nil;
     
     switch (error) {
@@ -1076,7 +1131,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     return result;
 }
 
-- (NSString *) unityAdsShowErrorToString:(UnityAdsShowError)error {
+- (NSString *)unityAdsShowErrorToString:(UnityAdsShowError)error {
     NSString *result = nil;
     
     switch (error) {
@@ -1112,7 +1167,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 }
 
 // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-- (ISLoadWhileShowSupportState) getLWSSupportState:(ISAdapterConfig *)adapterConfig {
+- (ISLoadWhileShowSupportState)getLWSSupportState:(ISAdapterConfig *)adapterConfig {
     ISLoadWhileShowSupportState state = LOAD_WHILE_SHOW_BY_INSTANCE;
     
     if (adapterConfig != nil && [adapterConfig.settings objectForKey:kIsLWSSupported] != nil) {

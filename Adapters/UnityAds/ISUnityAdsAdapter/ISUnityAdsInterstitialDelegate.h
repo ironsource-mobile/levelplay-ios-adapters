@@ -1,13 +1,13 @@
 //
-//  ISUnityAdsInterstitialListener.h
+//  ISUnityAdsInterstitialDelegate.h
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UnityAds/UnityAds.h>
-#import "ISUnityAdsAdapter.h"
+#import <ISUnityAdsAdapter.h>
 
 @protocol ISUnityAdsInterstitialDelegateWrapper <NSObject>
 
@@ -24,7 +24,7 @@
 
 @end
 
-@interface ISUnityAdsInterstitialListener : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate>
+@interface ISUnityAdsInterstitialDelegate : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate>
 
 @property (nonatomic, weak)   id<ISUnityAdsInterstitialDelegateWrapper> _Nullable delegate;
 @property (nonatomic, strong) NSString * _Nonnull placementId;

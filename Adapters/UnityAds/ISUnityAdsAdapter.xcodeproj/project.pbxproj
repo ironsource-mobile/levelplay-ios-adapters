@@ -8,29 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		73AC4213CB04F50E799683D2 /* Pods_ISUnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */; };
-		A8765C7728CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m in Sources */ = {isa = PBXBuildFile; fileRef = A8765C7628CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m */; };
-		A8D9683C28A14B6A00184293 /* ISUnityAdsInterstitialListener.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */; };
 		A8D9683D28A14B6A00184293 /* ISUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A8D9683E28A14B6A00184293 /* ISUnityAdsBannerListener.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */; };
-		A8D9683F28A14B6A00184293 /* ISUnityAdsInterstitialListener.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683828A14B6A00184293 /* ISUnityAdsInterstitialListener.h */; };
-		A8D9684028A14B6A00184293 /* ISUnityAdsBannerListener.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683928A14B6A00184293 /* ISUnityAdsBannerListener.m */; };
-		A8D9684128A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */; };
 		A8D9684228A14B6A00184293 /* ISUnityAdsAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */; };
+		FDC86CC129C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC86CBB29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m */; };
+		FDC86CC229C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC86CBC29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h */; };
+		FDC86CC329C883FC004CF210 /* ISUnityAdsBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC86CBD29C883FC004CF210 /* ISUnityAdsBannerDelegate.m */; };
+		FDC86CC429C883FC004CF210 /* ISUnityAdsBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC86CBE29C883FC004CF210 /* ISUnityAdsBannerDelegate.h */; };
+		FDC86CC529C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC86CBF29C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h */; };
+		FDC86CC629C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC86CC029C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		A8765C7628CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedVideoListener.m; sourceTree = "<group>"; };
-		A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialListener.m; sourceTree = "<group>"; };
 		A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
-		A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerListener.h; sourceTree = "<group>"; };
-		A8D9683828A14B6A00184293 /* ISUnityAdsInterstitialListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialListener.h; sourceTree = "<group>"; };
-		A8D9683928A14B6A00184293 /* ISUnityAdsBannerListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerListener.m; sourceTree = "<group>"; };
-		A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoListener.h; sourceTree = "<group>"; };
 		A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
 		EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDC86CBB29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		FDC86CBC29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		FDC86CBD29C883FC004CF210 /* ISUnityAdsBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerDelegate.m; sourceTree = "<group>"; };
+		FDC86CBE29C883FC004CF210 /* ISUnityAdsBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerDelegate.h; sourceTree = "<group>"; };
+		FDC86CBF29C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialDelegate.h; sourceTree = "<group>"; };
+		FDC86CC029C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,12 +59,12 @@
 			children = (
 				A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */,
 				A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */,
-				A8D9683728A14B6A00184293 /* ISUnityAdsBannerListener.h */,
-				A8D9683928A14B6A00184293 /* ISUnityAdsBannerListener.m */,
-				A8D9683828A14B6A00184293 /* ISUnityAdsInterstitialListener.h */,
-				A8D9683528A14B6A00184293 /* ISUnityAdsInterstitialListener.m */,
-				A8D9683A28A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h */,
-				A8765C7628CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m */,
+				FDC86CBE29C883FC004CF210 /* ISUnityAdsBannerDelegate.h */,
+				FDC86CBD29C883FC004CF210 /* ISUnityAdsBannerDelegate.m */,
+				FDC86CBF29C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h */,
+				FDC86CC029C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m */,
+				FDC86CBC29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h */,
+				FDC86CBB29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m */,
 			);
 			path = ISUnityAdsAdapter;
 			sourceTree = "<group>";
@@ -102,10 +102,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDC86CC529C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h in Headers */,
+				FDC86CC229C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h in Headers */,
+				FDC86CC429C883FC004CF210 /* ISUnityAdsBannerDelegate.h in Headers */,
 				A8D9683D28A14B6A00184293 /* ISUnityAdsAdapter.h in Headers */,
-				A8D9683F28A14B6A00184293 /* ISUnityAdsInterstitialListener.h in Headers */,
-				A8D9684128A14B6A00184293 /* ISUnityAdsRewardedVideoListener.h in Headers */,
-				A8D9683E28A14B6A00184293 /* ISUnityAdsBannerListener.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,10 +222,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8765C7728CDDA9E002931C0 /* ISUnityAdsRewardedVideoListener.m in Sources */,
-				A8D9684028A14B6A00184293 /* ISUnityAdsBannerListener.m in Sources */,
 				A8D9684228A14B6A00184293 /* ISUnityAdsAdapter.m in Sources */,
-				A8D9683C28A14B6A00184293 /* ISUnityAdsInterstitialListener.m in Sources */,
+				FDC86CC129C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m in Sources */,
+				FDC86CC629C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m in Sources */,
+				FDC86CC329C883FC004CF210 /* ISUnityAdsBannerDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
