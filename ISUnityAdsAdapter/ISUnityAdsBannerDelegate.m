@@ -1,13 +1,13 @@
 //
-//  ISUnityAdsBannerListener.m
+//  ISUnityAdsBannerDelegate.m
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISUnityAdsBannerListener.h"
+#import <ISUnityAdsBannerDelegate.h>
 
-@implementation ISUnityAdsBannerListener
+@implementation ISUnityAdsBannerDelegate
 
 - (instancetype) initWithDelegate:(id<ISUnityAdsBannerDelegateWrapper>)delegate {
     self = [super init];

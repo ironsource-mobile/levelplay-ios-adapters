@@ -1,13 +1,13 @@
 //
-//  ISUnityAdsBannerListener.h
+//  ISUnityAdsBannerDelegate.h
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UnityAds/UnityAds.h>
-#import "ISUnityAdsAdapter.h"
+#import <ISUnityAdsAdapter.h>
 
 @protocol ISUnityAdsBannerDelegateWrapper <NSObject>
 
@@ -19,7 +19,7 @@
 
 @end
 
-@interface ISUnityAdsBannerListener : NSObject <UADSBannerViewDelegate>
+@interface ISUnityAdsBannerDelegate : NSObject <UADSBannerViewDelegate>
 
 @property (nonatomic, weak) id<ISUnityAdsBannerDelegateWrapper> _Nullable delegate;
 

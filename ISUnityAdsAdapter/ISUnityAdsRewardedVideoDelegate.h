@@ -1,13 +1,13 @@
 //
-//  ISUnityAdsRewardedVideoListener.h
+//  ISUnityAdsRewardedVideoDelegate.h
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UnityAds/UnityAds.h>
-#import "ISUnityAdsAdapter.h"
+#import <ISUnityAdsAdapter.h>
 
 @protocol ISUnityAdsRewardedVideoDelegateWrapper <NSObject>
 
@@ -24,13 +24,13 @@
 
 @end
 
-@interface ISUnityAdsRewardedVideoListener : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate>
+@interface ISUnityAdsRewardedVideoDelegate : NSObject <UnityAdsLoadDelegate, UnityAdsShowDelegate>
 
 @property (nonatomic, weak)   id<ISUnityAdsRewardedVideoDelegateWrapper> _Nullable delegate;
 @property (nonatomic, strong) NSString * _Nonnull placementId;
 
-- (instancetype _Nonnull) initWithPlacementId:(NSString * _Nonnull)placementId
-                                  andDelegate:(id<ISUnityAdsRewardedVideoDelegateWrapper> _Nonnull)delegate;
+- (instancetype _Nonnull)initWithPlacementId:(NSString * _Nonnull)placementId
+                                    delegate:(id<ISUnityAdsRewardedVideoDelegateWrapper> _Nonnull)delegate;
 
 @end
 
