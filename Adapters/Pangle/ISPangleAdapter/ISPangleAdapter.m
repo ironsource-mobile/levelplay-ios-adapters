@@ -2,13 +2,13 @@
 //  ISPangleAdapter.m
 //  ISPangleAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISPangleAdapter.h"
-#import "ISPangleRewardedVideoDelegate.h"
-#import "ISPangleInterstitialDelegate.h"
-#import "ISPangleBannerDelegate.h"
+#import <ISPangleAdapter.h>
+#import <ISPangleRewardedVideoDelegate.h>
+#import <ISPangleInterstitialDelegate.h>
+#import <ISPangleBannerDelegate.h>
 #import <PAGAdSDK/PAGAdSDK.h>
 
 // Network keys
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, InitState) {
 };
 
 // Handle init callback for all adapter instances
-static ConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 static InitState _initState = INIT_STATE_NONE;
 
 // Pangle SDK instance
@@ -43,24 +43,24 @@ static PAGSdk* _pangleSDK = nil;
 @interface ISPangleAdapter () <ISPangleBannerDelegateWrapper, ISPangleInterstitialDelegateWrapper, ISPangleRewardedVideoDelegateWrapper, ISNetworkInitCallbackProtocol>
 
 // Rewarded video
-@property (nonatomic, strong) ConcurrentMutableDictionary   *rewardedVideoSlotIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *rewardedVideoSlotIdToPangleAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *rewardedVideoSlotIdToAd;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *rewardedVideoAdsAvailability;
-@property (nonatomic, strong) ConcurrentMutableSet          *rewardedVideoSlotIdsForInitCallbacks;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoSlotIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoSlotIdToPangleAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoSlotIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoAdsAvailability;
+@property (nonatomic, strong) ISConcurrentMutableSet          *rewardedVideoSlotIdsForInitCallbacks;
 
 // Interstitial
-@property (nonatomic, strong) ConcurrentMutableDictionary   *interstitialSlotIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *interstitialSlotIdToPangleAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *interstitialSlotIdToAd;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *interstitialAdsAvailability;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialSlotIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialSlotIdToPangleAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialSlotIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialAdsAvailability;
 
 // Banner
-@property (nonatomic, strong) ConcurrentMutableDictionary   *bannerSlotIdToSmashDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *bannerSlotIdToPangleAdDelegate;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *bannerSlotIdToAd;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *bannerSlotIdToAdSize;
-@property (nonatomic, strong) ConcurrentMutableDictionary   *bannerSlotIdToViewController;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerSlotIdToSmashDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerSlotIdToPangleAdDelegate;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerSlotIdToAd;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerSlotIdToAdSize;
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerSlotIdToViewController;
 
 @end
 
@@ -78,38 +78,6 @@ static PAGSdk* _pangleSDK = nil;
     return [PAGSdk SDKVersion];
 }
 
-- (NSArray *)systemFrameworks {
-    return @[@"Accelerate",
-             @"AdSupport",
-             @"AppTrackingTransparency",
-             @"AudioToolbox",
-             @"AVFoundation",
-             @"CoreGraphics",
-             @"CoreImage",
-             @"CoreLocation",
-             @"CoreMedia",
-             @"CoreML",
-             @"CoreMotion",
-             @"CoreTelephony",
-             @"CoreText",
-             @"ImageIO",
-             @"JavaScriptCore",
-             @"MediaPlayer",
-             @"MapKit",
-             @"MobileCoreServices",
-             @"QuartzCore",
-             @"Security",
-             @"StoreKit",
-             @"SystemConfiguration",
-             @"UIKit",
-             @"WebKit"];
-}
-
-// Get network sdk name
-- (NSString *)sdkName {
-    return @"PAGSdk";
-}
-
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
@@ -117,28 +85,28 @@ static PAGSdk* _pangleSDK = nil;
     
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
         
         // Rewarded video
-        _rewardedVideoSlotIdToSmashDelegate         = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoSlotIdToPangleAdDelegate      = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoSlotIdToAd                    = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoAdsAvailability               = [ConcurrentMutableDictionary dictionary];
-        _rewardedVideoSlotIdsForInitCallbacks       = [ConcurrentMutableSet set];
+        _rewardedVideoSlotIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoSlotIdToPangleAdDelegate      = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoSlotIdToAd                    = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoAdsAvailability               = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoSlotIdsForInitCallbacks       = [ISConcurrentMutableSet set];
 
         // Interstitial
-        _interstitialSlotIdToSmashDelegate          = [ConcurrentMutableDictionary dictionary];
-        _interstitialSlotIdToPangleAdDelegate       = [ConcurrentMutableDictionary dictionary];
-        _interstitialSlotIdToAd                     = [ConcurrentMutableDictionary dictionary];
-        _interstitialAdsAvailability                = [ConcurrentMutableDictionary dictionary];
+        _interstitialSlotIdToSmashDelegate          = [ISConcurrentMutableDictionary dictionary];
+        _interstitialSlotIdToPangleAdDelegate       = [ISConcurrentMutableDictionary dictionary];
+        _interstitialSlotIdToAd                     = [ISConcurrentMutableDictionary dictionary];
+        _interstitialAdsAvailability                = [ISConcurrentMutableDictionary dictionary];
         
         // Banner
-        _bannerSlotIdToSmashDelegate                = [ConcurrentMutableDictionary dictionary];
-        _bannerSlotIdToPangleAdDelegate             = [ConcurrentMutableDictionary dictionary];
-        _bannerSlotIdToAd                           = [ConcurrentMutableDictionary dictionary];
-        _bannerSlotIdToAdSize                       = [ConcurrentMutableDictionary dictionary];
-        _bannerSlotIdToViewController               = [ConcurrentMutableDictionary dictionary];
+        _bannerSlotIdToSmashDelegate                = [ISConcurrentMutableDictionary dictionary];
+        _bannerSlotIdToPangleAdDelegate             = [ISConcurrentMutableDictionary dictionary];
+        _bannerSlotIdToAd                           = [ISConcurrentMutableDictionary dictionary];
+        _bannerSlotIdToAdSize                       = [ISConcurrentMutableDictionary dictionary];
+        _bannerSlotIdToViewController               = [ISConcurrentMutableDictionary dictionary];
                     
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
@@ -166,12 +134,15 @@ static PAGSdk* _pangleSDK = nil;
             config.appID = appId;
             config.debugLog = [ISConfigurations getConfigurations].adaptersDebug ? YES : NO;
                 
+            ISPangleAdapter * __weak weakSelf = self;
             [PAGSdk startWithConfig:config
-                  completionHandler:^(BOOL success, NSError * _Nonnull error) {
+                  completionHandler:^(BOOL success, NSError *error) {
                 if (success) {
-                    [self initializationSuccess];
+                    [weakSelf initializationSuccess];
                 } else {
-                    [self initializationFailure:error.description];
+                    NSString *errorMsg = [NSString stringWithFormat:@"Pangle SDK init failed %@", error ? error.description : @""];
+
+                    [weakSelf initializationFailure:errorMsg];
                 }
             }];
         });
@@ -241,9 +212,9 @@ static PAGSdk* _pangleSDK = nil;
 
 - (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
     
-    NSError *error = [NSError errorWithDomain:kAdapterName
-                                         code:ERROR_CODE_INIT_FAILED
-                                     userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+    NSError *error = [ISError createErrorWithDomain:kAdapterName
+                                               code:ERROR_CODE_INIT_FAILED
+                                            message:errorMessage];
     
     // Rewarded video
     NSArray *rewardedVideoSlotIds = _rewardedVideoSlotIdToSmashDelegate.allKeys;
@@ -303,13 +274,7 @@ static PAGSdk* _pangleSDK = nil;
     
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
-    ISPangleRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISPangleRewardedVideoDelegate alloc] initWithSlotId:slotId
-                                                                                                       andDelegate:self];
-
     // Add to rewarded video delegate map
-    [_rewardedVideoSlotIdToPangleAdDelegate setObject:rewardedVideoAdDelegate
-                                               forKey:slotId];
-    
     [_rewardedVideoSlotIdToSmashDelegate setObject:delegate
                                             forKey:slotId];
     
@@ -337,8 +302,8 @@ static PAGSdk* _pangleSDK = nil;
 // Used for flows when the mediation doesn't need to get a callback for init
 - (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
                              adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-
     NSString *appId = adapterConfig.settings[kAppId];
     NSString *slotId = adapterConfig.settings[kSlotId];
 
@@ -358,14 +323,8 @@ static PAGSdk* _pangleSDK = nil;
     }
     
     LogAdapterApi_Internal(@"slotId = %@", slotId);
-    
-    ISPangleRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISPangleRewardedVideoDelegate alloc] initWithSlotId:slotId
-                                                                                                       andDelegate:self];
-                                                                                                                 
+                                                                  
     // Add to rewarded video delegate map
-    [_rewardedVideoSlotIdToPangleAdDelegate setObject:rewardedVideoAdDelegate
-                                               forKey:slotId];
-    
     [_rewardedVideoSlotIdToSmashDelegate setObject:delegate
                                             forKey:slotId];
     
@@ -387,18 +346,18 @@ static PAGSdk* _pangleSDK = nil;
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
-                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate{
-   
+                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *slotId = adapterConfig.settings[kSlotId];
     [self loadRewardedVideoInternal:slotId
                            delegate:delegate
                          serverData:serverData];
 }
 
-- (void)fetchRewardedVideoForAutomaticLoadWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    
+- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                    adData:(NSDictionary *)adData
+                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *slotId = adapterConfig.settings[kSlotId];
     [self loadRewardedVideoInternal:slotId
                            delegate:delegate
@@ -411,9 +370,16 @@ static PAGSdk* _pangleSDK = nil;
     
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
+    // Add to rewarded video delegate map - needed seperately than init
+    [_rewardedVideoSlotIdToSmashDelegate setObject:delegate
+                                            forKey:slotId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
-       
-        ISPangleRewardedVideoDelegate *rewardedVideoAdDelegate = [_rewardedVideoSlotIdToPangleAdDelegate objectForKey:slotId];
+        
+        ISPangleRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISPangleRewardedVideoDelegate alloc] initWithSlotId:slotId
+                                                                                                           andDelegate:self];
+        [self.rewardedVideoSlotIdToPangleAdDelegate setObject:rewardedVideoAdDelegate
+                                                       forKey:slotId];
                 
         [self.rewardedVideoAdsAvailability setObject:@NO
                                               forKey:slotId];
@@ -424,23 +390,26 @@ static PAGSdk* _pangleSDK = nil;
             [request setAdString:serverData];
         }
         
+        ISPangleAdapter * __weak weakSelf = self;
         [PAGRewardedAd loadAdWithSlotID:slotId
                                 request:request
                       completionHandler:^(PAGRewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {
             
+            __typeof__(self) strongSelf = weakSelf;
+
             if (error) {
-                [self onRewardedVideoDidFailToLoad:slotId
-                                         withError:error];
+                [strongSelf onRewardedVideoDidFailToLoad:slotId
+                                               withError:error];
                 return;
             }
             
             rewardedAd.delegate = rewardedVideoAdDelegate;
             
             // Add rewarded video ad to dictionary
-            [_rewardedVideoSlotIdToAd setObject:rewardedAd
-                                         forKey:slotId];
+            [strongSelf.rewardedVideoSlotIdToAd setObject:rewardedAd
+                                                   forKey:slotId];
                 
-            [self onRewardedVideoDidLoad:slotId];
+            [strongSelf onRewardedVideoDidLoad:slotId];
             
         }];
     });
@@ -455,8 +424,6 @@ static PAGSdk* _pangleSDK = nil;
     
     PAGRewardedAd *rewardedVideoAd = [_rewardedVideoSlotIdToAd objectForKey:slotId];
     
-    [delegate adapterRewardedVideoHasChangedAvailability:NO];
-
     if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         [self.rewardedVideoAdsAvailability setObject:@NO
                                               forKey:slotId];
@@ -480,7 +447,8 @@ static PAGSdk* _pangleSDK = nil;
     return rewardedVideoAd != nil && available != nil && [available boolValue];
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
     NSString *slotId = adapterConfig.settings[kSlotId];
     return [self getBiddingDataWithSlotId:slotId];
 }
@@ -585,13 +553,7 @@ static PAGSdk* _pangleSDK = nil;
     
     LogAdapterApi_Internal(@"slotId = %@", slotId);
 
-    ISPangleInterstitialDelegate *interstitialAdDelegate = [[ISPangleInterstitialDelegate alloc] initWithSlotId:slotId
-                                                                                                  andDelegate:self];
-                                                                                                           
     // Add to interstitial delegate map
-    [_interstitialSlotIdToPangleAdDelegate setObject:interstitialAdDelegate
-                                              forKey:slotId];
-
     [_interstitialSlotIdToSmashDelegate setObject:delegate
                                            forKey:slotId];
     
@@ -614,9 +576,10 @@ static PAGSdk* _pangleSDK = nil;
     }
 }
 
-- (void)loadInterstitialForBiddingWithServerData:(NSString *)serverData
-                                   adapterConfig:(ISAdapterConfig *)adapterConfig
-                                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     
     NSString *slotId = adapterConfig.settings[kSlotId];
     [self loadInterstitialInternal:slotId
@@ -625,6 +588,7 @@ static PAGSdk* _pangleSDK = nil;
 }
 
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     
     NSString *slotId = adapterConfig.settings[kSlotId];
@@ -639,9 +603,15 @@ static PAGSdk* _pangleSDK = nil;
     
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
+    // Add to interstitial delegate map - needed for load separately from init methods
+    [_interstitialSlotIdToSmashDelegate setObject:delegate
+                                           forKey:slotId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        ISPangleInterstitialDelegate *interstitialAdDelegate = [_interstitialSlotIdToPangleAdDelegate objectForKey:slotId];
+        ISPangleInterstitialDelegate *interstitialAdDelegate = [[ISPangleInterstitialDelegate alloc] initWithSlotId:slotId
+                                                                                                        andDelegate:self];
+        [self.interstitialSlotIdToPangleAdDelegate setObject:interstitialAdDelegate
+                                                      forKey:slotId];
         
         [self.interstitialAdsAvailability setObject:@NO
                                              forKey:slotId];
@@ -652,23 +622,23 @@ static PAGSdk* _pangleSDK = nil;
             [request setAdString:serverData];
         }
         
+        ISPangleAdapter * __weak weakSelf = self;
         [PAGLInterstitialAd loadAdWithSlotID:slotId
                                      request:request
                            completionHandler:^(PAGLInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
-            
             if (error) {
-                    [self onInterstitialDidFailToLoad:slotId
+                [weakSelf onInterstitialDidFailToLoad:slotId
                                             withError:error];
-                    return;
-                }
+                return;
+            }
                         
             interstitialAd.delegate = interstitialAdDelegate;
             
             // Add interstitial ad to dictionary
-            [_interstitialSlotIdToAd setObject:interstitialAd
-                                        forKey:slotId];
+            [weakSelf.interstitialSlotIdToAd setObject:interstitialAd
+                                                forKey:slotId];
                 
-            [self onInterstitialDidLoad:slotId];
+            [weakSelf onInterstitialDidLoad:slotId];
             
          }];
     });
@@ -683,7 +653,7 @@ static PAGSdk* _pangleSDK = nil;
     
     dispatch_async(dispatch_get_main_queue(), ^{
 
-        PAGLInterstitialAd *interstitialAd = [_interstitialSlotIdToAd objectForKey:slotId];
+        PAGLInterstitialAd *interstitialAd = [self.interstitialSlotIdToAd objectForKey:slotId];
         
         if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
             [self.interstitialAdsAvailability setObject:@NO
@@ -709,7 +679,8 @@ static PAGSdk* _pangleSDK = nil;
     return interstitialAd != nil && available != nil && [available boolValue];
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
     NSString *slotId = adapterConfig.settings[kSlotId];
     return [self getBiddingDataWithSlotId:slotId];
 }
@@ -789,13 +760,7 @@ static PAGSdk* _pangleSDK = nil;
     
     LogAdapterApi_Internal(@"slotId = %@", slotId);
 
-    ISPangleBannerDelegate *bannerAdDelegate = [[ISPangleBannerDelegate alloc] initWithSlotId:slotId
-                                                                                  andDelegate:self];
-                                                                                        
     // Add banner ad to dictionary
-    [_bannerSlotIdToPangleAdDelegate setObject:bannerAdDelegate
-                                        forKey:slotId];
-    
     [_bannerSlotIdToSmashDelegate setObject:delegate
                                      forKey:slotId];
 
@@ -817,32 +782,37 @@ static PAGSdk* _pangleSDK = nil;
     }
 }
 
-- (void)loadBannerForBiddingWithServerData:(NSString *)serverData
-                            viewController:(UIViewController *)viewController
-                                      size:(ISBannerSize *)size
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
+- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                               viewController:(UIViewController *)viewController
+                                         size:(ISBannerSize *)size
+                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
+    // add to banner delegate map - needed seperatly from init method
+    [_bannerSlotIdToSmashDelegate setObject:delegate
+                                     forKey:slotId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        ISPangleBannerDelegate *bannerAdDelegate = [_bannerSlotIdToPangleAdDelegate objectForKey:slotId];
-                
+        ISPangleBannerDelegate *bannerAdDelegate = [[ISPangleBannerDelegate alloc] initWithSlotId:slotId
+                                                                                      andDelegate:self];
+        [self.bannerSlotIdToPangleAdDelegate setObject:bannerAdDelegate
+                                                forKey:slotId];
         PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:[self getBannerSize:size]];
          
         if (serverData) {
             [request setAdString:serverData];
         }
         
+        ISPangleAdapter * __weak weakSelf = self;
         [PAGBannerAd loadAdWithSlotID:slotId
                               request:request
                     completionHandler:^(PAGBannerAd * _Nullable bannerAd, NSError * _Nullable error) {
-            
             if (error) {
-                [self onBannerDidFailToLoad:slotId
-                                  withError:error];
+                [weakSelf onBannerDidFailToLoad:slotId
+                                      withError:error];
                 return;
             }
 
@@ -854,14 +824,14 @@ static PAGSdk* _pangleSDK = nil;
             bannerAd.bannerView.frame = bannerFrame;
             
             // Add banner ad to dictionary
-            [_bannerSlotIdToAd setObject:bannerAd
-                                  forKey:slotId];
-            [_bannerSlotIdToViewController setObject:viewController
+            [weakSelf.bannerSlotIdToAd setObject:bannerAd
+                                          forKey:slotId];
+            [weakSelf.bannerSlotIdToViewController setObject:viewController
+                                                      forKey:slotId];
+            [weakSelf.bannerSlotIdToAdSize setObject:size
                                               forKey:slotId];
-            [_bannerSlotIdToAdSize setObject:size
-                                      forKey:slotId];
             
-            [self onBannerDidLoad:slotId];
+            [weakSelf onBannerDidLoad:slotId];
         }];
     });
 }
@@ -870,15 +840,10 @@ static PAGSdk* _pangleSDK = nil;
     // There is no required implementation for Pangle destroy banner
 }
 
-- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData {
     NSString *slotId = adapterConfig.settings[kSlotId];
     return [self getBiddingDataWithSlotId:slotId];
-}
-
-// Network does not support banner reload
-// Return true if banner view needs to be bound again on reload
-- (BOOL)shouldBindBannerViewOnReload {
-    return YES;
 }
 
 #pragma mark - Banner Delegate
@@ -975,28 +940,27 @@ static PAGSdk* _pangleSDK = nil;
     // This is an array of 1 value
     NSString *value = values[0];
     
-    if ([self isValidCOPPAMetaDataWithKey:key
-                                 andValue:value]) {
-        [self setCOPPAValue:value.integerValue];
-    } else if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
-                                                  andValue:value]) {
-        [self setCCPAValue:[ISMetaDataUtils getCCPABooleanValue:value]];
+    if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
+                                           andValue:value]) {
+        [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
+        
+    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                                  flag:kMetaDataCOPPAKey
+                                              andValue:value]) {
+        if ([value isEqualToString:kCOPPAChild] || [value isEqualToString:kCOPPAAdult]) {
+            [self setCOPPAValue:value.integerValue];
+        }
     }
-}
-
-- (BOOL) isValidCOPPAMetaDataWithKey:(NSString *)key
-                            andValue:(NSString *)value {
-    return ([key caseInsensitiveCompare:kMetaDataCOPPAKey] == NSOrderedSame && ([value isEqualToString:kCOPPAChild] || [value isEqualToString:kCOPPAAdult]));
 }
 
 #pragma mark - Helper Methods
 
 - (NSDictionary *)getBiddingDataWithSlotId:(NSString *)slotId {
-    if (_initState != INIT_STATE_SUCCESS) {
+    if (_initState == INIT_STATE_FAILED) {
         LogAdapterApi_Internal(@"returning nil as token since init isn't successful");
         return nil;
     }
-    
+    LogAdapterApi_Internal(@"slotId = %@", slotId);
     NSString *bidderToken = [PAGSdk getBiddingToken:slotId];
     NSString *returnedToken = bidderToken? bidderToken : @"";
     

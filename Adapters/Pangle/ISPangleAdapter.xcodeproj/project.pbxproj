@@ -19,17 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0EB44080EA96B75B402B5372 /* Pods-ISVungleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		36EF638E7CC8A81F06835D5A /* Pods-ISAdColonyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		4584F9502BECC747DED6F135 /* Pods-ISChartboostAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISChartboostAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISChartboostAdapter/Pods-ISChartboostAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		4CF7DE948E48A63C36CAE9F8 /* Pods-ISTapjoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapjoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapjoyAdapter/Pods-ISTapjoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		71EAE3C88FD938AC25A3D7BE /* Pods-ISTapJoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapJoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapJoyAdapter/Pods-ISTapJoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		8E1EC165A92950DF3B25EED1 /* Pods-ISChartboostAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISChartboostAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISChartboostAdapter/Pods-ISChartboostAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		AA5B4F08489A9B346ABDBE48 /* Pods-ISAdColonyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		B71CE3A1CD069CE6442F3BFC /* Pods-ISVungleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		C4ECFDE93EDDD973182ADD7F /* Pods-ISTapJoyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapJoyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISTapJoyAdapter/Pods-ISTapJoyAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		C769D67E293CFB500064876A /* ISPangleInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPangleInterstitialDelegate.h; sourceTree = "<group>"; };
 		C769D67F293CFB500064876A /* ISPangleBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPangleBannerDelegate.m; sourceTree = "<group>"; };
 		C769D680293CFB500064876A /* ISPangleRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPangleRewardedVideoDelegate.m; sourceTree = "<group>"; };
@@ -38,7 +29,6 @@
 		C769D683293CFB500064876A /* ISPangleBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISPangleBannerDelegate.h; sourceTree = "<group>"; };
 		C769D684293CFB500064876A /* ISPangleInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPangleInterstitialDelegate.m; sourceTree = "<group>"; };
 		C769D685293CFB500064876A /* ISPangleAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISPangleAdapter.m; sourceTree = "<group>"; };
-		C7889FF5E37EE76C891938E4 /* Pods-ISTapjoyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapjoyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISTapjoyAdapter/Pods-ISTapjoyAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		D645611345B707EED7D08D83 /* libPods-ISPangleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISPangleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE27C0428337CC500391127 /* ISPangleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISPangleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -58,16 +48,6 @@
 		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				36EF638E7CC8A81F06835D5A /* Pods-ISAdColonyAdapter.debug.xcconfig */,
-				AA5B4F08489A9B346ABDBE48 /* Pods-ISAdColonyAdapter.release.xcconfig */,
-				71EAE3C88FD938AC25A3D7BE /* Pods-ISTapJoyAdapter.debug.xcconfig */,
-				C4ECFDE93EDDD973182ADD7F /* Pods-ISTapJoyAdapter.release.xcconfig */,
-				4CF7DE948E48A63C36CAE9F8 /* Pods-ISTapjoyAdapter.debug.xcconfig */,
-				C7889FF5E37EE76C891938E4 /* Pods-ISTapjoyAdapter.release.xcconfig */,
-				0EB44080EA96B75B402B5372 /* Pods-ISVungleAdapter.debug.xcconfig */,
-				B71CE3A1CD069CE6442F3BFC /* Pods-ISVungleAdapter.release.xcconfig */,
-				4584F9502BECC747DED6F135 /* Pods-ISChartboostAdapter.debug.xcconfig */,
-				8E1EC165A92950DF3B25EED1 /* Pods-ISChartboostAdapter.release.xcconfig */,
 				9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */,
 				BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */,
 			);
@@ -143,6 +123,7 @@
 				EFE27C0228337CC500391127 /* Resources */,
 				EFE27C1C28337E5800391127 /* Create XCFramework */,
 				61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */,
+				FC4B03C229C98FF200354D90 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -252,6 +233,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
+		};
+		FC4B03C229C98FF200354D90 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nrm -fr *.bundle\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -2,10 +2,10 @@
 //  ISPangleRewardedVideoDelegate.m
 //  ISPangleAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISPangleRewardedVideoDelegate.h"
+#import <ISPangleRewardedVideoDelegate.h>
 
 @implementation ISPangleRewardedVideoDelegate
 

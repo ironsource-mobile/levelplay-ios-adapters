@@ -2,10 +2,10 @@
 //  ISPangleInterstitialDelegate.m
 //  ISPangleAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import "ISPangleInterstitialDelegate.h"
+#import <ISPangleInterstitialDelegate.h>
 
 @implementation ISPangleInterstitialDelegate
 
