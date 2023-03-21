@@ -2,10 +2,10 @@
 //  ISAdMobInterstitialDelegate.m
 //  ISAdMobAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#include "ISAdMobInterstitialDelegate.h"
+#include <ISAdMobInterstitialDelegate.h>
 
 @implementation ISAdMobInterstitialDelegate
 
@@ -21,7 +21,6 @@
 
 /// Tells the delegate that the ad presented full screen content.
 - (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad {
-    [_delegate onInterstitialDidOpen:_adUnitId];
 }
 
 /// Tells the delegate that the ad failed to present full screen content.
@@ -31,6 +30,7 @@
 
 /// Tells the delegate that an impression has been recorded for the ad.
 - (void)adDidRecordImpression:(id<GADFullScreenPresentingAd>)ad {
+    [_delegate onInterstitialDidOpen:_adUnitId];
 }
 
 /// Tells the delegate that a click has been recorded for the ad.

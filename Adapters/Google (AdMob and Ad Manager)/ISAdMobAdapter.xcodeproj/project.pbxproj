@@ -308,7 +308,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ -d \"${PWD}/ReleaseCandidates/${ADAPTER}\" ] || mkdir -p \"${PWD}/ReleaseCandidates/${ADAPTER}\"\ncp -a ''${BUILT_PRODUCTS_DIR}/ISAdMobResources.bundle'' 'ReleaseCandidates/ISAdMobAdapter/'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerSmallView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerMediumView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobResources'\n";
+			shellScript = "[ -d \"${PWD}/ReleaseCandidates/${ADAPTER}\" ] || mkdir -p \"${PWD}/ReleaseCandidates/${ADAPTER}\"\ncp -a ''${BUILT_PRODUCTS_DIR}/ISAdMobResources.bundle'' 'ReleaseCandidates/ISAdMobAdapter/'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerSmallView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobNativeBannerMediumView.nib'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobResources'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/Info.plist'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobResources.bundle/Info.plist'\nrm -f 'ReleaseCandidates/ISAdMobAdapter/ISAdMobResources.bundle/ISAdMobResources'\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -535,11 +535,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
 				ENABLE_BITCODE = NO;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPrincipalClass = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISAdMobResources;
@@ -561,11 +561,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
 				ENABLE_BITCODE = NO;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPrincipalClass = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISAdMobResources;

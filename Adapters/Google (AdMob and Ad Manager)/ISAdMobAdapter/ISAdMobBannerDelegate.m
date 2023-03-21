@@ -2,11 +2,11 @@
 //  ISAdMobBannerDelegate.m
 //  ISAdMobAdapter
 //
-//  Copyright © 2022 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 
-#include "ISAdMobBannerDelegate.h"
+#include <ISAdMobBannerDelegate.h>
 
 @implementation ISAdMobBannerDelegate
 
