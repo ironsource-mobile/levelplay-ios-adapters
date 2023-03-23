@@ -966,7 +966,7 @@ ISUnityAdsRewardedVideoDelegateWrapper>
     if (bannerAd) {
         [self destroyBannerWithAdapterConfig:adapterConfig];
     }
-} 
+}
 
 #pragma mark - Legal Methods
 
@@ -1061,6 +1061,7 @@ ISUnityAdsRewardedVideoDelegateWrapper>
 - (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
     if ([size.sizeDescription isEqualToString:@"BANNER"] ||
         [size.sizeDescription isEqualToString:@"LARGE"] ||
+        [size.sizeDescription isEqualToString:@"RECTANGLE"] ||
         [size.sizeDescription isEqualToString:@"SMART"]) {
         return YES;
     }
@@ -1072,12 +1073,12 @@ ISUnityAdsRewardedVideoDelegateWrapper>
     if ([size.sizeDescription isEqualToString:@"BANNER"] ||
         [size.sizeDescription isEqualToString:@"LARGE"]) {
         return CGSizeMake(320, 50);
-    }
-    else if ([size.sizeDescription isEqualToString:@"SMART"]) {
+    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
+        return CGSizeMake(300, 250);
+    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             return CGSizeMake(728, 90);
-        }
-        else {
+        } else {
             return CGSizeMake(320, 50);
         }
     }
