@@ -12,7 +12,6 @@ static NSString * const AdColonyAdapterVersion = @"4.3.16";
 static NSString * Githash = @"";
 
 //System Frameworks For AdColony Adapter
-
 @import AdSupport;
 @import AppTrackingTransparency;
 @import AudioToolbox;
