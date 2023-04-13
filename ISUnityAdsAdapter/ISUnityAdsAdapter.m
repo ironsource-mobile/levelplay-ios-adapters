@@ -46,10 +46,10 @@ static NSString *asyncToken = nil;
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 @interface ISUnityAdsAdapter () <UnityAdsInitializationDelegate,
-ISNetworkInitCallbackProtocol,
-ISUnityAdsBannerDelegateWrapper,
-ISUnityAdsInterstitialDelegateWrapper,
-ISUnityAdsRewardedVideoDelegateWrapper>
+                                ISNetworkInitCallbackProtocol,
+                                ISUnityAdsBannerDelegateWrapper,
+                                ISUnityAdsInterstitialDelegateWrapper,
+                                ISUnityAdsRewardedVideoDelegateWrapper>
 
 // Rewrded video
 @property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
@@ -483,7 +483,6 @@ ISUnityAdsRewardedVideoDelegateWrapper>
 
 - (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                         adData:(NSDictionary *)adData {
-    LogAdapterApi_Internal(@"");
     return [self getBiddingData];
 }
 
@@ -566,7 +565,6 @@ ISUnityAdsRewardedVideoDelegateWrapper>
 - (void)initInterstitialForBiddingWithUserId:(NSString *)userId
                                adapterConfig:(ISAdapterConfig *)adapterConfig
                                     delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    LogAdapterApi_Internal(@"");
     [self initInterstitialWithUserId:userId
                        adapterConfig:adapterConfig
                             delegate:delegate];
@@ -735,13 +733,12 @@ ISUnityAdsRewardedVideoDelegateWrapper>
 
 - (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                        adData:(NSDictionary *)adData {
-    LogAdapterApi_Internal(@"");
     return [self getBiddingData];
 }
 
 #pragma mark - Interstitial Delegate
 
-- (void)onInterstitialDidLoad:(nonnull NSString *)placementId {
+- (void)onInterstitialDidLoad:(NSString * _Nonnull)placementId {
     LogAdapterDelegate_Internal(@"placementId = %@", placementId);
     [_interstitialAdsAvailability setObject:@YES forKey:placementId];
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
@@ -749,7 +746,7 @@ ISUnityAdsRewardedVideoDelegateWrapper>
     [delegate adapterInterstitialDidLoad];
 }
 
-- (void)onInterstitialDidFailToLoad:(nonnull NSString *)placementId
+- (void)onInterstitialDidFailToLoad:(NSString * _Nonnull)placementId
                           withError:(UnityAdsLoadError)error {
     NSString *loadError = [self unityAdsLoadErrorToString:error];
     LogAdapterDelegate_Internal(@"placementId = %@ reason - %@", placementId, loadError);
@@ -809,9 +806,17 @@ ISUnityAdsRewardedVideoDelegateWrapper>
 
 #pragma mark - Banner API
 
-- (void)initBannerWithUserId:(nonnull NSString *)userId
-               adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                    delegate:(nonnull id<ISBannerAdapterDelegate>)delegate {
+- (void)initBannerForBiddingWithUserId:(NSString *)userId
+                         adapterConfig:(ISAdapterConfig *)adapterConfig
+                              delegate:(id<ISBannerAdapterDelegate>)delegate {
+    [self initBannerWithUserId:userId
+                 adapterConfig:adapterConfig
+                      delegate:delegate];
+}
+
+- (void)initBannerWithUserId:(NSString *)userId
+               adapterConfig:(ISAdapterConfig *)adapterConfig
+                    delegate:(id<ISBannerAdapterDelegate>)delegate {
     NSString *gameId = adapterConfig.settings[kGameId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
@@ -852,11 +857,35 @@ ISUnityAdsRewardedVideoDelegateWrapper>
     }
 }
 
+- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                               viewController:(UIViewController *)viewController
+                                         size:(ISBannerSize *)size
+                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
+    
+    [self loadBannerInternalWithAdapterConfig:adapterConfig
+                                     delegate:delegate
+                                         size:size
+                                   serverData:serverData];
+}
+
 - (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                              adData:(NSDictionary *)adData
                      viewController:(UIViewController *)viewController
                                size:(ISBannerSize *)size
                            delegate:(id <ISBannerAdapterDelegate>)delegate {
+    
+    [self loadBannerInternalWithAdapterConfig:adapterConfig
+                                     delegate:delegate
+                                         size:size
+                                   serverData:nil];
+}
+
+- (void)loadBannerInternalWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   delegate:(id<ISBannerAdapterDelegate>)delegate
+                                       size:(ISBannerSize *)size
+                                 serverData:(NSString *)serverData {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
     // Verify size
@@ -891,8 +920,20 @@ ISUnityAdsRewardedVideoDelegateWrapper>
             // Set delegate
             bannerView.delegate = bannerAdDelegate;
             
+            UADSLoadOptions *options = [UADSLoadOptions new];
+
+            // objectId is used to identify a loaded ad and to show it
+            NSString *objectId = [[NSUUID UUID] UUIDString];
+            [options setObjectId:objectId];
+            
+            if (serverData != nil) {
+                // add adMarkup for bidder instances
+                [options setAdMarkup:serverData];
+            }
+            
             // Load banner
-            [bannerView load];
+            [bannerView loadWithOptions:options];
+            
         } @catch (NSException *exception) {
             NSString *message = [NSString stringWithFormat:@"ISUnityAdsAdapter: Exception while trying to load a banner ad. Description: '%@'", exception.description];
             LogAdapterApi_Internal(@"message = %@", message);
@@ -905,7 +946,7 @@ ISUnityAdsRewardedVideoDelegateWrapper>
     });
 }
 
-- (void)destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
+- (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
     // Get banner
@@ -919,6 +960,11 @@ ISUnityAdsRewardedVideoDelegateWrapper>
     // Remove from ad dictionary and set null
     [_bannerPlacementIdToAd removeObjectForKey:placementId];
     bannerView = nil;
+}
+
+- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData {
+    return [self getBiddingData];
 }
 
 #pragma mark - Banner Delegate
