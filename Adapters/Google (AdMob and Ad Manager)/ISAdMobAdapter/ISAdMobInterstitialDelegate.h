@@ -12,6 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ISAdMobInterstitialDelegateWrapper <NSObject>
 
+- (void)onInterstitialDidLoad:(nonnull NSString *)adUnitId
+           withInterstitialAd:(nonnull GADInterstitialAd *)interstitialAd;
+
+- (void)onInterstitialDidFailToLoad:(nonnull NSString *)adUnitId
+                          withError:(nonnull NSError *)error;
+
 - (void)onInterstitialDidOpen:(nonnull NSString *)adUnitId;
 
 - (void)onInterstitialShowFail:(nonnull NSString *)adUnitId

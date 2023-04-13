@@ -12,6 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ISAdMobRewardedVideoDelegateWrapper <NSObject>
 
+- (void)onRewardedVideoDidLoad:(nonnull NSString *)adUnitId
+                withRewardedAd:(nonnull GADRewardedAd *)rewardedAd;
+
+- (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)adUnitId
+                           withError:(nonnull NSError *)error;
+
 - (void)onRewardedVideoDidOpen:(nonnull NSString *)adUnitId;
 
 - (void)onRewardedVideoShowFail:(nonnull NSString *)adUnitId

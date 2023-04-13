@@ -433,27 +433,15 @@ static BOOL _consentCollectingUserData            = NO;
                       completionHandler:^(GADRewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {
             
             __typeof__(self) strongSelf = weakSelf;
-            
-            [strongSelf.rewardedVideoAds setObject:rewardedAd
-                                            forKey:adUnitId];
             if (error) {
-                LogAdapterApi_Internal(@"failed for adUnitId = %@", adUnitId);
-                [strongSelf.rewardedVideoAdsAvailability setObject:@NO
-                                                            forKey:adUnitId];
-                // set the rewarded video availability to false
-                [delegate adapterRewardedVideoHasChangedAvailability:NO];
-                NSError *smashError = [strongSelf isNoFillError:error] ? [ISError createError:ERROR_RV_LOAD_NO_FILL
-                                                                                  withMessage:@"AdMob no fill"] : error;
-                [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
+                [strongSelf onRewardedVideoDidFailToLoad:adUnitId
+                                               withError:error];
             } else {
-                LogAdapterApi_Internal(@"success for adUnitId = %@", adUnitId);
-                [strongSelf.rewardedVideoAdsAvailability setObject:@YES
-                                                            forKey:adUnitId];
-                [delegate adapterRewardedVideoHasChangedAvailability:YES];
+                [strongSelf onRewardedVideoDidLoad:adUnitId
+                                    withRewardedAd:rewardedAd];
             }
         }];
-    }
-                   );
+    });
 }
 
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
@@ -508,6 +496,34 @@ static BOOL _consentCollectingUserData            = NO;
 
 #pragma mark - Rewarded Video Delegate
 
+- (void)onRewardedVideoDidLoad:(nonnull NSString *)adUnitId
+                withRewardedAd:(nonnull GADRewardedAd *)rewardedAd {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToSmashDelegate objectForKey:adUnitId];
+
+    [self.rewardedVideoAds setObject:rewardedAd
+                              forKey:adUnitId];
+
+    [self.rewardedVideoAdsAvailability setObject:@YES
+                                          forKey:adUnitId];
+    
+    [delegate adapterRewardedVideoHasChangedAvailability:YES];
+}
+
+- (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)adUnitId
+                           withError:(nonnull NSError *)error {
+    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId, error);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToSmashDelegate objectForKey:adUnitId];
+    NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_RV_LOAD_NO_FILL
+                                                                withMessage:@"AdMob no fill"] : error;
+
+    [self.rewardedVideoAdsAvailability setObject:@NO
+                                          forKey:adUnitId];
+    
+    [delegate adapterRewardedVideoHasChangedAvailability:NO];
+    [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
+}
+
 - (void)onRewardedVideoDidOpen:(nonnull NSString *)adUnitId {
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToSmashDelegate objectForKey:adUnitId];
@@ -516,7 +532,7 @@ static BOOL _consentCollectingUserData            = NO;
 
 - (void)onRewardedVideoShowFail:(nonnull NSString *)adUnitId
                       withError:(nonnull NSError *)error{
-    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId,error);
+    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId, error);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoAdUnitIdToSmashDelegate objectForKey:adUnitId];
     [delegate adapterRewardedVideoDidFailToShowWithError:error];
 }
@@ -616,12 +632,7 @@ static BOOL _consentCollectingUserData            = NO;
         
         [self.interstitialAdsAvailability setObject:@NO
                                              forKey:adUnitId];
-        
-        if (delegate == nil) {
-            LogAdapterApi_Internal(@"delegate = nil");
-            return;
-        }
-        
+
         [self.interstitialAdUnitIdToSmashDelegate setObject:delegate
                                                      forKey:adUnitId];
         
@@ -633,20 +644,12 @@ static BOOL _consentCollectingUserData            = NO;
                           completionHandler:^(GADInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
             
             __typeof__(self) strongSelf = weakSelf;
-            
-            [strongSelf.interstitialAds setObject:interstitialAd
-                                           forKey:adUnitId];
             if (error) {
-                // set the interstitial ad availability to false
-                [strongSelf.interstitialAdsAvailability setObject:@NO
-                                                           forKey:adUnitId];
-                NSError *smashError = [strongSelf isNoFillError:error] ? [ISError createError:ERROR_IS_LOAD_NO_FILL
-                                                                                  withMessage:@"AdMob no fill"] : error;
-                [delegate adapterInterstitialDidFailToLoadWithError:smashError];
+                [strongSelf onInterstitialDidFailToLoad:adUnitId
+                                              withError:error];
             } else {
-                [strongSelf.interstitialAdsAvailability setObject:@YES
-                                                           forKey:adUnitId];
-                [delegate adapterInterstitialDidLoad];
+                [strongSelf onInterstitialDidLoad:adUnitId
+                               withInterstitialAd:interstitialAd];
             }
         }];
     });
@@ -699,6 +702,28 @@ static BOOL _consentCollectingUserData            = NO;
 
 #pragma mark - Interstitial Delegate
 
+- (void)onInterstitialDidLoad:(nonnull NSString *)adUnitId
+           withInterstitialAd:(nonnull GADInterstitialAd *)interstitialAd {
+    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+    id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToSmashDelegate objectForKey:adUnitId];
+
+    [self.interstitialAds setObject:interstitialAd
+                             forKey:adUnitId];
+    [self.interstitialAdsAvailability setObject:@YES
+                                         forKey:adUnitId];
+    [delegate adapterInterstitialDidLoad];
+}
+
+- (void)onInterstitialDidFailToLoad:(nonnull NSString *)adUnitId
+                          withError:(nonnull NSError *)error {
+    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId, error);
+    id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToSmashDelegate objectForKey:adUnitId];
+    NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_IS_LOAD_NO_FILL
+                                                                withMessage:@"AdMob no fill"] : error;
+    [self.interstitialAdsAvailability setObject:@NO
+                                         forKey:adUnitId];
+    [delegate adapterInterstitialDidFailToLoadWithError:smashError];
+}
 
 - (void)onInterstitialDidOpen:(nonnull NSString *)adUnitId {
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
@@ -709,7 +734,7 @@ static BOOL _consentCollectingUserData            = NO;
 
 - (void)onInterstitialShowFail:(nonnull NSString *)adUnitId
                      withError:(nonnull NSError *)error {
-    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId,error);
+    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", adUnitId, error);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialAdUnitIdToSmashDelegate objectForKey:adUnitId];
     [delegate adapterInterstitialDidFailToShowWithError:error];
 }
@@ -945,7 +970,7 @@ static BOOL _consentCollectingUserData            = NO;
 
 - (void)onBannerDidFailToLoad:(nonnull NSString *)adUnitId
                     withError:(nonnull NSError *)error {
-    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@ with error = %@", adUnitId,error);
+    LogAdapterDelegate_Internal(@"bannerView.adUnitID = %@ with error = %@", adUnitId, error);
     NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_BN_LOAD_NO_FILL
                                                                 withMessage:@"AdMob no fill"] : error;
     id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToSmashDelegate objectForKey:adUnitId];
@@ -998,7 +1023,7 @@ static BOOL _consentCollectingUserData            = NO;
 
 - (void)onNativeBannerDidFailToLoadWithAdUnitId:(nonnull NSString *)adUnitId
                                           error:(nonnull NSError *)error {
-    LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", adUnitId,error);
+    LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", adUnitId, error);
     NSError *smashError = [self isNoFillError:error] ? [ISError createError:ERROR_BN_LOAD_NO_FILL
                                                                 withMessage:@"AdMob no fill"] : error;
     id<ISBannerAdapterDelegate> delegate = [_bannerAdUnitIdToSmashDelegate objectForKey:adUnitId];
