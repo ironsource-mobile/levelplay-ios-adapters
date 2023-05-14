@@ -8,19 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		56C8660F289F90E0008ADF53 /* ISVungleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C8660B289F90E0008ADF53 /* ISVungleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		56C86610289F90E0008ADF53 /* ISVungleAdapterSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 56C8660C289F90E0008ADF53 /* ISVungleAdapterSingleton.h */; };
-		56C86611289F90E0008ADF53 /* ISVungleAdapterSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C8660D289F90E0008ADF53 /* ISVungleAdapterSingleton.m */; };
 		56C86612289F90E0008ADF53 /* ISVungleAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 56C8660E289F90E0008ADF53 /* ISVungleAdapter.m */; };
 		7636152814ADCA6D5C926299 /* libPods-ISVungleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7456AE67B84A441463F77B2 /* libPods-ISVungleAdapter.a */; };
+		C78A34352A03ECCB001963DF /* ISVungleBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C78A34332A03ECCB001963DF /* ISVungleBannerDelegate.h */; };
+		C78A34362A03ECCB001963DF /* ISVungleBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C78A34342A03ECCB001963DF /* ISVungleBannerDelegate.m */; };
+		C78A343A2A03ECF5001963DF /* ISVungleInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C78A34382A03ECF5001963DF /* ISVungleInterstitialDelegate.h */; };
+		C78A343B2A03ECF5001963DF /* ISVungleInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C78A34392A03ECF5001963DF /* ISVungleInterstitialDelegate.m */; };
+		C78A343E2A03ED06001963DF /* ISVungleRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C78A343C2A03ED06001963DF /* ISVungleRewardedVideoDelegate.h */; };
+		C78A343F2A03ED06001963DF /* ISVungleRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C78A343D2A03ED06001963DF /* ISVungleRewardedVideoDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0EB44080EA96B75B402B5372 /* Pods-ISVungleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		56C8660B289F90E0008ADF53 /* ISVungleAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleAdapter.h; sourceTree = "<group>"; };
-		56C8660C289F90E0008ADF53 /* ISVungleAdapterSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISVungleAdapterSingleton.h; sourceTree = "<group>"; };
-		56C8660D289F90E0008ADF53 /* ISVungleAdapterSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleAdapterSingleton.m; sourceTree = "<group>"; };
 		56C8660E289F90E0008ADF53 /* ISVungleAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISVungleAdapter.m; sourceTree = "<group>"; };
 		B71CE3A1CD069CE6442F3BFC /* Pods-ISVungleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		C78A34332A03ECCB001963DF /* ISVungleBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleBannerDelegate.h; sourceTree = "<group>"; };
+		C78A34342A03ECCB001963DF /* ISVungleBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleBannerDelegate.m; sourceTree = "<group>"; };
+		C78A34372A03ECE0001963DF /* ISVungleConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleConstant.h; sourceTree = "<group>"; };
+		C78A34382A03ECF5001963DF /* ISVungleInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleInterstitialDelegate.h; sourceTree = "<group>"; };
+		C78A34392A03ECF5001963DF /* ISVungleInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleInterstitialDelegate.m; sourceTree = "<group>"; };
+		C78A343C2A03ED06001963DF /* ISVungleRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		C78A343D2A03ED06001963DF /* ISVungleRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleRewardedVideoDelegate.m; sourceTree = "<group>"; };
 		E7456AE67B84A441463F77B2 /* libPods-ISVungleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISVungleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE27C0428337CC500391127 /* ISVungleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISVungleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -76,9 +85,14 @@
 			isa = PBXGroup;
 			children = (
 				56C8660B289F90E0008ADF53 /* ISVungleAdapter.h */,
+				C78A343C2A03ED06001963DF /* ISVungleRewardedVideoDelegate.h */,
 				56C8660E289F90E0008ADF53 /* ISVungleAdapter.m */,
-				56C8660C289F90E0008ADF53 /* ISVungleAdapterSingleton.h */,
-				56C8660D289F90E0008ADF53 /* ISVungleAdapterSingleton.m */,
+				C78A34332A03ECCB001963DF /* ISVungleBannerDelegate.h */,
+				C78A34342A03ECCB001963DF /* ISVungleBannerDelegate.m */,
+				C78A34372A03ECE0001963DF /* ISVungleConstant.h */,
+				C78A34382A03ECF5001963DF /* ISVungleInterstitialDelegate.h */,
+				C78A34392A03ECF5001963DF /* ISVungleInterstitialDelegate.m */,
+				C78A343D2A03ED06001963DF /* ISVungleRewardedVideoDelegate.m */,
 			);
 			path = ISVungleAdapter;
 			sourceTree = "<group>";
@@ -90,8 +104,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C78A34352A03ECCB001963DF /* ISVungleBannerDelegate.h in Headers */,
 				56C8660F289F90E0008ADF53 /* ISVungleAdapter.h in Headers */,
-				56C86610289F90E0008ADF53 /* ISVungleAdapterSingleton.h in Headers */,
+				C78A343E2A03ED06001963DF /* ISVungleRewardedVideoDelegate.h in Headers */,
+				C78A343A2A03ECF5001963DF /* ISVungleInterstitialDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,8 +224,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C78A343B2A03ECF5001963DF /* ISVungleInterstitialDelegate.m in Sources */,
 				56C86612289F90E0008ADF53 /* ISVungleAdapter.m in Sources */,
-				56C86611289F90E0008ADF53 /* ISVungleAdapterSingleton.m in Sources */,
+				C78A34362A03ECCB001963DF /* ISVungleBannerDelegate.m in Sources */,
+				C78A343F2A03ED06001963DF /* ISVungleRewardedVideoDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
