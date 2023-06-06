@@ -322,7 +322,7 @@ static InitState initState = INIT_STATE_NONE;
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     [self loadRewardedVideoInternal:placementId
-                         serverData:nil
+                         serverData:serverData
                            delegate:delegate];
 }
 
