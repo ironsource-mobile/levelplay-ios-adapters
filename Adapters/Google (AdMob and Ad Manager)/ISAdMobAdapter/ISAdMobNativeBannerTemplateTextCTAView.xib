@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ISAdMobNativeView">
+            <connections>
+                <outlet property="body" destination="Zjv-ch-qcM" id="YEK-FV-wBF"/>
+                <outlet property="callToAction" destination="9ag-e3-7oH" id="YTQ-vZ-S70"/>
+                <outlet property="headline" destination="DKj-id-Sm4" id="Xum-3s-gat"/>
+                <outlet property="nativeAdView" destination="h2X-7h-r2O" id="dJ7-Or-doE"/>
+            </connections>
+        </placeholder>
+        <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2X-7h-r2O" customClass="GADNativeAdView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gYY-Se-Cik">
+                    <rect key="frame" x="16" y="10" width="294" height="30"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Wdo-BT-CiR">
+                            <rect key="frame" x="0.0" y="0.0" width="244.66666666666666" height="30"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DKj-id-Sm4" userLabel="Title View">
+                                    <rect key="frame" x="0.0" y="0.0" width="244.66666666666666" height="30"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Zjv-ch-qcM" userLabel="Body View">
+                                    <rect key="frame" x="0.0" y="30" width="244.66666666666666" height="0.0"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9ag-e3-7oH">
+                            <rect key="frame" x="249.66666666666671" y="0.0" width="44.333333333333343" height="30"/>
+                            <color key="backgroundColor" red="0.25882352941176467" green="0.52156862745098043" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="ean-6N-BZD"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="gQK-jD-L7v"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <state key="normal">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <accessibility key="accessibilityConfiguration">
+                <accessibilityTraits key="traits" notEnabled="YES"/>
+                <bool key="isElement" value="YES"/>
+            </accessibility>
+            <constraints>
+                <constraint firstItem="gYY-Se-Cik" firstAttribute="leading" secondItem="h2X-7h-r2O" secondAttribute="leading" constant="16" id="9TD-Z0-pFw"/>
+                <constraint firstAttribute="trailing" secondItem="gYY-Se-Cik" secondAttribute="trailing" constant="10" id="DU1-BT-hzU"/>
+                <constraint firstItem="gYY-Se-Cik" firstAttribute="top" secondItem="h2X-7h-r2O" secondAttribute="top" constant="10" id="HNH-87-eF0"/>
+                <constraint firstAttribute="bottom" secondItem="gYY-Se-Cik" secondAttribute="bottom" constant="10" id="urh-A6-iDV"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-50.000000000000007" y="652.58152173913049"/>
+        </view>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+    </objects>
+</document>

@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
+#import <ISAdMobNativeBannerTemplate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onNativeBannerDidLoadWithAdUnitId:(nonnull NSString *)adUnitId
                                  nativeAd:(nonnull GADNativeAd *)nativeAd
-                                     size:(ISBannerSize*)size;
+                           nativeTemplate:(ISAdMobNativeBannerTemplate*)nativeTemplate;
 
 - (void)onNativeBannerDidFailToLoadWithAdUnitId:(nonnull NSString *)adUnitId
                                           error:(nonnull NSError *)error;
@@ -36,12 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ISAdMobNativeBannerDelegate : NSObject <GADNativeAdLoaderDelegate,GADAdLoaderDelegate,GADNativeAdDelegate>
 
 @property (nonatomic, strong) NSString* adUnitId;
-@property (nonatomic, strong) ISBannerSize* size;
+@property (nonatomic, strong) ISAdMobNativeBannerTemplate* nativeTemplate;
 @property (nonatomic, weak) id<ISAdMobNativeBannerDelegateWrapper> delegate;
 
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                            size:(ISBannerSize*)size
+                  nativeTemplate:(ISAdMobNativeBannerTemplate*)nativeTemplate
                         delegate:(id<ISAdMobNativeBannerDelegateWrapper>)delegate;
 
 @end

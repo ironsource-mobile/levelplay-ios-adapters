@@ -16,9 +16,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *advertiser;
 @property (weak, nonatomic) IBOutlet UIButton *callToAction;
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
-
 @property (strong, nonatomic) IBOutlet GADNativeAdView *nativeAdView;
+
 @property (strong, nonatomic) GADNativeAd *nativeAd;
+@property (strong, nonatomic) ISAdMobNativeBannerTemplate *nativeTemplate;
 
 @end
 
@@ -29,30 +30,41 @@ static CGFloat const CornerRadius = 5;
 
 @synthesize nativeAd;
 
-- (instancetype) initWithLayout:(ISAdMobNativeViewLayout *)layout
-                       nativeAd:(GADNativeAd *)nativeAd {
+- (instancetype _Nonnull) initWithTemplate:(nonnull ISAdMobNativeBannerTemplate *)template
+                                  nativeAd:(nonnull GADNativeAd *)nativeAd {
     
-    self = [super initWithFrame:layout.frame];
+    self = [super initWithFrame:template.frame];
     if (self) {
         self.nativeAd = nativeAd;
-        [self setupUI:layout.nibName];
-        [self setupAdView:layout];
-        self.nativeAdView.nativeAd = nativeAd;
+        self.nativeTemplate = template;
+        [self setupUI];
+        [self setupAdView];
+        
+        LogAdapterApi_Internal(
+                               @"nativeAd template = %@, headline = %@, body = %@ , icon = %@, mediaContent = %@, mediaContent.hasVideoContent = %@, advertiser = %@, callToAction = %@",
+                               template.nibName,
+                               nativeAd.headline,
+                               nativeAd.body,
+                               nativeAd.icon.imageURL ? nativeAd.icon.imageURL : @"NO",
+                               nativeAd.mediaContent ? @"YES" : @"NO",
+                               nativeAd.mediaContent.hasVideoContent ? @"YES" : @"NO",
+                               nativeAd.advertiser,
+                               nativeAd.callToAction);
     }
     return self;
 }
 
-- (void) setupUI:(NSString *)nibName {
+- (void) setupUI {
     NSString* path= [[NSBundle mainBundle] pathForResource:@"ISAdMobResources" ofType:@"bundle"];
     NSBundle* resourcesBundle = [NSBundle bundleWithPath:path];
-    [resourcesBundle loadNibNamed:nibName owner:self options:nil];
+    [resourcesBundle loadNibNamed:self.nativeTemplate.nibName owner:self options:nil];
     
     self.nativeAdView.translatesAutoresizingMaskIntoConstraints = YES;
     [self addSubview:self.nativeAdView];
     self.nativeAdView.frame = self.bounds;
 }
 
-- (void)setupAdView:(ISAdMobNativeViewLayout *)layout {
+- (void)setupAdView {
     
     [self setupBorder];
     [self setupAdBadge];
@@ -60,8 +72,9 @@ static CGFloat const CornerRadius = 5;
     [self setupHeadlineView];
     [self setupAdvertiserView];
     [self setupBodyView];
-    [self setupMediaView:layout.shouldHideVideoContent];
-    [self setupCallToAction:layout.shouldHideCallToAction];
+    [self setupMediaView];
+    [self setupCallToAction];
+    self.nativeAdView.nativeAd = self.nativeAd;
 }
 
 - (void) setupBorder {
@@ -107,24 +120,25 @@ static CGFloat const CornerRadius = 5;
     self.body.hidden = self.nativeAd.body ? NO : YES;
 }
 
-- (void) setupMediaView:(BOOL)shouldHideVideoContent {
+- (void) setupMediaView {
     
-    BOOL shouldHideMedia = self.nativeAd.mediaContent.hasVideoContent && shouldHideVideoContent;
+    BOOL shouldHideMedia = self.nativeAd.mediaContent.hasVideoContent && self.nativeTemplate.hideVideoContent;
     
     self.nativeAdView.mediaView = self.media;
     self.nativeAdView.mediaView.mediaContent = self.nativeAd.mediaContent;
     self.media.hidden = self.nativeAd.mediaContent ? shouldHideMedia : YES;
 }
 
-- (void) setupCallToAction:(BOOL)shouldHideCallToAction {
+- (void) setupCallToAction {
     
     self.nativeAdView.callToActionView = self.callToAction;
     [self.callToAction setTitle:self.nativeAd.callToAction
                        forState:UIControlStateNormal];
     self.callToAction.layer.cornerRadius = CornerRadius;
+    self.callToAction.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
     self.callToAction.clipsToBounds = YES;
     self.callToAction.userInteractionEnabled = NO;
-    self.callToAction.hidden = self.nativeAd.callToAction ? shouldHideCallToAction : NO;
+    self.callToAction.hidden = self.nativeAd.callToAction ? self.nativeTemplate.hideCallToAction : NO;
 }
 - (GADNativeAdView *) getNativeAdView {
     return self.nativeAdView;

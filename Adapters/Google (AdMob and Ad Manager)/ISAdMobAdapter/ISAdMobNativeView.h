@@ -6,12 +6,12 @@
 //
 
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <ISAdMobNativeViewLayout.h>
+#import <ISAdMobNativeBannerTemplate.h>
 
 @interface ISAdMobNativeView : UIView
     
 - (nonnull GADNativeAdView *) getNativeAdView;
-- (instancetype _Nonnull) initWithLayout:(nonnull ISAdMobNativeViewLayout *)layout
-                                nativeAd:(nonnull GADNativeAd *)nativeAd;
+- (instancetype _Nonnull) initWithTemplate:(nonnull ISAdMobNativeBannerTemplate *)nativeTemplate
+                                  nativeAd:(nonnull GADNativeAd *)nativeAd;
 
 @end

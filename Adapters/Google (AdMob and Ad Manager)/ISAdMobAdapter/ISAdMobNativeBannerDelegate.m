@@ -10,12 +10,12 @@
 @implementation ISAdMobNativeBannerDelegate
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                            size:(ISBannerSize*)size
+                  nativeTemplate:(ISAdMobNativeBannerTemplate*)nativeTemplate
                         delegate:(id<ISAdMobNativeBannerDelegateWrapper>)delegate {
     self = [super init];
     if (self) {
         _adUnitId = adUnitId;
-        _size = size;
+        _nativeTemplate = nativeTemplate;
         _delegate = delegate;
     }
     return self;
@@ -25,7 +25,7 @@
 - (void)adLoader:(nonnull GADAdLoader *)adLoader didReceiveNativeAd:(nonnull GADNativeAd *)nativeAd {
     [_delegate onNativeBannerDidLoadWithAdUnitId:adLoader.adUnitID
                                         nativeAd:nativeAd
-                                            size:_size];
+                                  nativeTemplate:self.nativeTemplate];
 }
 
 /// Called when adLoader fails to load an ad.

@@ -12,7 +12,7 @@
 #import <ISAdMobNativeBannerDelegate.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <ISAdMobNativeView.h>
-#import <ISAdMobNativeViewLayout.h>
+#import <ISAdMobNativeBannerTemplate.h>
 #import <IronSource/ISBiddingDataDelegate.h>
 
 //AdMob requires a request agent name
@@ -903,17 +903,17 @@ static BOOL _consentCollectingUserData            = NO;
         
         NSString *adUnitId = adapterConfig.settings[kAdUnitId];
         
-        GADVideoOptions *videoOptions = [[GADVideoOptions alloc] init];
-        videoOptions.startMuted = true;
         
+        ISAdMobNativeBannerTemplate *template = [[ISAdMobNativeBannerTemplate alloc] initWithAdapterConfig:adapterConfig
+                                                                                           sizeDescription:size.sizeDescription];
         self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: adUnitId
                                                  rootViewController: viewController
                                                             adTypes: @[GADAdLoaderAdTypeNative]
-                                                            options: @[videoOptions]];
+                                                            options: [self createNativeAdOptionsWithTemplate:template]];
         
-        ISAdMobNativeBannerDelegate* nativeBannerDelegate= [[ISAdMobNativeBannerDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                                            size:size
-                                                                                                        delegate:self];
+        ISAdMobNativeBannerDelegate* nativeBannerDelegate = [[ISAdMobNativeBannerDelegate alloc] initWithAdUnitId:adUnitId
+                                                                                                   nativeTemplate:template
+                                                                                                         delegate:self];
         //add native banner to delegate map
         [self.bannerAdUnitIdToAdMobAdDelegate setObject:nativeBannerDelegate
                                                  forKey:adUnitId];
@@ -927,6 +927,19 @@ static BOOL _consentCollectingUserData            = NO;
         LogAdapterApi_Internal(@"error = %@", error);
         [delegate adapterBannerDidFailToLoadWithError:error];
     }
+}
+
+- (NSArray<GADAdLoaderOptions *> *)createNativeAdOptionsWithTemplate:(ISAdMobNativeBannerTemplate *)template {
+    GADVideoOptions *videoOptions = [[GADVideoOptions alloc] init];
+    videoOptions.startMuted = true;
+    
+    GADNativeAdViewAdOptions *adViewAdOptions = [[GADNativeAdViewAdOptions alloc] init];
+    adViewAdOptions.preferredAdChoicesPosition = template.adChoicesPosition;
+
+    GADNativeAdMediaAdLoaderOptions *adMediaAdLoaderOptions = [[GADNativeAdMediaAdLoaderOptions alloc] init];
+    adMediaAdLoaderOptions.mediaAspectRatio = template.mediaAspectRatio;
+
+    return @[videoOptions, adViewAdOptions, adMediaAdLoaderOptions];
 }
 
 - (void)reloadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -1006,12 +1019,12 @@ static BOOL _consentCollectingUserData            = NO;
 
 - (void)onNativeBannerDidLoadWithAdUnitId:(nonnull NSString *)adUnitId
                                  nativeAd:(nonnull GADNativeAd *)nativeAd
-                                     size:(ISBannerSize*)size {
+                                 nativeTemplate:(ISAdMobNativeBannerTemplate*)template {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        ISAdMobNativeViewLayout *layout = [[ISAdMobNativeViewLayout alloc] initWithSize:size.sizeDescription];
-        ISAdMobNativeView *nativeView = [[ISAdMobNativeView alloc] initWithLayout:layout nativeAd:nativeAd];
+        ISAdMobNativeView *nativeView = [[ISAdMobNativeView alloc] initWithTemplate:template
+                                                                           nativeAd:nativeAd];
         
         ISAdMobNativeBannerDelegate *nativeAdDelegate = [self.bannerAdUnitIdToAdMobAdDelegate objectForKey:adUnitId];
         nativeAd.delegate = nativeAdDelegate;
