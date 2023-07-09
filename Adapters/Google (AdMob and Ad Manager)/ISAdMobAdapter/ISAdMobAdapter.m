@@ -102,7 +102,7 @@ static BOOL _consentCollectingUserData            = NO;
 
 // Get network sdk version
 - (NSString *)sdkVersion {
-    return GADMobileAds.sharedInstance.sdkVersion;
+    return GADGetStringFromVersionNumber(GADMobileAds.sharedInstance.versionNumber);
 }
 
 #pragma mark - Initializations Methods And Callbacks
@@ -1136,11 +1136,11 @@ static BOOL _consentCollectingUserData            = NO;
     if ([key isEqualToString:kAdMobTFCD]) {
         BOOL coppaValue = [ISMetaDataUtils getMetaDataBooleanValue:formattedValueString];
         LogAdapterApi_Internal(@"key = %@, coppaValue = %@", kAdMobTFCD, coppaValue? @"YES" : @"NO");
-        [GADMobileAds.sharedInstance.requestConfiguration tagForChildDirectedTreatment:coppaValue];
+        GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @(coppaValue);
     } else if ([key isEqualToString:kAdMobTFUA]) {
         BOOL euValue = [ISMetaDataUtils getMetaDataBooleanValue:formattedValueString];
         LogAdapterApi_Internal(@"key = %@, euValue = %@", kAdMobTFUA, euValue? @"YES" : @"NO");
-        [GADMobileAds.sharedInstance.requestConfiguration tagForUnderAgeOfConsent:euValue];
+        GADMobileAds.sharedInstance.requestConfiguration.tagForUnderAgeOfConsent = @(euValue);
     } else if ([key isEqualToString:kAdMobContentRating]) {
         GADMaxAdContentRating ratingValue = [self getAdMobRatingValue:formattedValueString];
         if (ratingValue.length) {
@@ -1180,12 +1180,14 @@ static BOOL _consentCollectingUserData            = NO;
                                        serverData:(NSString *)serverData {
     GADRequest *request = [GADRequest request];
     request.requestAgent = kRequestAgent;
-    NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
-    additionalParameters[@"platform_name"] = kPlatformName;
     
     if (serverData.length) {
         request.adString = serverData;
     }
+    
+    NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
+    additionalParameters[@"platform_name"] = kPlatformName;
+    BOOL hybridMode = NO;
     
     if (adData) {
         NSString *requestId = [adData objectForKey:@"requestId"];
@@ -1193,15 +1195,18 @@ static BOOL _consentCollectingUserData            = NO;
         
         if (requestId.length) {
             additionalParameters[@"placement_req_id"] = requestId;
-            NSString *hybridString = hybridMode? @"true" : @"false";
-            additionalParameters[@"is_hybrid_setup"] = hybridString;
-            LogInternal_Internal(@"adData requestId = %@, isHybrid = %@", requestId, hybridString);
+            LogInternal_Internal(@"adData requestId = %@, isHybrid = %@", requestId, hybridMode? @"YES" : @"NO");
         }
+    } else {
+        LogInternal_Internal(@"adData is nil, using default hybridMode = NO");
     }
     
+    additionalParameters[@"is_hybrid_setup"] = hybridMode? @"true" : @"false";
+    
     if ([ISConfigurations getConfigurations].userAge > kMinUserAge) {
-        LogAdapterApi_Internal(@"creating request with age = %ld tagForChildDirectedTreatment = %d", (long)[ISConfigurations getConfigurations].userAge, [ISConfigurations getConfigurations].userAge < kMaxChildAge);
-        [GADMobileAds.sharedInstance.requestConfiguration tagForChildDirectedTreatment:([ISConfigurations getConfigurations].userAge < kMaxChildAge)];
+        BOOL tagForChildDirectedTreatment = [ISConfigurations getConfigurations].userAge < kMaxChildAge;
+        LogAdapterApi_Internal(@"creating request with age = %ld tagForChildDirectedTreatment = %d", (long)[ISConfigurations getConfigurations].userAge, tagForChildDirectedTreatment);
+        GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @(tagForChildDirectedTreatment);
     }
     
     if (_didSetConsentCollectingUserData && !_consentCollectingUserData) {
