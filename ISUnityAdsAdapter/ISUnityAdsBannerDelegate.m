@@ -30,6 +30,14 @@
 }
 
 /**
+ * Called when the banner is showed
+ * @param bannerView View that was showed
+ */
+- (void) bannerViewDidShow:(UADSBannerView * _Nonnull)bannerView {
+    [_delegate onBannerDidShow:bannerView];
+}
+
+/**
  *  Called when `UnityAdsBanner` encounters an error. All errors will be logged but this method can be used as an additional debugging aid. This callback can also be used for collecting statistics from different error scenarios.
  *  @param bannerView View that encountered an error.
  *  @param error UADSBannerError that occurred

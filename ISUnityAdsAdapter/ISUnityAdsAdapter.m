@@ -974,6 +974,11 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:bannerView.placementId];
     
     [delegate adapterBannerDidLoad:bannerView];
+}
+
+- (void)onBannerDidShow:(UADSBannerView * _Nonnull)bannerView {
+    LogAdapterDelegate_Internal(@"placementId = %@", bannerView.placementId);
+    id<ISBannerAdapterDelegate> delegate = [_bannerPlacementIdToSmashDelegate objectForKey:bannerView.placementId];
     [delegate adapterBannerDidShow];
 }
 

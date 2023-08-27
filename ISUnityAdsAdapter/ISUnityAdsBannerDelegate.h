@@ -14,6 +14,7 @@
 - (void)onBannerDidLoad:(UADSBannerView * _Nonnull)bannerView;
 - (void)onBannerDidFailToLoad:(UADSBannerView * _Nonnull)bannerView
                     withError:(UADSBannerError * _Nullable)error;
+- (void)onBannerDidShow:(UADSBannerView * _Nonnull)bannerView;
 - (void)onBannerDidClick:(UADSBannerView * _Nonnull)bannerView;
 - (void)onBannerWillLeaveApplication:(UADSBannerView * _Nonnull)bannerView;
 
