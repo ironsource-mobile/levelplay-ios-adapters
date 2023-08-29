@@ -8,9 +8,10 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
+#import <ISFacebookConstants.h>
 
-static NSString * const FacebookAdapterVersion = @"4.3.39";
-static NSString * Githash = @"148758e";
+static NSString * const FacebookAdapterVersion = @"4.3.41";
+static NSString * Githash = @"";
 
 //System Frameworks For Facebook Adapter
 @import AdSupport;
@@ -32,5 +33,11 @@ static NSString * Githash = @"148758e";
 @import WebKit;
 
 @interface ISFacebookAdapter : ISBaseAdapter
+
+- (void)initSDKWithPlacementIds:(NSString *)allPlacementIds;
+
+- (NSDictionary *)getBiddingData;
+
+- (InitState)getInitState;
 
 @end

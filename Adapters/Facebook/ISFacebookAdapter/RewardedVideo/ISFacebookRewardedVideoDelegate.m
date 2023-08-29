@@ -6,14 +6,15 @@
 //
 
 #import <ISFacebookRewardedVideoDelegate.h>
+#import <ISFacebookConstants.h>
 
 @implementation ISFacebookRewardedVideoDelegate
 
-- (instancetype)initWithPlacementID:(NSString *)placementID
-                        andDelegate:(id<ISFacebookRewardedVideoDelegateWrapper>)delegate {
+- (instancetype)initWithPlacementId:(NSString *)placementId
+                        andDelegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     self = [super init];
     if (self) {
-        _placementID = placementID;
+        _placementId = placementId;
         _delegate = delegate;
     }
     return self;
@@ -24,7 +25,8 @@
  @param rewardedVideoAd An FBRewardedVideoAd object sending the message.
  */
 - (void)rewardedVideoAdDidLoad:(FBRewardedVideoAd *)rewardedVideoAd {
-    [_delegate onRewardedVideoDidLoad:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
 }
 
 /**
@@ -34,9 +36,20 @@
  */
 - (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd
        didFailWithError:(NSError *)error {
+    LogAdapterDelegate_Internal(@"placementId = %@, error = %@", self.placementId, error.description);
     
-    [_delegate onRewardedVideoDidFailToLoad:_placementID
-                                  withError:error];
+    // Report load failure
+    [self.delegate adapterRewardedVideoHasChangedAvailability:NO];
+
+    // For Rewarded Videos, when an adapter receives a failure reason from the network, it will pass it to the Mediation.
+    if (error) {
+        NSInteger errorCode = error.code == kMetaNoFillErrorCode ? ERROR_RV_LOAD_NO_FILL : error.code;
+        NSError *rewardedVideoError = [NSError errorWithDomain:kAdapterName
+                                                          code:errorCode
+                                                      userInfo:@{NSLocalizedDescriptionKey:error.description}];
+        
+        [self.delegate adapterRewardedVideoDidFailToLoadWithError:rewardedVideoError];
+    }
 }
 
 /**
@@ -44,7 +57,9 @@
  @param rewardedVideoAd An FBRewardedVideoAd object sending the message.
  */
 - (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
-    [_delegate onRewardedVideoDidOpen:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterRewardedVideoDidOpen];
+    [self.delegate adapterRewardedVideoDidStart];
 }
 
 /**
@@ -52,7 +67,8 @@
  @param rewardedVideoAd An FBRewardedVideoAd object sending the message.
  */
 - (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd {
-    [_delegate onRewardedVideoDidClick:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterRewardedVideoDidClick];
 }
 
 /**
@@ -61,7 +77,9 @@
  @param rewardedVideoAd An FBRewardedVideoAd object sending the message.
  */
 - (void)rewardedVideoAdVideoComplete:(FBRewardedVideoAd *)rewardedVideoAd {
-    [_delegate onRewardedVideoDidEnd:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterRewardedVideoDidReceiveReward];
+    [self.delegate adapterRewardedVideoDidEnd];
 }
 
 /**
@@ -69,7 +87,8 @@
  @param rewardedVideoAd An FBRewardedVideoAd object sending the message.
  */
 - (void)rewardedVideoAdDidClose:(FBRewardedVideoAd *)rewardedVideoAd {
-    [_delegate onRewardedVideoDidClose:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterRewardedVideoDidClose];
 }
 
 @end

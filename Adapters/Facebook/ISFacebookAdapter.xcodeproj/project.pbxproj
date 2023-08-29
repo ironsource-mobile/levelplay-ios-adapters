@@ -7,15 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		565F23CF29C7337A000A8C48 /* ISFacebookAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 565F23C729C7337A000A8C48 /* ISFacebookAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		565F23D029C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 565F23C829C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.h */; };
-		565F23D129C7337A000A8C48 /* ISFacebookAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 565F23C929C7337A000A8C48 /* ISFacebookAdapter.m */; };
-		565F23D229C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 565F23CA29C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.m */; };
-		565F23D329C7337A000A8C48 /* ISFacebookBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 565F23CB29C7337A000A8C48 /* ISFacebookBannerDelegate.h */; };
-		565F23D429C7337A000A8C48 /* ISFacebookInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 565F23CC29C7337A000A8C48 /* ISFacebookInterstitialDelegate.m */; };
-		565F23D529C7337A000A8C48 /* ISFacebookBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 565F23CD29C7337A000A8C48 /* ISFacebookBannerDelegate.m */; };
-		565F23D629C7337A000A8C48 /* ISFacebookInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 565F23CE29C7337A000A8C48 /* ISFacebookInterstitialDelegate.h */; };
 		727AE1C53983C4A11D853CA2 /* libPods-ISFacebookAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F1C6B6E4B175CA2333467C /* libPods-ISFacebookAdapter.a */; };
+		C79A07742A9E48910033502E /* ISFacebookConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07622A9E48910033502E /* ISFacebookConstants.h */; };
+		C79A07752A9E48910033502E /* ISFacebookAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07632A9E48910033502E /* ISFacebookAdapter.h */; };
+		C79A07762A9E48910033502E /* ISFacebookAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07642A9E48910033502E /* ISFacebookAdapter.m */; };
+		C79A07772A9E48910033502E /* ISFacebookRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07662A9E48910033502E /* ISFacebookRewardedVideoAdapter.h */; };
+		C79A07782A9E48910033502E /* ISFacebookRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07672A9E48910033502E /* ISFacebookRewardedVideoDelegate.m */; };
+		C79A07792A9E48910033502E /* ISFacebookRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07682A9E48910033502E /* ISFacebookRewardedVideoAdapter.m */; };
+		C79A077A2A9E48910033502E /* ISFacebookRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07692A9E48910033502E /* ISFacebookRewardedVideoDelegate.h */; };
+		C79A077B2A9E48910033502E /* ISFacebookBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A076B2A9E48910033502E /* ISFacebookBannerDelegate.m */; };
+		C79A077C2A9E48910033502E /* ISFacebookBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A076C2A9E48910033502E /* ISFacebookBannerAdapter.h */; };
+		C79A077D2A9E48910033502E /* ISFacebookBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A076D2A9E48910033502E /* ISFacebookBannerAdapter.m */; };
+		C79A077E2A9E48910033502E /* ISFacebookBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A076E2A9E48910033502E /* ISFacebookBannerDelegate.h */; };
+		C79A077F2A9E48910033502E /* ISFacebookInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07702A9E48910033502E /* ISFacebookInterstitialDelegate.h */; };
+		C79A07802A9E48910033502E /* ISFacebookInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07712A9E48910033502E /* ISFacebookInterstitialAdapter.h */; };
+		C79A07812A9E48910033502E /* ISFacebookInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07722A9E48910033502E /* ISFacebookInterstitialDelegate.m */; };
+		C79A07822A9E48910033502E /* ISFacebookInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07732A9E48910033502E /* ISFacebookInterstitialAdapter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,14 +31,6 @@
 		36EF638E7CC8A81F06835D5A /* Pods-ISAdColonyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		4584F9502BECC747DED6F135 /* Pods-ISChartboostAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISChartboostAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISChartboostAdapter/Pods-ISChartboostAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		4CF7DE948E48A63C36CAE9F8 /* Pods-ISTapjoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapjoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapjoyAdapter/Pods-ISTapjoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		565F23C729C7337A000A8C48 /* ISFacebookAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookAdapter.h; sourceTree = "<group>"; };
-		565F23C829C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		565F23C929C7337A000A8C48 /* ISFacebookAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookAdapter.m; sourceTree = "<group>"; };
-		565F23CA29C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		565F23CB29C7337A000A8C48 /* ISFacebookBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookBannerDelegate.h; sourceTree = "<group>"; };
-		565F23CC29C7337A000A8C48 /* ISFacebookInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookInterstitialDelegate.m; sourceTree = "<group>"; };
-		565F23CD29C7337A000A8C48 /* ISFacebookBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookBannerDelegate.m; sourceTree = "<group>"; };
-		565F23CE29C7337A000A8C48 /* ISFacebookInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookInterstitialDelegate.h; sourceTree = "<group>"; };
 		71EAE3C88FD938AC25A3D7BE /* Pods-ISTapJoyAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapJoyAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISTapJoyAdapter/Pods-ISTapJoyAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		8E1EC165A92950DF3B25EED1 /* Pods-ISChartboostAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISChartboostAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISChartboostAdapter/Pods-ISChartboostAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		AA5B4F08489A9B346ABDBE48 /* Pods-ISAdColonyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdColonyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdColonyAdapter/Pods-ISAdColonyAdapter.release.xcconfig"; sourceTree = "<group>"; };
@@ -39,6 +38,21 @@
 		B71CE3A1CD069CE6442F3BFC /* Pods-ISVungleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVungleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISVungleAdapter/Pods-ISVungleAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		C4ECFDE93EDDD973182ADD7F /* Pods-ISTapJoyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapJoyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISTapJoyAdapter/Pods-ISTapJoyAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		C7889FF5E37EE76C891938E4 /* Pods-ISTapjoyAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISTapjoyAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISTapjoyAdapter/Pods-ISTapjoyAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		C79A07622A9E48910033502E /* ISFacebookConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookConstants.h; sourceTree = "<group>"; };
+		C79A07632A9E48910033502E /* ISFacebookAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookAdapter.h; sourceTree = "<group>"; };
+		C79A07642A9E48910033502E /* ISFacebookAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookAdapter.m; sourceTree = "<group>"; };
+		C79A07662A9E48910033502E /* ISFacebookRewardedVideoAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		C79A07672A9E48910033502E /* ISFacebookRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		C79A07682A9E48910033502E /* ISFacebookRewardedVideoAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		C79A07692A9E48910033502E /* ISFacebookRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		C79A076B2A9E48910033502E /* ISFacebookBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookBannerDelegate.m; sourceTree = "<group>"; };
+		C79A076C2A9E48910033502E /* ISFacebookBannerAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookBannerAdapter.h; sourceTree = "<group>"; };
+		C79A076D2A9E48910033502E /* ISFacebookBannerAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookBannerAdapter.m; sourceTree = "<group>"; };
+		C79A076E2A9E48910033502E /* ISFacebookBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookBannerDelegate.h; sourceTree = "<group>"; };
+		C79A07702A9E48910033502E /* ISFacebookInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookInterstitialDelegate.h; sourceTree = "<group>"; };
+		C79A07712A9E48910033502E /* ISFacebookInterstitialAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISFacebookInterstitialAdapter.h; sourceTree = "<group>"; };
+		C79A07722A9E48910033502E /* ISFacebookInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookInterstitialDelegate.m; sourceTree = "<group>"; };
+		C79A07732A9E48910033502E /* ISFacebookInterstitialAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISFacebookInterstitialAdapter.m; sourceTree = "<group>"; };
 		EFE27C0428337CC500391127 /* ISFacebookAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISFacebookAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC7399FBFE36FEBFA224398D /* Pods-ISFacebookAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISFacebookAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISFacebookAdapter/Pods-ISFacebookAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +96,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C79A07652A9E48910033502E /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				C79A07662A9E48910033502E /* ISFacebookRewardedVideoAdapter.h */,
+				C79A07672A9E48910033502E /* ISFacebookRewardedVideoDelegate.m */,
+				C79A07682A9E48910033502E /* ISFacebookRewardedVideoAdapter.m */,
+				C79A07692A9E48910033502E /* ISFacebookRewardedVideoDelegate.h */,
+			);
+			path = RewardedVideo;
+			sourceTree = "<group>";
+		};
+		C79A076A2A9E48910033502E /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				C79A076B2A9E48910033502E /* ISFacebookBannerDelegate.m */,
+				C79A076C2A9E48910033502E /* ISFacebookBannerAdapter.h */,
+				C79A076D2A9E48910033502E /* ISFacebookBannerAdapter.m */,
+				C79A076E2A9E48910033502E /* ISFacebookBannerDelegate.h */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		C79A076F2A9E48910033502E /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				C79A07702A9E48910033502E /* ISFacebookInterstitialDelegate.h */,
+				C79A07712A9E48910033502E /* ISFacebookInterstitialAdapter.h */,
+				C79A07722A9E48910033502E /* ISFacebookInterstitialDelegate.m */,
+				C79A07732A9E48910033502E /* ISFacebookInterstitialAdapter.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
 		EFE27BFA28337CC500391127 = {
 			isa = PBXGroup;
 			children = (
@@ -103,14 +150,12 @@
 		EFE27C0628337CC500391127 /* ISFacebookAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				565F23C729C7337A000A8C48 /* ISFacebookAdapter.h */,
-				565F23C929C7337A000A8C48 /* ISFacebookAdapter.m */,
-				565F23CB29C7337A000A8C48 /* ISFacebookBannerDelegate.h */,
-				565F23CD29C7337A000A8C48 /* ISFacebookBannerDelegate.m */,
-				565F23CE29C7337A000A8C48 /* ISFacebookInterstitialDelegate.h */,
-				565F23CC29C7337A000A8C48 /* ISFacebookInterstitialDelegate.m */,
-				565F23C829C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.h */,
-				565F23CA29C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.m */,
+				C79A076A2A9E48910033502E /* Banner */,
+				C79A076F2A9E48910033502E /* Interstitial */,
+				C79A07632A9E48910033502E /* ISFacebookAdapter.h */,
+				C79A07642A9E48910033502E /* ISFacebookAdapter.m */,
+				C79A07622A9E48910033502E /* ISFacebookConstants.h */,
+				C79A07652A9E48910033502E /* RewardedVideo */,
 			);
 			path = ISFacebookAdapter;
 			sourceTree = "<group>";
@@ -122,10 +167,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				565F23CF29C7337A000A8C48 /* ISFacebookAdapter.h in Headers */,
-				565F23D029C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.h in Headers */,
-				565F23D629C7337A000A8C48 /* ISFacebookInterstitialDelegate.h in Headers */,
-				565F23D329C7337A000A8C48 /* ISFacebookBannerDelegate.h in Headers */,
+				C79A07802A9E48910033502E /* ISFacebookInterstitialAdapter.h in Headers */,
+				C79A07752A9E48910033502E /* ISFacebookAdapter.h in Headers */,
+				C79A077F2A9E48910033502E /* ISFacebookInterstitialDelegate.h in Headers */,
+				C79A077C2A9E48910033502E /* ISFacebookBannerAdapter.h in Headers */,
+				C79A07742A9E48910033502E /* ISFacebookConstants.h in Headers */,
+				C79A07772A9E48910033502E /* ISFacebookRewardedVideoAdapter.h in Headers */,
+				C79A077A2A9E48910033502E /* ISFacebookRewardedVideoDelegate.h in Headers */,
+				C79A077E2A9E48910033502E /* ISFacebookBannerDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,10 +291,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				565F23D529C7337A000A8C48 /* ISFacebookBannerDelegate.m in Sources */,
-				565F23D229C7337A000A8C48 /* ISFacebookRewardedVideoDelegate.m in Sources */,
-				565F23D129C7337A000A8C48 /* ISFacebookAdapter.m in Sources */,
-				565F23D429C7337A000A8C48 /* ISFacebookInterstitialDelegate.m in Sources */,
+				C79A077B2A9E48910033502E /* ISFacebookBannerDelegate.m in Sources */,
+				C79A077D2A9E48910033502E /* ISFacebookBannerAdapter.m in Sources */,
+				C79A07822A9E48910033502E /* ISFacebookInterstitialAdapter.m in Sources */,
+				C79A07812A9E48910033502E /* ISFacebookInterstitialDelegate.m in Sources */,
+				C79A07792A9E48910033502E /* ISFacebookRewardedVideoAdapter.m in Sources */,
+				C79A07782A9E48910033502E /* ISFacebookRewardedVideoDelegate.m in Sources */,
+				C79A07762A9E48910033502E /* ISFacebookAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

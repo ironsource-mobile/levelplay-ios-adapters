@@ -6,14 +6,15 @@
 //
 
 #import <ISFacebookInterstitialDelegate.h>
+#import <ISFacebookConstants.h>
 
 @implementation ISFacebookInterstitialDelegate
 
-- (instancetype)initWithPlacementID:(NSString *)placementID
-                        andDelegate:(id<ISFacebookInterstitialDelegateWrapper>)delegate {
+- (instancetype)initWithPlacementId:(NSString *)placementId
+                        andDelegate:(id<ISInterstitialAdapterDelegate>)delegate {
     self = [super init];
     if (self) {
-        _placementID = placementID;
+        _placementId = placementId;
         _delegate = delegate;
     }
     return self;
@@ -24,7 +25,8 @@
  @param interstitialAd An FBInterstitialAd object sending the message.
  */
 - (void)interstitialAdDidLoad:(FBInterstitialAd *)interstitialAd {
-    [_delegate onInterstitialDidLoad:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterInterstitialDidLoad];
 }
 
 /**
@@ -34,9 +36,24 @@
  */
 - (void)interstitialAd:(FBInterstitialAd *)interstitialAd
       didFailWithError:(NSError *)error {
+    LogAdapterDelegate_Internal(@"placementId = %@, error = %@", self.placementId, error.description);
+
+    NSInteger errorCode;
+    NSString *errorReason;
+
+    if (error) {
+        errorCode = error.code == kMetaNoFillErrorCode ? ERROR_IS_LOAD_NO_FILL : error.code;
+        errorReason = error.description;
+    } else {
+        errorCode = ERROR_CODE_GENERIC;
+        errorReason = @"Load attempt failed";
+    }
     
-    [_delegate onInterstitialDidFailToLoad:_placementID
-                                 withError:error];
+    NSError *interstitialError = [NSError errorWithDomain:kAdapterName
+                                                     code:errorCode
+                                                 userInfo:@{NSLocalizedDescriptionKey:errorReason}];
+    
+    [self.delegate adapterInterstitialDidFailToLoadWithError:interstitialError];
 }
 
 /**
@@ -44,7 +61,9 @@
  @param interstitialAd An FBInterstitialAd object sending the message.
  */
 - (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd {
-    [_delegate onInterstitialDidOpen:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterInterstitialDidOpen];
+    [self.delegate adapterInterstitialDidShow];
 }
 
 /**
@@ -52,7 +71,8 @@
  @param interstitialAd An FBInterstitialAd object sending the message.
  */
 - (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
-    [_delegate onInterstitialDidClick:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterInterstitialDidClick];
 }
 
 /**
@@ -60,8 +80,8 @@
  @param interstitialAd An FBInterstitialAd object sending the message.
  */
 - (void)interstitialAdDidClose:(FBInterstitialAd *)interstitialAd {
-    [_delegate onInterstitialDidClose:_placementID];
+    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    [self.delegate adapterInterstitialDidClose];
 }
-
 
 @end
