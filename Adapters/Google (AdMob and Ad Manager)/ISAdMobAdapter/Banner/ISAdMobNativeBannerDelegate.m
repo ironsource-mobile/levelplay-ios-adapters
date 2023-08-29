@@ -5,13 +5,14 @@
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#include <ISAdMobNativeBannerDelegate.h>
+#import <ISAdMobNativeBannerDelegate.h>
+#import <ISAdMobNativeView.h>
 
 @implementation ISAdMobNativeBannerDelegate
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId
                   nativeTemplate:(ISAdMobNativeBannerTemplate*)nativeTemplate
-                        delegate:(id<ISAdMobNativeBannerDelegateWrapper>)delegate {
+                        delegate:(id<ISBannerAdapterDelegate>)delegate {
     self = [super init];
     if (self) {
         _adUnitId = adUnitId;
@@ -23,26 +24,36 @@
 
 /// Called when a native ad is received.
 - (void)adLoader:(nonnull GADAdLoader *)adLoader didReceiveNativeAd:(nonnull GADNativeAd *)nativeAd {
-    [_delegate onNativeBannerDidLoadWithAdUnitId:adLoader.adUnitID
-                                        nativeAd:nativeAd
-                                  nativeTemplate:self.nativeTemplate];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ISAdMobNativeView *nativeView = [[ISAdMobNativeView alloc] initWithTemplate:self.nativeTemplate
+                                                                               nativeAd:nativeAd];
+            nativeAd.delegate = self;
+            [self.delegate adapterBannerDidLoad:nativeView];
+        });
 }
 
 /// Called when adLoader fails to load an ad.
 - (void)adLoader:(nonnull GADAdLoader *)adLoader
     didFailToReceiveAdWithError:(nonnull NSError *)error {
-    [_delegate onNativeBannerDidFailToLoadWithAdUnitId:adLoader.adUnitID
-                                                 error:error];
+    LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", self.adUnitId, error);
+    NSError *smashError = (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill)? [ISError createError:ERROR_BN_LOAD_NO_FILL
+                                                                                                            withMessage:@"AdMob no fill"] : error;
+
+    [self.delegate adapterBannerDidFailToLoadWithError:error];
 }
 
 /// Called when an impression is recorded for an ad.
 - (void)nativeAdDidRecordImpression:(GADNativeAd *)nativeAd {
-    [_delegate onNativeBannerDidShow:_adUnitId];
+    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    [self.delegate adapterBannerDidShow];
 }
 
 /// Called when a click is recorded for an ad.
 - (void)nativeAdDidRecordClick:(GADNativeAd *)nativeAd {
-    [_delegate onNativeBannerDidClick:_adUnitId];
+    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    [self.delegate adapterBannerDidClick];
 }
 
 #pragma mark  Click-Time Lifecycle Notifications
@@ -54,13 +65,15 @@
 /// App Store link, your application will be backgrounded. The next method called will be the
 /// applicationWillResignActive: of your UIApplicationDelegate object.
 - (void)nativeAdWillPresentScreen:(GADNativeAd *)nativeAd {
-    [_delegate onNativeBannerWillPresentScreen:_adUnitId];
+    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    [self.delegate adapterBannerWillPresentScreen];
 }
 
 /// Called after dismissing a full screen view. Use this opportunity to restart anything you may
 /// have stopped as part of nativeAdWillPresentScreen:.
 - (void)nativeAdDidDismissScreen:(GADNativeAd *)nativeAd {
-    [_delegate onNativeBannerDidDismissScreen:_adUnitId];
+    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    [self.delegate adapterBannerDidDismissScreen];
 }
 
 @end

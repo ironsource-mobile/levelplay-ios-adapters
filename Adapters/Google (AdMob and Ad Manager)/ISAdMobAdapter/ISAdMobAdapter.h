@@ -7,8 +7,10 @@
 
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
- 
-static NSString * const AdMobAdapterVersion = @"4.3.45";
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <ISAdMobConstants.h>
+
+static NSString * const AdMobAdapterVersion = @"4.3.47";
 static NSString * Githash = @"";
 
 //System Frameworks For AdMob Adapter
@@ -33,5 +35,16 @@ static NSString * Githash = @"";
 @import WebKit;
 
 @interface ISAdMobAdapter : ISBaseAdapter
+
+- (void)initAdMobSDKWithAdapterConfig:(ISAdapterConfig *)adapterConfig;
+
+- (void)collectBiddingDataWithAdData:(GADRequest *)request
+                            adFormat:(GADAdFormat)adFormat
+                            delegate:(id<ISBiddingDataDelegate>)delegate;
+
+- (GADRequest *)createGADRequestForLoadWithAdData:(NSDictionary *)adData
+                                       serverData:(NSString *)serverData;
+
+- (InitState)getInitState;
 
 @end

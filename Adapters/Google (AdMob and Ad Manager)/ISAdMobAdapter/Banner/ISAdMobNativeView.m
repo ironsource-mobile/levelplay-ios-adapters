@@ -140,6 +140,7 @@ static CGFloat const CornerRadius = 5;
     self.callToAction.userInteractionEnabled = NO;
     self.callToAction.hidden = self.nativeAd.callToAction ? self.nativeTemplate.hideCallToAction : NO;
 }
+
 - (GADNativeAdView *) getNativeAdView {
     return self.nativeAdView;
 }

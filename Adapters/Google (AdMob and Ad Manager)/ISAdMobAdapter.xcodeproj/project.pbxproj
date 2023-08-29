@@ -8,24 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		2AE7D2E78BD4EB71B9D0F91E /* libPods-ISAdMobAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */; };
-		FDBB23E12A4836220084FA12 /* ISAdMobRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBB23D32A4836220084FA12 /* ISAdMobRewardedVideoDelegate.h */; };
-		FDBB23E22A4836220084FA12 /* ISAdMobNativeBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBB23D42A4836220084FA12 /* ISAdMobNativeBannerDelegate.h */; };
-		FDBB23E32A4836220084FA12 /* ISAdMobRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBB23D52A4836220084FA12 /* ISAdMobRewardedVideoDelegate.m */; };
-		FDBB23E42A4836220084FA12 /* ISAdMobBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBB23D62A4836220084FA12 /* ISAdMobBannerDelegate.h */; };
-		FDBB23E52A4836220084FA12 /* ISAdMobInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBB23D72A4836220084FA12 /* ISAdMobInterstitialDelegate.m */; };
-		FDBB23E62A4836220084FA12 /* ISAdMobNativeBannerTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBB23D82A4836220084FA12 /* ISAdMobNativeBannerTemplate.m */; };
-		FDBB23E72A4836220084FA12 /* ISAdMobNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBB23D92A4836220084FA12 /* ISAdMobNativeView.m */; };
-		FDBB23E82A4836220084FA12 /* ISAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBB23DA2A4836220084FA12 /* ISAdMobAdapter.h */; };
-		FDBB23E92A4836220084FA12 /* ISAdMobBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBB23DB2A4836220084FA12 /* ISAdMobBannerDelegate.m */; };
-		FDBB23EA2A4836220084FA12 /* ISAdMobInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBB23DC2A4836220084FA12 /* ISAdMobInterstitialDelegate.h */; };
-		FDBB23EB2A4836220084FA12 /* ISAdMobNativeBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBB23DD2A4836220084FA12 /* ISAdMobNativeBannerDelegate.m */; };
-		FDBB23EC2A4836220084FA12 /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = FDBB23DE2A4836220084FA12 /* ISAdMobAdapter.m */; };
-		FDBB23ED2A4836220084FA12 /* ISAdMobNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBB23DF2A4836220084FA12 /* ISAdMobNativeView.h */; };
-		FDBB23EE2A4836220084FA12 /* ISAdMobNativeBannerTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBB23E02A4836220084FA12 /* ISAdMobNativeBannerTemplate.h */; };
-		FDBB23F32A48362D0084FA12 /* ISAdMobNativeBannerTemplateRectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDBB23EF2A48362D0084FA12 /* ISAdMobNativeBannerTemplateRectView.xib */; };
-		FDBB23F42A48362D0084FA12 /* ISAdMobNativeBannerTemplateTextCTAView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDBB23F02A48362D0084FA12 /* ISAdMobNativeBannerTemplateTextCTAView.xib */; };
-		FDBB23F52A48362D0084FA12 /* ISAdMobNativeBannerTemplateIconTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDBB23F12A48362D0084FA12 /* ISAdMobNativeBannerTemplateIconTextView.xib */; };
-		FDBB23F62A48362D0084FA12 /* ISAdMobNativeBannerTemplateBasicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDBB23F22A48362D0084FA12 /* ISAdMobNativeBannerTemplateBasicView.xib */; };
+		C79A07492A9E26B60033502E /* ISAdMobBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A072E2A9E26B60033502E /* ISAdMobBannerDelegate.m */; };
+		C79A074A2A9E26B60033502E /* ISAdMobNativeBannerTemplateBasicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79A072F2A9E26B60033502E /* ISAdMobNativeBannerTemplateBasicView.xib */; };
+		C79A074B2A9E26B60033502E /* ISAdMobNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07302A9E26B60033502E /* ISAdMobNativeView.m */; };
+		C79A074C2A9E26B60033502E /* ISAdMobNativeBannerTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07312A9E26B60033502E /* ISAdMobNativeBannerTemplate.h */; };
+		C79A074D2A9E26B60033502E /* ISAdMobNativeBannerTemplateTextCTAView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79A07322A9E26B60033502E /* ISAdMobNativeBannerTemplateTextCTAView.xib */; };
+		C79A074E2A9E26B60033502E /* ISAdMobBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07332A9E26B60033502E /* ISAdMobBannerAdapter.m */; };
+		C79A074F2A9E26B60033502E /* ISAdMobNativeBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07342A9E26B60033502E /* ISAdMobNativeBannerDelegate.m */; };
+		C79A07502A9E26B60033502E /* ISAdMobNativeBannerTemplateRectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79A07352A9E26B60033502E /* ISAdMobNativeBannerTemplateRectView.xib */; };
+		C79A07512A9E26B60033502E /* ISAdMobNativeBannerTemplateIconTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79A07362A9E26B60033502E /* ISAdMobNativeBannerTemplateIconTextView.xib */; };
+		C79A07522A9E26B60033502E /* ISAdMobBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07372A9E26B60033502E /* ISAdMobBannerDelegate.h */; };
+		C79A07532A9E26B60033502E /* ISAdMobBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07382A9E26B60033502E /* ISAdMobBannerAdapter.h */; };
+		C79A07542A9E26B60033502E /* ISAdMobNativeBannerTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07392A9E26B60033502E /* ISAdMobNativeBannerTemplate.m */; };
+		C79A07552A9E26B60033502E /* ISAdMobNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A073A2A9E26B60033502E /* ISAdMobNativeView.h */; };
+		C79A07562A9E26B60033502E /* ISAdMobNativeBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A073B2A9E26B60033502E /* ISAdMobNativeBannerDelegate.h */; };
+		C79A07572A9E26B60033502E /* ISAdMobInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A073D2A9E26B60033502E /* ISAdMobInterstitialAdapter.h */; };
+		C79A07582A9E26B60033502E /* ISAdMobInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A073E2A9E26B60033502E /* ISAdMobInterstitialDelegate.m */; };
+		C79A07592A9E26B60033502E /* ISAdMobInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A073F2A9E26B60033502E /* ISAdMobInterstitialAdapter.m */; };
+		C79A075A2A9E26B60033502E /* ISAdMobInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07402A9E26B60033502E /* ISAdMobInterstitialDelegate.h */; };
+		C79A075B2A9E26B60033502E /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07412A9E26B60033502E /* ISAdMobAdapter.m */; };
+		C79A075C2A9E26B60033502E /* ISAdMobConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07422A9E26B60033502E /* ISAdMobConstants.h */; };
+		C79A075D2A9E26B60033502E /* ISAdMobRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07442A9E26B60033502E /* ISAdMobRewardedVideoDelegate.m */; };
+		C79A075E2A9E26B60033502E /* ISAdMobRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C79A07452A9E26B60033502E /* ISAdMobRewardedVideoAdapter.m */; };
+		C79A075F2A9E26B60033502E /* ISAdMobRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07462A9E26B60033502E /* ISAdMobRewardedVideoDelegate.h */; };
+		C79A07602A9E26B60033502E /* ISAdMobRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07472A9E26B60033502E /* ISAdMobRewardedVideoAdapter.h */; };
+		C79A07612A9E26B60033502E /* ISAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C79A07482A9E26B60033502E /* ISAdMobAdapter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,28 +47,35 @@
 
 /* Begin PBXFileReference section */
 		AB91FCCE2B689D573579E9C6 /* Pods-ISAdMobAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		C79A072E2A9E26B60033502E /* ISAdMobBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobBannerDelegate.m; sourceTree = "<group>"; };
+		C79A072F2A9E26B60033502E /* ISAdMobNativeBannerTemplateBasicView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateBasicView.xib; sourceTree = "<group>"; };
+		C79A07302A9E26B60033502E /* ISAdMobNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeView.m; sourceTree = "<group>"; };
+		C79A07312A9E26B60033502E /* ISAdMobNativeBannerTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerTemplate.h; sourceTree = "<group>"; };
+		C79A07322A9E26B60033502E /* ISAdMobNativeBannerTemplateTextCTAView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateTextCTAView.xib; sourceTree = "<group>"; };
+		C79A07332A9E26B60033502E /* ISAdMobBannerAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobBannerAdapter.m; sourceTree = "<group>"; };
+		C79A07342A9E26B60033502E /* ISAdMobNativeBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeBannerDelegate.m; sourceTree = "<group>"; };
+		C79A07352A9E26B60033502E /* ISAdMobNativeBannerTemplateRectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateRectView.xib; sourceTree = "<group>"; };
+		C79A07362A9E26B60033502E /* ISAdMobNativeBannerTemplateIconTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateIconTextView.xib; sourceTree = "<group>"; };
+		C79A07372A9E26B60033502E /* ISAdMobBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobBannerDelegate.h; sourceTree = "<group>"; };
+		C79A07382A9E26B60033502E /* ISAdMobBannerAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobBannerAdapter.h; sourceTree = "<group>"; };
+		C79A07392A9E26B60033502E /* ISAdMobNativeBannerTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeBannerTemplate.m; sourceTree = "<group>"; };
+		C79A073A2A9E26B60033502E /* ISAdMobNativeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeView.h; sourceTree = "<group>"; };
+		C79A073B2A9E26B60033502E /* ISAdMobNativeBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerDelegate.h; sourceTree = "<group>"; };
+		C79A073D2A9E26B60033502E /* ISAdMobInterstitialAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobInterstitialAdapter.h; sourceTree = "<group>"; };
+		C79A073E2A9E26B60033502E /* ISAdMobInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobInterstitialDelegate.m; sourceTree = "<group>"; };
+		C79A073F2A9E26B60033502E /* ISAdMobInterstitialAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobInterstitialAdapter.m; sourceTree = "<group>"; };
+		C79A07402A9E26B60033502E /* ISAdMobInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobInterstitialDelegate.h; sourceTree = "<group>"; };
+		C79A07412A9E26B60033502E /* ISAdMobAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobAdapter.m; sourceTree = "<group>"; };
+		C79A07422A9E26B60033502E /* ISAdMobConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobConstants.h; sourceTree = "<group>"; };
+		C79A07442A9E26B60033502E /* ISAdMobRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		C79A07452A9E26B60033502E /* ISAdMobRewardedVideoAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		C79A07462A9E26B60033502E /* ISAdMobRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		C79A07472A9E26B60033502E /* ISAdMobRewardedVideoAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		C79A07482A9E26B60033502E /* ISAdMobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobAdapter.h; sourceTree = "<group>"; };
 		EFAEC71127AFFB2600C424B7 /* ISAdMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAdMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1702D79B324CA9EF4BC9487 /* Pods-ISAdMobAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAdMobAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAdMobAdapter/Pods-ISAdMobAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		F91AA3EFB74BF4F9C7DA1E52 /* libPods-ISAdMobAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISAdMobAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDA2182B29546BC3001FBD8C /* ISAdMobResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ISAdMobResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDBB23D32A4836220084FA12 /* ISAdMobRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		FDBB23D42A4836220084FA12 /* ISAdMobNativeBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerDelegate.h; sourceTree = "<group>"; };
-		FDBB23D52A4836220084FA12 /* ISAdMobRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		FDBB23D62A4836220084FA12 /* ISAdMobBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobBannerDelegate.h; sourceTree = "<group>"; };
-		FDBB23D72A4836220084FA12 /* ISAdMobInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobInterstitialDelegate.m; sourceTree = "<group>"; };
-		FDBB23D82A4836220084FA12 /* ISAdMobNativeBannerTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeBannerTemplate.m; sourceTree = "<group>"; };
-		FDBB23D92A4836220084FA12 /* ISAdMobNativeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeView.m; sourceTree = "<group>"; };
-		FDBB23DA2A4836220084FA12 /* ISAdMobAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobAdapter.h; sourceTree = "<group>"; };
-		FDBB23DB2A4836220084FA12 /* ISAdMobBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobBannerDelegate.m; sourceTree = "<group>"; };
-		FDBB23DC2A4836220084FA12 /* ISAdMobInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobInterstitialDelegate.h; sourceTree = "<group>"; };
-		FDBB23DD2A4836220084FA12 /* ISAdMobNativeBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeBannerDelegate.m; sourceTree = "<group>"; };
-		FDBB23DE2A4836220084FA12 /* ISAdMobAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISAdMobAdapter.m; sourceTree = "<group>"; };
-		FDBB23DF2A4836220084FA12 /* ISAdMobNativeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeView.h; sourceTree = "<group>"; };
-		FDBB23E02A4836220084FA12 /* ISAdMobNativeBannerTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerTemplate.h; sourceTree = "<group>"; };
-		FDBB23EF2A48362D0084FA12 /* ISAdMobNativeBannerTemplateRectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateRectView.xib; sourceTree = "<group>"; };
-		FDBB23F02A48362D0084FA12 /* ISAdMobNativeBannerTemplateTextCTAView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateTextCTAView.xib; sourceTree = "<group>"; };
-		FDBB23F12A48362D0084FA12 /* ISAdMobNativeBannerTemplateIconTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateIconTextView.xib; sourceTree = "<group>"; };
-		FDBB23F22A48362D0084FA12 /* ISAdMobNativeBannerTemplateBasicView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateBasicView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +114,49 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C79A072D2A9E26B60033502E /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				C79A072E2A9E26B60033502E /* ISAdMobBannerDelegate.m */,
+				C79A072F2A9E26B60033502E /* ISAdMobNativeBannerTemplateBasicView.xib */,
+				C79A07302A9E26B60033502E /* ISAdMobNativeView.m */,
+				C79A07312A9E26B60033502E /* ISAdMobNativeBannerTemplate.h */,
+				C79A07322A9E26B60033502E /* ISAdMobNativeBannerTemplateTextCTAView.xib */,
+				C79A07332A9E26B60033502E /* ISAdMobBannerAdapter.m */,
+				C79A07342A9E26B60033502E /* ISAdMobNativeBannerDelegate.m */,
+				C79A07352A9E26B60033502E /* ISAdMobNativeBannerTemplateRectView.xib */,
+				C79A07362A9E26B60033502E /* ISAdMobNativeBannerTemplateIconTextView.xib */,
+				C79A07372A9E26B60033502E /* ISAdMobBannerDelegate.h */,
+				C79A07382A9E26B60033502E /* ISAdMobBannerAdapter.h */,
+				C79A07392A9E26B60033502E /* ISAdMobNativeBannerTemplate.m */,
+				C79A073A2A9E26B60033502E /* ISAdMobNativeView.h */,
+				C79A073B2A9E26B60033502E /* ISAdMobNativeBannerDelegate.h */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		C79A073C2A9E26B60033502E /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				C79A073D2A9E26B60033502E /* ISAdMobInterstitialAdapter.h */,
+				C79A073E2A9E26B60033502E /* ISAdMobInterstitialDelegate.m */,
+				C79A073F2A9E26B60033502E /* ISAdMobInterstitialAdapter.m */,
+				C79A07402A9E26B60033502E /* ISAdMobInterstitialDelegate.h */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
+		C79A07432A9E26B60033502E /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				C79A07442A9E26B60033502E /* ISAdMobRewardedVideoDelegate.m */,
+				C79A07452A9E26B60033502E /* ISAdMobRewardedVideoAdapter.m */,
+				C79A07462A9E26B60033502E /* ISAdMobRewardedVideoDelegate.h */,
+				C79A07472A9E26B60033502E /* ISAdMobRewardedVideoAdapter.h */,
+			);
+			path = RewardedVideo;
+			sourceTree = "<group>";
+		};
 		EFAEC70727AFFB2600C424B7 = {
 			isa = PBXGroup;
 			children = (
@@ -122,24 +179,12 @@
 		EFAEC71327AFFB2600C424B7 /* ISAdMobAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				FDBB23DA2A4836220084FA12 /* ISAdMobAdapter.h */,
-				FDBB23DE2A4836220084FA12 /* ISAdMobAdapter.m */,
-				FDBB23D62A4836220084FA12 /* ISAdMobBannerDelegate.h */,
-				FDBB23DB2A4836220084FA12 /* ISAdMobBannerDelegate.m */,
-				FDBB23DC2A4836220084FA12 /* ISAdMobInterstitialDelegate.h */,
-				FDBB23D72A4836220084FA12 /* ISAdMobInterstitialDelegate.m */,
-				FDBB23D32A4836220084FA12 /* ISAdMobRewardedVideoDelegate.h */,
-				FDBB23D52A4836220084FA12 /* ISAdMobRewardedVideoDelegate.m */,
-				FDBB23D42A4836220084FA12 /* ISAdMobNativeBannerDelegate.h */,
-				FDBB23DD2A4836220084FA12 /* ISAdMobNativeBannerDelegate.m */,
-				FDBB23E02A4836220084FA12 /* ISAdMobNativeBannerTemplate.h */,
-				FDBB23D82A4836220084FA12 /* ISAdMobNativeBannerTemplate.m */,
-				FDBB23DF2A4836220084FA12 /* ISAdMobNativeView.h */,
-				FDBB23D92A4836220084FA12 /* ISAdMobNativeView.m */,
-				FDBB23F22A48362D0084FA12 /* ISAdMobNativeBannerTemplateBasicView.xib */,
-				FDBB23F12A48362D0084FA12 /* ISAdMobNativeBannerTemplateIconTextView.xib */,
-				FDBB23EF2A48362D0084FA12 /* ISAdMobNativeBannerTemplateRectView.xib */,
-				FDBB23F02A48362D0084FA12 /* ISAdMobNativeBannerTemplateTextCTAView.xib */,
+				C79A072D2A9E26B60033502E /* Banner */,
+				C79A073C2A9E26B60033502E /* Interstitial */,
+				C79A07482A9E26B60033502E /* ISAdMobAdapter.h */,
+				C79A07412A9E26B60033502E /* ISAdMobAdapter.m */,
+				C79A07422A9E26B60033502E /* ISAdMobConstants.h */,
+				C79A07432A9E26B60033502E /* RewardedVideo */,
 			);
 			path = ISAdMobAdapter;
 			sourceTree = "<group>";
@@ -151,13 +196,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDBB23ED2A4836220084FA12 /* ISAdMobNativeView.h in Headers */,
-				FDBB23EA2A4836220084FA12 /* ISAdMobInterstitialDelegate.h in Headers */,
-				FDBB23E22A4836220084FA12 /* ISAdMobNativeBannerDelegate.h in Headers */,
-				FDBB23E42A4836220084FA12 /* ISAdMobBannerDelegate.h in Headers */,
-				FDBB23E82A4836220084FA12 /* ISAdMobAdapter.h in Headers */,
-				FDBB23E12A4836220084FA12 /* ISAdMobRewardedVideoDelegate.h in Headers */,
-				FDBB23EE2A4836220084FA12 /* ISAdMobNativeBannerTemplate.h in Headers */,
+				C79A075A2A9E26B60033502E /* ISAdMobInterstitialDelegate.h in Headers */,
+				C79A074C2A9E26B60033502E /* ISAdMobNativeBannerTemplate.h in Headers */,
+				C79A075F2A9E26B60033502E /* ISAdMobRewardedVideoDelegate.h in Headers */,
+				C79A07562A9E26B60033502E /* ISAdMobNativeBannerDelegate.h in Headers */,
+				C79A07602A9E26B60033502E /* ISAdMobRewardedVideoAdapter.h in Headers */,
+				C79A07522A9E26B60033502E /* ISAdMobBannerDelegate.h in Headers */,
+				C79A075C2A9E26B60033502E /* ISAdMobConstants.h in Headers */,
+				C79A07552A9E26B60033502E /* ISAdMobNativeView.h in Headers */,
+				C79A07572A9E26B60033502E /* ISAdMobInterstitialAdapter.h in Headers */,
+				C79A07532A9E26B60033502E /* ISAdMobBannerAdapter.h in Headers */,
+				C79A07612A9E26B60033502E /* ISAdMobAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +293,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C79A074A2A9E26B60033502E /* ISAdMobNativeBannerTemplateBasicView.xib in Resources */,
+				C79A07512A9E26B60033502E /* ISAdMobNativeBannerTemplateIconTextView.xib in Resources */,
+				C79A074D2A9E26B60033502E /* ISAdMobNativeBannerTemplateTextCTAView.xib in Resources */,
+				C79A07502A9E26B60033502E /* ISAdMobNativeBannerTemplateRectView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,10 +304,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDBB23F52A48362D0084FA12 /* ISAdMobNativeBannerTemplateIconTextView.xib in Resources */,
-				FDBB23F32A48362D0084FA12 /* ISAdMobNativeBannerTemplateRectView.xib in Resources */,
-				FDBB23F62A48362D0084FA12 /* ISAdMobNativeBannerTemplateBasicView.xib in Resources */,
-				FDBB23F42A48362D0084FA12 /* ISAdMobNativeBannerTemplateTextCTAView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,13 +374,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDBB23EC2A4836220084FA12 /* ISAdMobAdapter.m in Sources */,
-				FDBB23E92A4836220084FA12 /* ISAdMobBannerDelegate.m in Sources */,
-				FDBB23EB2A4836220084FA12 /* ISAdMobNativeBannerDelegate.m in Sources */,
-				FDBB23E52A4836220084FA12 /* ISAdMobInterstitialDelegate.m in Sources */,
-				FDBB23E32A4836220084FA12 /* ISAdMobRewardedVideoDelegate.m in Sources */,
-				FDBB23E62A4836220084FA12 /* ISAdMobNativeBannerTemplate.m in Sources */,
-				FDBB23E72A4836220084FA12 /* ISAdMobNativeView.m in Sources */,
+				C79A074E2A9E26B60033502E /* ISAdMobBannerAdapter.m in Sources */,
+				C79A07542A9E26B60033502E /* ISAdMobNativeBannerTemplate.m in Sources */,
+				C79A07582A9E26B60033502E /* ISAdMobInterstitialDelegate.m in Sources */,
+				C79A075D2A9E26B60033502E /* ISAdMobRewardedVideoDelegate.m in Sources */,
+				C79A075B2A9E26B60033502E /* ISAdMobAdapter.m in Sources */,
+				C79A07492A9E26B60033502E /* ISAdMobBannerDelegate.m in Sources */,
+				C79A07592A9E26B60033502E /* ISAdMobInterstitialAdapter.m in Sources */,
+				C79A074B2A9E26B60033502E /* ISAdMobNativeView.m in Sources */,
+				C79A074F2A9E26B60033502E /* ISAdMobNativeBannerDelegate.m in Sources */,
+				C79A075E2A9E26B60033502E /* ISAdMobRewardedVideoAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  ISAdMobNativeViewLayout.m
+//  ISAdMobNativeBannerTemplate.m
 //  ISAdMobAdapter
 //
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
