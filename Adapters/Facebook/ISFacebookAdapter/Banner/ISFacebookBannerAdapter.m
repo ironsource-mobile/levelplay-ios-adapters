@@ -196,6 +196,19 @@
     return [self.adapter getBiddingData];
 }
 
+- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                           adData:(NSDictionary *)adData
+                                         delegate:(id<ISBiddingDataDelegate>)delegate {
+    NSDictionary *biddingDataMap = [self getBannerBiddingDataWithAdapterConfig:adapterConfig
+                                                                        adData:adData];
+
+    if (biddingDataMap) {
+        [delegate successWithBiddingData:biddingDataMap];
+    } else {
+        [delegate failureWithError:@"bidding data map is null"];
+    }
+}
+
 #pragma mark - Init Delegate
 
 - (void)onNetworkInitCallbackSuccess {
