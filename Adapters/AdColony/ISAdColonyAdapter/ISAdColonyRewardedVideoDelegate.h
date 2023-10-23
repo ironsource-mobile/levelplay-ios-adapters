@@ -22,6 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onRewardedVideoDidClick:(nonnull NSString *)zoneId;
 
+- (void)onRewardedVideoDidReceiveRewardCallback:(nonnull NSString *)zoneId
+                                withRewardGrant:(BOOL) withRewardGrant;
+
 - (void)onRewardedVideoExpired:(nonnull NSString *)zoneId;
 
 - (void)onRewardedVideoDidClose:(nonnull NSString *)zoneId;

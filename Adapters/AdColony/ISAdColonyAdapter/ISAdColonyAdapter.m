@@ -183,9 +183,6 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
 
 - (void)onNetworkInitCallbackSuccess {
     
-    // register rewarded zones
-    [self registerRewardedVideoZones];
-
     // rewarded video
     NSArray *rewardedVideoZoneIDs = _rewardedVideoZoneIdToSmashDelegate.allKeys;
     
@@ -290,7 +287,6 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
                                     userId:userId];
             break;
         case INIT_STATE_SUCCESS:
-            [self registerRewardedVideoZones];
             [delegate adapterRewardedVideoInitSuccess];
             break;
         case INIT_STATE_FAILED: {
@@ -340,8 +336,6 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
                                     userId:userId];
             break;
         case INIT_STATE_SUCCESS:
-            // register rewarded video zones
-            [self registerRewardedVideoZones];
             [self loadRewardedVideoInternal:zoneId
                                   adOptions:nil
                                    delegate:delegate];
@@ -406,6 +400,18 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *zoneId = adapterConfig.settings[kZoneId];
     LogAdapterApi_Internal(@"zoneId = %@", zoneId);
+    
+    // Registering to Reward
+      AdColonyZone *zone = [AdColony zoneForID:zoneId];
+      if (zone) {
+          ISAdColonyAdapter * __weak weakSelf = self;
+          [zone setReward:^(BOOL success, NSString *name, int amount) {
+              [weakSelf onRewardedVideoDidReceiveRewardCallback:zoneId
+                                                withRewardGrant:success];
+          }];
+      } else {
+          LogAdapterApi_Error(@"register to reward failed, zoneId = %@ not found", zoneId);
+      }
     
     AdColonyInterstitial *ad = [_rewardedVideoZoneIdToAd objectForKey:zoneId];
     
@@ -482,6 +488,16 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoZoneIdToSmashDelegate objectForKey:zoneId];
     
     [delegate adapterRewardedVideoDidClick];
+}
+
+- (void)onRewardedVideoDidReceiveRewardCallback:(nonnull NSString *)zoneId
+                                withRewardGrant:(BOOL) rewardGranted {
+    LogAdapterDelegate_Internal(@"zoneId = %@, rewarded = %@", zoneId, rewardGranted ? @"YES" : @"NO");
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoZoneIdToSmashDelegate objectForKey:zoneId];
+
+    if (rewardGranted) {
+        [delegate adapterRewardedVideoDidReceiveReward];
+    }
 }
 
 - (void)onRewardedVideoExpired:(nonnull NSString *)zoneId {
@@ -1024,27 +1040,6 @@ static NSArray<AdColonyZone *> *adColonyInitZones = nil;
     LogAdapterApi_Internal(@"token = %@", returnedToken);
     LogAdapterApi_Internal(@"sdkVersion = %@", sdkVersion);
     return @{@"token": returnedToken, @"sdkVersion": sdkVersion};
-}
-
-// register all the rewarded video zones for rewarded callback after init completed
-- (void)registerRewardedVideoZones {
-    LogAdapterApi_Internal(@"");
-    
-    // zones from init
-    for (AdColonyZone *zone in adColonyInitZones) {
-        NSString *zoneId = zone.identifier;
-        id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoZoneIdToSmashDelegate objectForKey:zoneId];
-        
-        if (delegate && zone.rewarded) {
-            LogAdapterApi_Internal(@"register zoneId = %@", zoneId);
-            [zone setReward:^(BOOL success, NSString *name, int amount) {
-                LogAdapterDelegate_Internal(@"zone %@ reward - success = %@", zoneId, success ? @"YES" : @"NO");
-                if (success) {
-                    [delegate adapterRewardedVideoDidReceiveReward];
-                }
-            }];
-        }
-    }
 }
 
 - (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
