@@ -22,6 +22,8 @@ static NSString * const kAppSignature               = @"appSignature";
 static NSString * const kLocationId                 = @"adLocation";
 static NSString * const kAppID                      = @"appID";
 
+// MetaData keys
+static NSString * const kMetaDataCOPPAKey           = @"CHARTBOOST_COPPA";
 
 // init state possible values
 typedef NS_ENUM(NSInteger, InitState) {
@@ -34,6 +36,8 @@ typedef NS_ENUM(NSInteger, InitState) {
 // Handle init callback for all adapter instances
 static InitState _initState = INIT_STATE_NONE;
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+
+static NSNumber *setCOPPA = nil;
 
 @interface ISChartboostAdapter () <ISChartboostInterstitialDelegateWrapper, ISChartboostRewardedVideoDelegateWrapper, ISChartboostBannerDelegateWrapper, ISNetworkInitCallbackProtocol>
 
@@ -142,6 +146,11 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     LogAdapterDelegate_Internal(@"");
     _initState = INIT_STATE_SUCCESS;
     
+    // set COPPA
+        if (setCOPPA != nil) {
+            [self setCOPPAValue:[setCOPPA intValue] == 1 ? YES : NO];
+        }
+    
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
 
     for (id<ISNetworkInitCallbackProtocol> delegate in initDelegatesList) {
@@ -176,6 +185,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
             [delegate adapterRewardedVideoInitSuccess];
         } else {
             [self loadRewardedVideoInternal:locationId
+                                serverData:nil
                                    delegate:delegate];
         }
     }
@@ -339,6 +349,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
             break;
         case INIT_STATE_SUCCESS: {
             [self loadRewardedVideoInternal:locationId
+                                serverData:nil
                                    delegate:delegate];
             break;
         }
@@ -349,6 +360,15 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     }
 }
 
+- (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
+                                          serverData:(NSString *)serverData
+                                            delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    NSString *locationId = adapterConfig.settings[kLocationId];
+    [self loadRewardedVideoInternal:locationId
+                         serverData:serverData
+                           delegate:delegate];
+}
 
 - (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                     adData:(NSDictionary *)adData
@@ -356,10 +376,12 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     NSString *locationId = adapterConfig.settings[kLocationId];
     
     [self loadRewardedVideoInternal:locationId
+                         serverData:nil
                            delegate:delegate];
 }
 
 - (void)loadRewardedVideoInternal:(NSString *)locationId
+                       serverData:(NSString *)serverData
                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
 
     LogAdapterApi_Internal(@"locationId = %@", locationId);
@@ -369,10 +391,13 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                                                 forKey:locationId];
     
     CHBRewarded *rewardedVideoAd = [self getRewardedVideAdForLocationId:locationId];
-    
+
     if (rewardedVideoAd) {
-        // Load rewarded video
-        [rewardedVideoAd cache];
+        if(serverData){
+            [rewardedVideoAd cacheBidResponse:serverData];
+        } else {
+            [rewardedVideoAd cache];
+        }
     } else {
         [delegate adapterRewardedVideoHasChangedAvailability:NO];
     }
@@ -403,6 +428,11 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     NSString *locationId = adapterConfig.settings[kLocationId];
     CHBRewarded *rewardedVideoAd = [_rewardedVideoLocationIdToAd objectForKey:locationId];
     return ((rewardedVideoAd != nil) && rewardedVideoAd.isCached);
+}
+
+- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                        adData:(NSDictionary *)adData {
+    return [self getBiddingData];
 }
 
 #pragma mark - Rewarded Video Delegate
@@ -499,6 +529,15 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 #pragma mark - Interstitial API
 
+- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
+                               adapterConfig:(ISAdapterConfig *)adapterConfig
+                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+
+    [self initInterstitialWithUserId:userId
+                       adapterConfig:adapterConfig
+                            delegate:delegate];
+}
+
 - (void)initInterstitialWithUserId:(NSString *)userId
                      adapterConfig:(ISAdapterConfig *)adapterConfig
                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
@@ -555,10 +594,31 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     }
 }
 
+- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                             adData:(NSDictionary *)adData
+                                         serverData:(NSString *)serverData
+                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+
+    NSString *locationId = adapterConfig.settings[kLocationId];
+    [self loadInterstitialInternal:locationId
+                        serverData:serverData
+                          delegate:delegate];
+}
+
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                    adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
     NSString *locationId = adapterConfig.settings[kLocationId];
+    [self loadInterstitialInternal:locationId
+                        serverData:nil
+                          delegate:delegate];
+}
+
+- (void)loadInterstitialInternal:(NSString *)locationId
+                      serverData:(NSString *)serverData
+                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
     LogAdapterApi_Internal(@"locationId = %@", locationId);
     
     // add delegate to dictionary
@@ -566,11 +626,13 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                                                forKey:locationId];
     
     CHBInterstitial *interstitialAd = [self getInterstitialAdForLocationId:locationId];
-
+    
     if (interstitialAd) {
-        // Load interstitial
-        [interstitialAd cache];
-        
+        if(serverData){
+            [interstitialAd cacheBidResponse:serverData];
+        } else {
+            [interstitialAd cache];
+        }
     } else {
         NSError *error = [NSError errorWithDomain:kAdapterName
                                              code:ERROR_CODE_GENERIC
@@ -604,6 +666,11 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     NSString *locationId = adapterConfig.settings[kLocationId];
     CHBInterstitial *interstitialAd = [_interstitialLocationIdToAd objectForKey:locationId];
     return ((interstitialAd != nil) && interstitialAd.isCached);
+}
+
+- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                       adData:(NSDictionary *)adData {
+    return [self getBiddingData];
 }
 
 #pragma mark - Interstitial Delegate
@@ -681,6 +748,14 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 #pragma mark - Banner API
 
+- (void)initBannerForBiddingWithUserId:(NSString *)userId
+                         adapterConfig:(ISAdapterConfig *)adapterConfig
+                              delegate:(id<ISBannerAdapterDelegate>)delegate {
+    [self initBannerWithUserId:userId
+                 adapterConfig:adapterConfig
+                      delegate:delegate];
+}
+
 - (void)initBannerWithUserId:(nonnull NSString *)userId
                adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
                     delegate:(nonnull id<ISBannerAdapterDelegate>)delegate {
@@ -737,14 +812,41 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     }
 }
 
+- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                               viewController:(UIViewController *)viewController
+                                         size:(ISBannerSize *)size
+                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
+
+    
+    [self loadBannerInternalWithAdapterConfig:adapterConfig
+                               viewController:viewController
+                                     delegate:delegate
+                                         size:size
+                                   serverData:serverData];
+}
+
 - (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                              adData:(NSDictionary *)adData
                      viewController:(UIViewController *)viewController
                                size:(ISBannerSize *)size
                            delegate:(id <ISBannerAdapterDelegate>)delegate {
+    
+    [self loadBannerInternalWithAdapterConfig:adapterConfig
+                               viewController:viewController
+                                     delegate:delegate
+                                         size:size
+                                   serverData:nil];
+}
 
+- (void)loadBannerInternalWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                             viewController:(UIViewController *)viewController
+                                   delegate:(id<ISBannerAdapterDelegate>)delegate
+                                       size:(ISBannerSize * _Nonnull)size
+                                 serverData:(NSString *)serverData {
+    
     NSString *locationId = adapterConfig.settings[kLocationId];
-   
 
     if (![self isBannerSizeSupported:size]) {
         NSError *error = [NSError errorWithDomain:kAdapterName
@@ -761,25 +863,30 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     [_bannerLocationIdToSmashDelegate setObject:delegate
                                          forKey:locationId];
 
-    
-    CHBBanner *bannerAd = [self getBannerAdForLocationId:viewController
-                                                    size:size
-                                              locationId:locationId];
-    
-    if (bannerAd) {
-        // Load banner
-        [bannerAd cache];
-        
-    } else {
-        NSError *error = [NSError errorWithDomain:kAdapterName
-                                             code:ERROR_CODE_GENERIC
-                                         userInfo:@{NSLocalizedDescriptionKey:@"load banner failed"}];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerDidFailToLoadWithError:error];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CHBBanner *bannerAd = [self getBannerAdForLocationId:viewController
+                                                        size:size
+                                                  locationId:locationId];
+        if (bannerAd) {
+            if(serverData){
+                [bannerAd cacheBidResponse:serverData];
+                
+            }
+            else{
+                [bannerAd cache];
+                
+            }
+        } else {
+            NSError *error = [NSError errorWithDomain:kAdapterName
+                                                 code:ERROR_CODE_GENERIC
+                                             userInfo:@{NSLocalizedDescriptionKey:@"load banner failed"}];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [delegate adapterBannerDidFailToLoadWithError:error];
+        }
+    });
 }
 
-- (void) destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {    
+- (void) destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
     NSString *locationId = adapterConfig.settings[kLocationId];
     LogAdapterApi_Internal(@"locationId = %@", locationId);
 
@@ -788,6 +895,11 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     [_bannerLocationIdToViewController removeObjectForKey:locationId];
     [_bannerLocationIdToChartboostAdDelegate removeObjectForKey:locationId];
     [_bannerLocationIdToSmashDelegate removeObjectForKey:locationId];
+}
+
+- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData {
+    return [self getBiddingData];
 }
 
 #pragma mark - Banner Delegate
@@ -888,6 +1000,16 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     [Chartboost addDataUseConsent:[CHBCCPADataUseConsent ccpaConsent:(value ? CHBCCPAConsentOptOutSale : CHBCCPAConsentOptInSale)]];
 }
 
+- (void)setCOPPAValue:(BOOL)value {
+    setCOPPA = value == YES ? @1 : @0;
+    LogAdapterApi_Internal(@"value = %@", value? @"YES" : @"NO");
+
+    // Set only if COPPA value is true
+    if (_initState == INIT_STATE_SUCCESS && value == YES) {
+        [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:YES]];
+    }
+}
+
 - (void)setMetaDataWithKey:(NSString *)key
                  andValues:(NSMutableArray *)values {
     if (values.count == 0) {
@@ -902,9 +1024,27 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
     }
+    
+    if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                           flag:kMetaDataCOPPAKey
+                                       andValue:value]) {
+        [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
+    }
 }
 
 #pragma mark - Helpers
+
+- (NSDictionary *)getBiddingData {
+    if (_initState != INIT_STATE_SUCCESS) {
+        LogAdapterApi_Internal(@"returning nil as token since init failed");
+        return nil;
+    }
+
+    NSString *bidderToken = [ Chartboost bidderToken];
+    NSString *returnedToken = bidderToken? bidderToken : @"";
+    LogAdapterApi_Internal(@"token = %@", returnedToken);
+    return @{@"token": returnedToken};
+}
 
 - (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
     
