@@ -10,7 +10,7 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <ISAdMobConstants.h>
 
-static NSString * const AdMobAdapterVersion = @"4.3.47";
+static NSString * const AdMobAdapterVersion = @"4.3.48";
 static NSString * Githash = @"";
 
 //System Frameworks For AdMob Adapter
