@@ -44,6 +44,9 @@ static NSString *asyncToken = nil;
 
 // Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
+static NSString * const kAdsGatewayFlag         = @"adsGateway";
+
+
 
 @interface ISUnityAdsAdapter () <UnityAdsInitializationDelegate,
                                 ISNetworkInitCallbackProtocol,
@@ -144,6 +147,11 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                 [mediationMetaData set:kAdapterVersionKey
                                  value:kAdapterVersion];
                 [mediationMetaData commit];
+                
+                NSNumber* adsGatewayFlag = [self getAdsGatewayFlag:adapterConfig];
+                UADSMetaData *metaData = [[UADSMetaData alloc] init];
+                [metaData setRaw:kAdsGatewayFlag value: adsGatewayFlag];
+                [metaData commit];
             }
 
             [UnityAds setDebugMode:[ISConfigurations getConfigurations].adaptersDebug];
@@ -1231,6 +1239,14 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     }
     
     return state;
+}
+
+- (NSNumber *)getAdsGatewayFlag:(ISAdapterConfig *)adapterConfig {
+    BOOL adsGatewayFlag = false;
+    if (adapterConfig != nil && [adapterConfig.settings objectForKey:kAdsGatewayFlag] != nil) {
+        adsGatewayFlag = [[adapterConfig.settings objectForKey:kAdsGatewayFlag] boolValue];
+    }
+    return [NSNumber numberWithBool: adsGatewayFlag];
 }
 
 @end
