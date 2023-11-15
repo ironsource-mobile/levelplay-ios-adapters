@@ -885,17 +885,17 @@ static InitState initState = INIT_STATE_NONE;
 - (void)destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    IMBanner *banner = [_placementIdToBannerAd objectForKey:placementId];
-    if (banner != nil) {
-        [banner removeFromSuperview];
-        banner.delegate = nil;
-        banner = nil;
-        
-        [self.placementIdToBannerAd removeObjectForKey:placementId];
-        [self.placementIdToBannerDelegate removeObjectForKey:placementId];
-        [self.placementIdToBannerSmashDelegate removeObjectForKey:placementId];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        IMBanner *banner = [self.placementIdToBannerAd objectForKey:placementId];
+        if (banner != nil) {
+            [banner removeFromSuperview];
+            banner.delegate = nil;
+            banner = nil;
+        }
+    });
+    [self.placementIdToBannerAd removeObjectForKey:placementId];
+    [self.placementIdToBannerDelegate removeObjectForKey:placementId];
+    [self.placementIdToBannerSmashDelegate removeObjectForKey:placementId];
 }
 
 - (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
