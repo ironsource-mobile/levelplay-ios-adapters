@@ -1,0 +1,9 @@
+# Uncomment the next line to define a global platform for your project
+use_frameworks! 
+platform :ios, '12.0'
+
+target 'ISBidMachineAdapter' do
+  pod 'IronSourceSDK','7.5.1.0'
+  pod 'BidMachine','2.4.0.0'
+
+end
