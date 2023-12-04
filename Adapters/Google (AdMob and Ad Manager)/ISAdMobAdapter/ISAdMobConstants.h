@@ -6,6 +6,8 @@
 //  Copyright © 2023 ironSource. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 //AdMob requires a request agent name
 static NSString * const kRequestAgent             = @"unity";
 static NSString * const kPlatformName             = @"unity";

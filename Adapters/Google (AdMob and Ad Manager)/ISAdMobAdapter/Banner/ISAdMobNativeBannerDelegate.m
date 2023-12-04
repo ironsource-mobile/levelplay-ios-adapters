@@ -5,8 +5,8 @@
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import <ISAdMobNativeBannerDelegate.h>
-#import <ISAdMobNativeView.h>
+#import "ISAdMobNativeBannerDelegate.h"
+#import "ISAdMobNativeView.h"
 
 @implementation ISAdMobNativeBannerDelegate
 

@@ -1,14 +1,14 @@
 //
-//  ISAdMobBannerAdapter.h
+//  ISAdMobNativeAdAdapter.h
 //  ISAdMobAdapter
 //
 //  Copyright © 2023 ironSource. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "ISAdMobAdapter+Internal.h"
+#import <ISAdMobAdapter.h>
 
-@interface ISAdMobBannerAdapter : ISBaseBannerAdapter
+@interface ISAdMobNativeAdAdapter : ISBaseNativeAdAdapter
 
 - (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
 

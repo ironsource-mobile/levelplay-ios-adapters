@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
-#import <ISAdMobInterstitialAdapter.h>
+#import "ISAdMobInterstitialAdapter.h"
 
 @interface ISAdMobInterstitialDelegate : NSObject <GADFullScreenContentDelegate>
 
@@ -19,6 +19,6 @@
 
 - (instancetype)initWithAdapter:(ISAdMobInterstitialAdapter *)adapter
                        adUnitId:(NSString *)adUnitId
-                     andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+                    andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
 
 @end

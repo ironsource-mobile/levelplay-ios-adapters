@@ -5,7 +5,7 @@
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#include <ISAdMobRewardedVideoDelegate.h>
+#include "ISAdMobRewardedVideoDelegate.h"
 
 @implementation ISAdMobRewardedVideoDelegate
 

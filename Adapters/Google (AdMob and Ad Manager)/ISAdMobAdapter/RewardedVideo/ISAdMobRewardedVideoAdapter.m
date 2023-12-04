@@ -5,8 +5,8 @@
 //  Copyright © 2023 ironSource. All rights reserved.
 //
 
-#import <ISAdMobRewardedVideoAdapter.h>
-#import <ISAdMobRewardedVideoDelegate.h>
+#import "ISAdMobRewardedVideoAdapter.h"
+#import "ISAdMobRewardedVideoDelegate.h"
 
 @interface ISAdMobRewardedVideoAdapter ()
 

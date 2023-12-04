@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
-#import <ISAdMobRewardedVideoAdapter.h>
+#import "ISAdMobRewardedVideoAdapter.h"
 
 @interface ISAdMobRewardedVideoDelegate : NSObject <GADFullScreenContentDelegate>
 

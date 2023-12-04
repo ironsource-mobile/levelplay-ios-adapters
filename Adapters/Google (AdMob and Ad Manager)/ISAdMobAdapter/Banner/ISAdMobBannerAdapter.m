@@ -5,9 +5,9 @@
 //  Copyright © 2023 ironSource. All rights reserved.
 //
 
-#import <ISAdMobBannerAdapter.h>
-#import <ISAdMobBannerDelegate.h>
-#import <ISAdMobNativeBannerDelegate.h>
+#import "ISAdMobBannerAdapter.h"
+#import "ISAdMobBannerDelegate.h"
+#import "ISAdMobNativeBannerDelegate.h"
 
 @interface ISAdMobBannerAdapter ()
 
