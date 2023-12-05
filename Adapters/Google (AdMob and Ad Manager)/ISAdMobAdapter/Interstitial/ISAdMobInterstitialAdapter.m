@@ -5,8 +5,8 @@
 //  Copyright © 2023 ironSource. All rights reserved.
 //
 
-#import <ISAdMobInterstitialAdapter.h>
-#import <ISAdMobInterstitialDelegate.h>
+#import "ISAdMobInterstitialAdapter.h"
+#import "ISAdMobInterstitialDelegate.h"
 
 @interface ISAdMobInterstitialAdapter ()
 

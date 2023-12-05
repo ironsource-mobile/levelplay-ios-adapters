@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ISAdMobAdapter.h>
+#import "ISAdMobAdapter+Internal.h"
 
 @interface ISAdMobInterstitialAdapter : ISBaseInterstitialAdapter
 

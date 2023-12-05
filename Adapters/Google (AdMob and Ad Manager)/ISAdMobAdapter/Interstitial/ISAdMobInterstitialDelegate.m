@@ -5,7 +5,7 @@
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#include <ISAdMobInterstitialDelegate.h>
+#include "ISAdMobInterstitialDelegate.h"
 
 @implementation ISAdMobInterstitialDelegate
 

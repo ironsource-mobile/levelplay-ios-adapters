@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
-#import <ISAdMobNativeBannerTemplate.h>
+#import "ISAdMobNativeBannerTemplate.h"
 
 @interface ISAdMobNativeBannerDelegate : NSObject <GADNativeAdLoaderDelegate,GADAdLoaderDelegate,GADNativeAdDelegate>
 

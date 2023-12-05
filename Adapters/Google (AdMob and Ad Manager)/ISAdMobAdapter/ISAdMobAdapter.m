@@ -5,10 +5,12 @@
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import <ISAdMobAdapter.h>
-#import <ISAdMobRewardedVideoAdapter.h>
-#import <ISAdMobInterstitialAdapter.h>
-#import <ISAdMobBannerAdapter.h>
+#import "ISAdMobAdapter.h"
+#import "ISAdMobRewardedVideoAdapter.h"
+#import "ISAdMobInterstitialAdapter.h"
+#import "ISAdMobBannerAdapter.h"
+#import "ISAdMobConstants.h"
+#import "ISAdMobNativeAdAdapter.h"
 
 // Handle init callback for all adapter instances
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
@@ -59,6 +61,10 @@ static BOOL _consentCollectingUserData            = NO;
         ISAdMobBannerAdapter *bannerAdapter = [[ISAdMobBannerAdapter alloc] initWithAdMobAdapter:self];
         [self setBannerAdapter:bannerAdapter];
 
+        // NativeAd
+        ISAdMobNativeAdAdapter *nativeAdAdapter = [[ISAdMobNativeAdAdapter alloc] initWithAdMobAdapter:self];
+        [self setNativeAdAdapter:nativeAdAdapter];
+        
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }

@@ -5,8 +5,8 @@
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#include <ISAdMobBannerAdapter.h>
-#include <ISAdMobBannerDelegate.h>
+#include "ISAdMobBannerAdapter.h"
+#include "ISAdMobBannerDelegate.h"
 
 @implementation ISAdMobBannerDelegate
 
