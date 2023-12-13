@@ -2,7 +2,12 @@
  platform :ios, '11.0'
 
 target 'ISVungleAdapter' do
+<<<<<<< HEAD
   pod 'IronSourceSDK' , '7.7.0.0'
   pod 'VungleAds','7.2.1'
+=======
+  pod 'IronSourceSDK' , '7.5.1.0'
+  pod 'VungleAds','7.2.0'
+>>>>>>> b02014f (Updating vungle adapter version)
 
 end
