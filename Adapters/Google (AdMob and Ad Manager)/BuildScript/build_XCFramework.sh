@@ -37,7 +37,7 @@ xcrun xcodebuild -workspace "${ADAPTER_WORKSPACE}" \
 
 
   createFramework "iphoneos" "arm64"
-  createFramework "iphonesimulator" "x86_64" 
+  createFramework "iphonesimulator" "x86_64"
 
 
 
@@ -47,3 +47,7 @@ xcodebuild -create-xcframework \
 -framework "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework" \
 -framework "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework" \
 -output "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework"
+
+mkdir -p "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Resources"
+find "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/ISAdMobResources.bundle" -name '*.nib' -exec cp {} "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Resources" \;
+rm -rf "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/ISAdMobResources.bundle"
