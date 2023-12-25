@@ -378,6 +378,13 @@ static InitState initState = INIT_STATE_NONE;
     }
     
     VungleRewarded *rewardedVideoAd = [self.rewardedVideoPlacementIdToAd objectForKey:placementId];
+    
+    //set dynamic user Id
+    if ([self dynamicUserId]) {
+        LogAdapterApi_Internal(@"set userID to %@", [self dynamicUserId]);
+        [rewardedVideoAd setUserIdWithUserId:self.dynamicUserId];
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [rewardedVideoAd presentWith:viewController];
     });
