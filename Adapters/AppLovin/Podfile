@@ -2,6 +2,6 @@
 platform :ios, '11.0'
 
 target 'ISAppLovinAdapter' do
-  pod 'IronSourceSDK','7.5.1.0'
-  pod 'AppLovinSDK','11.11.4'
+  pod 'IronSourceSDK','7.6.0.0'
+  pod 'AppLovinSDK','12.1.0'
 end
