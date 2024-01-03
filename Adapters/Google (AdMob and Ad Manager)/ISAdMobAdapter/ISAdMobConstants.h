@@ -37,6 +37,7 @@ static NSString * const kAdMobTFCD                = @"admob_tfcd";
 static NSString * const kAdMobTFUA                = @"admob_tfua";
 static NSString * const kAdMobContentRating       = @"admob_maxcontentrating";
 static NSString * const kAdMobCCPAKey             = @"gad_rdp";
+static NSString * const kAdMobContentMapping      = @"google_content_mapping";
 
 // Meta data content rate values
 static NSString * const kAdMobMaxContentRatingG    = @"max_ad_content_rating_g";

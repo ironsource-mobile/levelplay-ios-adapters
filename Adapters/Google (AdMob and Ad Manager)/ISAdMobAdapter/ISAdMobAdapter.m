@@ -19,6 +19,8 @@ static InitState initState = INIT_STATE_NONE;
 // Consent flags
 static BOOL _didSetConsentCollectingUserData      = NO;
 static BOOL _consentCollectingUserData            = NO;
+static NSString *contentMappingURLValue           = @"";
+static NSArray *neighboringContentMappingURLValue = nil;
 
 @interface ISAdMobAdapter () <ISNetworkInitCallbackProtocol>
 
@@ -176,6 +178,13 @@ static BOOL _consentCollectingUserData            = NO;
         return;
     }
     
+    if (values.count > 1 && [key caseInsensitiveCompare:kAdMobContentMapping] == NSOrderedSame){
+        // multiple URL
+        neighboringContentMappingURLValue = values;
+        LogAdapterApi_Internal(@"key = %@, values = %@", kAdMobContentMapping, values);
+        return;
+    }
+    
     // this is a list of 1 value
     NSString *value = values[0];
     LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
@@ -218,6 +227,9 @@ static BOOL _consentCollectingUserData            = NO;
             LogAdapterApi_Internal(@"key = %@, ratingValue = %@", kAdMobContentRating, formattedValueString);
             [GADMobileAds.sharedInstance.requestConfiguration setMaxAdContentRating: ratingValue];
         }
+    } else if ([key caseInsensitiveCompare:kAdMobContentMapping] == NSOrderedSame) {
+        contentMappingURLValue = valueString;
+        LogAdapterApi_Internal(@"key = %@, contentMappingValue = %@", kAdMobContentMapping, valueString);
     }
 }
 
@@ -287,6 +299,18 @@ static BOOL _consentCollectingUserData            = NO;
         // The default behavior of the Google Mobile Ads SDK is to serve personalized ads
         // If a user has consented to receive only non-personalized ads, you can configure an GADRequest object with the following code to specify that only non-personalized ads should be returned:
         additionalParameters[@"npa"] = @"1";
+    }
+    
+    //handle single content mapping for ad request
+    if(contentMappingURLValue.length){
+        LogAdapterApi_Internal(@"contentMappingURLValue = %@", contentMappingURLValue);
+        request.contentURL = contentMappingURLValue;
+    }
+
+    //handle neighboring content mapping for ad request
+    if(neighboringContentMappingURLValue.count){
+        LogAdapterApi_Internal(@"neighboringContentMappingURLValue = %@" , neighboringContentMappingURLValue);
+        request.neighboringContentURLStrings = neighboringContentMappingURLValue;
     }
     
     GADExtras *extras = [[GADExtras alloc] init];
