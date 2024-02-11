@@ -1,8 +1,8 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '11.0'
+ platform :ios, '12.0'
 
 target 'ISVungleAdapter' do
   pod 'IronSourceSDK' , '7.7.0.0'
-  pod 'VungleAds','7.2.1'
+  pod 'VungleAds','7.2.2'
 
 end
