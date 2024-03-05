@@ -75,6 +75,8 @@ static NSString * const kAdsGatewayFlag         = @"adsGateway";
 // synchronization lock
 @property (nonatomic, strong) NSObject                      *unityAdsStorageLock;
 
+@property (nonatomic, assign) BOOL                          isAdsGatewayEnabled;
+
 @end
 
 @implementation ISUnityAdsAdapter
@@ -152,6 +154,8 @@ static NSString * const kAdsGatewayFlag         = @"adsGateway";
                 UADSMetaData *metaData = [[UADSMetaData alloc] init];
                 [metaData setRaw:kAdsGatewayFlag value: adsGatewayFlag];
                 [metaData commit];
+                
+                self.isAdsGatewayEnabled = adsGatewayFlag.boolValue;
             }
 
             [UnityAds setDebugMode:[ISConfigurations getConfigurations].adaptersDebug];
@@ -161,8 +165,10 @@ static NSString * const kAdsGatewayFlag         = @"adsGateway";
                         testMode:NO
           initializationDelegate:self];
             
-            // Trying to fetch async token for the first load
-            [self getAsyncToken];
+            if (!self.isAdsGatewayEnabled) {
+                // Trying to fetch async token for the first load
+                [self getAsyncToken];
+            }
         });
         
     });
@@ -1090,16 +1096,20 @@ static NSString * const kAdsGatewayFlag         = @"adsGateway";
 - (NSDictionary *)getBiddingData {
     NSString *bidderToken = nil;
 
-    if (_initState == INIT_STATE_SUCCESS) {
+    if (self.isAdsGatewayEnabled) {
         bidderToken = [UnityAds getToken];
-    } else if (asyncToken.length) {
-        bidderToken = asyncToken;
-        // Fetching a fresh async token for the next load
-        [self getAsyncToken];
     } else {
-        LogAdapterApi_Internal(@"returning nil as token since init did not finish successfully and async token did not return");
-        return nil;
-    }
+           if (_initState == INIT_STATE_SUCCESS) {
+               bidderToken = [UnityAds getToken];
+           } else if (asyncToken.length) {
+               bidderToken = asyncToken;
+               // Fetching a fresh async token for the next load
+               [self getAsyncToken];
+           } else {
+               LogAdapterApi_Internal(@"returning nil as token since init did not finish successfully and async token did not return");
+               return nil;
+           }
+       }
     
     NSString *returnedToken = bidderToken? bidderToken : @"";
     LogAdapterApi_Internal(@"token = %@", returnedToken);
