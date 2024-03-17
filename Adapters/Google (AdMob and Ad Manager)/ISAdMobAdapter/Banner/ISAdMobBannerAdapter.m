@@ -65,7 +65,7 @@
     }
     
     [self.adUnitIdToSmashDelegate setObject:delegate
-                                           forKey:adUnitId];
+                                     forKey:adUnitId];
     
     LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
     
@@ -254,9 +254,13 @@
     [self.adUnitIdToSmashDelegate removeObjectForKey:adUnitId];
 }
 
-//check if the network supports adaptive banners
-- (BOOL)getAdaptiveBannerSupport {
-    return YES;
+
+- (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width {
+    
+    CGFloat height = [self getAdmobAdaptiveAdSizeWithWidth:width].size.height;
+    LogAdapterApi_Internal(@"%@", [NSString stringWithFormat:@"height - %.2f for width - %.2f", height, width]);
+    
+    return height;
 }
 
 - (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -383,14 +387,34 @@
         adMobSize = GADAdSizeFromCGSize(CGSizeMake(size.width, size.height));
     }
     
-    if ([size isAdaptive]) {
-        CGFloat originalHeight = adMobSize.size.height;
-        adMobSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(adMobSize.size.width);
-        CGFloat adaptiveHeight = adMobSize.size.height;
-        LogAdapterApi_Internal(@"original height - %@ adaptive height - %@", @(originalHeight), @(adaptiveHeight));
+    if ([size respondsToSelector:@selector(containerParams)]) {
+        if (size.isAdaptive) {
+            adMobSize = [self getAdmobAdaptiveAdSizeWithWidth:size.containerParams.width];
+            LogAdapterApi_Internal(@"default height - %@ adaptive height - %@ container height - %@ default width - %@ container width - %@", @(size.height), @(adMobSize.size.height), @(size.containerParams.height), @(size.width), @(size.containerParams.width));
+        }
+    } else {
+        LogInternal_Error(@"containerParams is not supported");
     }
     
     return adMobSize;
+}
+
+- (GADAdSize) getAdmobAdaptiveAdSizeWithWidth:(CGFloat) width {
+    __block GADAdSize adaptiveSize;
+    
+    void (^calculateAdaptiveSize)(void) = ^{
+        adaptiveSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width);
+    };
+    
+    if([NSThread isMainThread]) {
+        calculateAdaptiveSize();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            calculateAdaptiveSize();
+        });
+    }
+    
+    return adaptiveSize;
 }
 
 - (BOOL) isLargeScreen {
@@ -398,3 +422,4 @@
 }
 
 @end
+

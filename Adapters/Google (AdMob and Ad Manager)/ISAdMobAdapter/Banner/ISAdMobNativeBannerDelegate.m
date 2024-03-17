@@ -41,7 +41,7 @@
     NSError *smashError = (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill)? [ISError createError:ERROR_BN_LOAD_NO_FILL
                                                                                                             withMessage:@"AdMob no fill"] : error;
 
-    [self.delegate adapterBannerDidFailToLoadWithError:error];
+    [self.delegate adapterBannerDidFailToLoadWithError:smashError];
 }
 
 /// Called when an impression is recorded for an ad.

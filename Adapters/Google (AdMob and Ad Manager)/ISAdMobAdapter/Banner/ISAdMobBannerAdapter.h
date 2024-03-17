@@ -12,4 +12,6 @@
 
 - (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
 
+- (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width;
+
 @end
