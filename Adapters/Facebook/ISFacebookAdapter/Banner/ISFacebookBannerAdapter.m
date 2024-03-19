@@ -2,7 +2,7 @@
 //  ISFacebookBannerAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2023 ironSource. All rights reserved.
+//  Copyright © 2024 ironSource. All rights reserved.
 //
 
 #import "ISFacebookBannerAdapter.h"

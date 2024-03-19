@@ -2,7 +2,7 @@
 //  ISFacebookAdapter.h
 //  ISFacebookAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -10,7 +10,7 @@
 #import <IronSource/IronSource.h>
 #import <ISFacebookConstants.h>
 
-static NSString * const FacebookAdapterVersion = @"4.3.43";
+static NSString * const FacebookAdapterVersion = @"4.3.44";
 static NSString * Githash = @"";
 
 //System Frameworks For Facebook Adapter
