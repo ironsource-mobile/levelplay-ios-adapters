@@ -2,7 +2,7 @@
 //  ISInMobiRewardedVideoDelegate.m
 //  ISInMobiAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <ISInMobiRewardedVideoDelegate.h>
