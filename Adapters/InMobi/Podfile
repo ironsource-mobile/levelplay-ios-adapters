@@ -1,8 +1,8 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '11.0'
+ platform :ios, '12.0'
 
 target 'ISInMobiAdapter' do
-  pod 'IronSourceSDK','7.8.0.0'
-  pod 'InMobiSDK','10.6.4'
+  pod 'IronSourceSDK','7.9.1.0'
+  pod 'InMobiSDK','10.7.1'
 
 end
