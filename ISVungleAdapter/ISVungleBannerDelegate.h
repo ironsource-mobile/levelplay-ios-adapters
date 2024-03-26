@@ -2,7 +2,7 @@
 //  ISVungleBannerDelegate.h
 //  ISVungleAdapter
 //
-//  Copyright © 2023 ironSource. All rights reserved.
+//  Copyright © 2024 ironSource. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
