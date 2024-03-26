@@ -2,13 +2,13 @@
 //  ISVungleAdapter.h
 //  ISVungleAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "IronSource/ISBaseAdapter+Internal.h"
 
-static NSString * const VungleAdapterVersion = @"4.3.32";
+static NSString * const VungleAdapterVersion = @"4.3.33";
 static NSString * Githash = @"";
 
 //System Frameworks For Vungle Adapter
