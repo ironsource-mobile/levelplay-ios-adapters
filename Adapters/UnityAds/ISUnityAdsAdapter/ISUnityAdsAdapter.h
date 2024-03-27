@@ -2,14 +2,14 @@
 //  ISUnityAdsAdapter.h
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const UnityAdsAdapterVersion = @"4.3.36";
+static NSString * const UnityAdsAdapterVersion = @"4.3.37";
 static NSString * Githash = @"";
 
 //System Frameworks For UnityAds Adapter
