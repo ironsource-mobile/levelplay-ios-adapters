@@ -2,7 +2,7 @@
 //  ISUnityAdsAdapter.m
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <ISUnityAdsAdapter.h>
@@ -44,7 +44,7 @@ static NSString *asyncToken = nil;
 
 // Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
-static NSString * const kAdsGatewayFlag         = @"adsGateway";
+static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
 
 
 
