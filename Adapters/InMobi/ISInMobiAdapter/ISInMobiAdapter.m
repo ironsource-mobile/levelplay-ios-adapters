@@ -18,7 +18,7 @@ static NSString * const kAccountId                  = @"accountId";
 static NSString * const kPlacementId                = @"placementId";
 static NSString * const kToken                      = @"token";
 static NSString * const kTP                         = @"tp";
-static NSString * const kCSupersonic                = @"c_supersonic";
+static NSString * const kCUnitylevelplay            = @"c_unitylevelplay";
 static NSString * const kTPVersion                  = @"tp-ver";
 
 // Meta data flags
@@ -1025,7 +1025,7 @@ static InitState initState = INIT_STATE_NONE;
 }
 
 - (NSDictionary *)extras {
-    NSMutableDictionary *extras = [NSMutableDictionary dictionaryWithDictionary:@{kTP : kCSupersonic,
+    NSMutableDictionary *extras = [NSMutableDictionary dictionaryWithDictionary:@{kTP : kCUnitylevelplay,
                                                                                   kTPVersion : kAdapterVersion}];
     if (doNotSellCollectingUserData != nil) {
         [extras setObject:doNotSellCollectingUserData
