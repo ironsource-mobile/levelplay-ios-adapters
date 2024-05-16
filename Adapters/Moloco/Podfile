@@ -1,0 +1,8 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+
+target 'ISMolocoAdapter' do
+  pod 'IronSourceSDK','8.0.0.0'
+  pod 'MolocoSDKiOS','2.2.0'
+
+end
