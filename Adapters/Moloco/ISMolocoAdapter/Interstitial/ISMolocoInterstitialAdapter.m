@@ -152,7 +152,9 @@
 
     [self.ad destroy];
     self.ad.interstitialDelegate = nil;
-    self.ad = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.ad = nil;
+    });
     self.smashDelegate = nil;
     self.molocoAdDelegate = nil;
 }

@@ -156,7 +156,9 @@
 
     [self.ad destroy];
     self.ad.rewardedDelegate = nil;
-    self.ad = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.ad = nil;
+    });
     self.smashDelegate = nil;
     self.molocoAdDelegate = nil;
 }

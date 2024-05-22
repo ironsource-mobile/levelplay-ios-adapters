@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const MolocoAdapterVersion = @"4.3.0";
+static NSString * const MolocoAdapterVersion = @"4.3.1";
 static NSString * Githash = @"803f8d9";
 
 //System Frameworks For Moloco Adapter
