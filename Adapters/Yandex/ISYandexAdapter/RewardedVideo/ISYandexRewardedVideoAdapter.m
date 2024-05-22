@@ -162,7 +162,9 @@
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
     
     self.ad.delegate = nil;
-    self.ad = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.ad = nil;
+    });
     self.adLoader.delegate = nil;
     self.adLoader = nil;
     self.smashDelegate = nil;
