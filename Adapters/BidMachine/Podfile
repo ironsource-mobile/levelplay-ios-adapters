@@ -3,7 +3,7 @@
  platform :ios, '12.0'
 
 target 'ISBidMachineAdapter' do
-  pod 'IronSourceSDK','8.0.0.0'
-  pod 'BidMachine','2.6.0'
+  pod 'IronSourceSDK','8.1.0.0'
+  pod 'BidMachine','2.7.0'
 
 end
