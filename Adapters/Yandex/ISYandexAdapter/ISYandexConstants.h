@@ -9,7 +9,7 @@
 // Network keys
 static NSString * const kAppId                    = @"appId";
 static NSString * const kAdUnitId                 = @"adUnitId";
-static NSString * const kMediationName            = @"ironSource";
+static NSString * const kMediationName            = @"ironSource"; // We recommend using only lowercase like "ironsource"
 static NSString * const kAdapterName              = @"Yandex";
 
 // init state possible values
