@@ -2,7 +2,7 @@
 platform :ios, '12.0'
 
 target 'ISFacebookAdapter' do
-  pod 'IronSourceSDK','7.9.0.0'
-  pod 'FBAudienceNetwork','6.15.0'
+  pod 'IronSourceSDK','8.1.0.0'
+  pod 'FBAudienceNetwork','6.15.1'
 
 end
