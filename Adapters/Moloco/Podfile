@@ -1,6 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 use_frameworks! 
-platform :ios, '13.0'
+platform :ios, '12.0'
 
 target 'ISMolocoAdapter' do
   pod 'IronSourceSDK','8.1.0.0'
