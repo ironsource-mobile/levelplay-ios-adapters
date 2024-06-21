@@ -121,7 +121,7 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 
 - (void)collectBiddingDataWithRequestConfiguration:(YMABidderTokenRequestConfiguration *)requestConfiguration
                                           delegate:(id<ISBiddingDataDelegate>)delegate {
-    
+    // This is not necessary, the SDK will be initialized automatically during token generation or by requesting an ad.
     if (initState != INIT_STATE_SUCCESS) {
         NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
         LogAdapterApi_Internal(@"%@", error);
@@ -132,6 +132,8 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
     [bidderTokenLoader loadBidderTokenWithRequestConfiguration:requestConfiguration
                                              completionHandler:^(NSString *bidderToken) {
         if (bidderToken.length >= 0) {
+            // It is not necessary to check for the length of the token.
+            // Yandex SDK can handle cases with an empty token.
             NSString *returnedToken = bidderToken ? bidderToken : @"";
             LogAdapterApi_Internal(@"token = %@", returnedToken);
             NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", nil];

@@ -13,6 +13,8 @@
 - (instancetype)initWithAdapter:(ISYandexInterstitialAdapter *)adapter
                        adUnitId:(NSString *)adUnitId
                     andDelegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    // If a single adapter instance is used for multiple ad requests
+    // a loader can be created only once to improve performance
     self = [super init];
     if (self) {
         _adapter = adapter;
@@ -73,6 +75,8 @@ didFailToShowWithError:(NSError * _Nonnull)error {
 - (void)interstitialAd:(YMAInterstitialAd * _Nonnull)interstitialAd
 didTrackImpressionWithData:(id <YMAImpressionData> _Nullable)impressionData {
     LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    // Yandex SDK calls `interstitialAdDidShow:interstitialAd` after an ad was shown.
+    // Is this the right place to call `adapterInterstitialDidShow`?
     [self.delegate adapterInterstitialDidShow];
 }
 
