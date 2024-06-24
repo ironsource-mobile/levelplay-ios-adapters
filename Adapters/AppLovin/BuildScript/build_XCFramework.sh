@@ -28,7 +28,7 @@ xcrun xcodebuild -workspace "${ADAPTER_WORKSPACE}" \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES\
     ARCHS="$2" \
     BUILD_DIR="${BUILD_DIR}" \
-    OBJROOT="${OBJROOT}\DependentBuilds" \
+    OBJROOT="${OBJROOT}/DependentBuilds" \
     BUILD_ROOT="${BUILD_ROOT}" \
     SYMROOT="${SYMROOT}" $ACTION
 
