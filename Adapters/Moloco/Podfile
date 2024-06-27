@@ -3,7 +3,7 @@ use_frameworks!
 platform :ios, '12.0'
 
 target 'ISMolocoAdapter' do
-  pod 'IronSourceSDK','8.1.0.0'
-  pod 'MolocoSDKiOS','2.2.1'
+  pod 'IronSourceSDK','8.1.1.0'
+  pod 'MolocoSDKiOS','3.0.0'
 
 end

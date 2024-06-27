@@ -178,7 +178,14 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         return;
     }
     
-    [Moloco.shared getBidTokenWithCompletion:^(NSString *token) {
+    [Moloco.shared getBidTokenWithCompletion:^(NSString *token, NSError *error) {
+
+        if (error) {
+            LogAdapterApi_Internal(@"%@", error.localizedDescription);
+            [delegate failureWithError:error.localizedDescription];
+            return;
+        }
+        
         NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: token, @"token", nil];
         NSString *returnedToken = token? token : @"";
         LogAdapterApi_Internal(@"token = %@", returnedToken);
