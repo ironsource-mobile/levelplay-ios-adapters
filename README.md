@@ -16,8 +16,8 @@ Follow these steps to build your iOS project with LevelPlay adapters:
 4. Run the project 
 
 ## Contact Us
-For any question please contact us [here](https://ironsrc.formtitan.com/knowledge-center#/).
+For any question please contact us [here](https://ironsrc.formtitan.com/knowledge-center#/)
 
 ## License
-https://developers.is.com/ironsource-mobile/general/ironsource-platform-online-terms-conditions/ 
+The license can be viewed [here](https://github.com/ironsource-mobile/levelplay-ios-adapters/blob/master/LICENSE)
 
