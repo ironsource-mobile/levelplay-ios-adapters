@@ -1,13 +1,13 @@
-# ironSource LevelPlay iOS adapters
-Turn your app into a business with ironSource. Maximize your ad revenue, grow your user base, and optimize your monetization strategy—all from one powerful platform.
+# Unity LevelPlay iOS Adapters
+Turn your app into a business with [LevelPlay](https://www.is.com/). Maximize your ad revenue, grow your user base, and optimize your monetization strategy—all from one powerful platform.
 
-## Getting started
-Use this documentation to integrate ironSource LevelPlay mediated networks: https://developers.is.com/ironsource-mobile/ios/mediation-networks-ios/ 
+## Getting Started
+Use this documentation to integrate Unity LevelPlay mediated networks: https://developers.is.com/ironsource-mobile/ios/mediation-networks-ios/ 
 
 ## Adapters
-Find here open source adapters for mediating using ironSource LevelPlay SDK. You can find the prebuilt version of these adapters here: https://github.com/ironsource-mobile/ios-adapters 
+Find here open source adapters for mediating using Unity LevelPlay SDK. You can find the prebuilt version of these adapters here: https://github.com/ironsource-mobile/ios-adapters 
 
-## Build your project
+## Build Your Project
 Follow these steps to build your iOS project with LevelPlay adapters: 
 
 1. Download or clone the source onto your local machine
@@ -16,7 +16,7 @@ Follow these steps to build your iOS project with LevelPlay adapters:
 4. Run the project 
 
 ## Contact Us
-For any question please contact us [here](https://ironsrc.formtitan.com/knowledge-center#/)
+For any question please contact us [here](https://ironsrc.my.site.com/helpcenter/s/)
 
 ## License
 The license can be viewed [here](https://github.com/ironsource-mobile/levelplay-ios-adapters/blob/master/LICENSE)
