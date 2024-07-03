@@ -1004,9 +1004,8 @@ static NSNumber *setCOPPA = nil;
     setCOPPA = value == YES ? @1 : @0;
     LogAdapterApi_Internal(@"value = %@", value? @"YES" : @"NO");
 
-    // Set only if COPPA value is true
-    if (_initState == INIT_STATE_SUCCESS && value == YES) {
-        [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:YES]];
+    if (_initState == INIT_STATE_SUCCESS) {
+        [Chartboost addDataUseConsent:[CHBCOPPADataUseConsent isChildDirected:value]];
     }
 }
 
@@ -1023,12 +1022,13 @@ static NSNumber *setCOPPA = nil;
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-    }
-    
-    if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                           flag:kMetaDataCOPPAKey
-                                       andValue:value]) {
-        [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
+        
+    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                                   flag:kMetaDataCOPPAKey
+                                               andValue:value]) {
+         NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                         forType:(META_DATA_VALUE_BOOL)];
+         [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
     }
 }
 
