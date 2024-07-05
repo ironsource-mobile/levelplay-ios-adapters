@@ -639,13 +639,10 @@ static InitState initState = INIT_STATE_NONE;
     [self.bannerPlacementIdToSmashDelegate setObject:delegate
                                               forKey:placementId];
 
-    // create banner container view
+    // create Vungle banner view
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView *containerView = [[UIView alloc] initWithFrame:[self getBannerFrame:size]];
-
         // initialize banner ad delegate
         ISVungleBannerDelegate *bannerAdDelegate = [[ISVungleBannerDelegate alloc] initWithPlacementId:placementId
-                                                                                         containerView:containerView
                                                                                            andDelegate:delegate];
 
         [self.bannerPlacementIdToVungleAdDelegate setObject:bannerAdDelegate
@@ -654,17 +651,21 @@ static InitState initState = INIT_STATE_NONE;
         [self.bannerPlacementIdToAdSize setObject:size
                                            forKey:placementId];
 
+        // calculate VungleAdSize
+        VungleAdSize *adSize = [self getBannerSize:size];
+        
         // create vungle banner ad
-        VungleBanner *vungleBannerAd = [[VungleBanner alloc] initWithPlacementId:placementId
-                                                                            size:[self getBannerSize:size]];
+        VungleBannerView *vungleBannerView = [[VungleBannerView alloc] initWithPlacementId:placementId
+                                                                              vungleAdSize:adSize];
+        
+        // set delegate
+        vungleBannerView.delegate = bannerAdDelegate;
 
-        vungleBannerAd.delegate = bannerAdDelegate;
-
-        [self.bannerPlacementIdToAd setObject:vungleBannerAd
+        [self.bannerPlacementIdToAd setObject:vungleBannerView
                                        forKey:placementId];
 
         // load banner
-        [vungleBannerAd load:serverData];
+        [vungleBannerView load:serverData];
     });
 }
 
@@ -776,30 +777,19 @@ static InitState initState = INIT_STATE_NONE;
     return @{@"token": returnedToken};
 }
 
-- (BannerSize)getBannerSize:(ISBannerSize *)size {
-    if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
-        return BannerSizeMrec;
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
+- (VungleAdSize *)getBannerSize:(ISBannerSize *)size {
+    if ([size.sizeDescription isEqualToString:kSizeCustom]) {
+        return [VungleAdSize VungleAdSizeFromCGSize:CGSizeMake(size.width, size.height)];
+    } else if ([size.sizeDescription isEqualToString:kSizeRectangle]) {
+        return [VungleAdSize VungleAdSizeMREC];
+    } else if ([size.sizeDescription isEqualToString:kSizeLeaderboard]) {
+        return [VungleAdSize VungleAdSizeLeaderboard];
+    } else if ([size.sizeDescription isEqualToString:kSizeSmart]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return BannerSizeLeaderboard;
+            return [VungleAdSize VungleAdSizeLeaderboard];
         }
     }
-        
-    return BannerSizeRegular;
-}
-
-- (CGRect)getBannerFrame:(ISBannerSize *)size {
-    CGRect rect = CGRectMake(0, 0, 320, 50);
-    
-    if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
-        rect = CGRectMake(0, 0, 300, 250);
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            rect = CGRectMake(0, 0, 728, 90);
-        } 
-    }
-
-    return rect;
+    return [VungleAdSize VungleAdSizeBannerRegular];
 }
 
 @end
