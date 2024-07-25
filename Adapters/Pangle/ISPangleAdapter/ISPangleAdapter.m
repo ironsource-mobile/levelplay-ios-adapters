@@ -422,13 +422,15 @@ static PAGSdk* _pangleSDK = nil;
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
-    PAGRewardedAd *rewardedVideoAd = [_rewardedVideoSlotIdToAd objectForKey:slotId];
+    PAGRewardedAd *rewardedVideoAd = [self.rewardedVideoSlotIdToAd objectForKey:slotId];
     
     if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         [self.rewardedVideoAdsAvailability setObject:@NO
                                               forKey:slotId];
         
-        [rewardedVideoAd presentFromRootViewController:viewController];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [rewardedVideoAd presentFromRootViewController:viewController];
+        });
         
     } else {
         NSError *error = [NSError errorWithDomain:kAdapterName
@@ -447,10 +449,11 @@ static PAGSdk* _pangleSDK = nil;
     return rewardedVideoAd != nil && available != nil && [available boolValue];
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                        adData:(NSDictionary *)adData {
-    NSString *slotId = adapterConfig.settings[kSlotId];
-    return [self getBiddingDataWithSlotId:slotId];
+- (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                  adData:(NSDictionary *)adData
+                                                delegate:(id<ISBiddingDataDelegate>)delegate{
+
+    [self collectBiddingDataWithAdapterConfig:adapterConfig delegate:delegate];
 }
 
 #pragma mark - Rewarded Video Delegate
@@ -651,16 +654,18 @@ static PAGSdk* _pangleSDK = nil;
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
-    dispatch_async(dispatch_get_main_queue(), ^{
 
-        PAGLInterstitialAd *interstitialAd = [self.interstitialSlotIdToAd objectForKey:slotId];
-        
-        if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
-            [self.interstitialAdsAvailability setObject:@NO
-                                                 forKey:slotId];
+    PAGLInterstitialAd *interstitialAd = [self.interstitialSlotIdToAd objectForKey:slotId];
+
+    if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
+        [self.interstitialAdsAvailability setObject:@NO
+                                             forKey:slotId];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
             
             [interstitialAd presentFromRootViewController:viewController];
-            
+        });
+        
         } else {
             NSError *error = [NSError errorWithDomain:kAdapterName
                                                  code:ERROR_CODE_NO_ADS_TO_SHOW
@@ -669,7 +674,6 @@ static PAGSdk* _pangleSDK = nil;
             
             [delegate adapterInterstitialDidFailToShowWithError:error];
         }
-    });
 }
 
 - (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
@@ -679,10 +683,11 @@ static PAGSdk* _pangleSDK = nil;
     return interstitialAd != nil && available != nil && [available boolValue];
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                       adData:(NSDictionary *)adData {
-    NSString *slotId = adapterConfig.settings[kSlotId];
-    return [self getBiddingDataWithSlotId:slotId];
+- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData
+                                               delegate:(id<ISBiddingDataDelegate>)delegate{
+
+    [self collectBiddingDataWithAdapterConfig:adapterConfig delegate:delegate];
 }
 
 
@@ -840,10 +845,11 @@ static PAGSdk* _pangleSDK = nil;
     // There is no required implementation for Pangle destroy banner
 }
 
-- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData {
-    NSString *slotId = adapterConfig.settings[kSlotId];
-    return [self getBiddingDataWithSlotId:slotId];
+- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                              adData:(NSDictionary *)adData
+                                            delegate:(id<ISBiddingDataDelegate>)delegate{
+
+    [self collectBiddingDataWithAdapterConfig:adapterConfig delegate:delegate];
 }
 
 #pragma mark - Banner Delegate
@@ -955,18 +961,28 @@ static PAGSdk* _pangleSDK = nil;
 
 #pragma mark - Helper Methods
 
-- (NSDictionary *)getBiddingDataWithSlotId:(NSString *)slotId {
+- (void)collectBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                   delegate:(id<ISBiddingDataDelegate>)delegate {
+    NSString *slotId = adapterConfig.settings[kSlotId];
     if (_initState == INIT_STATE_FAILED) {
-        LogAdapterApi_Internal(@"returning nil as token since init isn't successful");
-        return nil;
+        NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
+        LogAdapterApi_Internal(@"%@", error);
+        [delegate failureWithError:error];
+        return;
     }
-    LogAdapterApi_Internal(@"slotId = %@", slotId);
-    NSString *bidderToken = [PAGSdk getBiddingToken:slotId];
-    NSString *returnedToken = bidderToken? bidderToken : @"";
     
-    LogAdapterApi_Internal(@"token = %@", returnedToken);
-    
-    return @{@"token": returnedToken};
+    [PAGSdk getBiddingToken:slotId completion:^(NSString *biddingToken) {
+        if (biddingToken.length > 0) {
+            NSDictionary *biddingDataDictionary = @{@"token": biddingToken};
+            LogAdapterApi_Internal(@"token = %@", biddingToken);
+            [delegate successWithBiddingData:biddingDataDictionary];
+        }
+        else {
+            NSString *error = [NSString stringWithFormat:@"token is nil or empty"];
+            LogAdapterApi_Internal(@"%@", error);
+            [delegate failureWithError:error];
+        }
+    }];
 }
 
 - (PAGBannerAdSize)getBannerSize:(ISBannerSize *)size {

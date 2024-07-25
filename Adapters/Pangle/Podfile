@@ -2,7 +2,7 @@
  platform :ios, '12.0'
 
 target 'ISPangleAdapter' do
-  pod 'IronSourceSDK','8.0.0.0'
-  pod "Ads-Global", '5.9.0.7', :subspecs => ["BUAdSDK_Compatible"]
+  pod 'IronSourceSDK','8.2.0.0'
+  pod "Ads-Global", '6.1.0.5', :subspecs => ["BUAdSDK_Compatible"]
 
 end
