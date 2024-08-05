@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const InMobiAdapterVersion = @"4.3.23";
+static NSString * const InMobiAdapterVersion = @"4.3.24";
 static NSString * Githash = @"";
  
 //System Frameworks For InMobi Adapter
