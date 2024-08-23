@@ -689,6 +689,10 @@ static InitState initState = INIT_STATE_NONE;
     return [self getBiddingDataWithPlacementId:placementId];
 }
 
+- (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width {
+    return [[UIScreen mainScreen] bounds].size.height;
+}
+
 #pragma mark - Memory Handling
 
 - (void)releaseMemoryWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
@@ -778,7 +782,9 @@ static InitState initState = INIT_STATE_NONE;
 }
 
 - (VungleAdSize *)getBannerSize:(ISBannerSize *)size {
-    if ([size.sizeDescription isEqualToString:kSizeCustom]) {
+    if (size.isAdaptive) {
+        return [VungleAdSize VungleAdSizeFromCGSize:CGSizeMake(size.width, 0)];
+    } else if ([size.sizeDescription isEqualToString:kSizeCustom]) {
         return [VungleAdSize VungleAdSizeFromCGSize:CGSizeMake(size.width, size.height)];
     } else if ([size.sizeDescription isEqualToString:kSizeRectangle]) {
         return [VungleAdSize VungleAdSizeMREC];
