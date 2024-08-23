@@ -13,10 +13,9 @@
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
 // Handle init callback for all adapter instances
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 static InitState initState = INIT_STATE_NONE;
 
-@interface ISVungleAdapter () <ISNetworkInitCallbackProtocol>
+@interface ISVungleAdapter ()
 
 // Rewarded video
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementIdToSmashDelegate;
@@ -56,10 +55,6 @@ static InitState initState = INIT_STATE_NONE;
     self = [super initAdapter:name];
     
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
-        }
-
         // Rewarded video
         _rewardedVideoPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoPlacementIdToVungleAdDelegate      = [ISConcurrentMutableDictionary dictionary];
@@ -85,12 +80,6 @@ static InitState initState = INIT_STATE_NONE;
 }
 
 - (void)initSDKWithAppId:(NSString *)appId {
-
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
-    }
-
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
@@ -124,14 +113,8 @@ static InitState initState = INIT_STATE_NONE;
     LogAdapterDelegate_Internal(@"");
 
     initState = INIT_STATE_SUCCESS;
-
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
-    }
-
-    [initCallbackDelegates removeAllObjects];
+    
+    [self onNetworkInitCallbackSuccess];
 }
 
 - (void)initializationFailure:(NSString *)error {
@@ -139,13 +122,7 @@ static InitState initState = INIT_STATE_NONE;
 
     initState = INIT_STATE_FAILED;
 
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-
-    for (id<ISNetworkInitCallbackProtocol> delegate in initDelegatesList) {
-        [delegate onNetworkInitCallbackFailed:error];
-    }
-
-    [initCallbackDelegates removeAllObjects];
+    [self onNetworkInitCallbackFailed:error];
 }
 
 - (void)onNetworkInitCallbackSuccess {

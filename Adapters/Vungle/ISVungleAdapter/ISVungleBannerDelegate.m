@@ -39,9 +39,7 @@
     NSError *bannerError = [NSError errorWithDomain:kAdapterName
                                                code:errorCode
                                            userInfo:@{NSLocalizedDescriptionKey:error.description}];
-    if (self.isAdloadSuccess) {
-        [self.delegate adapterBannerDidFailToShowWithError:bannerError];
-    } else {
+    if (!self.isAdloadSuccess) {
         [self.delegate adapterBannerDidFailToLoadWithError:bannerError];
     }
 }
