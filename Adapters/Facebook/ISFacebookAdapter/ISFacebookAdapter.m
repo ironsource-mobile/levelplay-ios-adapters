@@ -2,14 +2,16 @@
 //  ISFacebookAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import <ISFacebookAdapter.h>
-#import <ISFacebookRewardedVideoAdapter.h>
-#import <ISFacebookInterstitialAdapter.h>
-#import <ISFacebookBannerAdapter.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+
+#import "ISFacebookAdapter.h"
+#import "ISFacebookRewardedVideoAdapter.h"
+#import "ISFacebookInterstitialAdapter.h"
+#import "ISFacebookBannerAdapter.h"
+#import <ISFacebookNativeAdAdapter.h>
 
 // Handle init callback for all adapter instances
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
@@ -56,6 +58,10 @@ static NSString* _mediationService = nil;
         ISFacebookBannerAdapter *bannerAdapter = [[ISFacebookBannerAdapter alloc] initWithFacebookAdapter:self];
         [self setBannerAdapter:bannerAdapter];
 
+        // NativeAd
+        ISFacebookNativeAdAdapter *netiveAdAdapter = [[ISFacebookNativeAdAdapter alloc] initWithFacebookAdapter:self];
+        [self setNativeAdAdapter:netiveAdAdapter];
+        
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }

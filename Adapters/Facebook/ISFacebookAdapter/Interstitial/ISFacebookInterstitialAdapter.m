@@ -2,12 +2,12 @@
 //  ISFacebookInterstitialAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2023 ironSource. All rights reserved.
 //
 
-#import "ISFacebookInterstitialAdapter.h"
-#import <ISFacebookInterstitialDelegate.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import "ISFacebookInterstitialAdapter.h"
+#import "ISFacebookInterstitialDelegate.h"
 
 @interface ISFacebookInterstitialAdapter ()
 
@@ -192,19 +192,6 @@
                                                        adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self.adapter getBiddingData];
-}
-
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    NSDictionary *biddingDataMap = [self getInterstitialBiddingDataWithAdapterConfig:adapterConfig
-                                                                              adData:adData];
-
-    if (biddingDataMap) {
-        [delegate successWithBiddingData:biddingDataMap];
-    } else {
-        [delegate failureWithError:@"bidding data map is null"];
-    }
 }
 
 #pragma mark - Init Delegate

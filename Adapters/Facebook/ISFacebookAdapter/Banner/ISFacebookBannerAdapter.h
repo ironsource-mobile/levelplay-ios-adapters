@@ -2,11 +2,11 @@
 //  ISFacebookBannerAdapter.h
 //  ISFacebookAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2023 ironSource. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <ISFacebookAdapter.h>
+#import "ISFacebookAdapter+Internal.h"
 
 @interface ISFacebookBannerAdapter : ISBaseBannerAdapter
 

@@ -2,11 +2,11 @@
 //  ISFacebookBannerDelegate.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import <ISFacebookBannerDelegate.h>
-#import <ISFacebookConstants.h>
+#import "ISFacebookBannerDelegate.h"
+#import "ISFacebookConstants.h"
 
 @implementation ISFacebookBannerDelegate
 

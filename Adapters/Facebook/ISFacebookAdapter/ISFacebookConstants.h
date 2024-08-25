@@ -2,7 +2,7 @@
 //  ISFacebookConstants.h
 //  ISFacebookAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2023 ironSource. All rights reserved.
 //
 
 // Mediation keys
@@ -19,7 +19,7 @@ static NSString * const kMetaDataMixAudienceKey     = @"meta_mixed_audience";
 // Meta error codes
 static NSInteger kMetaNoFillErrorCode               = 1001;
 
-// init state possible values
+// Init state
 typedef NS_ENUM(NSInteger, InitState) {
     INIT_STATE_NONE,
     INIT_STATE_IN_PROGRESS,

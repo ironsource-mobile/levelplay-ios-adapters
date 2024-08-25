@@ -2,11 +2,11 @@
 //  ISFacebookRewardedVideoAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2023 ironSource. All rights reserved.
 //
 
 #import "ISFacebookRewardedVideoAdapter.h"
-#import <ISFacebookRewardedVideoDelegate.h>
+#import "ISFacebookRewardedVideoDelegate.h"
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 
 @interface ISFacebookRewardedVideoAdapter ()
@@ -240,19 +240,6 @@
                                                         adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self.adapter getBiddingData];
-}
-
-- (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                  adData:(NSDictionary *)adData
-                                                delegate:(id<ISBiddingDataDelegate>)delegate {
-    NSDictionary *biddingDataMap = [self getRewardedVideoBiddingDataWithAdapterConfig:adapterConfig
-                                                                               adData:adData];
-
-    if (biddingDataMap) {
-        [delegate successWithBiddingData:biddingDataMap];
-    } else {
-        [delegate failureWithError:@"bidding data map is null"];
-    }
 }
 
 #pragma mark - Init Delegate

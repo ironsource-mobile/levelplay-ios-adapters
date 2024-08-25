@@ -2,12 +2,12 @@
 //  ISFacebookBannerAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2023 ironSource. All rights reserved.
 //
 
-#import "ISFacebookBannerAdapter.h"
-#import <ISFacebookBannerDelegate.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import "ISFacebookBannerAdapter.h"
+#import "ISFacebookBannerDelegate.h"
 
 @interface ISFacebookBannerAdapter ()
 
@@ -194,19 +194,6 @@
                                                  adData:(NSDictionary *)adData {
     LogAdapterApi_Internal(@"");
     return [self.adapter getBiddingData];
-}
-
-- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                           adData:(NSDictionary *)adData
-                                         delegate:(id<ISBiddingDataDelegate>)delegate {
-    NSDictionary *biddingDataMap = [self getBannerBiddingDataWithAdapterConfig:adapterConfig
-                                                                        adData:adData];
-
-    if (biddingDataMap) {
-        [delegate successWithBiddingData:biddingDataMap];
-    } else {
-        [delegate failureWithError:@"bidding data map is null"];
-    }
 }
 
 #pragma mark - Init Delegate
