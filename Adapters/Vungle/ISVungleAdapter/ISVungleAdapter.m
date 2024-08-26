@@ -218,7 +218,7 @@
                                                      forKey:placementId];
 
     [self.rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
-
+    [self initSDKWithAppId:appId];
     [delegate adapterRewardedVideoInitSuccess];
 }
 
@@ -250,7 +250,7 @@
     // Add to rewarded video delegate map
     [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                      forKey:placementId];
-
+    [self initSDKWithAppId:appId];
     [self loadRewardedVideoInternal:placementId
                          serverData:nil
                            delegate:delegate];
@@ -380,7 +380,7 @@
     // Add to interstitial delegate map
     [self.interstitialPlacementIdToSmashDelegate setObject:delegate
                                                     forKey:placementId];
-
+    [self initSDKWithAppId:appId];
     [delegate adapterInterstitialInitSuccess];
 }
 - (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -503,7 +503,7 @@
     // Add banner ad to dictionary
     [self.bannerPlacementIdToSmashDelegate setObject:delegate
                                               forKey:placementId];
-
+    [self initSDKWithAppId:appId];
     [delegate adapterBannerInitSuccess];
 }
 
