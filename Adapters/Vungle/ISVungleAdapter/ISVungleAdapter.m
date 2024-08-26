@@ -18,7 +18,6 @@
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementIdToSmashDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementIdToVungleAdDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementIdToAd;
-@property (nonatomic, strong) ISConcurrentMutableSet          *rewardedVideoPlacementIdsForInitCallbacks;
 
 // Interstitial
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialPlacementIdToSmashDelegate;
@@ -56,7 +55,6 @@
         _rewardedVideoPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoPlacementIdToVungleAdDelegate      = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoPlacementIdToAd                    = [ISConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdsForInitCallbacks       = [ISConcurrentMutableSet set];
 
         // Interstitial
         _interstitialPlacementIdToSmashDelegate          = [ISConcurrentMutableDictionary dictionary];
@@ -142,7 +140,6 @@
     [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                      forKey:placementId];
 
-    [self.rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
     [self initSDKWithAppId:appId
          successCompletion:^{
         [delegate adapterRewardedVideoInitSuccess];
@@ -553,7 +550,6 @@
         [self.rewardedVideoPlacementIdToSmashDelegate removeObjectForKey:placementId];
         [self.rewardedVideoPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
         [self.rewardedVideoPlacementIdToAd removeObjectForKey:placementId];
-        [self.rewardedVideoPlacementIdsForInitCallbacks removeObject:placementId];
 
     } else if ([self.interstitialPlacementIdToAd hasObjectForKey:placementId]) {
         [self.interstitialPlacementIdToSmashDelegate removeObjectForKey:placementId];
