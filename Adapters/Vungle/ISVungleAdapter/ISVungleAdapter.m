@@ -12,9 +12,6 @@
 #import <ISVungleBannerDelegate.h>
 #import <VungleAdsSDK/VungleAdsSDK.h>
 
-// Handle init callback for all adapter instances
-static InitState initState = INIT_STATE_NONE;
-
 @interface ISVungleAdapter ()
 
 // Rewarded video
@@ -82,8 +79,6 @@ static InitState initState = INIT_STATE_NONE;
 - (void)initSDKWithAppId:(NSString *)appId {
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
-        initState = INIT_STATE_IN_PROGRESS;
-
         LogAdapterApi_Internal(@"appId = %@", appId);
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -111,17 +106,11 @@ static InitState initState = INIT_STATE_NONE;
 
 - (void)initializationSuccess {
     LogAdapterDelegate_Internal(@"");
-
-    initState = INIT_STATE_SUCCESS;
-    
     [self onNetworkInitCallbackSuccess];
 }
 
 - (void)initializationFailure:(NSString *)error {
     LogAdapterDelegate_Internal(@"error = %@", error.description);
-
-    initState = INIT_STATE_FAILED;
-
     [self onNetworkInitCallbackFailed:error];
 }
 
@@ -230,22 +219,7 @@ static InitState initState = INIT_STATE_NONE;
 
     [self.rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
 
-    switch (initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithAppId:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterRewardedVideoInitSuccess];
-            break;
-        case INIT_STATE_FAILED: {
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_INIT_FAILED
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Vungle SDK init failed"}];
-            [delegate adapterRewardedVideoInitFailed:error];
-            break;
-        }
-    }
+    [delegate adapterRewardedVideoInitSuccess];
 }
 
 // Used for flows when the mediation doesn't need to get a callback for init
@@ -272,25 +246,14 @@ static InitState initState = INIT_STATE_NONE;
     }
 
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-                                                                  
+
     // Add to rewarded video delegate map
     [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                      forKey:placementId];
 
-    switch (initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithAppId:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [self loadRewardedVideoInternal:placementId
-                                 serverData:nil
-                                   delegate:delegate];
-            break;
-        case INIT_STATE_FAILED:
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-            break;
-    }
+    [self loadRewardedVideoInternal:placementId
+                         serverData:nil
+                           delegate:delegate];
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -418,22 +381,7 @@ static InitState initState = INIT_STATE_NONE;
     [self.interstitialPlacementIdToSmashDelegate setObject:delegate
                                                     forKey:placementId];
 
-    switch (initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithAppId:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-        case INIT_STATE_FAILED: {
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_INIT_FAILED
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Vungle SDK init failed"}];
-            [delegate adapterInterstitialInitFailedWithError:error];
-            break;
-        }
-    }
+    [delegate adapterInterstitialInitSuccess];
 }
 - (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                              adData:(NSDictionary *)adData
@@ -556,22 +504,7 @@ static InitState initState = INIT_STATE_NONE;
     [self.bannerPlacementIdToSmashDelegate setObject:delegate
                                               forKey:placementId];
 
-    switch (initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithAppId:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterBannerInitSuccess];
-            break;
-        case INIT_STATE_FAILED: {
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_INIT_FAILED
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Vungle SDK init failed"}];
-            [delegate adapterBannerInitFailedWithError:error];
-            break;
-        }
-    }
+    [delegate adapterBannerInitSuccess];
 }
 
 - (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -739,11 +672,6 @@ static InitState initState = INIT_STATE_NONE;
 #pragma mark - Helper Methods
 
 - (NSDictionary *)getBiddingDataWithPlacementId:(NSString *)placementId {
-    if (initState == INIT_STATE_FAILED) {
-        LogAdapterApi_Internal(@"returning nil as token since init isn't successful");
-        return nil;
-    }
-
     LogAdapterApi_Internal(@"placementId = %@", placementId);
 
     NSString *bidderToken = [VungleAds getBiddingToken];
