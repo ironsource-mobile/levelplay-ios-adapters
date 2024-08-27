@@ -15,12 +15,15 @@
 @interface ISVungleAdapter ()
 
 // Rewarded video
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementIdToVungleAdDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *rewardedVideoPlacementIdToAd;
 
 // Interstitial
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialPlacementIdToVungleAdDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *interstitialPlacementIdToAd;
 
 // Banner
+@property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerPlacementIdToVungleAdDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerPlacementIdToAd;
 @property (nonatomic, strong) ISConcurrentMutableDictionary   *bannerPlacementIdToAdSize;
 
@@ -46,12 +49,15 @@
     
     if (self) {
         // Rewarded video
+        _rewardedVideoPlacementIdToVungleAdDelegate      = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoPlacementIdToAd                    = [ISConcurrentMutableDictionary dictionary];
 
         // Interstitial
+        _interstitialPlacementIdToVungleAdDelegate       = [ISConcurrentMutableDictionary dictionary];
         _interstitialPlacementIdToAd                     = [ISConcurrentMutableDictionary dictionary];
 
         // Banner
+        _bannerPlacementIdToVungleAdDelegate             = [ISConcurrentMutableDictionary dictionary];
         _bannerPlacementIdToAd                           = [ISConcurrentMutableDictionary dictionary];
         _bannerPlacementIdToAdSize                       = [ISConcurrentMutableDictionary dictionary];
 
@@ -197,6 +203,9 @@
     ISVungleRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISVungleRewardedVideoDelegate alloc] initWithPlacementId:placementId
                                                                                                             andDelegate:delegate];
 
+    [self.rewardedVideoPlacementIdToVungleAdDelegate setObject:rewardedVideoAdDelegate
+                                                        forKey:placementId];
+
     VungleRewarded *rewardedVideoAd = [[VungleRewarded alloc] initWithPlacementId:placementId];
     rewardedVideoAd.delegate = rewardedVideoAdDelegate;
 
@@ -319,6 +328,9 @@
 
     ISVungleInterstitialDelegate *interstitialAdDelegate = [[ISVungleInterstitialDelegate alloc] initWithPlacementId:placementId
                                                                                                          andDelegate:delegate];
+
+    [self.interstitialPlacementIdToVungleAdDelegate setObject:interstitialAdDelegate
+                                                       forKey:placementId];
 
     VungleInterstitial *interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:placementId];
     interstitialAd.delegate = interstitialAdDelegate;
@@ -451,6 +463,9 @@
         ISVungleBannerDelegate *bannerAdDelegate = [[ISVungleBannerDelegate alloc] initWithPlacementId:placementId
                                                                                            andDelegate:delegate];
 
+        [self.bannerPlacementIdToVungleAdDelegate setObject:bannerAdDelegate
+                                                     forKey:placementId];
+
         [self.bannerPlacementIdToAdSize setObject:size
                                            forKey:placementId];
 
@@ -478,6 +493,7 @@
     
     if (banner) {
         banner.delegate = nil;
+        [self.bannerPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
         [self.bannerPlacementIdToAd removeObjectForKey:placementId];
         [self.bannerPlacementIdToAdSize removeObjectForKey:placementId];
     }
@@ -495,9 +511,11 @@
     NSString *placementId = adapterConfig.settings[kPlacementId];
 
     if ([self.rewardedVideoPlacementIdToAd hasObjectForKey:placementId]) {
+        [self.rewardedVideoPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
         [self.rewardedVideoPlacementIdToAd removeObjectForKey:placementId];
 
     } else if ([self.interstitialPlacementIdToAd hasObjectForKey:placementId]) {
+        [self.interstitialPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
         [self.interstitialPlacementIdToAd removeObjectForKey:placementId];
 
     } else if ([self.bannerPlacementIdToAd hasObjectForKey:placementId]) {
