@@ -1,0 +1,9 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '12.0'
+use_frameworks!
+
+target 'ISBigoAdapter' do
+  pod 'IronSourceSDK','8.3.0.0'
+  pod 'BigoADS', '4.5.1'
+
+end
