@@ -1,0 +1,555 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2E9EBBAB2CA465AE00BF672B /* ISMobileFuseBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBB982CA465AE00BF672B /* ISMobileFuseBannerAdapter.h */; };
+		2E9EBBAC2CA465AE00BF672B /* ISMobileFuseBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EBB992CA465AE00BF672B /* ISMobileFuseBannerAdapter.m */; };
+		2E9EBBAD2CA465AE00BF672B /* ISMobileFuseBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBB9A2CA465AE00BF672B /* ISMobileFuseBannerDelegate.h */; };
+		2E9EBBAE2CA465AE00BF672B /* ISMobileFuseBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EBB9B2CA465AE00BF672B /* ISMobileFuseBannerDelegate.m */; };
+		2E9EBBAF2CA465AE00BF672B /* ISMobileFuseAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EBB9D2CA465AE00BF672B /* ISMobileFuseAdapter.m */; };
+		2E9EBBB02CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBB9E2CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.h */; };
+		2E9EBBB12CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EBB9F2CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.m */; };
+		2E9EBBB22CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBBA02CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.h */; };
+		2E9EBBB32CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EBBA12CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.m */; };
+		2E9EBBB42CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBBA32CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.h */; };
+		2E9EBBB52CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EBBA42CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.m */; };
+		2E9EBBB62CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBBA52CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.h */; };
+		2E9EBBB72CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EBBA62CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.m */; };
+		2E9EBBB82CA465AE00BF672B /* ISMobileFuseAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBBA82CA465AE00BF672B /* ISMobileFuseAdapter+Internal.h */; };
+		2E9EBBB92CA465AE00BF672B /* ISMobileFuseConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBBA92CA465AE00BF672B /* ISMobileFuseConstants.h */; };
+		2E9EBBBA2CA465AE00BF672B /* ISMobileFuseAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E9EBBAA2CA465AE00BF672B /* ISMobileFuseAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9495B3BF71A37443331075FD /* Pods_ISMobileFuseAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7389ACAACCDDDE9BF48D1AEB /* Pods_ISMobileFuseAdapter.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2D8ED075FBE8A1B2ABFAD850 /* Pods-ISVerveAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVerveAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISVerveAdapter/Pods-ISVerveAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		2E9EBB982CA465AE00BF672B /* ISMobileFuseBannerAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseBannerAdapter.h; sourceTree = "<group>"; };
+		2E9EBB992CA465AE00BF672B /* ISMobileFuseBannerAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseBannerAdapter.m; sourceTree = "<group>"; };
+		2E9EBB9A2CA465AE00BF672B /* ISMobileFuseBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseBannerDelegate.h; sourceTree = "<group>"; };
+		2E9EBB9B2CA465AE00BF672B /* ISMobileFuseBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseBannerDelegate.m; sourceTree = "<group>"; };
+		2E9EBB9D2CA465AE00BF672B /* ISMobileFuseAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseAdapter.m; sourceTree = "<group>"; };
+		2E9EBB9E2CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseInterstitialAdapter.h; sourceTree = "<group>"; };
+		2E9EBB9F2CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseInterstitialAdapter.m; sourceTree = "<group>"; };
+		2E9EBBA02CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseInterstitialDelegate.h; sourceTree = "<group>"; };
+		2E9EBBA12CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseInterstitialDelegate.m; sourceTree = "<group>"; };
+		2E9EBBA32CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		2E9EBBA42CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		2E9EBBA52CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		2E9EBBA62CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		2E9EBBA82CA465AE00BF672B /* ISMobileFuseAdapter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ISMobileFuseAdapter+Internal.h"; sourceTree = "<group>"; };
+		2E9EBBA92CA465AE00BF672B /* ISMobileFuseConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseConstants.h; sourceTree = "<group>"; };
+		2E9EBBAA2CA465AE00BF672B /* ISMobileFuseAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseAdapter.h; sourceTree = "<group>"; };
+		3982C3BAD337D763864BD4CC /* Pods-ISYandexAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISYandexAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		56DF0D5230531444E6138BAB /* Pods-ISYandexAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISYandexAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		66795BC7EE412B4E3AA4A555 /* Pods-ISBigoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISBigoAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISBigoAdapter/Pods-ISBigoAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		7389ACAACCDDDE9BF48D1AEB /* Pods_ISMobileFuseAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISMobileFuseAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		AB2C8575DC0B8854D4FE1731 /* Pods-ISMolocoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISMolocoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISMolocoAdapter/Pods-ISMolocoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		AD86BB3B360F9280C1412F1B /* Pods-ISMobileFuseAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISMobileFuseAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISMobileFuseAdapter/Pods-ISMobileFuseAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		C02D6499A44265BC34354B18 /* Pods-ISMobileFuseAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISMobileFuseAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISMobileFuseAdapter/Pods-ISMobileFuseAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		DC812AD749E4AE6065F77820 /* Pods-ISMolocoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISMolocoAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISMolocoAdapter/Pods-ISMolocoAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		E7A49A9E198A078432E92511 /* libPods-ISMolocoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISMolocoAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFE27C0428337CC500391127 /* ISMobileFuseAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISMobileFuseAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F439834A4D9923F0402713D3 /* Pods-ISVerveAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVerveAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISVerveAdapter/Pods-ISVerveAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		F8FF69DEB2135A32C8BED618 /* Pods-ISBigoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISBigoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISBigoAdapter/Pods-ISBigoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EFE27C0128337CC500391127 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9495B3BF71A37443331075FD /* Pods_ISMobileFuseAdapter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */,
+				BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */,
+				56DF0D5230531444E6138BAB /* Pods-ISYandexAdapter.debug.xcconfig */,
+				3982C3BAD337D763864BD4CC /* Pods-ISYandexAdapter.release.xcconfig */,
+				AB2C8575DC0B8854D4FE1731 /* Pods-ISMolocoAdapter.debug.xcconfig */,
+				DC812AD749E4AE6065F77820 /* Pods-ISMolocoAdapter.release.xcconfig */,
+				F439834A4D9923F0402713D3 /* Pods-ISVerveAdapter.debug.xcconfig */,
+				2D8ED075FBE8A1B2ABFAD850 /* Pods-ISVerveAdapter.release.xcconfig */,
+				F8FF69DEB2135A32C8BED618 /* Pods-ISBigoAdapter.debug.xcconfig */,
+				66795BC7EE412B4E3AA4A555 /* Pods-ISBigoAdapter.release.xcconfig */,
+				C02D6499A44265BC34354B18 /* Pods-ISMobileFuseAdapter.debug.xcconfig */,
+				AD86BB3B360F9280C1412F1B /* Pods-ISMobileFuseAdapter.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		2E9EBB9C2CA465AE00BF672B /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				2E9EBB982CA465AE00BF672B /* ISMobileFuseBannerAdapter.h */,
+				2E9EBB992CA465AE00BF672B /* ISMobileFuseBannerAdapter.m */,
+				2E9EBB9A2CA465AE00BF672B /* ISMobileFuseBannerDelegate.h */,
+				2E9EBB9B2CA465AE00BF672B /* ISMobileFuseBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		2E9EBBA22CA465AE00BF672B /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				2E9EBB9E2CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.h */,
+				2E9EBB9F2CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.m */,
+				2E9EBBA02CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.h */,
+				2E9EBBA12CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
+		2E9EBBA72CA465AE00BF672B /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				2E9EBBA32CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.h */,
+				2E9EBBA42CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.m */,
+				2E9EBBA52CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.h */,
+				2E9EBBA62CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.m */,
+			);
+			path = RewardedVideo;
+			sourceTree = "<group>";
+		};
+		BC81E8CEBEBC633400C70159 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E7A49A9E198A078432E92511 /* libPods-ISMolocoAdapter.a */,
+				7389ACAACCDDDE9BF48D1AEB /* Pods_ISMobileFuseAdapter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C769D67D293CFB500064876A /* ISMobileFuseAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				2E9EBB9C2CA465AE00BF672B /* Banner */,
+				2E9EBBA22CA465AE00BF672B /* Interstitial */,
+				2E9EBBAA2CA465AE00BF672B /* ISMobileFuseAdapter.h */,
+				2E9EBB9D2CA465AE00BF672B /* ISMobileFuseAdapter.m */,
+				2E9EBBA82CA465AE00BF672B /* ISMobileFuseAdapter+Internal.h */,
+				2E9EBBA92CA465AE00BF672B /* ISMobileFuseConstants.h */,
+				2E9EBBA72CA465AE00BF672B /* RewardedVideo */,
+			);
+			path = ISMobileFuseAdapter;
+			sourceTree = "<group>";
+		};
+		EFE27BFA28337CC500391127 = {
+			isa = PBXGroup;
+			children = (
+				C769D67D293CFB500064876A /* ISMobileFuseAdapter */,
+				EFE27C0528337CC500391127 /* Products */,
+				2B13A6DEF45C8EF527BE2EBC /* Pods */,
+				BC81E8CEBEBC633400C70159 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EFE27C0528337CC500391127 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EFE27C0428337CC500391127 /* ISMobileFuseAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EFE27BFF28337CC500391127 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E9EBBBA2CA465AE00BF672B /* ISMobileFuseAdapter.h in Headers */,
+				2E9EBBB02CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.h in Headers */,
+				2E9EBBB92CA465AE00BF672B /* ISMobileFuseConstants.h in Headers */,
+				2E9EBBAD2CA465AE00BF672B /* ISMobileFuseBannerDelegate.h in Headers */,
+				2E9EBBB62CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.h in Headers */,
+				2E9EBBB22CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.h in Headers */,
+				2E9EBBB42CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.h in Headers */,
+				2E9EBBB82CA465AE00BF672B /* ISMobileFuseAdapter+Internal.h in Headers */,
+				2E9EBBAB2CA465AE00BF672B /* ISMobileFuseBannerAdapter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EFE27C0328337CC500391127 /* ISMobileFuseAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISMobileFuseAdapter" */;
+			buildPhases = (
+				EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */,
+				EFE27BFF28337CC500391127 /* Headers */,
+				EFE27C0028337CC500391127 /* Sources */,
+				EFE27C0128337CC500391127 /* Frameworks */,
+				EFE27C0228337CC500391127 /* Resources */,
+				EFE27C1C28337E5800391127 /* Create XCFramework */,
+				61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */,
+				FC4B03C229C98FF200354D90 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISMobileFuseAdapter;
+			productName = ISAdColonyAdapter;
+			productReference = EFE27C0428337CC500391127 /* ISMobileFuseAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EFE27BFB28337CC500391127 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					EFE27C0328337CC500391127 = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+				};
+			};
+			buildConfigurationList = EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISMobileFuseAdapter" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EFE27BFA28337CC500391127;
+			productRefGroup = EFE27C0528337CC500391127 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EFE27C0328337CC500391127 /* ISMobileFuseAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EFE27C0228337CC500391127 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ISMobileFuseAdapter/Pods-ISMobileFuseAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ISMobileFuseAdapter/Pods-ISMobileFuseAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ISMobileFuseAdapter/Pods-ISMobileFuseAdapter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ISMobileFuseAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFE27C1C28337E5800391127 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
+		};
+		FC4B03C229C98FF200354D90 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nrm -fr *.bundle\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EFE27C0028337CC500391127 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E9EBBB72CA465AE00BF672B /* ISMobileFuseRewardedVideoDelegate.m in Sources */,
+				2E9EBBB52CA465AE00BF672B /* ISMobileFuseRewardedVideoAdapter.m in Sources */,
+				2E9EBBB32CA465AE00BF672B /* ISMobileFuseInterstitialDelegate.m in Sources */,
+				2E9EBBB12CA465AE00BF672B /* ISMobileFuseInterstitialAdapter.m in Sources */,
+				2E9EBBAC2CA465AE00BF672B /* ISMobileFuseBannerAdapter.m in Sources */,
+				2E9EBBAF2CA465AE00BF672B /* ISMobileFuseAdapter.m in Sources */,
+				2E9EBBAE2CA465AE00BF672B /* ISMobileFuseBannerDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EFE27C0928337CC500391127 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EFE27C0A28337CC500391127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EFE27C0C28337CC500391127 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C02D6499A44265BC34354B18 /* Pods-ISMobileFuseAdapter.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISMobileFuseAdapter;
+				PRODUCT_NAME = ISMobileFuseAdapter;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EFE27C0D28337CC500391127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD86BB3B360F9280C1412F1B /* Pods-ISMobileFuseAdapter.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISMobileFuseAdapter;
+				PRODUCT_NAME = ISMobileFuseAdapter;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISMobileFuseAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE27C0928337CC500391127 /* Debug */,
+				EFE27C0A28337CC500391127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISMobileFuseAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE27C0C28337CC500391127 /* Debug */,
+				EFE27C0D28337CC500391127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EFE27BFB28337CC500391127 /* Project object */;
+}
