@@ -1,0 +1,537 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2EE90E9E2CA54E60000EE816 /* ISOguryBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E8B2CA54E60000EE816 /* ISOguryBannerAdapter.h */; };
+		2EE90E9F2CA54E60000EE816 /* ISOguryBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE90E8C2CA54E60000EE816 /* ISOguryBannerAdapter.m */; };
+		2EE90EA02CA54E60000EE816 /* ISOguryBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E8D2CA54E60000EE816 /* ISOguryBannerDelegate.h */; };
+		2EE90EA12CA54E60000EE816 /* ISOguryBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE90E8E2CA54E60000EE816 /* ISOguryBannerDelegate.m */; };
+		2EE90EA22CA54E60000EE816 /* ISOguryAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E902CA54E60000EE816 /* ISOguryAdapter+Internal.h */; };
+		2EE90EA32CA54E60000EE816 /* ISOguryAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE90E912CA54E60000EE816 /* ISOguryAdapter.m */; };
+		2EE90EA42CA54E60000EE816 /* ISOguryConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E922CA54E60000EE816 /* ISOguryConstants.h */; };
+		2EE90EA52CA54E60000EE816 /* ISOguryInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E932CA54E60000EE816 /* ISOguryInterstitialAdapter.h */; };
+		2EE90EA62CA54E60000EE816 /* ISOguryInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE90E942CA54E60000EE816 /* ISOguryInterstitialAdapter.m */; };
+		2EE90EA72CA54E60000EE816 /* ISOguryInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E952CA54E60000EE816 /* ISOguryInterstitialDelegate.h */; };
+		2EE90EA82CA54E60000EE816 /* ISOguryInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE90E962CA54E60000EE816 /* ISOguryInterstitialDelegate.m */; };
+		2EE90EA92CA54E60000EE816 /* ISOguryAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E982CA54E60000EE816 /* ISOguryAdapter.h */; };
+		2EE90EAA2CA54E60000EE816 /* ISOguryRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E992CA54E60000EE816 /* ISOguryRewardedVideoAdapter.h */; };
+		2EE90EAB2CA54E60000EE816 /* ISOguryRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE90E9A2CA54E60000EE816 /* ISOguryRewardedVideoAdapter.m */; };
+		2EE90EAC2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EE90E9B2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.h */; };
+		2EE90EAD2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE90E9C2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.m */; };
+		77DCA35F622EA390142F2FA8 /* Pods_ISOguryAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43665046C0C5AEF0E6CC1E2C /* Pods_ISOguryAdapter.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2EE90E8B2CA54E60000EE816 /* ISOguryBannerAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryBannerAdapter.h; sourceTree = "<group>"; };
+		2EE90E8C2CA54E60000EE816 /* ISOguryBannerAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISOguryBannerAdapter.m; sourceTree = "<group>"; };
+		2EE90E8D2CA54E60000EE816 /* ISOguryBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryBannerDelegate.h; sourceTree = "<group>"; };
+		2EE90E8E2CA54E60000EE816 /* ISOguryBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISOguryBannerDelegate.m; sourceTree = "<group>"; };
+		2EE90E902CA54E60000EE816 /* ISOguryAdapter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ISOguryAdapter+Internal.h"; sourceTree = "<group>"; };
+		2EE90E912CA54E60000EE816 /* ISOguryAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISOguryAdapter.m; sourceTree = "<group>"; };
+		2EE90E922CA54E60000EE816 /* ISOguryConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryConstants.h; sourceTree = "<group>"; };
+		2EE90E932CA54E60000EE816 /* ISOguryInterstitialAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryInterstitialAdapter.h; sourceTree = "<group>"; };
+		2EE90E942CA54E60000EE816 /* ISOguryInterstitialAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISOguryInterstitialAdapter.m; sourceTree = "<group>"; };
+		2EE90E952CA54E60000EE816 /* ISOguryInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryInterstitialDelegate.h; sourceTree = "<group>"; };
+		2EE90E962CA54E60000EE816 /* ISOguryInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISOguryInterstitialDelegate.m; sourceTree = "<group>"; };
+		2EE90E982CA54E60000EE816 /* ISOguryAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryAdapter.h; sourceTree = "<group>"; };
+		2EE90E992CA54E60000EE816 /* ISOguryRewardedVideoAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		2EE90E9A2CA54E60000EE816 /* ISOguryRewardedVideoAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISOguryRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		2EE90E9B2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISOguryRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		2EE90E9C2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISOguryRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		38FB75FC5A109F9F19080C37 /* Pods-ISOguryAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISOguryAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISOguryAdapter/Pods-ISOguryAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		43665046C0C5AEF0E6CC1E2C /* Pods_ISOguryAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISOguryAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D9FCF120BDFAA32F83D3BCA /* Pods-ISOguryAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISOguryAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISOguryAdapter/Pods-ISOguryAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		E7A49A9E198A078432E92511 /* libPods-ISMolocoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISMolocoAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFE27C0428337CC500391127 /* ISOguryAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISOguryAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EFE27C0128337CC500391127 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77DCA35F622EA390142F2FA8 /* Pods_ISOguryAdapter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				38FB75FC5A109F9F19080C37 /* Pods-ISOguryAdapter.debug.xcconfig */,
+				7D9FCF120BDFAA32F83D3BCA /* Pods-ISOguryAdapter.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		2EE90E8F2CA54E60000EE816 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				2EE90E8B2CA54E60000EE816 /* ISOguryBannerAdapter.h */,
+				2EE90E8C2CA54E60000EE816 /* ISOguryBannerAdapter.m */,
+				2EE90E8D2CA54E60000EE816 /* ISOguryBannerDelegate.h */,
+				2EE90E8E2CA54E60000EE816 /* ISOguryBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		2EE90E972CA54E60000EE816 /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				2EE90E932CA54E60000EE816 /* ISOguryInterstitialAdapter.h */,
+				2EE90E942CA54E60000EE816 /* ISOguryInterstitialAdapter.m */,
+				2EE90E952CA54E60000EE816 /* ISOguryInterstitialDelegate.h */,
+				2EE90E962CA54E60000EE816 /* ISOguryInterstitialDelegate.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
+		2EE90E9D2CA54E60000EE816 /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				2EE90E992CA54E60000EE816 /* ISOguryRewardedVideoAdapter.h */,
+				2EE90E9A2CA54E60000EE816 /* ISOguryRewardedVideoAdapter.m */,
+				2EE90E9B2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.h */,
+				2EE90E9C2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.m */,
+			);
+			path = RewardedVideo;
+			sourceTree = "<group>";
+		};
+		BC81E8CEBEBC633400C70159 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E7A49A9E198A078432E92511 /* libPods-ISMolocoAdapter.a */,
+				43665046C0C5AEF0E6CC1E2C /* Pods_ISOguryAdapter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C769D67D293CFB500064876A /* ISOguryAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				2EE90E8F2CA54E60000EE816 /* Banner */,
+				2EE90E972CA54E60000EE816 /* Interstitial */,
+				2EE90E982CA54E60000EE816 /* ISOguryAdapter.h */,
+				2EE90E912CA54E60000EE816 /* ISOguryAdapter.m */,
+				2EE90E902CA54E60000EE816 /* ISOguryAdapter+Internal.h */,
+				2EE90E922CA54E60000EE816 /* ISOguryConstants.h */,
+				2EE90E9D2CA54E60000EE816 /* RewardedVideo */,
+			);
+			path = ISOguryAdapter;
+			sourceTree = "<group>";
+		};
+		EFE27BFA28337CC500391127 = {
+			isa = PBXGroup;
+			children = (
+				C769D67D293CFB500064876A /* ISOguryAdapter */,
+				EFE27C0528337CC500391127 /* Products */,
+				2B13A6DEF45C8EF527BE2EBC /* Pods */,
+				BC81E8CEBEBC633400C70159 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EFE27C0528337CC500391127 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EFE27C0428337CC500391127 /* ISOguryAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EFE27BFF28337CC500391127 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EE90EA52CA54E60000EE816 /* ISOguryInterstitialAdapter.h in Headers */,
+				2EE90EA22CA54E60000EE816 /* ISOguryAdapter+Internal.h in Headers */,
+				2EE90EA02CA54E60000EE816 /* ISOguryBannerDelegate.h in Headers */,
+				2EE90EAA2CA54E60000EE816 /* ISOguryRewardedVideoAdapter.h in Headers */,
+				2EE90EAC2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.h in Headers */,
+				2EE90EA92CA54E60000EE816 /* ISOguryAdapter.h in Headers */,
+				2EE90E9E2CA54E60000EE816 /* ISOguryBannerAdapter.h in Headers */,
+				2EE90EA72CA54E60000EE816 /* ISOguryInterstitialDelegate.h in Headers */,
+				2EE90EA42CA54E60000EE816 /* ISOguryConstants.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EFE27C0328337CC500391127 /* ISOguryAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISOguryAdapter" */;
+			buildPhases = (
+				EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */,
+				EFE27BFF28337CC500391127 /* Headers */,
+				EFE27C0028337CC500391127 /* Sources */,
+				EFE27C0128337CC500391127 /* Frameworks */,
+				EFE27C0228337CC500391127 /* Resources */,
+				EFE27C1C28337E5800391127 /* Create XCFramework */,
+				61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */,
+				FC4B03C229C98FF200354D90 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISOguryAdapter;
+			productName = ISAdColonyAdapter;
+			productReference = EFE27C0428337CC500391127 /* ISOguryAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EFE27BFB28337CC500391127 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					EFE27C0328337CC500391127 = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
+				};
+			};
+			buildConfigurationList = EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISOguryAdapter" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EFE27BFA28337CC500391127;
+			productRefGroup = EFE27C0528337CC500391127 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EFE27C0328337CC500391127 /* ISOguryAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EFE27C0228337CC500391127 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ISOguryAdapter/Pods-ISOguryAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ISOguryAdapter/Pods-ISOguryAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ISOguryAdapter/Pods-ISOguryAdapter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ISOguryAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFE27C1C28337E5800391127 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
+		};
+		FC4B03C229C98FF200354D90 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nrm -fr *.bundle\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EFE27C0028337CC500391127 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EE90EAB2CA54E60000EE816 /* ISOguryRewardedVideoAdapter.m in Sources */,
+				2EE90E9F2CA54E60000EE816 /* ISOguryBannerAdapter.m in Sources */,
+				2EE90EA82CA54E60000EE816 /* ISOguryInterstitialDelegate.m in Sources */,
+				2EE90EA12CA54E60000EE816 /* ISOguryBannerDelegate.m in Sources */,
+				2EE90EA62CA54E60000EE816 /* ISOguryInterstitialAdapter.m in Sources */,
+				2EE90EA32CA54E60000EE816 /* ISOguryAdapter.m in Sources */,
+				2EE90EAD2CA54E60000EE816 /* ISOguryRewardedVideoDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EFE27C0928337CC500391127 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EFE27C0A28337CC500391127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EFE27C0C28337CC500391127 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 38FB75FC5A109F9F19080C37 /* Pods-ISOguryAdapter.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISOguryAdapter;
+				PRODUCT_NAME = ISOguryAdapter;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EFE27C0D28337CC500391127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D9FCF120BDFAA32F83D3BCA /* Pods-ISOguryAdapter.release.xcconfig */;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 1.0;
+				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISOguryAdapter;
+				PRODUCT_NAME = ISOguryAdapter;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISOguryAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE27C0928337CC500391127 /* Debug */,
+				EFE27C0A28337CC500391127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISOguryAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EFE27C0C28337CC500391127 /* Debug */,
+				EFE27C0D28337CC500391127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EFE27BFB28337CC500391127 /* Project object */;
+}
