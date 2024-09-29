@@ -18,9 +18,6 @@ static NSString * const kSdkKey                    = @"sdkKey";
 static NSString * const kZoneID                    = @"zoneId";
 static NSString * const kDefaultZoneID             = @"defaultZoneId";
 
-// Meta data keys
-static NSString * const kMetaDataAgeRestrictionKey = @"AppLovin_AgeRestrictedUser";
-
 // init state possible values
 typedef NS_ENUM(NSInteger, InitState) {
     INIT_STATE_NONE,
@@ -753,11 +750,6 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     [ALPrivacySettings setDoNotSell:value];
 }
 
-- (void)setAgeRestricionValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
-    [ALPrivacySettings setIsAgeRestrictedUser:value];
-}
-
 - (void)setMetaDataWithKey:(NSString *)key
                  andValues:(NSMutableArray *)values {
     if (values.count == 0) {
@@ -771,15 +763,6 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-    } else {
-        NSString *ageRestrictionVal = [ISMetaDataUtils formatValue:value
-                                                           forType:(META_DATA_VALUE_BOOL)];
-        
-        if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                               flag:kMetaDataAgeRestrictionKey
-                                           andValue:ageRestrictionVal]) {
-            [self setAgeRestricionValue:[ISMetaDataUtils getMetaDataBooleanValue:ageRestrictionVal]];
-        }
     }
 }
 
