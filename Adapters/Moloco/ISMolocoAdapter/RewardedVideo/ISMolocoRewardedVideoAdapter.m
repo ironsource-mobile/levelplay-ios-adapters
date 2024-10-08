@@ -92,7 +92,7 @@
                                                                                                andDelegate:delegate];
     
     self.molocoAdDelegate = adDelegate;
-    self.ad = [[Moloco shared] createRewardedFor:adUnitId delegate:adDelegate];
+    self.ad = [[Moloco shared] createRewardedFor:adUnitId delegate:adDelegate watermarkData:nil];
     
     // load ad
         [self.ad loadWithBidResponse:serverData];

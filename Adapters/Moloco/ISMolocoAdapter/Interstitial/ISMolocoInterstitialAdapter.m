@@ -89,7 +89,7 @@
     ISMolocoInterstitialDelegate *adDelegate = [[ISMolocoInterstitialDelegate alloc] initWithAdUnitId:adUnitId
                                                             andDelegate:delegate];
     self.molocoAdDelegate = adDelegate;
-    self.ad = [[Moloco shared] createInterstitialFor:adUnitId delegate:adDelegate];
+    self.ad = [[Moloco shared] createInterstitialFor:adUnitId delegate:adDelegate watermarkData:nil];
 
     // load ad
         [self.ad loadWithBidResponse:serverData];
