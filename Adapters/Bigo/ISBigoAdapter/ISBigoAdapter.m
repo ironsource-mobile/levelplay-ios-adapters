@@ -9,7 +9,6 @@
 #import "ISBigoRewardedVideoAdapter.h"
 #import "ISBigoInterstitialAdapter.h"
 #import "ISBigoBannerAdapter.h"
-//#import "ISBigoNativeAdAdapter.h"
 #import <BigoADS/BigoAdSdk.h>
 
 // Handle init callback for all adapter instances
@@ -55,11 +54,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         //Banner
         ISBigoBannerAdapter *bannerAdapter = [[ISBigoBannerAdapter alloc] initWithBigoAdapter:self];
         [self setBannerAdapter:bannerAdapter];
-        
-        //Native Ad
-//         ISBigoNativeAdAdapter *nativeAdAdapter = [[ISBigoNativeAdAdapter alloc] initWithBigoAdapter:self];
-//         [self setNativeAdAdapter:nativeAdAdapter];
-        
+
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }
@@ -156,7 +151,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 - (void)setCOPPAValue:(BOOL)child_restricted {
     LogAdapterApi_Internal(@"value = %@", child_restricted ? @"YES" : @"NO");
-    [BigoAdSdk setUserConsentWithOption: BigoConsentOptionsCOPPA consent: child_restricted];
+    [BigoAdSdk setUserConsentWithOption: BigoConsentOptionsCOPPA consent: !child_restricted];
 }
 
 #pragma mark - Helper Methods
