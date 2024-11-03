@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const AppLovinAdapterVersion = @"4.3.49";
+static NSString * const AppLovinAdapterVersion = @"4.3.50";
 static NSString * Githash = @"";
 
 //System Frameworks For AppLovin Adapter
