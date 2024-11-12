@@ -151,11 +151,20 @@
 
 - (BigoAdSize *)getBannerSize:(ISBannerSize *)size {
     
-    if ([size.sizeDescription isEqualToString:kSizeBanner]) {
+    if ([size.sizeDescription isEqualToString:@"BANNER"]) {
         return BigoAdSize.BANNER;
-    } else if ([size.sizeDescription isEqualToString:kSizeRectangle]) {
+    }
+    if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
         return BigoAdSize.MEDIUM_RECTANGLE;
     }
+    if([size.sizeDescription isEqualToString:@"SMART"]){
+        if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+            return BigoAdSize.LARGE_BANNER;
+        } else {
+            return BigoAdSize.BANNER;
+        }
+    }
+    
     return nil;
 }
 
