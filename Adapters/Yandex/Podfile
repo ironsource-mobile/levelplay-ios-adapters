@@ -4,6 +4,6 @@ use_frameworks!
 
 target 'ISYandexAdapter' do
   pod 'IronSourceSDK','8.3.0.0'
-  pod 'YandexMobileAds','7.5.1.0'
+  pod 'YandexMobileAds','7.6.1.0'
 
 end

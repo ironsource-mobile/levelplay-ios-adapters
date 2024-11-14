@@ -48,7 +48,7 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
         // The Yandex token loader object needs to be saved so that we can retrieve
         // the completion handler callback for async token handling.
         if (bidderTokenLoader == nil) {
-            bidderTokenLoader = [[YMABidderTokenLoader alloc] init];
+            bidderTokenLoader = [[YMABidderTokenLoader alloc] initWithMediationNetworkName:kMediationName];
         }
         
         // Rewarded video
