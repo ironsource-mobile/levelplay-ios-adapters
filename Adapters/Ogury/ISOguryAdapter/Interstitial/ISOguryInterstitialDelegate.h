@@ -8,10 +8,8 @@
 
 @property (nonatomic, strong)   NSString                            *adUnitId;
 @property (nonatomic, weak)     id<ISInterstitialAdapterDelegate>   delegate;
-@property (nonatomic, assign)   AdState                             adState;
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                    adState:(AdState)adState
                     andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
 
 @end

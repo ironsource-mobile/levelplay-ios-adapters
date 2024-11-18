@@ -1,10 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "ISOguryAdapter+Internal.h"
+#import <IronSource/IronSource.h>
 
 @interface ISOguryRewardedVideoAdapter : ISBaseRewardedVideoAdapter
 
 - (instancetype)initWithOguryAdapter:(ISOguryAdapter *)adapter;
-- (AdState)getAdState;
-- (void)setAdState:(AdState)newState;
 
 @end

@@ -3,8 +3,6 @@
 #import "ISOguryAdapter+Internal.h"
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
-#import <OguryChoiceManager/OguryChoiceManager.h>
-
 
 @interface ISOguryInterstitialAdapter ()
 
@@ -12,7 +10,6 @@
 @property (nonatomic, strong) OguryInterstitialAd *ad;
 @property (nonatomic, strong) ISOguryInterstitialDelegate *oguryAdDelegate;
 @property (nonatomic, weak) id<ISInterstitialAdapterDelegate> smashDelegate;
-@property (nonatomic, assign) AdState adState;
 
 @end
 
@@ -25,7 +22,6 @@
         _ad = nil;
         _smashDelegate = nil;
         _oguryAdDelegate = nil;
-        _adState = AD_STATE_NONE;
     }
     return self;
 }
@@ -81,17 +77,16 @@
                                          serverData:(NSString *)serverData
                                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     
-    [self setAdState:AD_STATE_LOAD];
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kPlacementId];
 
     LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
     ISOguryInterstitialDelegate *adDelegate = [[ISOguryInterstitialDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                            adState:_adState
                                                                                         andDelegate:delegate];
     
     self.oguryAdDelegate = adDelegate;
-    self.ad = [[OguryInterstitialAd alloc] initWithAdUnitId:adUnitId];
+    self.ad = [[OguryInterstitialAd alloc] initWithAdUnitId:adUnitId
+                                                  mediation:[[OguryMediation alloc] initWithName: kMediationName version:[IronSource sdkVersion]]];
     self.ad.delegate = self.oguryAdDelegate;
 
     [self.ad loadWithAdMarkup: serverData];
@@ -101,7 +96,6 @@
                              adapterConfig:(ISAdapterConfig *)adapterConfig
                                   delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     
-    [self setAdState:AD_STATE_SHOW];
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kPlacementId];
     
@@ -115,10 +109,7 @@
         [delegate adapterInterstitialDidFailToShowWithError:error];
         return;
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad showAdInViewController: viewController];
-    });
+    [self.ad showAdInViewController: viewController];
 }
 
 - (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
@@ -144,23 +135,13 @@
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kPlacementId];
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.ad) {
-            self.ad.delegate = nil;
-            self.ad = nil;
-        };
-    });
+    
+    if (self.ad) {
+        self.ad.delegate = nil;
+        self.ad = nil;
+    };
     self.smashDelegate = nil;
     self.oguryAdDelegate = nil;
-}
-
-- (AdState)getAdState {
-    return self.adState;
-}
-
-- (void)setAdState:(AdState)newState {
-    _adState = newState;
 }
 
 @end

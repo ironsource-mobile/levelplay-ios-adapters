@@ -4,6 +4,6 @@ use_frameworks!
 
 target 'ISOguryAdapter' do
   pod 'IronSourceSDK','8.4.0.0'
-  pod 'OgurySdk', '4.4.2'
+  pod 'OgurySdk', '5.0.1'
 
 end

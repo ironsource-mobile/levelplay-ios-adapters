@@ -11,7 +11,6 @@
 #import "ISOguryBannerAdapter.h"
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
-#import <OguryChoiceManager/OguryChoiceManager.h>
 #import <OguryCore/OguryLogLevel.h>
 
 
@@ -34,7 +33,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 // Get network sdk version
 - (NSString *)sdkVersion {
-    return [Ogury getSdkVersion];
+    return [Ogury sdkVersion];
 }
 
 #pragma mark - Initializations Methods And Callbacks
@@ -79,15 +78,20 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         LogAdapterApi_Internal(@"assetKey = %@", assetKey);
         
         initState = INIT_STATE_IN_PROGRESS;
-        OguryConfigurationBuilder *configurationBuilder = [[OguryConfigurationBuilder alloc] initWithAssetKey:assetKey];
         
         if ([ISConfigurations getConfigurations].adaptersDebug) {
             [Ogury setLogLevel:OguryLogLevelAll];
         }
         
-        [Ogury startWithConfiguration:[configurationBuilder build]];
-        [self initializationSuccess];
-
+        [Ogury startWith: assetKey completionHandler:^(BOOL success, OguryError *_Nullable error) {
+            if (success) {
+                // call init callback delegate success
+                [self initializationSuccess];
+            } else {
+                // call init callback delegate failed
+                [self initializationFailure];
+            }
+        }];
     });
 }
 
@@ -104,7 +108,20 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     
     [initCallbackDelegates removeAllObjects];
 }
+
+- (void)initializationFailure {
+    LogAdapterDelegate_Internal(@"");
     
+    initState = INIT_STATE_FAILED;
+    
+    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
+    
+    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
+        [initDelegate onNetworkInitCallbackFailed:@"Ogury SDK init failed"];
+    }
+    
+    [initCallbackDelegates removeAllObjects];
+}
 
 #pragma mark - Helper Methods
 
@@ -113,14 +130,18 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
-    // Ogury getBidderToken results with a warning on UIThread if called from a background thread.
-    // They plan to fix it on a later version
-    NSString *token = [OguryTokenService getBidderToken];
-    
-    NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: token, @"token", nil];
-    NSString *returnedToken = token? token : @"";
-    LogAdapterApi_Internal(@"token = %@", returnedToken);
-    [delegate successWithBiddingData:biddingDataDictionary];
+    [OguryBidTokenService bidToken:^(NSString *_Nullable signal, OguryError *_Nullable error) {
+        
+        if ( error )
+        {
+            [delegate failureWithError:@"Failed to receive token - Ogury"];
+            return;
+        }
+        NSString *returnedToken = signal ? signal : @"";
+        LogAdapterApi_Internal(@"token = %@", returnedToken);
+        NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", nil];
+        [delegate successWithBiddingData:biddingDataDictionary];
+    }];
 }
 
 @end

@@ -4,7 +4,7 @@
 @interface ISOguryBannerAdapter ()
 
 @property (nonatomic, weak) ISOguryAdapter *adapter;
-@property (nonatomic, strong) OguryBannerAd *ad;
+@property (nonatomic, strong) OguryBannerAdView *ad;
 @property (nonatomic, strong) ISOguryBannerDelegate *oguryAdDelegate;
 @property (nonatomic, weak) id<ISBannerAdapterDelegate> smashDelegate;
 
@@ -77,10 +77,11 @@
                                                         forKey:kPlacementId];
     LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
     
-    OguryAdsBannerSize * bannerSize = [self getBannerSize:size];
+    OguryBannerAdSize * bannerSize = [self getBannerSize:size];
     
     // create banner ad delegate
     ISOguryBannerDelegate *bannerAdDelegate = [[ISOguryBannerDelegate alloc] initWithAdUnitId:adUnitId
+                                                                             andBannerAdapter:self
                                                                                   andDelegate:delegate];
     self.oguryAdDelegate = bannerAdDelegate;
     
@@ -94,14 +95,15 @@
             return;
         }
         
-        self.ad = [[OguryBannerAd alloc] initWithAdUnitId:adUnitId];
+        self.ad = [[OguryBannerAdView alloc] initWithAdUnitId:adUnitId
+                                                         size:bannerSize
+                                                    mediation:[[OguryMediation alloc] initWithName: kMediationName version:[IronSource sdkVersion]]];
         self.ad.delegate = self.oguryAdDelegate;
         
         CGRect bannerFrame = [self getBannerFrame:size];
         self.ad.frame = bannerFrame;
 
-        [self.ad loadWithAdMarkup:serverData
-                             size:bannerSize];
+        [self.ad loadWithAdMarkup:serverData];
     });
 }
 
@@ -114,12 +116,8 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.ad) {
             [self.ad destroy];
-            self.ad = nil;
         };
     });
-    
-    self.smashDelegate = nil;
-    self.oguryAdDelegate = nil;
 }
 
 - (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -145,31 +143,33 @@
 #pragma mark - Memory Handling
 
 - (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kPlacementId];
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
     [self destroyBannerWithAdapterConfig:adapterConfig];
 }
 
 #pragma mark - Helper Methods
 
-- (OguryAdsBannerSize *)getBannerSize:(ISBannerSize *)size {
+- (OguryBannerAdSize *)getBannerSize:(ISBannerSize *)size {
     if ([size.sizeDescription isEqualToString:kSizeBanner]) {
-        return OguryAdsBannerSize.small_banner_320x50;
+        return OguryBannerAdSize.small_banner_320x50;
     } else if ([size.sizeDescription isEqualToString:kSizeRectangle]) {
-        return OguryAdsBannerSize.mpu_300x250;
+        return OguryBannerAdSize.mrec_300x250;
+    } else if ([size.sizeDescription isEqualToString:kSizeSmart] && [UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad) {
+        return OguryBannerAdSize.small_banner_320x50;
     }
     return nil;
 }
 
 - (CGRect)getBannerFrame:(ISBannerSize *)size {
-    CGRect rect = CGRectZero;
-
     NSInteger height = size.height;
     NSInteger width = size.width;
     
     return CGRectMake(0, 0, width, height);
+}
+
+- (void)removeBannerAd {
+    self.ad = nil;
+    self.smashDelegate = nil;
+    self.oguryAdDelegate = nil;
 }
 
 @end

@@ -3,6 +3,9 @@ static NSString * const kAppId                   = @"assetKey";
 static NSString * const kPlacementId             = @"adUnitId";
 static NSString * const kAdapterName             = @"Ogury";
 
+// Mediation keys
+static NSString * const kMediationName           = @"Unity LevelPlay";
+
 // init state possible values
 typedef NS_ENUM(NSInteger, InitState) {
     INIT_STATE_NONE,

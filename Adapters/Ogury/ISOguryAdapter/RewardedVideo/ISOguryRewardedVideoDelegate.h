@@ -4,14 +4,12 @@
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
 
-@interface ISOguryRewardedVideoDelegate : NSObject <OguryOptinVideoAdDelegate>
+@interface ISOguryRewardedVideoDelegate : NSObject <OguryRewardedAdDelegate>
 
 @property (nonatomic, strong)   NSString                             *adUnitId;
 @property (nonatomic, weak)     id<ISRewardedVideoAdapterDelegate>   delegate;
-@property (nonatomic, assign)   AdState                              adState;
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                         adState:(AdState)adState
                      andDelegate:(id<ISRewardedVideoAdapterDelegate>)delegate;
 
 @end

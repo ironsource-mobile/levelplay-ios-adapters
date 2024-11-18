@@ -4,11 +4,9 @@
 @interface ISOguryRewardedVideoAdapter ()
 
 @property (nonatomic, weak)   ISOguryAdapter *adapter;
-@property (nonatomic, strong) OguryOptinVideoAd *ad;
+@property (nonatomic, strong) OguryRewardedAd *ad;
 @property (nonatomic, strong) ISOguryRewardedVideoDelegate *oguryAdDelegate;
 @property (nonatomic, weak) id<ISRewardedVideoAdapterDelegate> smashDelegate;
-@property (nonatomic, assign) AdState adState;
-
 @end
 
 @implementation ISOguryRewardedVideoAdapter
@@ -76,18 +74,17 @@
                                           serverData:(NSString *)serverData
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     
-    [self setAdState:AD_STATE_LOAD];
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kPlacementId];
     
     LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
     
     ISOguryRewardedVideoDelegate *adDelegate = [[ISOguryRewardedVideoDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                              adState:_adState
-                                                                                        andDelegate:delegate];
+                                                                                          andDelegate:delegate];
     
     self.oguryAdDelegate = adDelegate;    
-    self.ad = [[OguryOptinVideoAd alloc] initWithAdUnitId:adUnitId];
+    self.ad = [[OguryRewardedAd alloc] initWithAdUnitId:adUnitId
+                                              mediation:[[OguryMediation alloc] initWithName: kMediationName version:[IronSource sdkVersion]]];
     self.ad.delegate = self.oguryAdDelegate;
     [self.ad loadWithAdMarkup: serverData];
 }
@@ -96,7 +93,6 @@
                               adapterConfig:(ISAdapterConfig *)adapterConfig
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     
-    [self setAdState:AD_STATE_SHOW];
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kPlacementId];
 
@@ -109,10 +105,7 @@
         [delegate adapterRewardedVideoDidFailToShowWithError:error];
         return;
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad showAdInViewController: viewController];
-    });
+    [self.ad showAdInViewController: viewController];
 }
 
 
@@ -147,23 +140,13 @@
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kPlacementId];
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.ad) {
-            self.ad.delegate = nil;
-            self.ad = nil;
-        };
-    });
+    
+    if (self.ad) {
+        self.ad.delegate = nil;
+        self.ad = nil;
+    };
     self.smashDelegate = nil;
     self.oguryAdDelegate = nil;
-}
-
-- (AdState)getAdState {
-    return self.adState;
-}
-
-- (void)setAdState:(AdState)newState {
-    _adState = newState;
 }
 
 @end
