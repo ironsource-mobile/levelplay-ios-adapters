@@ -42,6 +42,7 @@
 - (void)didShowWithAd:(id<MolocoAd> _Nonnull)ad {
     LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
     [self.delegate adapterInterstitialDidOpen];
+    [self.delegate adapterInterstitialDidShow];
 }
 
 /// calls this method when ad fails to show for some reasons
