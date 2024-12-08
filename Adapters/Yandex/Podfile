@@ -3,7 +3,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'ISYandexAdapter' do
-  pod 'IronSourceSDK','8.3.0.0'
-  pod 'YandexMobileAds','7.6.1.0'
+  pod 'IronSourceSDK','8.5.0.0'
+  pod 'YandexMobileAds','7.7.0.0'
 
 end
