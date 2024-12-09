@@ -28,5 +28,4 @@ static NSString * Githash = @"";
 @import WebKit;
 
 @interface ISVungleAdapter : ISBaseAdapter
-
 @end
