@@ -1,5 +1,6 @@
 #import "ISBigoRewardedVideoAdapter.h"
 #import "ISBigoRewardedVideoDelegate.h"
+#import "ISBigoAdapter.h"
 
 @interface ISBigoRewardedVideoAdapter ()
 
@@ -89,7 +90,11 @@
     BigoRewardVideoAdRequest *request = [[BigoRewardVideoAdRequest alloc] initWithSlotId:slotId];
     [request setServerBidPayload:serverData];
     
+    ISBigoAdapter *bigoAdapter = [[ISBigoAdapter alloc] init];
+    NSString *mediationInfo = [bigoAdapter getMediationInfo];
+    
     self.adLoader = [[BigoRewardVideoAdLoader alloc] initWithRewardVideoAdLoaderDelegate:adDelegate];
+    self.adLoader.ext = mediationInfo;
     [self.adLoader loadAd:request];
     
 }

@@ -62,6 +62,20 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     return self;
 }
 
+- (NSString *)getMediationInfo {
+    NSDictionary *mediationInfoDict = @{@"mediationName" : @"LevelPlay",
+                                        @"mediationVersion" : [IronSource sdkVersion],
+                                        @"adapterVersion" : BigoAdapterVersion};
+    
+    NSError *error = nil;
+    NSData *mediationInfoJSONData = [NSJSONSerialization dataWithJSONObject:mediationInfoDict options:0 error:&error];
+    
+    if (!error) {
+        return [[NSString alloc] initWithData:mediationInfoJSONData encoding:NSUTF8StringEncoding];
+    }
+    return nil;
+}
+
 - (void)initSDKWithAppKey:(NSString *)appKey {
     
     // Add self to the init delegates only in case the initialization has not finished yet

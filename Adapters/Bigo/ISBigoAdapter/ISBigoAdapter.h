@@ -7,10 +7,15 @@
 
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const BigoAdapterVersion = @"4.3.3";
+static NSString * const BigoAdapterVersion = @"4.3.4";
 static NSString * Githash = @"";
 
 @interface ISBigoAdapter : ISBaseAdapter
+
+@property (nonatomic, strong, readonly) NSString *mediationInfo;
+
+- (NSString *)getMediationInfo;
 
 @end

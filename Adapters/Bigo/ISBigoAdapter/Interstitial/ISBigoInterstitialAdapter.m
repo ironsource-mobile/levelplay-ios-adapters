@@ -1,5 +1,6 @@
 #import "ISBigoInterstitialAdapter.h"
 #import "ISBigoInterstitialDelegate.h"
+#import "ISBigoAdapter.h"
 
 @interface ISBigoInterstitialAdapter ()
 
@@ -87,7 +88,11 @@
     BigoInterstitialAdRequest *request = [[BigoInterstitialAdRequest alloc] initWithSlotId:slotId];
     [request setServerBidPayload:serverData];
     
+    ISBigoAdapter *bigoAdapter = [[ISBigoAdapter alloc] init];
+    NSString *mediationInfo = [bigoAdapter getMediationInfo];
+    
     self.adLoader = [[BigoInterstitialAdLoader alloc] initWithInterstitialAdLoaderDelegate:adDelegate];
+    self.adLoader.ext = mediationInfo;
     [self.adLoader loadAd:request];
     
 }

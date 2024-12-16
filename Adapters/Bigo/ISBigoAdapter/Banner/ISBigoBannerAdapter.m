@@ -93,7 +93,11 @@
         
         [request setServerBidPayload:serverData];
         
+        ISBigoAdapter *bigoAdapter = [[ISBigoAdapter alloc] init];
+        NSString *mediationInfo = [bigoAdapter getMediationInfo];
+        
         self.adLoader = [[BigoBannerAdLoader alloc] initWithBannerAdLoaderDelegate:bannerAdDelegate];
+        self.adLoader.ext = mediationInfo;
         [self.adLoader loadAd:request];
     });
 }
