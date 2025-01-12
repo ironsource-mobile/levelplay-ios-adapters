@@ -2,7 +2,7 @@
 //  ISVungleInterstitialDelegate.m
 //  ISVungleAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISVungleInterstitialDelegate.h"
@@ -32,7 +32,7 @@
                           withError:(NSError * _Nonnull)error {
     LogAdapterDelegate_Internal(@"placementId = %@, error = %@", self.placementId, error.description);
     
-    NSInteger errorCode = (error.code == kVungleNoFillErrorCode) ? ERROR_IS_LOAD_NO_FILL : error.code;
+    NSInteger errorCode = (error.code == VungleErrorAdNoFill) ? ERROR_IS_LOAD_NO_FILL : error.code;
     NSError *interstitialError = [NSError errorWithDomain:kAdapterName
                                                      code:errorCode
                                                  userInfo:@{NSLocalizedDescriptionKey:error.description}];

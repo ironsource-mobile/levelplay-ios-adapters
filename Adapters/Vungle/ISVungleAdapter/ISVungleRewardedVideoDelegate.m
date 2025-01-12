@@ -2,7 +2,7 @@
 //  ISVungleRewardedVideoDelegate.m
 //  ISVungleAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISVungleRewardedVideoDelegate.h"
@@ -33,7 +33,7 @@
     
     [self.delegate adapterRewardedVideoHasChangedAvailability:NO];
     
-    NSInteger errorCode = (error.code == kVungleNoFillErrorCode) ? ERROR_RV_LOAD_NO_FILL : error.code;
+    NSInteger errorCode = (error.code == VungleErrorAdNoFill) ? ERROR_RV_LOAD_NO_FILL : error.code;
     NSError *rewarededVideoError = [NSError errorWithDomain:kAdapterName
                                                        code:errorCode
                                                    userInfo:@{NSLocalizedDescriptionKey:error.description}];
