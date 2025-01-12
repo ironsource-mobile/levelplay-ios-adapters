@@ -2,7 +2,7 @@
 //  ISVungleInterstitialDelegate.h
 //  ISVungleAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

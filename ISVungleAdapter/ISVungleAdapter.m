@@ -52,6 +52,7 @@ static InitState initState = INIT_STATE_NONE;
 }
 
 #pragma mark - Initializations Methods And Callbacks
+
 - (instancetype)initAdapter:(NSString *)name {
     self = [super initAdapter:name];
     
@@ -59,56 +60,56 @@ static InitState initState = INIT_STATE_NONE;
         if (initCallbackDelegates == nil) {
             initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
         }
-
+        
         // Rewarded video
         _rewardedVideoPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoPlacementIdToVungleAdDelegate      = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoPlacementIdToAd                    = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoPlacementIdsForInitCallbacks       = [ISConcurrentMutableSet set];
-
+        
         // Interstitial
         _interstitialPlacementIdToSmashDelegate          = [ISConcurrentMutableDictionary dictionary];
         _interstitialPlacementIdToVungleAdDelegate       = [ISConcurrentMutableDictionary dictionary];
         _interstitialPlacementIdToAd                     = [ISConcurrentMutableDictionary dictionary];
-
+        
         // Banner
         _bannerPlacementIdToSmashDelegate                = [ISConcurrentMutableDictionary dictionary];
         _bannerPlacementIdToVungleAdDelegate             = [ISConcurrentMutableDictionary dictionary];
         _bannerPlacementIdToAd                           = [ISConcurrentMutableDictionary dictionary];
         _bannerPlacementIdToAdSize                       = [ISConcurrentMutableDictionary dictionary];
-
+        
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }
-
+    
     return self;
 }
 
 - (void)initSDKWithAppId:(NSString *)appId {
-
+    
     // Add self to the init delegates only in case the initialization has not finished yet
     if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
         [initCallbackDelegates addObject:self];
     }
-
+    
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
-
+        
         LogAdapterApi_Internal(@"appId = %@", appId);
-
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-
+            
             [VungleAds setIntegrationName:kMediationName
                                   version:[self version]];
-
+            
             ISVungleAdapter * __weak weakSelf = self;
-
+            
             [VungleAds initWithAppId:appId
                           completion:^(NSError * _Nullable error) {
-
+                
                 __typeof__(self) strongSelf = weakSelf;
-
+                
                 if (error) {
                     NSString *errorMsg = [NSString stringWithFormat:@"Vungle SDK init failed %@", error.description];
                     [strongSelf initializationFailure:errorMsg];
@@ -122,100 +123,100 @@ static InitState initState = INIT_STATE_NONE;
 
 - (void)initializationSuccess {
     LogAdapterDelegate_Internal(@"");
-
+    
     initState = INIT_STATE_SUCCESS;
-
+    
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-
+    
     for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
         [initDelegate onNetworkInitCallbackSuccess];
     }
-
+    
     [initCallbackDelegates removeAllObjects];
 }
 
 - (void)initializationFailure:(NSString *)error {
     LogAdapterDelegate_Internal(@"error = %@", error.description);
-
+    
     initState = INIT_STATE_FAILED;
-
+    
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-
+    
     for (id<ISNetworkInitCallbackProtocol> delegate in initDelegatesList) {
         [delegate onNetworkInitCallbackFailed:error];
     }
-
+    
     [initCallbackDelegates removeAllObjects];
 }
 
 - (void)onNetworkInitCallbackSuccess {
     
-     // Rewarded video
-     NSArray *rewardedVideoPlacementIds = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
-
-     for (NSString *placementId in rewardedVideoPlacementIds) {
-         id<ISRewardedVideoAdapterDelegate> delegate = [self.rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
-         if ([self.rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
-             [delegate adapterRewardedVideoInitSuccess];
-         } else {
-             [self loadRewardedVideoInternal:placementId
-                                  serverData:nil
-                                    delegate:delegate];
-         }
-     }
-
-     // Interstitial
-     NSArray *interstitialPlacementIds = _interstitialPlacementIdToSmashDelegate.allKeys;
-
-     for (NSString *placementId in interstitialPlacementIds) {
-         id<ISInterstitialAdapterDelegate> delegate = [self.interstitialPlacementIdToSmashDelegate objectForKey:placementId];
-         [delegate adapterInterstitialInitSuccess];
-     }
-
-     // Banner
-     NSArray *bannerPlacementIds = _bannerPlacementIdToSmashDelegate.allKeys;
-
-     for (NSString *placementId in bannerPlacementIds) {
-         id<ISBannerAdapterDelegate> delegate = [self.bannerPlacementIdToSmashDelegate objectForKey:placementId];
-         [delegate adapterBannerInitSuccess];
-     }
+    // Rewarded video
+    NSArray *rewardedVideoPlacementIds = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
+    
+    for (NSString *placementId in rewardedVideoPlacementIds) {
+        id<ISRewardedVideoAdapterDelegate> delegate = [self.rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
+        if ([self.rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
+            [delegate adapterRewardedVideoInitSuccess];
+        } else {
+            [self loadRewardedVideoInternal:placementId
+                                 serverData:nil
+                                   delegate:delegate];
+        }
+    }
+    
+    // Interstitial
+    NSArray *interstitialPlacementIds = _interstitialPlacementIdToSmashDelegate.allKeys;
+    
+    for (NSString *placementId in interstitialPlacementIds) {
+        id<ISInterstitialAdapterDelegate> delegate = [self.interstitialPlacementIdToSmashDelegate objectForKey:placementId];
+        [delegate adapterInterstitialInitSuccess];
+    }
+    
+    // Banner
+    NSArray *bannerPlacementIds = _bannerPlacementIdToSmashDelegate.allKeys;
+    
+    for (NSString *placementId in bannerPlacementIds) {
+        id<ISBannerAdapterDelegate> delegate = [self.bannerPlacementIdToSmashDelegate objectForKey:placementId];
+        [delegate adapterBannerInitSuccess];
+    }
 }
 
 - (void)onNetworkInitCallbackFailed:(nonnull NSString *)errorMessage {
-
+    
     NSError *error = [ISError createErrorWithDomain:kAdapterName
                                                code:ERROR_CODE_INIT_FAILED
                                             message:errorMessage];
-
-     // Rewarded video
-     NSArray *rewardedVideoPlacementIds = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
-
-     for (NSString *placementId in rewardedVideoPlacementIds) {
-         id<ISRewardedVideoAdapterDelegate> delegate = [self.rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
-         if ([self.rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
-             [delegate adapterRewardedVideoInitFailed:error];
-         } else {
-             [delegate adapterRewardedVideoHasChangedAvailability:NO];
-         }
-     }
-
-
-     // Interstitial
-     NSArray *interstitialPlacementIds = _interstitialPlacementIdToSmashDelegate.allKeys;
-
-     for (NSString *placementId in interstitialPlacementIds) {
-         id<ISInterstitialAdapterDelegate> delegate = [self.interstitialPlacementIdToSmashDelegate objectForKey:placementId];
-         [delegate adapterInterstitialInitFailedWithError:error];
-     }
-
-
-     // Banner
-     NSArray *bannerPlacementIds = _bannerPlacementIdToSmashDelegate.allKeys;
-
-     for (NSString *placementId in bannerPlacementIds) {
-         id<ISBannerAdapterDelegate> delegate = [self.bannerPlacementIdToSmashDelegate objectForKey:placementId];
-         [delegate adapterBannerInitFailedWithError:error];
-     }
+    
+    // Rewarded video
+    NSArray *rewardedVideoPlacementIds = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
+    
+    for (NSString *placementId in rewardedVideoPlacementIds) {
+        id<ISRewardedVideoAdapterDelegate> delegate = [self.rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
+        if ([self.rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
+            [delegate adapterRewardedVideoInitFailed:error];
+        } else {
+            [delegate adapterRewardedVideoHasChangedAvailability:NO];
+        }
+    }
+    
+    
+    // Interstitial
+    NSArray *interstitialPlacementIds = _interstitialPlacementIdToSmashDelegate.allKeys;
+    
+    for (NSString *placementId in interstitialPlacementIds) {
+        id<ISInterstitialAdapterDelegate> delegate = [self.interstitialPlacementIdToSmashDelegate objectForKey:placementId];
+        [delegate adapterInterstitialInitFailedWithError:error];
+    }
+    
+    
+    // Banner
+    NSArray *bannerPlacementIds = _bannerPlacementIdToSmashDelegate.allKeys;
+    
+    for (NSString *placementId in bannerPlacementIds) {
+        id<ISBannerAdapterDelegate> delegate = [self.bannerPlacementIdToSmashDelegate objectForKey:placementId];
+        [delegate adapterBannerInitFailedWithError:error];
+    }
 }
 
 #pragma mark - Rewarded Video API
@@ -224,35 +225,35 @@ static InitState initState = INIT_STATE_NONE;
 - (void)initRewardedVideoForCallbacksWithUserId:(NSString *)userId
                                   adapterConfig:(ISAdapterConfig *)adapterConfig
                                        delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-
+    
     NSString *appId = adapterConfig.settings[kAppId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
-
+    
     /* Configuration Validation */
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
         LogAdapterApi_Internal(@"error = %@", error.description);
-
+        
         [delegate adapterRewardedVideoInitFailed:error];
         return;
     }
-
+    
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
-
+        
         [delegate adapterRewardedVideoInitFailed:error];
         return;
     }
-
+    
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     // Add to rewarded video delegate map
     [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                      forKey:placementId];
-
+    
     [self.rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
-
+    
     switch (initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
@@ -278,7 +279,7 @@ static InitState initState = INIT_STATE_NONE;
                                   delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *appId = adapterConfig.settings[kAppId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
-
+    
     /* Configuration Validation */
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
@@ -286,20 +287,20 @@ static InitState initState = INIT_STATE_NONE;
         [delegate adapterRewardedVideoHasChangedAvailability:NO];
         return;
     }
-
+    
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
         [delegate adapterRewardedVideoHasChangedAvailability:NO];
         return;
     }
-
+    
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-                                                                  
+    
     // Add to rewarded video delegate map
     [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                      forKey:placementId];
-
+    
     switch (initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
@@ -338,23 +339,23 @@ static InitState initState = INIT_STATE_NONE;
 - (void)loadRewardedVideoInternal:(NSString *)placementId
                        serverData:(NSString *)serverData
                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-
+    
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     // In favor of supporting all of the Mediation modes there is a need to store the Rewarded Video delegate
     // in a dictionary on both init and load APIs
     [self.rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                      forKey:placementId];
-
+    
     ISVungleRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISVungleRewardedVideoDelegate alloc] initWithPlacementId:placementId
                                                                                                             andDelegate:delegate];
-
+    
     [self.rewardedVideoPlacementIdToVungleAdDelegate setObject:rewardedVideoAdDelegate
                                                         forKey:placementId];
-
+    
     VungleRewarded *rewardedVideoAd = [[VungleRewarded alloc] initWithPlacementId:placementId];
     rewardedVideoAd.delegate = rewardedVideoAdDelegate;
-
+    
     // Add rewarded video ad to dictionary
     [self.rewardedVideoPlacementIdToAd setObject:rewardedVideoAd
                                           forKey:placementId];
@@ -365,10 +366,10 @@ static InitState initState = INIT_STATE_NONE;
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
                               adapterConfig:(ISAdapterConfig *)adapterConfig
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     if (![self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                   withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
@@ -407,18 +408,19 @@ static InitState initState = INIT_STATE_NONE;
 - (void)initInterstitialForBiddingWithUserId:(NSString *)userId
                                adapterConfig:(ISAdapterConfig *)adapterConfig
                                     delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-
+    
     [self initInterstitialWithUserId:userId
                        adapterConfig:adapterConfig
                             delegate:delegate];
 }
+
 - (void)initInterstitialWithUserId:(NSString *)userId
                      adapterConfig:(ISAdapterConfig *)adapterConfig
                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-
+    
     NSString *appId = adapterConfig.settings[kAppId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
-
+    
     // Configuration Validation
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
@@ -426,21 +428,21 @@ static InitState initState = INIT_STATE_NONE;
         [delegate adapterInterstitialInitFailedWithError:error];
         return;
     }
-
+    
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
-
+        
         [delegate adapterInterstitialInitFailedWithError:error];
         return;
     }
-
+    
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     // Add to interstitial delegate map
     [self.interstitialPlacementIdToSmashDelegate setObject:delegate
                                                     forKey:placementId];
-
+    
     switch (initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
@@ -458,11 +460,12 @@ static InitState initState = INIT_STATE_NONE;
         }
     }
 }
+
 - (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                              adData:(NSDictionary *)adData
                                          serverData:(NSString *)serverData
                                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     [self loadInterstitialInternal:placementId
                         serverData:serverData
@@ -472,7 +475,7 @@ static InitState initState = INIT_STATE_NONE;
 - (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                    adData:(NSDictionary *)adData
                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     [self loadInterstitialInternal:placementId
                         serverData:nil
@@ -482,23 +485,23 @@ static InitState initState = INIT_STATE_NONE;
 - (void)loadInterstitialInternal:(NSString *)placementId
                       serverData:(NSString *)serverData
                         delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-
+    
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     // In favor of supporting all of the Mediation modes there is a need to store the Interstitial delegate
     // in a dictionary on both init and load APIs
     [self.interstitialPlacementIdToSmashDelegate setObject:delegate
                                                     forKey:placementId];
-
+    
     ISVungleInterstitialDelegate *interstitialAdDelegate = [[ISVungleInterstitialDelegate alloc] initWithPlacementId:placementId
                                                                                                          andDelegate:delegate];
-
+    
     [self.interstitialPlacementIdToVungleAdDelegate setObject:interstitialAdDelegate
                                                        forKey:placementId];
-
+    
     VungleInterstitial *interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:placementId];
     interstitialAd.delegate = interstitialAdDelegate;
-
+    
     // Add interstitial ad to dictionary
     [self.interstitialPlacementIdToAd setObject:interstitialAd
                                          forKey:placementId];
@@ -509,10 +512,10 @@ static InitState initState = INIT_STATE_NONE;
 - (void)showInterstitialWithViewController:(UIViewController *)viewController
                              adapterConfig:(ISAdapterConfig *)adapterConfig
                                   delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                   withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
@@ -541,11 +544,10 @@ static InitState initState = INIT_STATE_NONE;
 
 #pragma mark - Banner API
 
-
 - (void)initBannerForBiddingWithUserId:(NSString *)userId
                          adapterConfig:(ISAdapterConfig *)adapterConfig
                               delegate:(id<ISBannerAdapterDelegate>)delegate {
-
+    
     [self initBannerWithUserId:userId
                  adapterConfig:adapterConfig
                       delegate:delegate];
@@ -554,10 +556,10 @@ static InitState initState = INIT_STATE_NONE;
 - (void)initBannerWithUserId:(NSString *)userId
                adapterConfig:(ISAdapterConfig *)adapterConfig
                     delegate:(id<ISBannerAdapterDelegate>)delegate {
-
+    
     NSString *appId = adapterConfig.settings[kAppId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
-
+    
     /* Configuration Validation */
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
@@ -565,20 +567,20 @@ static InitState initState = INIT_STATE_NONE;
         [delegate adapterBannerInitFailedWithError:error];
         return;
     }
-
+    
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
         [delegate adapterBannerInitFailedWithError:error];
         return;
     }
-
+    
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     // Add banner ad to dictionary
     [self.bannerPlacementIdToSmashDelegate setObject:delegate
                                               forKey:placementId];
-
+    
     switch (initState) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
@@ -603,7 +605,7 @@ static InitState initState = INIT_STATE_NONE;
                                viewController:(UIViewController *)viewController
                                          size:(ISBannerSize *)size
                                      delegate:(id <ISBannerAdapterDelegate>)delegate {
-
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     [self loadBannerInternal:placementId
                   serverData:serverData
@@ -617,7 +619,7 @@ static InitState initState = INIT_STATE_NONE;
                      viewController:(UIViewController *)viewController
                                size:(ISBannerSize *)size
                            delegate:(id <ISBannerAdapterDelegate>)delegate {
-
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     [self loadBannerInternal:placementId
                   serverData:nil
@@ -631,46 +633,49 @@ static InitState initState = INIT_STATE_NONE;
             viewController:(UIViewController *)viewController
                       size:(ISBannerSize *)size
                   delegate:(id <ISBannerAdapterDelegate>)delegate {
-                   
+    
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-
+    
     // In favor of supporting all of the Mediation modes there is a need to store the Banner delegate
     // in a dictionary on both init and load APIs
     [self.bannerPlacementIdToSmashDelegate setObject:delegate
                                               forKey:placementId];
-
-    // create banner container view
+    
+    // create Vungle banner view
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView *containerView = [[UIView alloc] initWithFrame:[self getBannerFrame:size]];
-
         // initialize banner ad delegate
         ISVungleBannerDelegate *bannerAdDelegate = [[ISVungleBannerDelegate alloc] initWithPlacementId:placementId
-                                                                                         containerView:containerView
                                                                                            andDelegate:delegate];
-
+        
         [self.bannerPlacementIdToVungleAdDelegate setObject:bannerAdDelegate
                                                      forKey:placementId];
-
+        
         [self.bannerPlacementIdToAdSize setObject:size
                                            forKey:placementId];
-
-        // create vungle banner ad
-        VungleBanner *vungleBannerAd = [[VungleBanner alloc] initWithPlacementId:placementId
-                                                                            size:[self getBannerSize:size]];
-
-        vungleBannerAd.delegate = bannerAdDelegate;
-
-        [self.bannerPlacementIdToAd setObject:vungleBannerAd
+        
+        // calculate Vungle Ad Size
+        VungleAdSize *adSize = [self getBannerSize:size];
+        
+        NSLog(@"------------- VungleSDK requested size (%ld,%ld)", (long)adSize.size.width, (long)adSize.size.height);
+        
+        // create Vungle banner ad
+        VungleBannerView *vungleBannerView = [[VungleBannerView alloc] initWithPlacementId:placementId
+                                                                              vungleAdSize:adSize];
+        
+        // set delegate
+        vungleBannerView.delegate = bannerAdDelegate;
+        
+        [self.bannerPlacementIdToAd setObject:vungleBannerView
                                        forKey:placementId];
-
+        
         // load banner
-        [vungleBannerAd load:serverData];
+        [vungleBannerView load:serverData];
     });
 }
 
 - (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    VungleBanner *banner = [self.bannerPlacementIdToAd objectForKey:placementId];
+    VungleBannerView *banner = [self.bannerPlacementIdToAd objectForKey:placementId];
     
     if (banner) {
         banner.delegate = nil;
@@ -680,6 +685,13 @@ static InitState initState = INIT_STATE_NONE;
         [self.bannerPlacementIdToAd removeObjectForKey:placementId];
         [self.bannerPlacementIdToAdSize removeObjectForKey:placementId];
     }
+}
+
+- (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width {
+    CGFloat height = [self getVungleAdaptiveHeightWithWidth:width];
+    LogAdapterApi_Internal(@"%@", [NSString stringWithFormat:@"height - %.2f for width - %.2f", height, width]);
+    
+    return height;
 }
 
 - (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -757,7 +769,6 @@ static InitState initState = INIT_STATE_NONE;
     }
 }
 
-
 #pragma mark - Helper Methods
 
 - (NSDictionary *)getBiddingDataWithPlacementId:(NSString *)placementId {
@@ -776,30 +787,48 @@ static InitState initState = INIT_STATE_NONE;
     return @{@"token": returnedToken};
 }
 
-- (BannerSize)getBannerSize:(ISBannerSize *)size {
-    if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
-        return BannerSizeMrec;
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return BannerSizeLeaderboard;
+- (VungleAdSize *)getBannerSize:(ISBannerSize *)size {
+    VungleAdSize * vungleAdSize = [VungleAdSize VungleAdSizeBannerRegular];
+    if ([size.sizeDescription isEqualToString:kSizeCustom]) {
+        vungleAdSize = [VungleAdSize VungleAdSizeFromCGSize:CGSizeMake(size.width, size.height)];
+    } else if ([size.sizeDescription isEqualToString:kSizeRectangle]) {
+        vungleAdSize = [VungleAdSize VungleAdSizeMREC];
+    } else if ([size.sizeDescription isEqualToString:kSizeLeaderboard]) {
+        vungleAdSize = [VungleAdSize VungleAdSizeLeaderboard];
+    } else if ([size.sizeDescription isEqualToString:kSizeSmart]) {
+        if ([UIDevice.currentDevice userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            vungleAdSize = [VungleAdSize VungleAdSizeLeaderboard];
         }
     }
-        
-    return BannerSizeRegular;
+    
+    if ([size respondsToSelector:@selector(containerParams)]) {
+        if (size.isAdaptive) {
+            vungleAdSize = [VungleAdSize VungleAdSizeFromCGSize:CGSizeMake(size.containerParams.width, 0)];
+            LogAdapterApi_Internal(@"default height - %@ container height - %@ default width - %@ container width - %@", @(size.height), @(size.containerParams.height), @(size.width), @(size.containerParams.width));
+        }
+    } else {
+        LogInternal_Error(@"containerParams is not supported");
+    }
+    
+    return vungleAdSize;
 }
 
-- (CGRect)getBannerFrame:(ISBannerSize *)size {
-    CGRect rect = CGRectMake(0, 0, 320, 50);
+- (CGFloat)getVungleAdaptiveHeightWithWidth:(CGFloat)width {
+    __block CGFloat height;
     
-    if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
-        rect = CGRectMake(0, 0, 300, 250);
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            rect = CGRectMake(0, 0, 728, 90);
-        } 
+    void (^calculateAdaptiveHeight)(void) = ^{
+        height = [[UIScreen mainScreen] bounds].size.height;
+    };
+    
+    if ([NSThread isMainThread]) {
+        calculateAdaptiveHeight();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            calculateAdaptiveHeight();
+        });
     }
-
-    return rect;
+    
+    return height;
 }
 
 @end

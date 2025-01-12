@@ -2,7 +2,7 @@
 //  ISVungleBannerDelegate.m
 //  ISVungleAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import "ISVungleBannerDelegate.h"
@@ -11,51 +11,53 @@
 @implementation ISVungleBannerDelegate
 
 - (instancetype)initWithPlacementId:(NSString *)placementId
-                      containerView:(UIView *)containerView
                         andDelegate:(id<ISBannerAdapterDelegate>)delegate {
     self = [super init];
+    
     if (self) {
         _placementId = placementId;
-        _containerView = containerView;
         _delegate = delegate;
+        _isAdloadSuccess = NO;
     }
+    
     return self;
 }
 
-#pragma mark - Banner Delegate
+#pragma mark - VungleBannerView Delegate
 
-- (void)bannerAdDidLoad:(VungleBanner * _Nonnull)banner {
+- (void)bannerAdDidLoad:(VungleBannerView * _Nonnull)bannerView {
     LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-
-    [self.delegate adapterBannerDidLoad:self.containerView];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [banner presentOn:self.containerView];
-    });
+    self.isAdloadSuccess = YES;
+    [self.delegate adapterBannerDidLoad:bannerView];
 }
 
-- (void)bannerAdDidFailToLoad:(VungleBanner * _Nonnull)banner
-                    withError:(NSError * _Nonnull)error {
+// This callback is called both for banner load failures and banner show failures
+- (void)bannerAdDidFail:(VungleBannerView * _Nonnull)bannerView
+              withError:(NSError * _Nonnull)error {
     LogAdapterDelegate_Internal(@"placementId = %@ error = %@", self.placementId, error);
-    
-    NSInteger errorCode = (error.code == kVungleNoFillErrorCode) ? ERROR_BN_LOAD_NO_FILL : error.code;
+    NSInteger errorCode = (error.code == VungleErrorAdNoFill) ? ERROR_BN_LOAD_NO_FILL : error.code;
     NSError *bannerError = [NSError errorWithDomain:kAdapterName
                                                code:errorCode
                                            userInfo:@{NSLocalizedDescriptionKey:error.description}];
 
-    [self.delegate adapterBannerDidFailToLoadWithError:bannerError];
+    if (!self.isAdloadSuccess) {
+        [self.delegate adapterBannerDidFailToLoadWithError:bannerError];
+    } else {
+        [self.delegate adapterBannerDidFailToShowWithError:bannerError];
+    }
 }
 
-- (void)bannerAdDidTrackImpression:(VungleBanner * _Nonnull)banner {
+- (void)bannerAdDidTrackImpression:(VungleBannerView * _Nonnull)bannerView {
     LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
     [self.delegate adapterBannerDidShow];
 }
 
-- (void)bannerAdDidClick:(VungleBanner * _Nonnull)banner {
+- (void)bannerAdDidClick:(VungleBannerView * _Nonnull)bannerView {
     LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
     [self.delegate adapterBannerDidClick];
 }
 
-- (void)bannerAdWillLeaveApplication:(VungleBanner * _Nonnull)banner {
+- (void)bannerAdWillLeaveApplication:(VungleBannerView * _Nonnull)bannerView {
     LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
     [self.delegate adapterBannerWillLeaveApplication];
 }
