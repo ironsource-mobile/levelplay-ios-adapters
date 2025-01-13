@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import "ISAppLovinAdapter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,12 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ISAppLovinRewardedVideoDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate, ALAdRewardDelegate, ALAdVideoPlaybackDelegate>
 
-@property (nonatomic, strong) NSString* zoneId;
+@property (nonatomic, strong) NSString                                 *zoneId;
+@property (nonatomic, weak) ISAppLovinAdapter                          *adapter;
 @property (nonatomic, weak) id<ISAppLovinRewardedVideoDelegateWrapper> delegate;
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISAppLovinRewardedVideoDelegateWrapper>)delegate;
+                        adapter:(ISAppLovinAdapter*)adapter
+                       delegate:(id<ISAppLovinRewardedVideoDelegateWrapper>)delegate;
 
 @end
 

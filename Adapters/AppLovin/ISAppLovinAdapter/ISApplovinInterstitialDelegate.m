@@ -11,11 +11,13 @@
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
+                        adapter:(ISAppLovinAdapter *)adapter
                       delegate:(id<ISAppLovinInterstitialDelegateWrapper>)delegate {
     self = [super init];
     
     if (self) {
         _zoneId = zoneId;
+        _adapter = adapter;
         _delegate = delegate;
     }
     
@@ -48,6 +50,7 @@
  * @param code      An error code that corresponds to one of the constants defined in ALErrorCodes.h.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
+    [_adapter disposeInterstitialAdWithZoneId:_zoneId];
     [_delegate onInterstitialDidFailToLoad:_zoneId
                                  errorCode:code];
 }
@@ -87,6 +90,7 @@
  * @param view  Ad view in which the ad was hidden.
  */
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
+    [_adapter disposeInterstitialAdWithZoneId:_zoneId];
     [_delegate onInterstitialDidClose:_zoneId];
 }
 

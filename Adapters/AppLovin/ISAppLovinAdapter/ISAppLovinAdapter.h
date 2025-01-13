@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const AppLovinAdapterVersion = @"4.3.50";
+static NSString * const AppLovinAdapterVersion = @"4.3.51";
 static NSString * Githash = @"";
 
 //System Frameworks For AppLovin Adapter
@@ -29,5 +29,9 @@ static NSString * Githash = @"";
 @import WebKit;
 
 @interface ISAppLovinAdapter : ISBaseAdapter
+
+- (void)disposeRewardedVideoAdWithZoneId:(NSString *)zoneId;
+
+- (void)disposeInterstitialAdWithZoneId:(NSString *)zoneId;
 
 @end

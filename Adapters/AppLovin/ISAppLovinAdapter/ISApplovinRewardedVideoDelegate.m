@@ -11,11 +11,13 @@
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISAppLovinRewardedVideoDelegateWrapper>)delegate {
+                       adapter:(ISAppLovinAdapter *)adapter
+                       delegate:(id<ISAppLovinRewardedVideoDelegateWrapper>)delegate {
     self = [super init];
     
     if (self) {
         _zoneId = zoneId;
+        _adapter = adapter;
         _delegate = delegate;
     }
     
@@ -47,6 +49,7 @@
  * @param code      An error code that corresponds to one of the constants defined in ALErrorCodes.h.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
+    [_adapter disposeRewardedVideoAdWithZoneId:_zoneId];
     [_delegate onRewardedVideoDidFailToLoad:_zoneId
                                   errorCode:code];
 }
@@ -86,6 +89,7 @@
  * @param view  Ad view in which the ad was hidden.
  */
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
+    [_adapter disposeRewardedVideoAdWithZoneId:_zoneId];
     [_delegate onRewardedVideoDidClose:_zoneId];
 }
 

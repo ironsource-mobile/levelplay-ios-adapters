@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppLovinSDK/AppLovinSDK.h>
+#import "ISAppLovinAdapter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,12 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ISAppLovinInterstitialDelegate : NSObject<ALAdLoadDelegate, ALAdDisplayDelegate>
 
-@property (nonatomic, strong) NSString* zoneId;
+@property (nonatomic, strong) NSString                                *zoneId;
+@property (nonatomic, weak)   ISAppLovinAdapter                       *adapter;
 @property (nonatomic, weak) id<ISAppLovinInterstitialDelegateWrapper> delegate;
 
 
 - (instancetype)initWithZoneId:(NSString *)zoneId
-                      delegate:(id<ISAppLovinInterstitialDelegateWrapper>)delegate;
+                        adapter:(ISAppLovinAdapter*)adapter
+                       delegate:(id<ISAppLovinInterstitialDelegateWrapper>)delegate;
 
 @end
 

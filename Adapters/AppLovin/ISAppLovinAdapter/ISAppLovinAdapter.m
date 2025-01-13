@@ -9,6 +9,7 @@
 #import <ISAppLovinRewardedVideoDelegate.h>
 #import <ISAppLovinInterstitialDelegate.h>
 #import <ISAppLovinBannerDelegate.h>
+#import "ISAppLovinAdHolder.h"
 #import <AppLovinSDK/AppLovinSDK.h>
 
 // Network keys
@@ -29,8 +30,11 @@ typedef NS_ENUM(NSInteger, InitState) {
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 static InitState initState = INIT_STATE_NONE;
 
+// Rewarded Video
+static ISAppLovinAdHolder<ALIncentivizedInterstitialAd *> *rewardedVideoAds;
+
 // Interstitial
-static ISConcurrentMutableDictionary *interstitialZoneIdToAd;
+static ISAppLovinAdHolder<ALInterstitialAd *> *interstitialAds;
 
 // AppLovin sdk instance
 static ALSdk* appLovinSDK = nil;
@@ -42,13 +46,14 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
 // Rewarded video
 @property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoZoneIdToSmashDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoZoneIdToAppLovinAdDelegate;
-@property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoZoneIdToAd;
 @property (nonatomic, strong) ISConcurrentMutableSet        *rewardedVideoZoneIdForInitCallbacks;
+@property (nonatomic, strong, nullable) NSString            *rewardedVideoZoneId;
 
 // Interstitial
 @property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialZoneIdToSmashDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialZoneIdToAppLovinAdDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *interstitialZoneIdToLoadedAds;
+@property (nonatomic, strong, nullable) NSString            *interstitialZoneId;
 
 // Banner
 @property (nonatomic, strong) ISConcurrentMutableDictionary *bannerZoneIdToSmashDelegate;
@@ -85,7 +90,6 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
         // Rewarded video
         _rewardedVideoZoneIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoZoneIdToAppLovinAdDelegate    = [ISConcurrentMutableDictionary dictionary];
-        _rewardedVideoZoneIdToAd                    = [ISConcurrentMutableDictionary dictionary];
         _rewardedVideoZoneIdForInitCallbacks        = [ISConcurrentMutableSet set];
 
         // Interstitial
@@ -116,7 +120,9 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
-        interstitialZoneIdToAd = [ISConcurrentMutableDictionary dictionary];
+        
+        rewardedVideoAds = [[ISAppLovinAdHolder alloc] init];
+        interstitialAds = [[ISAppLovinAdHolder alloc] init];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -286,12 +292,23 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     LogAdapterApi_Internal(@"zoneId = %@", zoneId);
     
+    // Handle case where an rewardedVideo ad is already loaded with the same zoneId
+    if([self isRewardedVideoZoneIdExist:zoneId]) {
+        NSError *error = [ISError createError:ERROR_CODE_GENERIC
+                                  withMessage:[NSString stringWithFormat: @"%@ can't load multiple rewardedVideo ads for the same zoneId - %@, skipping load attempt since there is a loaded rewardedVideo ad for this zoneId", kAdapterName, zoneId]];
+        [delegate adapterRewardedVideoDidFailToLoadWithError:error];
+        return;
+    }
+    
     ALIncentivizedInterstitialAd *rewardedAd = [self createRewardedVideoAd:zoneId];
     
     if (rewardedAd == nil) {
         LogAdapterApi_Internal(@"rewardedAd is nil");
         return;
     }
+    
+    self.rewardedVideoZoneId = zoneId;
+    [rewardedVideoAds storeAd:rewardedAd forKey:self];
     
     // add delegate to dictionary
     [self.rewardedVideoZoneIdToSmashDelegate setObject:delegate
@@ -307,7 +324,6 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     NSString *zoneId = [self getZoneId:adapterConfig];
     LogAdapterApi_Internal(@"zoneId = %@", zoneId);
     
-    ALIncentivizedInterstitialAd *rewardedVideoAd = [self.rewardedVideoZoneIdToAd objectForKey:zoneId];
     ISAppLovinRewardedVideoDelegate *rewardedVideoAdDelegate = [self.rewardedVideoZoneIdToAppLovinAdDelegate objectForKey:zoneId];
 
     if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
@@ -316,9 +332,14 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
         [self setAppLovinUserId:self.dynamicUserId];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            ALIncentivizedInterstitialAd *rewardedVideoAd = [rewardedVideoAds retrieveAdForKey:self];
             [rewardedVideoAd showAndNotify:rewardedVideoAdDelegate];
         });
     } else {
+        
+        // Remove the ad object to enable other rewardedVideo ad to be loaded
+        [self disposeRewardedVideoAdWithAdapterConfig:adapterConfig];
+        
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                   withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
         
@@ -328,8 +349,34 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
 
 - (BOOL)hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *zoneId = [self getZoneId:adapterConfig];
-    ALIncentivizedInterstitialAd *rewardedVideoAd = [self.rewardedVideoZoneIdToAd objectForKey:zoneId];
-    return rewardedVideoAd != nil && [rewardedVideoAd isReadyForDisplay];
+    ALIncentivizedInterstitialAd *rewardedVideoAd = [rewardedVideoAds retrieveAdForKey:self];
+    return rewardedVideoAd != nil && [rewardedVideoAd isReadyForDisplay] && [self isRewardedVideoZoneIdExist:zoneId];
+}
+
+- (BOOL)isRewardedVideoZoneIdExist:(NSString *)zoneId {
+    @synchronized(rewardedVideoAds) {
+        NSArray *adapters = [rewardedVideoAds getAdapters];
+        for (id adapter in adapters) {
+            if ([[(ISAppLovinAdapter *)adapter rewardedVideoZoneId] isEqualToString:zoneId]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+- (void)disposeRewardedVideoAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    NSString *zoneId = @"";
+    
+    if(adapterConfig!= nil) {
+        zoneId = adapterConfig.settings[kZoneID];
+    }
+    [self disposeRewardedVideoAdWithZoneId:zoneId];
+}
+
+- (void)disposeRewardedVideoAdWithZoneId:(NSString *)zoneId {
+    LogAdapterApi_Internal(@"Dispose rewardedVideo ad of %@, zoneId = %@", kAdapterName, zoneId);
+    [rewardedVideoAds removeAdForKey:self];
 }
 
 #pragma mark - Rewarded Video Delegate
@@ -440,15 +487,8 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
         NSString *zoneId = [self getZoneId:adapterConfig];
         LogAdapterApi_Internal(@"zoneId = %@", zoneId);
         
-        ALInterstitialAd *interstitialAd = [self createInterstitialAd:zoneId];
-        
-        if (interstitialAd == nil) {
-            LogAdapterApi_Internal(@"interstitialAd is nil");
-            return;
-        }
-        
         // Handle case where an interstitial ad is already loaded with the same zoneId
-        if([interstitialZoneIdToAd objectForKey:zoneId] != nil) {
+        if([self isInterstitialZoneIdExist:zoneId]) {
             NSError *error = [ISError createError:ERROR_CODE_GENERIC
                                       withMessage:[NSString stringWithFormat: @"%@ can't load multiple interstitial ads for the same zoneId - %@, skipping load attempt since there is a loaded interstitial ad for this zoneId", kAdapterName, zoneId]];
             
@@ -456,15 +496,21 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
             return;
         }
         
-        [interstitialZoneIdToAd setObject:interstitialAd
-                                    forKey:zoneId];
+        ALInterstitialAd *interstitialAd = [self createInterstitialAd:zoneId];
+        
+        if (interstitialAd == nil) {
+            LogAdapterApi_Internal(@"interstitialAd is nil");
+            return;
+        }
+        
+        self.interstitialZoneId = zoneId;
+        [interstitialAds storeAd:interstitialAd forKey:self];
         
         // add delegate to dictionary
         [self.interstitialZoneIdToSmashDelegate setObject:delegate
                                                    forKey:zoneId];
         
         ISAppLovinInterstitialDelegate *interstitialAdDelegate = [self.interstitialZoneIdToAppLovinAdDelegate objectForKey:zoneId];
-        
         if ([zoneId isEqualToString:kDefaultZoneID]) {
             [[appLovinSDK adService] loadNextAd:ALAdSize.interstitial
                                        andNotify:interstitialAdDelegate];
@@ -482,27 +528,56 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     NSString *zoneId = [self getZoneId:adapterConfig];
     LogAdapterApi_Internal(@"zoneId = %@", zoneId);
     
-    ALAd *loadedAd = [self.interstitialZoneIdToLoadedAds objectForKey:zoneId];
-    ALInterstitialAd *ad = [interstitialZoneIdToAd objectForKey:zoneId];
-    
     if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [ad showAd:loadedAd];
+            ALAd *loadedAd = [self.interstitialZoneIdToLoadedAds objectForKey:zoneId];
+            ALInterstitialAd *interstitialAd = [interstitialAds retrieveAdForKey:self];
+            [interstitialAd showAd:loadedAd];
         });
     } else {
+        
+        // Remove the ad object to enable other interstitial ad to be loaded
+        [self disposeInterstitialAdWithAdapterConfig:adapterConfig];
+        
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                   withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
         
-        [interstitialZoneIdToAd removeObjectForKey:zoneId];
+        [interstitialAds removeAdForKey:self];
         [delegate adapterInterstitialDidFailToShowWithError:error];
     }
 }
 
 - (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *zoneId = [self getZoneId:adapterConfig];
-    ALInterstitialAd *ad = [interstitialZoneIdToAd objectForKey:zoneId];
+    ALInterstitialAd *interstitialAd = [interstitialAds retrieveAdForKey:self];
     ALAd *loadedAd = [self.interstitialZoneIdToLoadedAds objectForKey:zoneId];
-    return ad != nil && loadedAd != nil;
+    return interstitialAd != nil && loadedAd != nil && [self isInterstitialZoneIdExist:zoneId];
+}
+
+- (void)disposeInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    NSString *zoneId = @"";
+    
+    if(adapterConfig!= nil){
+        zoneId = adapterConfig.settings[kZoneID];
+    }
+    [self disposeInterstitialAdWithZoneId:zoneId];
+}
+
+- (void)disposeInterstitialAdWithZoneId:(NSString *)zoneId {
+    LogAdapterApi_Internal(@"Dispose interstitial ad of %@, zoneId = %@", kAdapterName, zoneId);
+    [interstitialAds removeAdForKey:self];
+}
+
+- (BOOL)isInterstitialZoneIdExist:(NSString *)zoneId {
+    @synchronized(interstitialAds) {
+        NSArray *adapters = [interstitialAds getAdapters];
+        for (id adapter in adapters) {
+            if ([[(ISAppLovinAdapter *)adapter interstitialZoneId] isEqualToString:zoneId]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
 }
 
 #pragma mark - Interstitial Delegate
@@ -537,8 +612,6 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     NSError *error = [[NSError alloc] initWithDomain:kAdapterName
                                                 code:errorCode
                                             userInfo:@{NSLocalizedDescriptionKey:errorReason}];
-    
-    [interstitialZoneIdToAd removeObjectForKey:zoneId];
     [delegate adapterInterstitialDidFailToLoadWithError:error];
 }
 
@@ -552,8 +625,6 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
 - (void)onInterstitialDidClose:(nonnull NSString *)zoneId {
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
     id<ISInterstitialAdapterDelegate> delegate = [self.interstitialZoneIdToSmashDelegate objectForKey:zoneId];
-    
-    [interstitialZoneIdToAd removeObjectForKey:zoneId];
     [delegate adapterInterstitialDidClose];
 }
 
@@ -720,12 +791,13 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
 - (void)releaseMemoryWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
     NSString *zoneId = [self getZoneId:adapterConfig];
 
-    if ([self.rewardedVideoZoneIdToAd hasObjectForKey:zoneId]) {
-        [self.rewardedVideoZoneIdToAd removeObjectForKey:zoneId];
+    if ([self.rewardedVideoZoneIdToSmashDelegate hasObjectForKey:zoneId]) {
+        [self disposeRewardedVideoAdWithZoneId:zoneId];
         [self.rewardedVideoZoneIdToAppLovinAdDelegate removeObjectForKey:zoneId];
         [self.rewardedVideoZoneIdToSmashDelegate removeObjectForKey:zoneId];
         
-    } else if ([interstitialZoneIdToAd hasObjectForKey:zoneId]) {
+    } else if ([self.interstitialZoneIdToSmashDelegate objectForKey:zoneId]) {
+        [self disposeInterstitialAdWithZoneId:zoneId];
         [self.interstitialZoneIdToAppLovinAdDelegate removeObjectForKey:zoneId];
         [self.interstitialZoneIdToSmashDelegate removeObjectForKey:zoneId];
         [self.interstitialZoneIdToLoadedAds removeObjectForKey:zoneId];
@@ -736,6 +808,13 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
         [self.bannerZoneIdToSmashDelegate removeObjectForKey:zoneId];
         [self.bannerZoneIdToAdSize removeObjectForKey:zoneId];
     }
+}
+
+// clean for NSMapTable to remove self from the map.
+- (void)dealloc
+{
+    [rewardedVideoAds removeAdForKey:self];
+    [interstitialAds removeAdForKey:self];
 }
 
 #pragma mark - Legal Methods
@@ -779,15 +858,13 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     }
 
     ISAppLovinRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISAppLovinRewardedVideoDelegate alloc] initWithZoneId:zoneId
-                                                                                                              delegate:self];
+                                                                                                                adapter:self
+                                                                                                           delegate:self];
     [self.rewardedVideoZoneIdToAppLovinAdDelegate setObject:rewardedVideoAdDelegate
                                                  forKey:zoneId];
     
     rewardedVideoAd.adDisplayDelegate = rewardedVideoAdDelegate;
     rewardedVideoAd.adVideoPlaybackDelegate = rewardedVideoAdDelegate;
-    
-    [self.rewardedVideoZoneIdToAd setObject:rewardedVideoAd
-                                 forKey:zoneId];
     
     return rewardedVideoAd;
 }
@@ -796,7 +873,8 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     ALInterstitialAd *interstitialAd = [[ALInterstitialAd alloc] initWithSdk:appLovinSDK];
     
     ISAppLovinInterstitialDelegate *interstitialAdDelegate = [[ISAppLovinInterstitialDelegate alloc] initWithZoneId:zoneId
-                                                                                                           delegate:self];
+                                                                                                            adapter:self
+                                                                                                        delegate:self];
     [self.interstitialZoneIdToAppLovinAdDelegate setObject:interstitialAdDelegate
                                                 forKey:zoneId];
     
@@ -954,3 +1032,4 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
 }
 
 @end
+
