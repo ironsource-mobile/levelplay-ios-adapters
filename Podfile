@@ -3,6 +3,6 @@
 
 target 'ISVungleAdapter' do
   pod 'IronSourceSDK' , '8.6.0.0'
-  pod 'VungleAds','7.4.3'
+  pod 'VungleAds','7.4.4'
 
 end
