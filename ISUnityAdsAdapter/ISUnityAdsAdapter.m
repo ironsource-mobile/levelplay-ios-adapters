@@ -27,24 +27,11 @@ static NSString * const kCCPAUnityAdsFlag       = @"privacy.consent";
 static NSString * const kGDPRUnityAdsFlag       = @"gdpr.consent";
 static NSString * const kCOPPAUnityAdsFlag      = @"user.nonBehavioral";
 
-// init state possible values
-typedef NS_ENUM(NSInteger, InitState) {
-    INIT_STATE_NONE,
-    INIT_STATE_IN_PROGRESS,
-    INIT_STATE_SUCCESS,
-    INIT_STATE_FAILED
-};
-
 // Handle init callback for all adapter instances
-static InitState _initState = INIT_STATE_NONE;
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
-
-// UnityAds asynchronous token
-static NSString *asyncToken = nil;
 
 // Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
-static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
 
 
 
@@ -74,8 +61,6 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
 
 // synchronization lock
 @property (nonatomic, strong) NSObject                      *unityAdsStorageLock;
-
-@property (nonatomic, assign) BOOL                          isAdsGatewayEnabled;
 
 @end
 
@@ -130,18 +115,16 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
 - (void)initSDKWithGameId:(NSString *)gameId
             adapterConfig:(ISAdapterConfig *)adapterConfig  {
 
-    // add self to the init delegates only in case the initialization has not finished yet
-    if (_initState == INIT_STATE_NONE || _initState == INIT_STATE_IN_PROGRESS) {
+    // add self to the init delegates only in case the initialization is not successful
+    if (!UnityAds.isInitialized) {
         [initCallbackDelegates addObject:self];
     }
     
-    // Init SDK should be called only once
-    static dispatch_once_t oncePredicate;
-    dispatch_once(&oncePredicate, ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _initState = INIT_STATE_IN_PROGRESS;
-            LogAdapterApi_Internal(@"gameId = %@", gameId);
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        LogAdapterApi_Internal(@"gameId = %@", gameId);
+        
+        static dispatch_once_t oncePredicate;
+        dispatch_once(&oncePredicate, ^{
             @synchronized (self.unityAdsStorageLock) {
                 UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
                 [mediationMetaData setName:kMediationName];
@@ -149,35 +132,20 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
                 [mediationMetaData set:kAdapterVersionKey
                                  value:kAdapterVersion];
                 [mediationMetaData commit];
-                
-                NSNumber* adsGatewayFlag = [self getAdsGatewayFlag:adapterConfig];
-                UADSMetaData *metaData = [[UADSMetaData alloc] init];
-                [metaData setRaw:kAdsGatewayFlag value: adsGatewayFlag];
-                [metaData commit];
-                
-                self.isAdsGatewayEnabled = adsGatewayFlag.boolValue;
-            }
-
-            [UnityAds setDebugMode:[ISConfigurations getConfigurations].adaptersDebug];
-            LogAdapterApi_Internal(@"setDebugMode = %d", [ISConfigurations getConfigurations].adaptersDebug);
-
-            [UnityAds initialize:gameId
-                        testMode:NO
-          initializationDelegate:self];
-            
-            if (!self.isAdsGatewayEnabled) {
-                // Trying to fetch async token for the first load
-                [self getAsyncToken];
             }
         });
         
+        [UnityAds setDebugMode:[ISConfigurations getConfigurations].adaptersDebug];
+        LogAdapterApi_Internal(@"setDebugMode = %d", [ISConfigurations getConfigurations].adaptersDebug);
+        
+        [UnityAds initialize:gameId
+                    testMode:NO
+      initializationDelegate:self];
     });
 }
 
 - (void)initializationComplete {
     LogAdapterDelegate_Internal(@"UnityAds init success");
-    
-    _initState = INIT_STATE_SUCCESS;
     
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
     
@@ -199,8 +167,6 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     }
     
     LogAdapterDelegate_Internal(@"error - %@", errorMsg);
-
-    _initState = INIT_STATE_FAILED;
     
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
     
@@ -314,21 +280,12 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     // Register rewarded video to init callback
     [_rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
     
-    switch (_initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithGameId:gameId
-                      adapterConfig:adapterConfig];
-            break;
-        case INIT_STATE_FAILED:
-            [delegate adapterRewardedVideoInitFailed:[NSError errorWithDomain:kAdapterName
-                                                                         code:ERROR_CODE_INIT_FAILED
-                                                                     userInfo:@{NSLocalizedDescriptionKey:@"UnityAds SDK init failed"}]];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterRewardedVideoInitSuccess];
-            break;
+    if (!UnityAds.isInitialized) {
+        [self initSDKWithGameId:gameId
+                  adapterConfig:adapterConfig];
     }
+    
+    [delegate adapterRewardedVideoInitSuccess];
 }
 
 // used for flows when the mediation doesn't need to get a callback for init
@@ -360,21 +317,14 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                  forKey:placementId];
     
-    switch (_initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithGameId:gameId
-                      adapterConfig:adapterConfig];
-            break;
-        case INIT_STATE_FAILED:
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-            break;
-        case INIT_STATE_SUCCESS:
-            [self loadRewardedVideoInternal:placementId
-                                 serverData:nil
-                                   delegate:delegate];
-            break;
+    if (!UnityAds.isInitialized) {
+        [self initSDKWithGameId:gameId
+                  adapterConfig:adapterConfig];
     }
+    
+    [self loadRewardedVideoInternal:placementId
+                         serverData:nil
+                           delegate:delegate];
 }
 
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -495,9 +445,10 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     return (available != nil) && [available boolValue];
 }
 
-- (NSDictionary *)getRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                        adData:(NSDictionary *)adData {
-    return [self getBiddingData];
+- (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                  adData:(NSDictionary *)adData
+                                                delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self getBiddingDataWithDelegate: delegate];
 }
 
 #pragma mark - Rewarded Video Delegate
@@ -611,21 +562,12 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     [_interstitialPlacementIdToSmashDelegate setObject:delegate
                                                 forKey:placementId];
     
-    switch (_initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithGameId:gameId
-                      adapterConfig:adapterConfig];
-            break;
-        case INIT_STATE_FAILED:
-            [delegate adapterInterstitialInitFailedWithError:[NSError errorWithDomain:kAdapterName
-                                                                                 code:ERROR_CODE_INIT_FAILED
-                                                                             userInfo:@{NSLocalizedDescriptionKey:@"UnityAds SDK init failed"}]];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
+    if (!UnityAds.isInitialized) {
+        [self initSDKWithGameId:gameId
+                  adapterConfig:adapterConfig];
     }
+  
+    [delegate adapterInterstitialInitSuccess];
 }
 
 - (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -745,9 +687,10 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     return (available != nil) && [available boolValue];
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                       adData:(NSDictionary *)adData {
-    return [self getBiddingData];
+- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                 adData:(NSDictionary *)adData
+                                               delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self getBiddingDataWithDelegate:delegate];
 }
 
 #pragma mark - Interstitial Delegate
@@ -855,20 +798,11 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     [_bannerPlacementIdToSmashDelegate setObject:delegate
                                           forKey:placementId];
     
-    switch (_initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self initSDKWithGameId:gameId adapterConfig:adapterConfig];
-            break;
-        case INIT_STATE_FAILED:
-            [delegate adapterBannerInitFailedWithError:[NSError errorWithDomain:kAdapterName
-                                                                           code:ERROR_CODE_INIT_FAILED
-                                                                       userInfo:@{NSLocalizedDescriptionKey:@"UnityAds SDK init failed"}]];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterBannerInitSuccess];
-            break;
+    if (!UnityAds.isInitialized) {
+        [self initSDKWithGameId:gameId adapterConfig:adapterConfig];
     }
+   
+    [delegate adapterBannerInitSuccess];
 }
 
 - (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -976,9 +910,10 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     bannerView = nil;
 }
 
-- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData {
-    return [self getBiddingData];
+- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                           adData:(NSDictionary *)adData
+                                         delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self getBiddingDataWithDelegate: delegate];
 }
 
 #pragma mark - Banner Delegate
@@ -1092,37 +1027,14 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
 
 #pragma mark - Private Methods
 
-// in case this method is called before the init we will try using the token that was received asynchronically
-- (NSDictionary *)getBiddingData {
-    NSString *bidderToken = nil;
-
-    if (self.isAdsGatewayEnabled) {
-        bidderToken = [UnityAds getToken];
-    } else {
-           if (_initState == INIT_STATE_SUCCESS) {
-               bidderToken = [UnityAds getToken];
-           } else if (asyncToken.length) {
-               bidderToken = asyncToken;
-               // Fetching a fresh async token for the next load
-               [self getAsyncToken];
-           } else {
-               LogAdapterApi_Internal(@"returning nil as token since init did not finish successfully and async token did not return");
-               return nil;
-           }
-       }
-    
-    NSString *returnedToken = bidderToken? bidderToken : @"";
-    LogAdapterApi_Internal(@"token = %@", returnedToken);
-    
-    return @{@"token": returnedToken};
-}
-
-- (void)getAsyncToken {
-    LogInternal_Internal(@"");
+- (void)getBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
     [UnityAds getToken:^(NSString * _Nullable token) {
-        if (token.length) {
-            LogInternal_Internal(@"async token returned");
-            asyncToken = token;
+        if (token != nil && ![token isEqualToString:@""]) {
+            LogAdapterApi_Internal(@"token = %@", token);
+            [delegate successWithBiddingData:@{ @"token": token }];
+        } else {
+            LogAdapterApi_Internal(@"returning nil as token");
+            [delegate failureWithError:@"empty token"];
         }
     }];
 }
@@ -1249,14 +1161,6 @@ static NSString * const kAdsGatewayFlag         = @"adsGatewayV2";
     }
     
     return state;
-}
-
-- (NSNumber *)getAdsGatewayFlag:(ISAdapterConfig *)adapterConfig {
-    BOOL adsGatewayFlag = false;
-    if (adapterConfig != nil && [adapterConfig.settings objectForKey:kAdsGatewayFlag] != nil) {
-        adsGatewayFlag = [[adapterConfig.settings objectForKey:kAdsGatewayFlag] boolValue];
-    }
-    return [NSNumber numberWithBool: adsGatewayFlag];
 }
 
 @end
