@@ -151,9 +151,12 @@
        return MOBILEFUSE_BANNER_SIZE_300x250;
    } else if ([size.sizeDescription isEqualToString:kSizeLeaderboard]) {
        return MOBILEFUSE_BANNER_SIZE_728x90;
+   } else if ([size.sizeDescription isEqualToString:kSizeSmart]) {
+       if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+           return MOBILEFUSE_BANNER_SIZE_728x90;
+       } else return MOBILEFUSE_BANNER_SIZE_320x50;
    }
     return MOBILEFUSE_BANNER_SIZE_DEFAULT;
 }
 
 @end
-
