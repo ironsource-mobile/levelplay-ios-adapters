@@ -31,8 +31,8 @@
 /// connectivity or ad availablility (i.e., no fill).
 - (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
     LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", self.adUnitId, error);
-    NSError *smashError = (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill) ? [ISError createError:ERROR_BN_LOAD_NO_FILL
-                                                                                                             withMessage:@"AdMob no fill"] : error;
+    NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_BN_LOAD_NO_FILL
+                                                                    withMessage:@"AdMob no fill"] : error;
     [self.delegate adapterBannerDidFailToLoadWithError:smashError];
 }
 

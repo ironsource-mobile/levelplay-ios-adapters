@@ -43,8 +43,8 @@
 
 - (void)adDidFailToLoadWithError:(NSError *)error {
     LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", self.adUnitId, error);
-    NSError *smashError = (error.code == GADErrorNoFill || error.code == GADErrorMediationNoFill) ? [ISError createError:ERROR_IS_LOAD_NO_FILL
-                                                                                                             withMessage:@"AdMob no fill"] : error;
+    NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_IS_LOAD_NO_FILL
+                                                                    withMessage:@"AdMob no fill"] : error;
     
     [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
                                             availability:NO

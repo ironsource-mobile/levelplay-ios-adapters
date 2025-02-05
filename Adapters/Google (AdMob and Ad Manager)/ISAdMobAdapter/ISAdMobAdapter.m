@@ -233,6 +233,26 @@ static NSArray *neighboringContentMappingURLValue = nil;
     }
 }
 
+- (void)setNetworkData:(id<ISAdapterNetworkData>)networkData {
+    
+    // If the contentMapping key maps to a string
+    NSString *networkDataContentMappingString = [networkData dataByKeyIgnoreCase:kNetworkKeyContentMapping valueType:[NSString class]];
+    if (networkDataContentMappingString != nil) {
+        [self processContentMappingString:networkDataContentMappingString];
+    }
+    
+    // If the contentMapping key maps to an array
+    NSArray *networkDataContentMappingArray = [networkData dataByKeyIgnoreCase:kNetworkKeyContentMapping valueType:[NSArray class]];
+    if (networkDataContentMappingArray != nil) {
+        [self processContentMappingArray:networkDataContentMappingArray];
+    }
+    
+    NSString *networkDataContentRating = [networkData dataByKeyIgnoreCase:kNetworkKeyContentRating valueType:[NSString class]];
+    if (networkDataContentRating != nil) {
+        [self processContentRating:[networkDataContentRating lowercaseString]];
+    }
+}
+
 -(GADMaxAdContentRating)getAdMobRatingValue:(NSString *)value {
     if (!value.length) {
         LogInternal_Error(@"The ratingValue is nil");
@@ -254,6 +274,22 @@ static NSArray *neighboringContentMappingURLValue = nil;
     }
     
     return contentValue;
+}
+
+- (void)processContentMappingString:(nonnull NSString *)value {
+    contentMappingURLValue = value;
+    LogAdapterApi_Internal(@"key = %@, contentMappingValue = %@", kNetworkKeyContentMapping, value);
+}
+- (void)processContentMappingArray:(nonnull NSArray *) value {
+    neighboringContentMappingURLValue = value;
+    LogAdapterApi_Internal(@"key = %@, contentMappingValues = %@", kNetworkKeyContentMapping, value);
+}
+- (void)processContentRating:(nonnull NSString *)value {
+    GADMaxAdContentRating ratingValue = [self getAdMobRatingValue:value];
+    if (ratingValue != nil && ratingValue.length) {
+        LogAdapterApi_Internal(@"key = %@, ratingValue = %@", kNetworkKeyContentRating, value);
+        [GADMobileAds.sharedInstance.requestConfiguration setMaxAdContentRating: ratingValue];
+    }
 }
 
 #pragma mark - Helper Methods
