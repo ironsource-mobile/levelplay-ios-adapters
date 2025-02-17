@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const mobileFuseAdapterVersion = @"4.3.4";
+static NSString * const mobileFuseAdapterVersion = @"4.3.5";
 static NSString * Githash = @"";
 
 //No System Frameworks For MobileFuse Adapter are required
