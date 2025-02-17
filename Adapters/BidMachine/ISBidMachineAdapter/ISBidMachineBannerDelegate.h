@@ -5,7 +5,7 @@
 //  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
 //
 
-#import <BidMachine/BidMachine.h>
+#import <BidMachine/BidMachine-Swift.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <ISBidMachineAdapter.h>
 
