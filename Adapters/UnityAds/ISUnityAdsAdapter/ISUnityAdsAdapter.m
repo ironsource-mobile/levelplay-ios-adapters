@@ -12,8 +12,10 @@
 #import <UnityAds/UnityAds.h>
 
 // UnityAds Mediation MetaData
-static NSString * const kMediationName = @"ironSource";
-static NSString * const kAdapterVersionKey = @"adapter_version";
+static NSString * const kMediationName          = @"ironSource";
+static NSString * const kAdapterVersionKey      = @"adapter_version";
+static NSString * const kUnityAdsInitBlobKey    = @"uads_init_blob";
+static NSString * const kUnityAdsEpTraitsKey    = @"traits";
 
 // Network keys
 static NSString * const kAdapterVersion         = UnityAdsAdapterVersion;
@@ -131,6 +133,10 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                 [mediationMetaData setVersion:[IronSource sdkVersion]];
                 [mediationMetaData set:kAdapterVersionKey
                                  value:kAdapterVersion];
+                [mediationMetaData set:kUnityAdsInitBlobKey
+                                 value:adapterConfig.settings[kUnityAdsInitBlobKey]];
+                [mediationMetaData set:kUnityAdsEpTraitsKey
+                                 value:adapterConfig.settings[kUnityAdsEpTraitsKey]];
                 [mediationMetaData commit];
             }
         });
@@ -1136,7 +1142,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             result = @"AD_IS_ALREADY_BEIGN_SHOWED";
             break;
         case kUnityShowErrorInternalError:
-            result = @"NO_INTERNET_CONNECTION";
+            result = @"INTERNAL_ERROR";
             break;
         case kUnityShowErrorTimeout:
             result = @"AD_EXPIRED";
