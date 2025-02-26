@@ -70,3 +70,4 @@ Podfile.lock
 Adapters/Google (AdMob and Ad Manager)/Pods
 Adapters/AppLovin/Pods
 Adapters/AppLovin/ReleaseCandidates
+.DS_Store
