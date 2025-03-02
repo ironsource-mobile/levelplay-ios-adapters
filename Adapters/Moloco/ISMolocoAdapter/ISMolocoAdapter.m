@@ -179,7 +179,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     }
     
     [Moloco.shared getBidTokenWithCompletion:^(NSString *token, NSError *error) {
-
+        
         if (error) {
             LogAdapterApi_Internal(@"%@", error.localizedDescription);
             [delegate failureWithError:error.localizedDescription];
