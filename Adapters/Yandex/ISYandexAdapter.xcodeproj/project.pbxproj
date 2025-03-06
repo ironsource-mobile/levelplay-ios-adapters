@@ -3,277 +3,185 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D711F9FC97C5F3AD101DB81 /* Pods_ISYandexAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD27EA8187C92F586549CF58 /* Pods_ISYandexAdapter.framework */; };
-		567C90452BF4ECD10016E797 /* ISYandexBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C90332BF4ECD10016E797 /* ISYandexBannerAdDelegate.h */; };
-		567C90462BF4ECD10016E797 /* ISYandexBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C90342BF4ECD10016E797 /* ISYandexBannerAdapter.h */; };
-		567C90472BF4ECD10016E797 /* ISYandexBannerAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 567C90352BF4ECD10016E797 /* ISYandexBannerAdDelegate.m */; };
-		567C90482BF4ECD10016E797 /* ISYandexBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 567C90362BF4ECD10016E797 /* ISYandexBannerAdapter.m */; };
-		567C90492BF4ECD10016E797 /* ISYandexAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 567C90372BF4ECD10016E797 /* ISYandexAdapter.m */; };
-		567C904A2BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C90392BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.h */; };
-		567C904B2BF4ECD10016E797 /* ISYandexInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 567C903A2BF4ECD10016E797 /* ISYandexInterstitialAdapter.m */; };
-		567C904C2BF4ECD10016E797 /* ISYandexInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C903B2BF4ECD10016E797 /* ISYandexInterstitialAdapter.h */; };
-		567C904D2BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 567C903C2BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.m */; };
-		567C904E2BF4ECD10016E797 /* ISYandexConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C903D2BF4ECD10016E797 /* ISYandexConstants.h */; };
-		567C904F2BF4ECD10016E797 /* ISYandexAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C903E2BF4ECD10016E797 /* ISYandexAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		567C90502BF4ECD10016E797 /* ISYandexAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C903F2BF4ECD10016E797 /* ISYandexAdapter+Internal.h */; };
-		567C90512BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C90412BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.h */; };
-		567C90522BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 567C90422BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.m */; };
-		567C90532BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 567C90432BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.m */; };
-		567C90542BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 567C90442BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.h */; };
+		0F779D394F835228CADA629B /* ISYandexInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B8CA8AF25CDECE1E7D3916 /* ISYandexInterstitialAdapter.m */; };
+		342D6288553A1D3B9AAA111E /* ISYandexRewardedVideoAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A3C6C196BE91A70BFA4E1801 /* ISYandexRewardedVideoAdDelegate.h */; };
+		374D00DF6BEA018B9EEC8063 /* ISYandexRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 904C8C17665CD9A625C75AC6 /* ISYandexRewardedVideoAdapter.m */; };
+		475A6F3B25936FDC5DB103A3 /* ISYandexInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE3E40DF3633B0052770A194 /* ISYandexInterstitialAdapter.h */; };
+		4C1B46657CBC7BD11F745FFD /* ISYandexRewardedVideoAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A19CB6AFE531F562FEBA3E /* ISYandexRewardedVideoAdDelegate.m */; };
+		6B44D10A13A1C30307AFCD23 /* ISYandexConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A07A9D65AEF9CEECC04B9CC /* ISYandexConstants.h */; };
+		A8059150D5827902E4C28CA3 /* ISYandexAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2056D18852DB67F5C9D95A24 /* ISYandexAdapter.m */; };
+		ACCC826A797C0B6159BA695E /* ISYandexBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5DDEED0EAE807DEBC1AFF4 /* ISYandexBannerAdapter.m */; };
+		C94E8C56E0111A395234A870 /* ISYandexAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 591FDF51FDC71533BDEE5DBE /* ISYandexAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D295C1BAC9CC16DBEFC0B871 /* ISYandexAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B8E4760885169BF47FC797F1 /* ISYandexAdapter+Internal.h */; };
+		D927D52E76EF7E00D25332B7 /* ISYandexBannerAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE2A3AA2496FC6C493EB4DC6 /* ISYandexBannerAdDelegate.m */; };
+		DAC9A4319FB92CD1E3C7B233 /* ISYandexBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D960D646A68465DD8AFAB7C /* ISYandexBannerAdapter.h */; };
+		E90741D463B7FF17C901764E /* ISYandexRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A6F08E1001E06E38C2E8235 /* ISYandexRewardedVideoAdapter.h */; };
+		F0E4477D998D1E8C8D857A81 /* ISYandexBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026859E3DED10331CC16EE1 /* ISYandexBannerAdDelegate.h */; };
+		F8F83DC2CA2378962508C5AD /* ISYandexInterstitialAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6451F625303460B865FD4A46 /* ISYandexInterstitialAdDelegate.h */; };
+		FACDD2A2F59EBE8A46822C52 /* ISYandexInterstitialAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 15082AFB3BB12C00DE59059E /* ISYandexInterstitialAdDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3982C3BAD337D763864BD4CC /* Pods-ISYandexAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISYandexAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		567C90332BF4ECD10016E797 /* ISYandexBannerAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexBannerAdDelegate.h; sourceTree = "<group>"; };
-		567C90342BF4ECD10016E797 /* ISYandexBannerAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexBannerAdapter.h; sourceTree = "<group>"; };
-		567C90352BF4ECD10016E797 /* ISYandexBannerAdDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISYandexBannerAdDelegate.m; sourceTree = "<group>"; };
-		567C90362BF4ECD10016E797 /* ISYandexBannerAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISYandexBannerAdapter.m; sourceTree = "<group>"; };
-		567C90372BF4ECD10016E797 /* ISYandexAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISYandexAdapter.m; sourceTree = "<group>"; };
-		567C90392BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexInterstitialAdDelegate.h; sourceTree = "<group>"; };
-		567C903A2BF4ECD10016E797 /* ISYandexInterstitialAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISYandexInterstitialAdapter.m; sourceTree = "<group>"; };
-		567C903B2BF4ECD10016E797 /* ISYandexInterstitialAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexInterstitialAdapter.h; sourceTree = "<group>"; };
-		567C903C2BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISYandexInterstitialAdDelegate.m; sourceTree = "<group>"; };
-		567C903D2BF4ECD10016E797 /* ISYandexConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexConstants.h; sourceTree = "<group>"; };
-		567C903E2BF4ECD10016E797 /* ISYandexAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexAdapter.h; sourceTree = "<group>"; };
-		567C903F2BF4ECD10016E797 /* ISYandexAdapter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ISYandexAdapter+Internal.h"; sourceTree = "<group>"; };
-		567C90412BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedVideoAdDelegate.h; sourceTree = "<group>"; };
-		567C90422BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedVideoAdapter.m; sourceTree = "<group>"; };
-		567C90432BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedVideoAdDelegate.m; sourceTree = "<group>"; };
-		567C90442BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedVideoAdapter.h; sourceTree = "<group>"; };
-		56DF0D5230531444E6138BAB /* Pods-ISYandexAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISYandexAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		CD27EA8187C92F586549CF58 /* Pods_ISYandexAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISYandexAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFE27C0428337CC500391127 /* ISYandexAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISYandexAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A6F08E1001E06E38C2E8235 /* ISYandexRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		0D960D646A68465DD8AFAB7C /* ISYandexBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexBannerAdapter.h; sourceTree = "<group>"; };
+		15082AFB3BB12C00DE59059E /* ISYandexInterstitialAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexInterstitialAdDelegate.m; sourceTree = "<group>"; };
+		2056D18852DB67F5C9D95A24 /* ISYandexAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexAdapter.m; sourceTree = "<group>"; };
+		2A92E31EADFAE06BF8230276 /* ISYandexAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISYandexAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A07A9D65AEF9CEECC04B9CC /* ISYandexConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexConstants.h; sourceTree = "<group>"; };
+		5026859E3DED10331CC16EE1 /* ISYandexBannerAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexBannerAdDelegate.h; sourceTree = "<group>"; };
+		591FDF51FDC71533BDEE5DBE /* ISYandexAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexAdapter.h; sourceTree = "<group>"; };
+		6451F625303460B865FD4A46 /* ISYandexInterstitialAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexInterstitialAdDelegate.h; sourceTree = "<group>"; };
+		70A19CB6AFE531F562FEBA3E /* ISYandexRewardedVideoAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedVideoAdDelegate.m; sourceTree = "<group>"; };
+		904C8C17665CD9A625C75AC6 /* ISYandexRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		A3C6C196BE91A70BFA4E1801 /* ISYandexRewardedVideoAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedVideoAdDelegate.h; sourceTree = "<group>"; };
+		B8E4760885169BF47FC797F1 /* ISYandexAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISYandexAdapter+Internal.h"; sourceTree = "<group>"; };
+		CA5DDEED0EAE807DEBC1AFF4 /* ISYandexBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexBannerAdapter.m; sourceTree = "<group>"; };
+		CE3E40DF3633B0052770A194 /* ISYandexInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexInterstitialAdapter.h; sourceTree = "<group>"; };
+		DE2A3AA2496FC6C493EB4DC6 /* ISYandexBannerAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexBannerAdDelegate.m; sourceTree = "<group>"; };
+		F6B8CA8AF25CDECE1E7D3916 /* ISYandexInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexInterstitialAdapter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		EFE27C0128337CC500391127 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0D711F9FC97C5F3AD101DB81 /* Pods_ISYandexAdapter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
+		02326B4756835E4B6ADECC28 /* Interstitial */ = {
 			isa = PBXGroup;
 			children = (
-				9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */,
-				BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */,
-				56DF0D5230531444E6138BAB /* Pods-ISYandexAdapter.debug.xcconfig */,
-				3982C3BAD337D763864BD4CC /* Pods-ISYandexAdapter.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		567C90322BF4ECD10016E797 /* Banner */ = {
-			isa = PBXGroup;
-			children = (
-				567C90332BF4ECD10016E797 /* ISYandexBannerAdDelegate.h */,
-				567C90342BF4ECD10016E797 /* ISYandexBannerAdapter.h */,
-				567C90352BF4ECD10016E797 /* ISYandexBannerAdDelegate.m */,
-				567C90362BF4ECD10016E797 /* ISYandexBannerAdapter.m */,
-			);
-			path = Banner;
-			sourceTree = "<group>";
-		};
-		567C90382BF4ECD10016E797 /* Interstitial */ = {
-			isa = PBXGroup;
-			children = (
-				567C90392BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.h */,
-				567C903A2BF4ECD10016E797 /* ISYandexInterstitialAdapter.m */,
-				567C903B2BF4ECD10016E797 /* ISYandexInterstitialAdapter.h */,
-				567C903C2BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.m */,
+				CE3E40DF3633B0052770A194 /* ISYandexInterstitialAdapter.h */,
+				F6B8CA8AF25CDECE1E7D3916 /* ISYandexInterstitialAdapter.m */,
+				6451F625303460B865FD4A46 /* ISYandexInterstitialAdDelegate.h */,
+				15082AFB3BB12C00DE59059E /* ISYandexInterstitialAdDelegate.m */,
 			);
 			path = Interstitial;
 			sourceTree = "<group>";
 		};
-		567C90402BF4ECD10016E797 /* RewardedVideo */ = {
+		4208C3422F744C74A9F30BF2 /* Banner */ = {
 			isa = PBXGroup;
 			children = (
-				567C90412BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.h */,
-				567C90422BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.m */,
-				567C90432BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.m */,
-				567C90442BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.h */,
+				0D960D646A68465DD8AFAB7C /* ISYandexBannerAdapter.h */,
+				CA5DDEED0EAE807DEBC1AFF4 /* ISYandexBannerAdapter.m */,
+				5026859E3DED10331CC16EE1 /* ISYandexBannerAdDelegate.h */,
+				DE2A3AA2496FC6C493EB4DC6 /* ISYandexBannerAdDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		63825EF1D55AB0B374C090C3 = {
+			isa = PBXGroup;
+			children = (
+				F07EB8F3C084AA76717385F5 /* ISYandexAdapter */,
+				A67C7E3C3ECF9F1138836675 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A67C7E3C3ECF9F1138836675 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A92E31EADFAE06BF8230276 /* ISYandexAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EAAA4C2B2668CFF1F13915A2 /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				0A6F08E1001E06E38C2E8235 /* ISYandexRewardedVideoAdapter.h */,
+				904C8C17665CD9A625C75AC6 /* ISYandexRewardedVideoAdapter.m */,
+				A3C6C196BE91A70BFA4E1801 /* ISYandexRewardedVideoAdDelegate.h */,
+				70A19CB6AFE531F562FEBA3E /* ISYandexRewardedVideoAdDelegate.m */,
 			);
 			path = RewardedVideo;
 			sourceTree = "<group>";
 		};
-		BC81E8CEBEBC633400C70159 /* Frameworks */ = {
+		F07EB8F3C084AA76717385F5 /* ISYandexAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				CD27EA8187C92F586549CF58 /* Pods_ISYandexAdapter.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C769D67D293CFB500064876A /* ISYandexAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				567C90322BF4ECD10016E797 /* Banner */,
-				567C90382BF4ECD10016E797 /* Interstitial */,
-				567C903E2BF4ECD10016E797 /* ISYandexAdapter.h */,
-				567C90372BF4ECD10016E797 /* ISYandexAdapter.m */,
-				567C903F2BF4ECD10016E797 /* ISYandexAdapter+Internal.h */,
-				567C903D2BF4ECD10016E797 /* ISYandexConstants.h */,
-				567C90402BF4ECD10016E797 /* RewardedVideo */,
+				591FDF51FDC71533BDEE5DBE /* ISYandexAdapter.h */,
+				2056D18852DB67F5C9D95A24 /* ISYandexAdapter.m */,
+				B8E4760885169BF47FC797F1 /* ISYandexAdapter+Internal.h */,
+				4A07A9D65AEF9CEECC04B9CC /* ISYandexConstants.h */,
+				4208C3422F744C74A9F30BF2 /* Banner */,
+				02326B4756835E4B6ADECC28 /* Interstitial */,
+				EAAA4C2B2668CFF1F13915A2 /* RewardedVideo */,
 			);
 			path = ISYandexAdapter;
-			sourceTree = "<group>";
-		};
-		EFE27BFA28337CC500391127 = {
-			isa = PBXGroup;
-			children = (
-				C769D67D293CFB500064876A /* ISYandexAdapter */,
-				EFE27C0528337CC500391127 /* Products */,
-				2B13A6DEF45C8EF527BE2EBC /* Pods */,
-				BC81E8CEBEBC633400C70159 /* Frameworks */,
-			);
-			sourceTree = "<group>";
-		};
-		EFE27C0528337CC500391127 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EFE27C0428337CC500391127 /* ISYandexAdapter.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		EFE27BFF28337CC500391127 /* Headers */ = {
+		642E88F5F835A7B0C3AE2DC5 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				567C904F2BF4ECD10016E797 /* ISYandexAdapter.h in Headers */,
-				567C904E2BF4ECD10016E797 /* ISYandexConstants.h in Headers */,
-				567C904A2BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.h in Headers */,
-				567C90502BF4ECD10016E797 /* ISYandexAdapter+Internal.h in Headers */,
-				567C90542BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.h in Headers */,
-				567C90512BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.h in Headers */,
-				567C904C2BF4ECD10016E797 /* ISYandexInterstitialAdapter.h in Headers */,
-				567C90452BF4ECD10016E797 /* ISYandexBannerAdDelegate.h in Headers */,
-				567C90462BF4ECD10016E797 /* ISYandexBannerAdapter.h in Headers */,
+				D295C1BAC9CC16DBEFC0B871 /* ISYandexAdapter+Internal.h in Headers */,
+				C94E8C56E0111A395234A870 /* ISYandexAdapter.h in Headers */,
+				F0E4477D998D1E8C8D857A81 /* ISYandexBannerAdDelegate.h in Headers */,
+				DAC9A4319FB92CD1E3C7B233 /* ISYandexBannerAdapter.h in Headers */,
+				6B44D10A13A1C30307AFCD23 /* ISYandexConstants.h in Headers */,
+				F8F83DC2CA2378962508C5AD /* ISYandexInterstitialAdDelegate.h in Headers */,
+				475A6F3B25936FDC5DB103A3 /* ISYandexInterstitialAdapter.h in Headers */,
+				342D6288553A1D3B9AAA111E /* ISYandexRewardedVideoAdDelegate.h in Headers */,
+				E90741D463B7FF17C901764E /* ISYandexRewardedVideoAdapter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EFE27C0328337CC500391127 /* ISYandexAdapter */ = {
+		18861D87D61F39EF379F36E4 /* ISYandexAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISYandexAdapter" */;
+			buildConfigurationList = 44016D15B53889AC8BFB305B /* Build configuration list for PBXNativeTarget "ISYandexAdapter" */;
 			buildPhases = (
-				EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */,
-				EFE27BFF28337CC500391127 /* Headers */,
-				EFE27C0028337CC500391127 /* Sources */,
-				EFE27C0128337CC500391127 /* Frameworks */,
-				EFE27C0228337CC500391127 /* Resources */,
-				EFE27C1C28337E5800391127 /* Create XCFramework */,
-				61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */,
-				FC4B03C229C98FF200354D90 /* ShellScript */,
+				807D56B632FCBB12DFF7EE3A /* Create XCFramework */,
+				642E88F5F835A7B0C3AE2DC5 /* Headers */,
+				902501CA34B65A683E1D74D0 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ISYandexAdapter;
-			productName = ISAdColonyAdapter;
-			productReference = EFE27C0428337CC500391127 /* ISYandexAdapter.framework */;
+			productName = ISYandexAdapter;
+			productReference = 2A92E31EADFAE06BF8230276 /* ISYandexAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EFE27BFB28337CC500391127 /* Project object */ = {
+		39D557C572CF0AD99D7AF366 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1330;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					EFE27C0328337CC500391127 = {
-						CreatedOnToolsVersion = 13.3.1;
+					18861D87D61F39EF379F36E4 = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
 					};
 				};
 			};
-			buildConfigurationList = EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISYandexAdapter" */;
-			compatibilityVersion = "Xcode 13.0";
+			buildConfigurationList = 77B8791C245569AA3AEB782A /* Build configuration list for PBXProject "ISYandexAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = EFE27BFA28337CC500391127;
-			productRefGroup = EFE27C0528337CC500391127 /* Products */;
+			mainGroup = 63825EF1D55AB0B374C090C3;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EFE27C0328337CC500391127 /* ISYandexAdapter */,
+				18861D87D61F39EF379F36E4 /* ISYandexAdapter */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		EFE27C0228337CC500391127 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ISYandexAdapter-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EFE27C1C28337E5800391127 /* Create XCFramework */ = {
+		807D56B632FCBB12DFF7EE3A /* Create XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -289,52 +197,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
-		};
-		FC4B03C229C98FF200354D90 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nrm -fr *.bundle\n";
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EFE27C0028337CC500391127 /* Sources */ = {
+		902501CA34B65A683E1D74D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				567C904D2BF4ECD10016E797 /* ISYandexInterstitialAdDelegate.m in Sources */,
-				567C90492BF4ECD10016E797 /* ISYandexAdapter.m in Sources */,
-				567C90482BF4ECD10016E797 /* ISYandexBannerAdapter.m in Sources */,
-				567C90532BF4ECD10016E797 /* ISYandexRewardedVideoAdDelegate.m in Sources */,
-				567C904B2BF4ECD10016E797 /* ISYandexInterstitialAdapter.m in Sources */,
-				567C90522BF4ECD10016E797 /* ISYandexRewardedVideoAdapter.m in Sources */,
-				567C90472BF4ECD10016E797 /* ISYandexBannerAdDelegate.m in Sources */,
+				A8059150D5827902E4C28CA3 /* ISYandexAdapter.m in Sources */,
+				D927D52E76EF7E00D25332B7 /* ISYandexBannerAdDelegate.m in Sources */,
+				ACCC826A797C0B6159BA695E /* ISYandexBannerAdapter.m in Sources */,
+				FACDD2A2F59EBE8A46822C52 /* ISYandexInterstitialAdDelegate.m in Sources */,
+				0F779D394F835228CADA629B /* ISYandexInterstitialAdapter.m in Sources */,
+				4C1B46657CBC7BD11F745FFD /* ISYandexRewardedVideoAdDelegate.m in Sources */,
+				374D00DF6BEA018B9EEC8063 /* ISYandexRewardedVideoAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EFE27C0928337CC500391127 /* Debug */ = {
+		4DA217024F61E5C88A09A640 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -361,68 +253,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		EFE27C0A28337CC500391127 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -434,106 +264,158 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		EFE27C0C28337CC500391127 /* Debug */ = {
+		6FF2CE0F1DE1BCBA7884CACF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 56DF0D5230531444E6138BAB /* Pods-ISYandexAdapter.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_STYLE = Automatic;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_FILE = ISYandexAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISYandexAdapter;
-				PRODUCT_NAME = ISYandexAdapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISYandexAdapter;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
-		EFE27C0D28337CC500391127 /* Release */ = {
+		CE9836463A7A2A11492D19A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3982C3BAD337D763864BD4CC /* Pods-ISYandexAdapter.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_STYLE = Automatic;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D47E3E6BE65F2B0D4FEB15B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_FILE = ISYandexAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISYandexAdapter;
-				PRODUCT_NAME = ISYandexAdapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISYandexAdapter;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISYandexAdapter" */ = {
+		44016D15B53889AC8BFB305B /* Build configuration list for PBXNativeTarget "ISYandexAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0928337CC500391127 /* Debug */,
-				EFE27C0A28337CC500391127 /* Release */,
+				6FF2CE0F1DE1BCBA7884CACF /* Debug */,
+				D47E3E6BE65F2B0D4FEB15B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISYandexAdapter" */ = {
+		77B8791C245569AA3AEB782A /* Build configuration list for PBXProject "ISYandexAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0C28337CC500391127 /* Debug */,
-				EFE27C0D28337CC500391127 /* Release */,
+				CE9836463A7A2A11492D19A3 /* Debug */,
+				4DA217024F61E5C88A09A640 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EFE27BFB28337CC500391127 /* Project object */;
+	rootObject = 39D557C572CF0AD99D7AF366 /* Project object */;
 }
