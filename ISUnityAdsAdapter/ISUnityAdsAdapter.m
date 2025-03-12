@@ -2,7 +2,7 @@
 //  ISUnityAdsAdapter.m
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
 #import <ISUnityAdsAdapter.h>
@@ -34,7 +34,6 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 // Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
-
 
 
 @interface ISUnityAdsAdapter () <UnityAdsInitializationDelegate,
@@ -916,7 +915,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     bannerView = nil;
 }
 
-- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
                                            adData:(NSDictionary *)adData
                                          delegate:(id<ISBiddingDataDelegate>)delegate {
     [self getBiddingDataWithDelegate: delegate];

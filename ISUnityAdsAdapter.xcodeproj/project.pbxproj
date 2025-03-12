@@ -3,201 +3,132 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		73AC4213CB04F50E799683D2 /* Pods_ISUnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */; };
-		A8D9683D28A14B6A00184293 /* ISUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A8D9684228A14B6A00184293 /* ISUnityAdsAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */; };
-		FDC86CC129C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC86CBB29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m */; };
-		FDC86CC229C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC86CBC29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h */; };
-		FDC86CC329C883FC004CF210 /* ISUnityAdsBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC86CBD29C883FC004CF210 /* ISUnityAdsBannerDelegate.m */; };
-		FDC86CC429C883FC004CF210 /* ISUnityAdsBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC86CBE29C883FC004CF210 /* ISUnityAdsBannerDelegate.h */; };
-		FDC86CC529C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC86CBF29C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h */; };
-		FDC86CC629C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC86CC029C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m */; };
+		10D3174065333D935E764587 /* ISUnityAdsRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 52E14DD6D394841ADA50D7D8 /* ISUnityAdsRewardedVideoDelegate.h */; };
+		2DD4AAE6E9D7DAECB77C3EE0 /* ISUnityAdsAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */; };
+		387A8CEB0DC730C0321BF68E /* ISUnityAdsInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8DD70EB26F129324F79B5D /* ISUnityAdsInterstitialDelegate.m */; };
+		83839799F7415465FE6E46A6 /* ISUnityAdsInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 22617755AA68F3AFF779C7FD /* ISUnityAdsInterstitialDelegate.h */; };
+		98AD0F237BD6DA3A5FF4C967 /* ISUnityAdsRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAB2E3A886BC5148860EA3B /* ISUnityAdsRewardedVideoDelegate.m */; };
+		99854F32F356A78F165E6D95 /* ISUnityAdsBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFAEC6670EC46CBE011B7F4C /* ISUnityAdsBannerDelegate.m */; };
+		9B2FA8E73590C91E484E3F70 /* ISUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E04B1F812949E27D878C5F31 /* ISUnityAdsBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = CBB3C3219077B3440EE0BDB4 /* ISUnityAdsBannerDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISUnityAdsAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISUnityAdsAdapter/Pods-ISUnityAdsAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
-		A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
-		EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDC86CBB29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		FDC86CBC29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		FDC86CBD29C883FC004CF210 /* ISUnityAdsBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerDelegate.m; sourceTree = "<group>"; };
-		FDC86CBE29C883FC004CF210 /* ISUnityAdsBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerDelegate.h; sourceTree = "<group>"; };
-		FDC86CBF29C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialDelegate.h; sourceTree = "<group>"; };
-		FDC86CC029C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialDelegate.m; sourceTree = "<group>"; };
+		07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		22617755AA68F3AFF779C7FD /* ISUnityAdsInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialDelegate.h; sourceTree = "<group>"; };
+		52E14DD6D394841ADA50D7D8 /* ISUnityAdsRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
+		8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
+		9B8DD70EB26F129324F79B5D /* ISUnityAdsInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialDelegate.m; sourceTree = "<group>"; };
+		CBB3C3219077B3440EE0BDB4 /* ISUnityAdsBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerDelegate.h; sourceTree = "<group>"; };
+		CDAB2E3A886BC5148860EA3B /* ISUnityAdsRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		FFAEC6670EC46CBE011B7F4C /* ISUnityAdsBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		EFE27C0128337CC500391127 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				73AC4213CB04F50E799683D2 /* Pods_ISUnityAdsAdapter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
+		96E20E81004F0A882BA2CF80 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */,
-				9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		A8D9683428A14B4600184293 /* ISUnityAdsAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				A8D9683628A14B6A00184293 /* ISUnityAdsAdapter.h */,
-				A8D9683B28A14B6A00184293 /* ISUnityAdsAdapter.m */,
-				FDC86CBE29C883FC004CF210 /* ISUnityAdsBannerDelegate.h */,
-				FDC86CBD29C883FC004CF210 /* ISUnityAdsBannerDelegate.m */,
-				FDC86CBF29C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h */,
-				FDC86CC029C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m */,
-				FDC86CBC29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h */,
-				FDC86CBB29C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m */,
-			);
-			path = ISUnityAdsAdapter;
-			sourceTree = "<group>";
-		};
-		BC81E8CEBEBC633400C70159 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				752299B47C4A059D9633E622 /* Pods_ISUnityAdsAdapter.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EFE27BFA28337CC500391127 = {
-			isa = PBXGroup;
-			children = (
-				A8D9683428A14B4600184293 /* ISUnityAdsAdapter */,
-				EFE27C0528337CC500391127 /* Products */,
-				2B13A6DEF45C8EF527BE2EBC /* Pods */,
-				BC81E8CEBEBC633400C70159 /* Frameworks */,
-			);
-			sourceTree = "<group>";
-		};
-		EFE27C0528337CC500391127 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */,
+				07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C32222B8FE985DE52DDB3E9D = {
+			isa = PBXGroup;
+			children = (
+				D2CDA2276544EA8C65A406DC /* ISUnityAdsAdapter */,
+				96E20E81004F0A882BA2CF80 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D2CDA2276544EA8C65A406DC /* ISUnityAdsAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */,
+				5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */,
+				CBB3C3219077B3440EE0BDB4 /* ISUnityAdsBannerDelegate.h */,
+				FFAEC6670EC46CBE011B7F4C /* ISUnityAdsBannerDelegate.m */,
+				22617755AA68F3AFF779C7FD /* ISUnityAdsInterstitialDelegate.h */,
+				9B8DD70EB26F129324F79B5D /* ISUnityAdsInterstitialDelegate.m */,
+				52E14DD6D394841ADA50D7D8 /* ISUnityAdsRewardedVideoDelegate.h */,
+				CDAB2E3A886BC5148860EA3B /* ISUnityAdsRewardedVideoDelegate.m */,
+			);
+			path = ISUnityAdsAdapter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		EFE27BFF28337CC500391127 /* Headers */ = {
+		FE554DBEDED71F24A5C120A6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDC86CC529C883FC004CF210 /* ISUnityAdsInterstitialDelegate.h in Headers */,
-				FDC86CC229C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.h in Headers */,
-				FDC86CC429C883FC004CF210 /* ISUnityAdsBannerDelegate.h in Headers */,
-				A8D9683D28A14B6A00184293 /* ISUnityAdsAdapter.h in Headers */,
+				9B2FA8E73590C91E484E3F70 /* ISUnityAdsAdapter.h in Headers */,
+				E04B1F812949E27D878C5F31 /* ISUnityAdsBannerDelegate.h in Headers */,
+				83839799F7415465FE6E46A6 /* ISUnityAdsInterstitialDelegate.h in Headers */,
+				10D3174065333D935E764587 /* ISUnityAdsRewardedVideoDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EFE27C0328337CC500391127 /* ISUnityAdsAdapter */ = {
+		DE5F7D6B10357AC641A2F72A /* ISUnityAdsAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */;
+			buildConfigurationList = 191111448C4B9D79D969649B /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */;
 			buildPhases = (
-				EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */,
-				EFE27BFF28337CC500391127 /* Headers */,
-				EFE27C0028337CC500391127 /* Sources */,
-				EFE27C0128337CC500391127 /* Frameworks */,
-				EFE27C0228337CC500391127 /* Resources */,
-				EFE27C1C28337E5800391127 /* Create XCFramework */,
+				22A198F1FDC44B7273A6E5EF /* Create XCFramework */,
+				FE554DBEDED71F24A5C120A6 /* Headers */,
+				B7C02AE818D175D37254FB06 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ISUnityAdsAdapter;
-			productName = ISAdColonyAdapter;
-			productReference = EFE27C0428337CC500391127 /* ISUnityAdsAdapter.framework */;
+			productName = ISUnityAdsAdapter;
+			productReference = 07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EFE27BFB28337CC500391127 /* Project object */ = {
+		30BD357F30422A0CA7F388AF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1330;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					EFE27C0328337CC500391127 = {
-						CreatedOnToolsVersion = 13.3.1;
+					DE5F7D6B10357AC641A2F72A = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
 					};
 				};
 			};
-			buildConfigurationList = EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISUnityAdsAdapter" */;
-			compatibilityVersion = "Xcode 13.0";
+			buildConfigurationList = 7207DDECE6176AB8AA654419 /* Build configuration list for PBXProject "ISUnityAdsAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = EFE27BFA28337CC500391127;
-			productRefGroup = EFE27C0528337CC500391127 /* Products */;
+			mainGroup = C32222B8FE985DE52DDB3E9D;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EFE27C0328337CC500391127 /* ISUnityAdsAdapter */,
+				DE5F7D6B10357AC641A2F72A /* ISUnityAdsAdapter */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		EFE27C0228337CC500391127 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ISUnityAdsAdapter-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EFE27C1C28337E5800391127 /* Create XCFramework */ = {
+		22A198F1FDC44B7273A6E5EF /* Create XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -218,88 +149,86 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EFE27C0028337CC500391127 /* Sources */ = {
+		B7C02AE818D175D37254FB06 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8D9684228A14B6A00184293 /* ISUnityAdsAdapter.m in Sources */,
-				FDC86CC129C883FC004CF210 /* ISUnityAdsRewardedVideoDelegate.m in Sources */,
-				FDC86CC629C883FC004CF210 /* ISUnityAdsInterstitialDelegate.m in Sources */,
-				FDC86CC329C883FC004CF210 /* ISUnityAdsBannerDelegate.m in Sources */,
+				2DD4AAE6E9D7DAECB77C3EE0 /* ISUnityAdsAdapter.m in Sources */,
+				99854F32F356A78F165E6D95 /* ISUnityAdsBannerDelegate.m in Sources */,
+				387A8CEB0DC730C0321BF68E /* ISUnityAdsInterstitialDelegate.m in Sources */,
+				98AD0F237BD6DA3A5FF4C967 /* ISUnityAdsRewardedVideoDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EFE27C0928337CC500391127 /* Debug */ = {
+		1922BD61C5AF25EB80E84964 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISUnityAdsAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
+					"@executable_path/Frameworks",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		EFE27C0A28337CC500391127 /* Release */ = {
+		703582E3BB8C944498E02105 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISUnityAdsAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		D0B558C417E835611FFFC77F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -326,7 +255,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -338,102 +266,100 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		EFE27C0C28337CC500391127 /* Debug */ = {
+		D26871C1346B6B2420DF56C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0118765E6C47A7B9AA6C793 /* Pods-ISUnityAdsAdapter.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
+					"DEBUG=1",
 				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISUnityAdsAdapter;
-				PRODUCT_NAME = ISUnityAdsAdapter;
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
-		};
-		EFE27C0D28337CC500391127 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9FF0086968437EE185905A96 /* Pods-ISUnityAdsAdapter.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISUnityAdsAdapter;
-				PRODUCT_NAME = ISUnityAdsAdapter;
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISUnityAdsAdapter" */ = {
+		191111448C4B9D79D969649B /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0928337CC500391127 /* Debug */,
-				EFE27C0A28337CC500391127 /* Release */,
+				1922BD61C5AF25EB80E84964 /* Debug */,
+				703582E3BB8C944498E02105 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */ = {
+		7207DDECE6176AB8AA654419 /* Build configuration list for PBXProject "ISUnityAdsAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0C28337CC500391127 /* Debug */,
-				EFE27C0D28337CC500391127 /* Release */,
+				D26871C1346B6B2420DF56C1 /* Debug */,
+				D0B558C417E835611FFFC77F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EFE27BFB28337CC500391127 /* Project object */;
+	rootObject = 30BD357F30422A0CA7F388AF /* Project object */;
 }
