@@ -45,7 +45,6 @@ static NSString * const kAdMobMaxContentRatingPG   = @"max_ad_content_rating_pg"
 static NSString * const kAdMobMaxContentRatingT    = @"max_ad_content_rating_t";
 static NSString * const kAdMobMaxContentRatingMA   = @"max_ad_content_rating_ma";
 
-
 // Network data keys
 static NSString * const kNetworkKeyContentMapping   = @"ContentMapping";
 static NSString * const kNetworkKeyContentRating    = @"MaxAdContentRating";

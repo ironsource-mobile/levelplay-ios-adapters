@@ -48,6 +48,5 @@ xcodebuild -create-xcframework \
 -framework "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework" \
 -output "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework"
 
-mkdir -p "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Resources"
-find "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/ISAdMobResources.bundle" -name '*.nib' -exec cp {} "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Resources" \;
-rm -rf "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/ISAdMobResources.bundle"
+mkdir -p "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Assets"
+find "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework" -name '*.nib' -exec mv {} "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Assets" \;

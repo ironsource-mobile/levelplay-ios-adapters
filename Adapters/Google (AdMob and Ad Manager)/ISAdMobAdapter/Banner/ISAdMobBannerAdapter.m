@@ -55,7 +55,7 @@
     
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kAdUnitId];
-        
+    
     /* Configuration Validation */
     if (![self.adapter isConfigValueValid:adUnitId]) {
         NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAdUnitId];
@@ -128,10 +128,10 @@
     //add to banner delegate dictionary
     [self.adUnitIdToSmashDelegate setObject:delegate
                                      forKey:adUnitId];
-
+    
     
     dispatch_async(dispatch_get_main_queue(), ^{
-
+        
         BOOL isNative = [adapterConfig.settings[kIsNative] boolValue];
         
         GADRequest *request = [self.adapter createGADRequestForLoadWithAdData:adData
@@ -204,7 +204,7 @@
         ISAdMobNativeBannerDelegate* nativeBannerDelegate = [[ISAdMobNativeBannerDelegate alloc] initWithAdUnitId:adUnitId
                                                                                                    nativeTemplate:template
                                                                                                          delegate:delegate];
-
+        
         //add native banner to delegate map
         [self.adUnitIdToAdDelegate setObject:nativeBannerDelegate
                                       forKey:adUnitId];
@@ -226,10 +226,10 @@
     
     GADNativeAdViewAdOptions *adViewAdOptions = [[GADNativeAdViewAdOptions alloc] init];
     adViewAdOptions.preferredAdChoicesPosition = template.adChoicesPosition;
-
+    
     GADNativeAdMediaAdLoaderOptions *adMediaAdLoaderOptions = [[GADNativeAdMediaAdLoaderOptions alloc] init];
     adMediaAdLoaderOptions.mediaAspectRatio = template.mediaAspectRatio;
-
+    
     return @[videoOptions, adViewAdOptions, adMediaAdLoaderOptions];
 }
 
@@ -244,7 +244,7 @@
     
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kAdUnitId];
-
+    
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
     
     self.nativeAdLoader = nil;
@@ -256,7 +256,6 @@
 
 
 - (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width {
-    
     CGFloat height = [self getAdmobAdaptiveAdSizeWithWidth:width].size.height;
     LogAdapterApi_Internal(@"%@", [NSString stringWithFormat:@"height - %.2f for width - %.2f", height, width]);
     
@@ -422,4 +421,3 @@
 }
 
 @end
-

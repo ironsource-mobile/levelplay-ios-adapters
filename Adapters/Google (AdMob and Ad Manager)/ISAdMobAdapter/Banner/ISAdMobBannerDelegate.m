@@ -5,8 +5,8 @@
 //  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
 //
 
-#include "ISAdMobBannerAdapter.h"
-#include "ISAdMobBannerDelegate.h"
+#import "ISAdMobBannerAdapter.h"
+#import "ISAdMobBannerDelegate.h"
 
 @implementation ISAdMobBannerDelegate
 
@@ -32,7 +32,7 @@
 - (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
     LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", self.adUnitId, error);
     NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_BN_LOAD_NO_FILL
-                                                                    withMessage:@"AdMob no fill"] : error;
+                                                                                                             withMessage:@"AdMob no fill"] : error;
     [self.delegate adapterBannerDidFailToLoadWithError:smashError];
 }
 

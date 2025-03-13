@@ -280,10 +280,12 @@ static NSArray *neighboringContentMappingURLValue = nil;
     contentMappingURLValue = value;
     LogAdapterApi_Internal(@"key = %@, contentMappingValue = %@", kNetworkKeyContentMapping, value);
 }
+
 - (void)processContentMappingArray:(nonnull NSArray *) value {
     neighboringContentMappingURLValue = value;
     LogAdapterApi_Internal(@"key = %@, contentMappingValues = %@", kNetworkKeyContentMapping, value);
 }
+
 - (void)processContentRating:(nonnull NSString *)value {
     GADMaxAdContentRating ratingValue = [self getAdMobRatingValue:value];
     if (ratingValue != nil && ratingValue.length) {

@@ -41,7 +41,7 @@
 - (void)adLoader:(nonnull GADAdLoader *)adLoader didFailToReceiveAdWithError:(nonnull NSError *)error {
     LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", self.adUnitId, error);
     NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_NT_LOAD_NO_FILL
-                                                                    withMessage:@"AdMob no fill"] : error;
+                                                                                                             withMessage:@"AdMob no fill"] : error;
     [self.delegate adapterNativeAdDidFailToLoadWithError:smashError];
 }
 
