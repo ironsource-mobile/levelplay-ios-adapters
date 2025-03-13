@@ -431,7 +431,6 @@ static PAGSdk* _pangleSDK = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             [rewardedVideoAd presentFromRootViewController:viewController];
         });
-        
     } else {
         NSError *error = [NSError errorWithDomain:kAdapterName
                                              code:ERROR_CODE_NO_ADS_TO_SHOW
@@ -452,7 +451,7 @@ static PAGSdk* _pangleSDK = nil;
 - (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                   adData:(NSDictionary *)adData
                                                 delegate:(id<ISBiddingDataDelegate>)delegate{
-
+    
     [self collectBiddingDataWithAdapterConfig:adapterConfig delegate:delegate];
 }
 
@@ -654,26 +653,26 @@ static PAGSdk* _pangleSDK = nil;
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
-
+    
     PAGLInterstitialAd *interstitialAd = [self.interstitialSlotIdToAd objectForKey:slotId];
-
+    
     if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
         [self.interstitialAdsAvailability setObject:@NO
                                              forKey:slotId];
-
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [interstitialAd presentFromRootViewController:viewController];
         });
         
-        } else {
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_NO_ADS_TO_SHOW
-                                             userInfo:@{NSLocalizedDescriptionKey:@"No ads to show"}];
-            LogAdapterApi_Internal(@"error = %@", error);
-            
-            [delegate adapterInterstitialDidFailToShowWithError:error];
-        }
+    } else {
+        NSError *error = [NSError errorWithDomain:kAdapterName
+                                             code:ERROR_CODE_NO_ADS_TO_SHOW
+                                         userInfo:@{NSLocalizedDescriptionKey:@"No ads to show"}];
+        LogAdapterApi_Internal(@"error = %@", error);
+        
+        [delegate adapterInterstitialDidFailToShowWithError:error];
+    }
+    
 }
 
 - (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
@@ -682,14 +681,13 @@ static PAGSdk* _pangleSDK = nil;
     NSNumber *available = [_interstitialAdsAvailability objectForKey:slotId];
     return interstitialAd != nil && available != nil && [available boolValue];
 }
-
+    
 - (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                  adData:(NSDictionary *)adData
                                                delegate:(id<ISBiddingDataDelegate>)delegate{
-
+    
     [self collectBiddingDataWithAdapterConfig:adapterConfig delegate:delegate];
 }
-
 
 #pragma mark - Interstitial Delegate
 
@@ -962,7 +960,7 @@ static PAGSdk* _pangleSDK = nil;
 #pragma mark - Helper Methods
 
 - (void)collectBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                   delegate:(id<ISBiddingDataDelegate>)delegate {
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
     NSString *slotId = adapterConfig.settings[kSlotId];
     if (_initState == INIT_STATE_FAILED) {
         NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
@@ -979,10 +977,11 @@ static PAGSdk* _pangleSDK = nil;
         }
         else {
             NSString *error = [NSString stringWithFormat:@"token is nil or empty"];
-            LogAdapterApi_Internal(@"%@", error);
-            [delegate failureWithError:error];
+                LogAdapterApi_Internal(@"%@", error);
+                [delegate failureWithError:error];
         }
     }];
+    
 }
 
 - (PAGBannerAdSize)getBannerSize:(ISBannerSize *)size {
