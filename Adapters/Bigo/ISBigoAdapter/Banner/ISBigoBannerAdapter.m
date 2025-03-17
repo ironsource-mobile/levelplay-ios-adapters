@@ -86,10 +86,21 @@
                                                                               andDelegate:delegate];
     self.bigoAdDelegate = bannerAdDelegate;
     
+    BigoAdSize *adSize = [self getBannerSize:size];
+    
+    if(adSize == nil) {
+        NSError *error = [NSError errorWithDomain:kAdapterName
+                                             code:ERROR_BN_UNSUPPORTED_SIZE
+                                         userInfo:@{NSLocalizedDescriptionKey:@"Bigo unsupported banner size"}];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterBannerDidFailToLoadWithError:error];
+        return;
+    }
+    
     // create banner view
     dispatch_async(dispatch_get_main_queue(), ^{
         BigoBannerAdRequest *request = [[BigoBannerAdRequest alloc] initWithSlotId:slotId
-                                                                           adSizes:@[BigoAdSize.BANNER]];
+                                                                           adSizes:@[adSize]];
         
         [request setServerBidPayload:serverData];
         

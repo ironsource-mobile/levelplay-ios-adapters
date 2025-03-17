@@ -3,291 +3,185 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2E0EEBC32CA43A4800E82E5C /* ISBigoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0EEBB02CA43A4800E82E5C /* ISBigoAdapter.m */; };
-		2E0EEBC42CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBB12CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.h */; };
-		2E0EEBC52CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0EEBB22CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.m */; };
-		2E0EEBC62CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBB32CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.h */; };
-		2E0EEBC72CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0EEBB42CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.m */; };
-		2E0EEBC82CA43A4800E82E5C /* ISBigoInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBB62CA43A4800E82E5C /* ISBigoInterstitialAdapter.h */; };
-		2E0EEBC92CA43A4800E82E5C /* ISBigoInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0EEBB72CA43A4800E82E5C /* ISBigoInterstitialAdapter.m */; };
-		2E0EEBCA2CA43A4800E82E5C /* ISBigoInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBB82CA43A4800E82E5C /* ISBigoInterstitialDelegate.h */; };
-		2E0EEBCB2CA43A4800E82E5C /* ISBigoInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0EEBB92CA43A4800E82E5C /* ISBigoInterstitialDelegate.m */; };
-		2E0EEBCC2CA43A4800E82E5C /* ISBigoAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBBB2CA43A4800E82E5C /* ISBigoAdapter+Internal.h */; };
-		2E0EEBCD2CA43A4800E82E5C /* ISBigoConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBBC2CA43A4800E82E5C /* ISBigoConstants.h */; };
-		2E0EEBCE2CA43A4800E82E5C /* ISBigoBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBBD2CA43A4800E82E5C /* ISBigoBannerAdapter.h */; };
-		2E0EEBCF2CA43A4800E82E5C /* ISBigoBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0EEBBE2CA43A4800E82E5C /* ISBigoBannerAdapter.m */; };
-		2E0EEBD02CA43A4800E82E5C /* ISBigoBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBBF2CA43A4800E82E5C /* ISBigoBannerDelegate.h */; };
-		2E0EEBD12CA43A4800E82E5C /* ISBigoBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E0EEBC02CA43A4800E82E5C /* ISBigoBannerDelegate.m */; };
-		2E0EEBD22CA43A4800E82E5C /* ISBigoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E0EEBC22CA43A4800E82E5C /* ISBigoAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		508BCAFD39DBFF28CFD5A13F /* Pods_ISBigoAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026FC66580DDE094C041D743 /* Pods_ISBigoAdapter.framework */; };
+		06494C4BCAA5898EF9C12566 /* ISBigoRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A8E2AED032C2156DEC3FC7 /* ISBigoRewardedVideoAdapter.m */; };
+		0A2E6C773D7E742F067BBF4E /* ISBigoRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3BB24BE911FAC25EF99BD /* ISBigoRewardedVideoDelegate.m */; };
+		0A75CEBE6E01B41B941D8E6D /* ISBigoInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 232BD00A32B1EE3BCE3FD1A1 /* ISBigoInterstitialAdapter.m */; };
+		0D4669727070BC0C992B3013 /* ISBigoRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = FFE3D8875EED0B40AD6D3C3E /* ISBigoRewardedVideoAdapter.h */; };
+		1673EE849B14060628461DD3 /* ISBigoInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 02178F63A5CDDF85D7112F44 /* ISBigoInterstitialAdapter.h */; };
+		33548F0AD76B4B69F90F22FC /* ISBigoRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E92CA4AD9C236E5CAE71FC06 /* ISBigoRewardedVideoDelegate.h */; };
+		35178479A578EB08BFC10C01 /* ISBigoConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = ABF42AED781E108DB4E714B5 /* ISBigoConstants.h */; };
+		3B07F498DA9B00F76619A66B /* ISBigoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0FC09F2776C7DFF4DE0C99 /* ISBigoAdapter.m */; };
+		404A6F806BD6577126A1E9F0 /* ISBigoBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4635FB35BFE8A7FB09DA7450 /* ISBigoBannerDelegate.h */; };
+		7FE9D4EBB5D9D0615D0C7847 /* ISBigoBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B520719DF5C87F5E58AB1E00 /* ISBigoBannerAdapter.m */; };
+		968349C5BA4E87BF0BBFBE01 /* ISBigoInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7208A697672C60A7DABD6F2D /* ISBigoInterstitialDelegate.m */; };
+		A1EF865B69F6F7F6D86AE9E0 /* ISBigoBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DBF7BC8C3BA4037A4A03DF3 /* ISBigoBannerAdapter.h */; };
+		ACD26D1174D0DE9407EB1024 /* ISBigoAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 36250776866C5530C4874BF2 /* ISBigoAdapter+Internal.h */; };
+		D44B55DEEC332B37BFC92917 /* ISBigoBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4678A85563C2A9860CAE91AE /* ISBigoBannerDelegate.m */; };
+		D72D26AD960ED60CDDE4181D /* ISBigoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 38AB73711FFCFC9C3F4685BC /* ISBigoAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2187007871185CFCFC145CD /* ISBigoInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C65B9FE5B7FB60205B620C17 /* ISBigoInterstitialDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		026FC66580DDE094C041D743 /* Pods_ISBigoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISBigoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D8ED075FBE8A1B2ABFAD850 /* Pods-ISVerveAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVerveAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISVerveAdapter/Pods-ISVerveAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		2E0EEBB02CA43A4800E82E5C /* ISBigoAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBigoAdapter.m; sourceTree = "<group>"; };
-		2E0EEBB12CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoRewardedVideoAdapter.h; sourceTree = "<group>"; };
-		2E0EEBB22CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBigoRewardedVideoAdapter.m; sourceTree = "<group>"; };
-		2E0EEBB32CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		2E0EEBB42CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBigoRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		2E0EEBB62CA43A4800E82E5C /* ISBigoInterstitialAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoInterstitialAdapter.h; sourceTree = "<group>"; };
-		2E0EEBB72CA43A4800E82E5C /* ISBigoInterstitialAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBigoInterstitialAdapter.m; sourceTree = "<group>"; };
-		2E0EEBB82CA43A4800E82E5C /* ISBigoInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoInterstitialDelegate.h; sourceTree = "<group>"; };
-		2E0EEBB92CA43A4800E82E5C /* ISBigoInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBigoInterstitialDelegate.m; sourceTree = "<group>"; };
-		2E0EEBBB2CA43A4800E82E5C /* ISBigoAdapter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ISBigoAdapter+Internal.h"; sourceTree = "<group>"; };
-		2E0EEBBC2CA43A4800E82E5C /* ISBigoConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoConstants.h; sourceTree = "<group>"; };
-		2E0EEBBD2CA43A4800E82E5C /* ISBigoBannerAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoBannerAdapter.h; sourceTree = "<group>"; };
-		2E0EEBBE2CA43A4800E82E5C /* ISBigoBannerAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBigoBannerAdapter.m; sourceTree = "<group>"; };
-		2E0EEBBF2CA43A4800E82E5C /* ISBigoBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoBannerDelegate.h; sourceTree = "<group>"; };
-		2E0EEBC02CA43A4800E82E5C /* ISBigoBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBigoBannerDelegate.m; sourceTree = "<group>"; };
-		2E0EEBC22CA43A4800E82E5C /* ISBigoAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBigoAdapter.h; sourceTree = "<group>"; };
-		3982C3BAD337D763864BD4CC /* Pods-ISYandexAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISYandexAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		56DF0D5230531444E6138BAB /* Pods-ISYandexAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISYandexAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISYandexAdapter/Pods-ISYandexAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		66795BC7EE412B4E3AA4A555 /* Pods-ISBigoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISBigoAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISBigoAdapter/Pods-ISBigoAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		AB2C8575DC0B8854D4FE1731 /* Pods-ISMolocoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISMolocoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISMolocoAdapter/Pods-ISMolocoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISPangleAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISPangleAdapter/Pods-ISPangleAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		DC812AD749E4AE6065F77820 /* Pods-ISMolocoAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISMolocoAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISMolocoAdapter/Pods-ISMolocoAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		E7A49A9E198A078432E92511 /* libPods-ISMolocoAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISMolocoAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFE27C0428337CC500391127 /* ISBigoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISBigoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F439834A4D9923F0402713D3 /* Pods-ISVerveAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISVerveAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISVerveAdapter/Pods-ISVerveAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		F8FF69DEB2135A32C8BED618 /* Pods-ISBigoAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISBigoAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISBigoAdapter/Pods-ISBigoAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		02178F63A5CDDF85D7112F44 /* ISBigoInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoInterstitialAdapter.h; sourceTree = "<group>"; };
+		232BD00A32B1EE3BCE3FD1A1 /* ISBigoInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBigoInterstitialAdapter.m; sourceTree = "<group>"; };
+		36250776866C5530C4874BF2 /* ISBigoAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISBigoAdapter+Internal.h"; sourceTree = "<group>"; };
+		38AB73711FFCFC9C3F4685BC /* ISBigoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoAdapter.h; sourceTree = "<group>"; };
+		4635FB35BFE8A7FB09DA7450 /* ISBigoBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoBannerDelegate.h; sourceTree = "<group>"; };
+		4678A85563C2A9860CAE91AE /* ISBigoBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBigoBannerDelegate.m; sourceTree = "<group>"; };
+		4F5A6147A7FED2D1A4681F05 /* ISBigoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISBigoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7208A697672C60A7DABD6F2D /* ISBigoInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBigoInterstitialDelegate.m; sourceTree = "<group>"; };
+		8C0FC09F2776C7DFF4DE0C99 /* ISBigoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBigoAdapter.m; sourceTree = "<group>"; };
+		9DBF7BC8C3BA4037A4A03DF3 /* ISBigoBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoBannerAdapter.h; sourceTree = "<group>"; };
+		ABF42AED781E108DB4E714B5 /* ISBigoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoConstants.h; sourceTree = "<group>"; };
+		B4A8E2AED032C2156DEC3FC7 /* ISBigoRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBigoRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		B520719DF5C87F5E58AB1E00 /* ISBigoBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBigoBannerAdapter.m; sourceTree = "<group>"; };
+		C65B9FE5B7FB60205B620C17 /* ISBigoInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoInterstitialDelegate.h; sourceTree = "<group>"; };
+		CFA3BB24BE911FAC25EF99BD /* ISBigoRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBigoRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		E92CA4AD9C236E5CAE71FC06 /* ISBigoRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		FFE3D8875EED0B40AD6D3C3E /* ISBigoRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBigoRewardedVideoAdapter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		EFE27C0128337CC500391127 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				508BCAFD39DBFF28CFD5A13F /* Pods_ISBigoAdapter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
+		2C6AB1A6DE79A672D0633BA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9DD57911DD90F2B376BD39DC /* Pods-ISPangleAdapter.debug.xcconfig */,
-				BA0F98CAC355FA0E2D26CC0A /* Pods-ISPangleAdapter.release.xcconfig */,
-				56DF0D5230531444E6138BAB /* Pods-ISYandexAdapter.debug.xcconfig */,
-				3982C3BAD337D763864BD4CC /* Pods-ISYandexAdapter.release.xcconfig */,
-				AB2C8575DC0B8854D4FE1731 /* Pods-ISMolocoAdapter.debug.xcconfig */,
-				DC812AD749E4AE6065F77820 /* Pods-ISMolocoAdapter.release.xcconfig */,
-				F439834A4D9923F0402713D3 /* Pods-ISVerveAdapter.debug.xcconfig */,
-				2D8ED075FBE8A1B2ABFAD850 /* Pods-ISVerveAdapter.release.xcconfig */,
-				F8FF69DEB2135A32C8BED618 /* Pods-ISBigoAdapter.debug.xcconfig */,
-				66795BC7EE412B4E3AA4A555 /* Pods-ISBigoAdapter.release.xcconfig */,
+				4F5A6147A7FED2D1A4681F05 /* ISBigoAdapter.framework */,
 			);
-			path = Pods;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		2E0EEBB52CA43A4800E82E5C /* RewardedVideo */ = {
+		46E538D2A27857A3A6B66D63 = {
 			isa = PBXGroup;
 			children = (
-				2E0EEBB12CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.h */,
-				2E0EEBB22CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.m */,
-				2E0EEBB32CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.h */,
-				2E0EEBB42CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.m */,
+				FAA980E22B0F322829460731 /* ISBigoAdapter */,
+				2C6AB1A6DE79A672D0633BA8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A220288E462577A78599B24D /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				FFE3D8875EED0B40AD6D3C3E /* ISBigoRewardedVideoAdapter.h */,
+				B4A8E2AED032C2156DEC3FC7 /* ISBigoRewardedVideoAdapter.m */,
+				E92CA4AD9C236E5CAE71FC06 /* ISBigoRewardedVideoDelegate.h */,
+				CFA3BB24BE911FAC25EF99BD /* ISBigoRewardedVideoDelegate.m */,
 			);
 			path = RewardedVideo;
 			sourceTree = "<group>";
 		};
-		2E0EEBBA2CA43A4800E82E5C /* Interstitial */ = {
+		C582331FD61610290A221F1A /* Banner */ = {
 			isa = PBXGroup;
 			children = (
-				2E0EEBB52CA43A4800E82E5C /* RewardedVideo */,
-				2E0EEBB62CA43A4800E82E5C /* ISBigoInterstitialAdapter.h */,
-				2E0EEBB72CA43A4800E82E5C /* ISBigoInterstitialAdapter.m */,
-				2E0EEBB82CA43A4800E82E5C /* ISBigoInterstitialDelegate.h */,
-				2E0EEBB92CA43A4800E82E5C /* ISBigoInterstitialDelegate.m */,
-			);
-			path = Interstitial;
-			sourceTree = "<group>";
-		};
-		2E0EEBC12CA43A4800E82E5C /* Banner */ = {
-			isa = PBXGroup;
-			children = (
-				2E0EEBBD2CA43A4800E82E5C /* ISBigoBannerAdapter.h */,
-				2E0EEBBE2CA43A4800E82E5C /* ISBigoBannerAdapter.m */,
-				2E0EEBBF2CA43A4800E82E5C /* ISBigoBannerDelegate.h */,
-				2E0EEBC02CA43A4800E82E5C /* ISBigoBannerDelegate.m */,
+				9DBF7BC8C3BA4037A4A03DF3 /* ISBigoBannerAdapter.h */,
+				B520719DF5C87F5E58AB1E00 /* ISBigoBannerAdapter.m */,
+				4635FB35BFE8A7FB09DA7450 /* ISBigoBannerDelegate.h */,
+				4678A85563C2A9860CAE91AE /* ISBigoBannerDelegate.m */,
 			);
 			path = Banner;
 			sourceTree = "<group>";
 		};
-		BC81E8CEBEBC633400C70159 /* Frameworks */ = {
+		F5DB9ED9309584D796A63D06 /* Interstitial */ = {
 			isa = PBXGroup;
 			children = (
-				E7A49A9E198A078432E92511 /* libPods-ISMolocoAdapter.a */,
-				026FC66580DDE094C041D743 /* Pods_ISBigoAdapter.framework */,
+				02178F63A5CDDF85D7112F44 /* ISBigoInterstitialAdapter.h */,
+				232BD00A32B1EE3BCE3FD1A1 /* ISBigoInterstitialAdapter.m */,
+				C65B9FE5B7FB60205B620C17 /* ISBigoInterstitialDelegate.h */,
+				7208A697672C60A7DABD6F2D /* ISBigoInterstitialDelegate.m */,
 			);
-			name = Frameworks;
+			path = Interstitial;
 			sourceTree = "<group>";
 		};
-		C769D67D293CFB500064876A /* ISBigoAdapter */ = {
+		FAA980E22B0F322829460731 /* ISBigoAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				2E0EEBC12CA43A4800E82E5C /* Banner */,
-				2E0EEBBA2CA43A4800E82E5C /* Interstitial */,
-				2E0EEBC22CA43A4800E82E5C /* ISBigoAdapter.h */,
-				2E0EEBB02CA43A4800E82E5C /* ISBigoAdapter.m */,
-				2E0EEBBB2CA43A4800E82E5C /* ISBigoAdapter+Internal.h */,
-				2E0EEBBC2CA43A4800E82E5C /* ISBigoConstants.h */,
+				38AB73711FFCFC9C3F4685BC /* ISBigoAdapter.h */,
+				8C0FC09F2776C7DFF4DE0C99 /* ISBigoAdapter.m */,
+				36250776866C5530C4874BF2 /* ISBigoAdapter+Internal.h */,
+				ABF42AED781E108DB4E714B5 /* ISBigoConstants.h */,
+				C582331FD61610290A221F1A /* Banner */,
+				F5DB9ED9309584D796A63D06 /* Interstitial */,
+				A220288E462577A78599B24D /* RewardedVideo */,
 			);
 			path = ISBigoAdapter;
-			sourceTree = "<group>";
-		};
-		EFE27BFA28337CC500391127 = {
-			isa = PBXGroup;
-			children = (
-				C769D67D293CFB500064876A /* ISBigoAdapter */,
-				EFE27C0528337CC500391127 /* Products */,
-				2B13A6DEF45C8EF527BE2EBC /* Pods */,
-				BC81E8CEBEBC633400C70159 /* Frameworks */,
-			);
-			sourceTree = "<group>";
-		};
-		EFE27C0528337CC500391127 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EFE27C0428337CC500391127 /* ISBigoAdapter.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		EFE27BFF28337CC500391127 /* Headers */ = {
+		35604A114319C844FD5719B4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E0EEBD22CA43A4800E82E5C /* ISBigoAdapter.h in Headers */,
-				2E0EEBC62CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.h in Headers */,
-				2E0EEBC82CA43A4800E82E5C /* ISBigoInterstitialAdapter.h in Headers */,
-				2E0EEBD02CA43A4800E82E5C /* ISBigoBannerDelegate.h in Headers */,
-				2E0EEBCC2CA43A4800E82E5C /* ISBigoAdapter+Internal.h in Headers */,
-				2E0EEBCD2CA43A4800E82E5C /* ISBigoConstants.h in Headers */,
-				2E0EEBCA2CA43A4800E82E5C /* ISBigoInterstitialDelegate.h in Headers */,
-				2E0EEBC42CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.h in Headers */,
-				2E0EEBCE2CA43A4800E82E5C /* ISBigoBannerAdapter.h in Headers */,
+				ACD26D1174D0DE9407EB1024 /* ISBigoAdapter+Internal.h in Headers */,
+				D72D26AD960ED60CDDE4181D /* ISBigoAdapter.h in Headers */,
+				A1EF865B69F6F7F6D86AE9E0 /* ISBigoBannerAdapter.h in Headers */,
+				404A6F806BD6577126A1E9F0 /* ISBigoBannerDelegate.h in Headers */,
+				35178479A578EB08BFC10C01 /* ISBigoConstants.h in Headers */,
+				1673EE849B14060628461DD3 /* ISBigoInterstitialAdapter.h in Headers */,
+				F2187007871185CFCFC145CD /* ISBigoInterstitialDelegate.h in Headers */,
+				0D4669727070BC0C992B3013 /* ISBigoRewardedVideoAdapter.h in Headers */,
+				33548F0AD76B4B69F90F22FC /* ISBigoRewardedVideoDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EFE27C0328337CC500391127 /* ISBigoAdapter */ = {
+		4580E913C6CDC010188108B7 /* ISBigoAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISBigoAdapter" */;
+			buildConfigurationList = 267D67687681680097497FB8 /* Build configuration list for PBXNativeTarget "ISBigoAdapter" */;
 			buildPhases = (
-				EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */,
-				EFE27BFF28337CC500391127 /* Headers */,
-				EFE27C0028337CC500391127 /* Sources */,
-				EFE27C0128337CC500391127 /* Frameworks */,
-				EFE27C0228337CC500391127 /* Resources */,
-				EFE27C1C28337E5800391127 /* Create XCFramework */,
-				61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */,
-				FC4B03C229C98FF200354D90 /* ShellScript */,
+				A288C47D60A7C574F4199796 /* Create XCFramework */,
+				35604A114319C844FD5719B4 /* Headers */,
+				B95E559801E91ED26775EEBF /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ISBigoAdapter;
-			productName = ISAdColonyAdapter;
-			productReference = EFE27C0428337CC500391127 /* ISBigoAdapter.framework */;
+			productName = ISBigoAdapter;
+			productReference = 4F5A6147A7FED2D1A4681F05 /* ISBigoAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EFE27BFB28337CC500391127 /* Project object */ = {
+		CCA436BDA7C3D499FDE28D20 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1330;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					EFE27C0328337CC500391127 = {
-						CreatedOnToolsVersion = 13.3.1;
+					4580E913C6CDC010188108B7 = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
 					};
 				};
 			};
-			buildConfigurationList = EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISBigoAdapter" */;
-			compatibilityVersion = "Xcode 13.0";
+			buildConfigurationList = F17C6CD53BE50C86369D2740 /* Build configuration list for PBXProject "ISBigoAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = EFE27BFA28337CC500391127;
-			productRefGroup = EFE27C0528337CC500391127 /* Products */;
+			mainGroup = 46E538D2A27857A3A6B66D63;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EFE27C0328337CC500391127 /* ISBigoAdapter */,
+				4580E913C6CDC010188108B7 /* ISBigoAdapter */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		EFE27C0228337CC500391127 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		61EB250A396A87D1796A5D0A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ISBigoAdapter/Pods-ISBigoAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ISBigoAdapter/Pods-ISBigoAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ISBigoAdapter/Pods-ISBigoAdapter-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EC959F3FC840634FE254C06B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ISBigoAdapter-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EFE27C1C28337E5800391127 /* Create XCFramework */ = {
+		A288C47D60A7C574F4199796 /* Create XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -303,52 +197,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
-		};
-		FC4B03C229C98FF200354D90 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nrm -fr *.bundle\n";
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EFE27C0028337CC500391127 /* Sources */ = {
+		B95E559801E91ED26775EEBF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E0EEBD12CA43A4800E82E5C /* ISBigoBannerDelegate.m in Sources */,
-				2E0EEBCF2CA43A4800E82E5C /* ISBigoBannerAdapter.m in Sources */,
-				2E0EEBC92CA43A4800E82E5C /* ISBigoInterstitialAdapter.m in Sources */,
-				2E0EEBC52CA43A4800E82E5C /* ISBigoRewardedVideoAdapter.m in Sources */,
-				2E0EEBC72CA43A4800E82E5C /* ISBigoRewardedVideoDelegate.m in Sources */,
-				2E0EEBC32CA43A4800E82E5C /* ISBigoAdapter.m in Sources */,
-				2E0EEBCB2CA43A4800E82E5C /* ISBigoInterstitialDelegate.m in Sources */,
+				3B07F498DA9B00F76619A66B /* ISBigoAdapter.m in Sources */,
+				7FE9D4EBB5D9D0615D0C7847 /* ISBigoBannerAdapter.m in Sources */,
+				D44B55DEEC332B37BFC92917 /* ISBigoBannerDelegate.m in Sources */,
+				0A75CEBE6E01B41B941D8E6D /* ISBigoInterstitialAdapter.m in Sources */,
+				968349C5BA4E87BF0BBFBE01 /* ISBigoInterstitialDelegate.m in Sources */,
+				06494C4BCAA5898EF9C12566 /* ISBigoRewardedVideoAdapter.m in Sources */,
+				0A2E6C773D7E742F067BBF4E /* ISBigoRewardedVideoDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EFE27C0928337CC500391127 /* Debug */ = {
+		0C7CA3ACFB34FDF13EAB3F7C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -375,68 +253,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		EFE27C0A28337CC500391127 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -448,104 +264,158 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		EFE27C0C28337CC500391127 /* Debug */ = {
+		99D801FB7310DFAFAD58E712 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8FF69DEB2135A32C8BED618 /* Pods-ISBigoAdapter.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_FILE = ISBigoAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISBigoAdapter;
-				PRODUCT_NAME = ISBigoAdapter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISBigoAdapter;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		A29B622FDA804D6FF5DD2C6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISBigoAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISBigoAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
-		EFE27C0D28337CC500391127 /* Release */ = {
+		E4F80A93E604E364C71FD5D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 66795BC7EE412B4E3AA4A555 /* Pods-ISBigoAdapter.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(EXECUTABLE_PATH)";
-				LD_RUNPATH_SEARCH_PATHS = (
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
+					"DEBUG=1",
 				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISBigoAdapter;
-				PRODUCT_NAME = ISBigoAdapter;
-				SKIP_INSTALL = NO;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
-			name = Release;
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISBigoAdapter" */ = {
+		267D67687681680097497FB8 /* Build configuration list for PBXNativeTarget "ISBigoAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0928337CC500391127 /* Debug */,
-				EFE27C0A28337CC500391127 /* Release */,
+				A29B622FDA804D6FF5DD2C6C /* Debug */,
+				99D801FB7310DFAFAD58E712 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISBigoAdapter" */ = {
+		F17C6CD53BE50C86369D2740 /* Build configuration list for PBXProject "ISBigoAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0C28337CC500391127 /* Debug */,
-				EFE27C0D28337CC500391127 /* Release */,
+				E4F80A93E604E364C71FD5D5 /* Debug */,
+				0C7CA3ACFB34FDF13EAB3F7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EFE27BFB28337CC500391127 /* Project object */;
+	rootObject = CCA436BDA7C3D499FDE28D20 /* Project object */;
 }

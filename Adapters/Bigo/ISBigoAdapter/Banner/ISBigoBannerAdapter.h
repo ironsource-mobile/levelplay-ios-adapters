@@ -2,6 +2,7 @@
 #import "ISBigoAdapter+Internal.h"
 #import <BigoADS/BigoBannerAdLoader.h>
 #import <BigoADS/BigoAdSize.h>
+#import "ISBigoAdapter.h"
 
 
 @interface ISBigoBannerAdapter : ISBaseBannerAdapter
