@@ -6,7 +6,7 @@
 //
 
 #import <ISVungleAdapter.h>
-#import "ISVungleConstant.h"
+#import <ISVungleConstant.h>
 #import <ISVungleRewardedVideoDelegate.h>
 #import <ISVungleInterstitialDelegate.h>
 #import <ISVungleBannerDelegate.h>
@@ -687,13 +687,6 @@ static InitState initState = INIT_STATE_NONE;
     }
 }
 
-- (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width {
-    CGFloat height = [self getVungleAdaptiveHeightWithWidth:width];
-    LogAdapterApi_Internal(@"%@", [NSString stringWithFormat:@"height - %.2f for width - %.2f", height, width]);
-    
-    return height;
-}
-
 - (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                  adData:(NSDictionary *)adData {
     NSString *placementId = adapterConfig.settings[kPlacementId];
@@ -801,34 +794,7 @@ static InitState initState = INIT_STATE_NONE;
         }
     }
     
-    if ([size respondsToSelector:@selector(containerParams)]) {
-        if (size.isAdaptive) {
-            vungleAdSize = [VungleAdSize VungleAdSizeFromCGSize:CGSizeMake(size.containerParams.width, 0)];
-            LogAdapterApi_Internal(@"default height - %@ container height - %@ default width - %@ container width - %@", @(size.height), @(size.containerParams.height), @(size.width), @(size.containerParams.width));
-        }
-    } else {
-        LogInternal_Error(@"containerParams is not supported");
-    }
-    
     return vungleAdSize;
-}
-
-- (CGFloat)getVungleAdaptiveHeightWithWidth:(CGFloat)width {
-    __block CGFloat height;
-    
-    void (^calculateAdaptiveHeight)(void) = ^{
-        height = [[UIScreen mainScreen] bounds].size.height;
-    };
-    
-    if ([NSThread isMainThread]) {
-        calculateAdaptiveHeight();
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            calculateAdaptiveHeight();
-        });
-    }
-    
-    return height;
 }
 
 @end
