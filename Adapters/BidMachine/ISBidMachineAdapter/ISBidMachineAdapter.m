@@ -358,8 +358,8 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                      adData:(NSDictionary *)adData
-                                                    delegate:(id<ISBiddingDataDelegate>)delegate {
+                                                 adData:(NSDictionary *)adData
+                                               delegate:(id<ISBiddingDataDelegate>)delegate {
     [self collectBiddingDataWithAdData:adData
                               adFormat:BidMachinePlacementFormatInterstitial
                               delegate:delegate];

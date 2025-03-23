@@ -3,223 +3,136 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2EA467EB2B1784FA00FBAA0C /* ISBidMachineAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA467E22B1784FA00FBAA0C /* ISBidMachineAdapter.m */; };
-		2EA467EC2B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA467E32B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.h */; };
-		2EA467ED2B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA467E42B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.h */; };
-		2EA467EE2B1784FA00FBAA0C /* ISBidMachineBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA467E52B1784FA00FBAA0C /* ISBidMachineBannerDelegate.m */; };
-		2EA467EF2B1784FA00FBAA0C /* ISBidMachineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA467E62B1784FA00FBAA0C /* ISBidMachineConstants.h */; };
-		2EA467F02B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA467E72B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.m */; };
-		2EA467F12B1784FA00FBAA0C /* ISBidMachineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA467E82B1784FA00FBAA0C /* ISBidMachineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2EA467F22B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EA467E92B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.m */; };
-		2EA467F32B1784FA00FBAA0C /* ISBidMachineBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EA467EA2B1784FA00FBAA0C /* ISBidMachineBannerDelegate.h */; };
-		FAA14B3A9E627F8BF857CF34 /* Pods_ISBidMachineAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0E1ED9A1F2621FF8CE4A1DE /* Pods_ISBidMachineAdapter.framework */; };
+		27315B6FABE6D52C3C9D62EB /* ISBidMachineBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 03AF4B7DFCE1C5DEEFC277F6 /* ISBidMachineBannerDelegate.h */; };
+		52F1F6F634FF1886534B9506 /* ISBidMachineBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDB82DD3EA4E6E0F825507A /* ISBidMachineBannerDelegate.m */; };
+		9B69DFDDB39C8CEC2ADE8814 /* ISBidMachineRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D9867B0E0BFD0B44C16BC1A0 /* ISBidMachineRewardedVideoDelegate.m */; };
+		A90662026DD804E1D7A3557A /* ISBidMachineRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F1BCB3EA05AAFF4A7F62EF50 /* ISBidMachineRewardedVideoDelegate.h */; };
+		C3C764A961E6A4DDD9885627 /* ISBidMachineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 376DAF3272FA7F581887F1CE /* ISBidMachineConstants.h */; };
+		CC61981E3A00CDFBCBE00C87 /* ISBidMachineInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A61D2EE5A2E38F22416246FB /* ISBidMachineInterstitialDelegate.m */; };
+		D49A203FE5C372AEE6147600 /* ISBidMachineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 65E2EF17C6A63215E9C27734 /* ISBidMachineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E67DDB99961DA3475BF47457 /* ISBidMachineAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6308AE10A8001BF067B95223 /* ISBidMachineAdapter.m */; };
+		F45BA3E1755FE03AF5D4C6FE /* ISBidMachineInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B63C181ED1A376169659792B /* ISBidMachineInterstitialDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2EA467E22B1784FA00FBAA0C /* ISBidMachineAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineAdapter.m; sourceTree = "<group>"; };
-		2EA467E32B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBidMachineRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		2EA467E42B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBidMachineInterstitialDelegate.h; sourceTree = "<group>"; };
-		2EA467E52B1784FA00FBAA0C /* ISBidMachineBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineBannerDelegate.m; sourceTree = "<group>"; };
-		2EA467E62B1784FA00FBAA0C /* ISBidMachineConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBidMachineConstants.h; sourceTree = "<group>"; };
-		2EA467E72B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineInterstitialDelegate.m; sourceTree = "<group>"; };
-		2EA467E82B1784FA00FBAA0C /* ISBidMachineAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBidMachineAdapter.h; sourceTree = "<group>"; };
-		2EA467E92B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		2EA467EA2B1784FA00FBAA0C /* ISBidMachineBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISBidMachineBannerDelegate.h; sourceTree = "<group>"; };
-		D41D2AF21E02C04CBFA05654 /* Pods-ISBidMachineAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISBidMachineAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISBidMachineAdapter/Pods-ISBidMachineAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		D7BF13C93D7ABD0BD6E18B0E /* Pods-ISBidMachineAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISBidMachineAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISBidMachineAdapter/Pods-ISBidMachineAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		E0E1ED9A1F2621FF8CE4A1DE /* Pods_ISBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFE27C0428337CC500391127 /* ISBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		03AF4B7DFCE1C5DEEFC277F6 /* ISBidMachineBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBidMachineBannerDelegate.h; sourceTree = "<group>"; };
+		376DAF3272FA7F581887F1CE /* ISBidMachineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBidMachineConstants.h; sourceTree = "<group>"; };
+		6308AE10A8001BF067B95223 /* ISBidMachineAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineAdapter.m; sourceTree = "<group>"; };
+		65E2EF17C6A63215E9C27734 /* ISBidMachineAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBidMachineAdapter.h; sourceTree = "<group>"; };
+		A61D2EE5A2E38F22416246FB /* ISBidMachineInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineInterstitialDelegate.m; sourceTree = "<group>"; };
+		B63C181ED1A376169659792B /* ISBidMachineInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBidMachineInterstitialDelegate.h; sourceTree = "<group>"; };
+		D9867B0E0BFD0B44C16BC1A0 /* ISBidMachineRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		EEDB82DD3EA4E6E0F825507A /* ISBidMachineBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISBidMachineBannerDelegate.m; sourceTree = "<group>"; };
+		F1BCB3EA05AAFF4A7F62EF50 /* ISBidMachineRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISBidMachineRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		FF562D6EEAC0E7FD9CBE5349 /* ISBidMachineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISBidMachineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		EFE27C0128337CC500391127 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FAA14B3A9E627F8BF857CF34 /* Pods_ISBidMachineAdapter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		2B13A6DEF45C8EF527BE2EBC /* Pods */ = {
+		0325F7E6CE42245C1A774D89 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D41D2AF21E02C04CBFA05654 /* Pods-ISBidMachineAdapter.debug.xcconfig */,
-				D7BF13C93D7ABD0BD6E18B0E /* Pods-ISBidMachineAdapter.release.xcconfig */,
+				FF562D6EEAC0E7FD9CBE5349 /* ISBidMachineAdapter.framework */,
 			);
-			path = Pods;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		2EA467E12B1784FA00FBAA0C /* ISBidMachineAdapter */ = {
+		5F3D2B3037B6F8246CDD028D /* ISBidMachineAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				2EA467E22B1784FA00FBAA0C /* ISBidMachineAdapter.m */,
-				2EA467E32B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.h */,
-				2EA467E42B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.h */,
-				2EA467E52B1784FA00FBAA0C /* ISBidMachineBannerDelegate.m */,
-				2EA467E62B1784FA00FBAA0C /* ISBidMachineConstants.h */,
-				2EA467E72B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.m */,
-				2EA467E82B1784FA00FBAA0C /* ISBidMachineAdapter.h */,
-				2EA467E92B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.m */,
-				2EA467EA2B1784FA00FBAA0C /* ISBidMachineBannerDelegate.h */,
+				65E2EF17C6A63215E9C27734 /* ISBidMachineAdapter.h */,
+				6308AE10A8001BF067B95223 /* ISBidMachineAdapter.m */,
+				03AF4B7DFCE1C5DEEFC277F6 /* ISBidMachineBannerDelegate.h */,
+				EEDB82DD3EA4E6E0F825507A /* ISBidMachineBannerDelegate.m */,
+				376DAF3272FA7F581887F1CE /* ISBidMachineConstants.h */,
+				B63C181ED1A376169659792B /* ISBidMachineInterstitialDelegate.h */,
+				A61D2EE5A2E38F22416246FB /* ISBidMachineInterstitialDelegate.m */,
+				F1BCB3EA05AAFF4A7F62EF50 /* ISBidMachineRewardedVideoDelegate.h */,
+				D9867B0E0BFD0B44C16BC1A0 /* ISBidMachineRewardedVideoDelegate.m */,
 			);
 			path = ISBidMachineAdapter;
 			sourceTree = "<group>";
 		};
-		4A01E5CAA5F542408438AD5F /* Frameworks */ = {
+		AB23C3F74DE09E0C4E161F59 = {
 			isa = PBXGroup;
 			children = (
-				E0E1ED9A1F2621FF8CE4A1DE /* Pods_ISBidMachineAdapter.framework */,
+				5F3D2B3037B6F8246CDD028D /* ISBidMachineAdapter */,
+				0325F7E6CE42245C1A774D89 /* Products */,
 			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EFE27BFA28337CC500391127 = {
-			isa = PBXGroup;
-			children = (
-				2EA467E12B1784FA00FBAA0C /* ISBidMachineAdapter */,
-				EFE27C0528337CC500391127 /* Products */,
-				2B13A6DEF45C8EF527BE2EBC /* Pods */,
-				4A01E5CAA5F542408438AD5F /* Frameworks */,
-			);
-			sourceTree = "<group>";
-		};
-		EFE27C0528337CC500391127 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EFE27C0428337CC500391127 /* ISBidMachineAdapter.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		EFE27BFF28337CC500391127 /* Headers */ = {
+		F8678119016D60D37BA685A7 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EA467F12B1784FA00FBAA0C /* ISBidMachineAdapter.h in Headers */,
-				2EA467EC2B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.h in Headers */,
-				2EA467F32B1784FA00FBAA0C /* ISBidMachineBannerDelegate.h in Headers */,
-				2EA467ED2B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.h in Headers */,
-				2EA467EF2B1784FA00FBAA0C /* ISBidMachineConstants.h in Headers */,
+				D49A203FE5C372AEE6147600 /* ISBidMachineAdapter.h in Headers */,
+				27315B6FABE6D52C3C9D62EB /* ISBidMachineBannerDelegate.h in Headers */,
+				C3C764A961E6A4DDD9885627 /* ISBidMachineConstants.h in Headers */,
+				F45BA3E1755FE03AF5D4C6FE /* ISBidMachineInterstitialDelegate.h in Headers */,
+				A90662026DD804E1D7A3557A /* ISBidMachineRewardedVideoDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EFE27C0328337CC500391127 /* ISBidMachineAdapter */ = {
+		FCDB6BB74EEA23FF026509B1 /* ISBidMachineAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISBidMachineAdapter" */;
+			buildConfigurationList = 967D86B5483814943FD65185 /* Build configuration list for PBXNativeTarget "ISBidMachineAdapter" */;
 			buildPhases = (
-				71194D6B9F40058293E0FD2D /* [CP] Check Pods Manifest.lock */,
-				EFE27BFF28337CC500391127 /* Headers */,
-				EFE27C0028337CC500391127 /* Sources */,
-				EFE27C0128337CC500391127 /* Frameworks */,
-				EFE27C0228337CC500391127 /* Resources */,
-				EFE27C1C28337E5800391127 /* Create XCFramework */,
-				2EA468002B1C863F00FBAA0C /* ShellScript */,
+				0D65B7A4ABCD105FC659D83B /* Create XCFramework */,
+				F8678119016D60D37BA685A7 /* Headers */,
+				06AEA4B70AC847CA1033D07C /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ISBidMachineAdapter;
-			productName = ISAdColonyAdapter;
-			productReference = EFE27C0428337CC500391127 /* ISBidMachineAdapter.framework */;
+			productName = ISBidMachineAdapter;
+			productReference = FF562D6EEAC0E7FD9CBE5349 /* ISBidMachineAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EFE27BFB28337CC500391127 /* Project object */ = {
+		9439981DB8BF500704346631 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1330;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					EFE27C0328337CC500391127 = {
-						CreatedOnToolsVersion = 13.3.1;
+					FCDB6BB74EEA23FF026509B1 = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
 					};
 				};
 			};
-			buildConfigurationList = EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISBidMachineAdapter" */;
-			compatibilityVersion = "Xcode 13.0";
+			buildConfigurationList = 2BDD32B5099F82F21F0D4AAE /* Build configuration list for PBXProject "ISBidMachineAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = EFE27BFA28337CC500391127;
-			productRefGroup = EFE27C0528337CC500391127 /* Products */;
+			mainGroup = AB23C3F74DE09E0C4E161F59;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EFE27C0328337CC500391127 /* ISBidMachineAdapter */,
+				FCDB6BB74EEA23FF026509B1 /* ISBidMachineAdapter */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		EFE27C0228337CC500391127 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		2EA468002B1C863F00FBAA0C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nrm -fr \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BidMachineResources.bundle\"\n";
-		};
-		71194D6B9F40058293E0FD2D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ISBidMachineAdapter-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EFE27C1C28337E5800391127 /* Create XCFramework */ = {
+		0D65B7A4ABCD105FC659D83B /* Create XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -235,93 +148,62 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EFE27C0028337CC500391127 /* Sources */ = {
+		06AEA4B70AC847CA1033D07C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EA467EE2B1784FA00FBAA0C /* ISBidMachineBannerDelegate.m in Sources */,
-				2EA467F02B1784FA00FBAA0C /* ISBidMachineInterstitialDelegate.m in Sources */,
-				2EA467F22B1784FA00FBAA0C /* ISBidMachineRewardedVideoDelegate.m in Sources */,
-				2EA467EB2B1784FA00FBAA0C /* ISBidMachineAdapter.m in Sources */,
+				E67DDB99961DA3475BF47457 /* ISBidMachineAdapter.m in Sources */,
+				52F1F6F634FF1886534B9506 /* ISBidMachineBannerDelegate.m in Sources */,
+				CC61981E3A00CDFBCBE00C87 /* ISBidMachineInterstitialDelegate.m in Sources */,
+				9B69DFDDB39C8CEC2ADE8814 /* ISBidMachineRewardedVideoDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EFE27C0928337CC500391127 /* Debug */ = {
+		0D9C93C1D435CDD21DF7BA2B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISBidMachineAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISBidMachineAdapter;
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		EFE27C0A28337CC500391127 /* Release */ = {
+		484FB17E5A8002D761EDEDFF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -348,7 +230,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -360,108 +241,129 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		EFE27C0C28337CC500391127 /* Debug */ = {
+		79B77CCDEC9D4C32E9FC0F23 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D41D2AF21E02C04CBFA05654 /* Pods-ISBidMachineAdapter.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = NLKYWCU5C3;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				EXCLUDED_ARCHS = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_FILE = ISBidMachineAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISBidMachineAdapter;
-				PRODUCT_NAME = ISBidMachineAdapter;
-				SKIP_INSTALL = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISBidMachineAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INCLUDE_PATHS = "$(inherited) \"${PODS_CONFIGURATION_BUILD_DIR}/BidMachine\" \"${PODS_CONFIGURATION_BUILD_DIR}/IronSourceSDK\"";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
-		EFE27C0D28337CC500391127 /* Release */ = {
+		C5057D00D6DDB908FBE1C1BC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7BF13C93D7ABD0BD6E18B0E /* Pods-ISBidMachineAdapter.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				EXCLUDED_ARCHS = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
+					"DEBUG=1",
 				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISBidMachineAdapter;
-				PRODUCT_NAME = ISBidMachineAdapter;
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_INCLUDE_PATHS = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
-			name = Release;
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EFE27BFE28337CC500391127 /* Build configuration list for PBXProject "ISBidMachineAdapter" */ = {
+		2BDD32B5099F82F21F0D4AAE /* Build configuration list for PBXProject "ISBidMachineAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0928337CC500391127 /* Debug */,
-				EFE27C0A28337CC500391127 /* Release */,
+				C5057D00D6DDB908FBE1C1BC /* Debug */,
+				484FB17E5A8002D761EDEDFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		EFE27C0B28337CC500391127 /* Build configuration list for PBXNativeTarget "ISBidMachineAdapter" */ = {
+		967D86B5483814943FD65185 /* Build configuration list for PBXNativeTarget "ISBidMachineAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C0C28337CC500391127 /* Debug */,
-				EFE27C0D28337CC500391127 /* Release */,
+				79B77CCDEC9D4C32E9FC0F23 /* Debug */,
+				0D9C93C1D435CDD21DF7BA2B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EFE27BFB28337CC500391127 /* Project object */;
+	rootObject = 9439981DB8BF500704346631 /* Project object */;
 }
