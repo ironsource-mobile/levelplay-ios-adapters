@@ -2,7 +2,7 @@
  platform :ios, '13.0'
 
 target 'ISPangleAdapter' do
-  pod 'IronSourceSDK', '8.7.0.0'
-  pod "Ads-Global", '6.5.0.8'
+  pod 'IronSourceSDK', '8.8.0.0'
+  pod "Ads-Global", '7.1.0.8'
 
 end

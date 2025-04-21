@@ -21,6 +21,7 @@ static NSString * const kSlotId             = @"slotID";
 static NSString * const kMetaDataCOPPAKey   = @"Pangle_COPPA";
 static NSString * const kCOPPAChild         = @"1";
 static NSString * const kCOPPAAdult         = @"0";
+static NSString * const kLevelPlayAdxID     = @"33";
 
 // Pangle errors
 static NSInteger kFPangleNoFillErrorCode    = 20001;
@@ -133,6 +134,7 @@ static PAGSdk* _pangleSDK = nil;
             PAGConfig *config = [PAGConfig shareConfig];
             config.appID = appId;
             config.debugLog = [ISConfigurations getConfigurations].adaptersDebug ? YES : NO;
+            config.adxID = kLevelPlayAdxID;
                 
             ISPangleAdapter * __weak weakSelf = self;
             [PAGSdk startWithConfig:config
@@ -922,42 +924,31 @@ static PAGSdk* _pangleSDK = nil;
     config.GDPRConsent = consent ? PAGGDPRConsentTypeConsent : PAGGDPRConsentTypeNoConsent;
 }
 
-- (void) setCOPPAValue:(NSInteger)value {
-    LogAdapterApi_Internal(@"value = %@", value == 1 ? @"PAGChildDirectedTypeChild" : @"PAGChildDirectedTypeNonChild");
-    PAGConfig *config = [PAGConfig shareConfig];
-    config.childDirected = value == 1 ? PAGChildDirectedTypeChild : PAGChildDirectedTypeNonChild;
-}
-
 - (void)setCCPAValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value ? @"PAGDoNotSellTypeNotSell" : @"PAGDoNotSellTypeSell");
+    LogAdapterApi_Internal(@"value = %@", value ? @"PAGPAConsentTypeNoConsent" : @"PAGPAConsentTypeConsent");
     PAGConfig *config = [PAGConfig shareConfig];
-    config.doNotSell = value ? PAGDoNotSellTypeNotSell : PAGDoNotSellTypeSell;
+    config.PAConsent = value ? PAGPAConsentTypeNoConsent : PAGPAConsentTypeConsent;
 }
 
 - (void)setMetaDataWithKey:(NSString *)key
                  andValues:(NSMutableArray *)values {
-    
+
     if (values.count == 0) {
         return;
     }
-    
+
     // This is an array of 1 value
     NSString *value = values[0];
-    
+
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-        
-    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                                  flag:kMetaDataCOPPAKey
-                                              andValue:value]) {
-        if ([value isEqualToString:kCOPPAChild] || [value isEqualToString:kCOPPAAdult]) {
-            [self setCOPPAValue:value.integerValue];
-        }
+
     }
 }
 
 #pragma mark - Helper Methods
+
 
 - (void)collectBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                             delegate:(id<ISBiddingDataDelegate>)delegate {
@@ -968,8 +959,11 @@ static PAGSdk* _pangleSDK = nil;
         [delegate failureWithError:error];
         return;
     }
+    PAGBiddingRequest *request = [PAGBiddingRequest new];
+    request.adxID = kLevelPlayAdxID;
+    request.slotID = slotId;
     
-    [PAGSdk getBiddingToken:slotId completion:^(NSString *biddingToken) {
+    [PAGSdk getBiddingTokenWithRequest:request completion:^(NSString *biddingToken) {
         if (biddingToken.length > 0) {
             NSDictionary *biddingDataDictionary = @{@"token": biddingToken};
             LogAdapterApi_Internal(@"token = %@", biddingToken);
