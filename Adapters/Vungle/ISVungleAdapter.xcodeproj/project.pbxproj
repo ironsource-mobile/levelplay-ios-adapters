@@ -94,6 +94,8 @@
 			dependencies = (
 			);
 			name = ISVungleAdapter;
+			packageProductDependencies = (
+			);
 			productName = ISVungleAdapter;
 			productReference = E1ACD9A9C37B9201D75E2B0E /* ISVungleAdapter.framework */;
 			productType = "com.apple.product-type.framework";
@@ -122,6 +124,8 @@
 				en,
 			);
 			mainGroup = B9E079CE5AF175281F87B1C1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

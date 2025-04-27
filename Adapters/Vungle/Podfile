@@ -2,7 +2,7 @@
  platform :ios, '13.0'
 
 target 'ISVungleAdapter' do
-  pod 'IronSourceSDK', '8.7.0.0'
-  pod 'VungleAds', '7.4.5'
+  pod 'IronSourceSDK', '8.8.0.0'
+  pod 'VungleAds', '7.5.0'
 
 end
