@@ -91,6 +91,8 @@
 			dependencies = (
 			);
 			name = ISPangleAdapter;
+			packageProductDependencies = (
+			);
 			productName = ISPangleAdapter;
 			productReference = CBEF0ACDE11677039BC5DE55 /* ISPangleAdapter.framework */;
 			productType = "com.apple.product-type.framework";
@@ -119,6 +121,8 @@
 				en,
 			);
 			mainGroup = F3E34B46E9CAB23FFE07470D;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
