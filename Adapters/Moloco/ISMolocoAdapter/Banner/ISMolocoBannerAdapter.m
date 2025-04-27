@@ -169,7 +169,7 @@
     MolocoBannerAdView *bannerAdView = nil;
     
     if (adSize == MolocoBannerTypeMrec) {
-        bannerAdView = [[Moloco shared] createMRECFor:adUnitId viewController:viewController delegate:delegate];
+        bannerAdView = [[Moloco shared] createMRECFor:adUnitId viewController:viewController delegate:delegate watermarkData:nil];
     } else if (adSize == MolocoBannerTypeRegular){
         bannerAdView = [[Moloco shared] createBannerFor:adUnitId viewController:viewController delegate:delegate watermarkData:nil];
     }

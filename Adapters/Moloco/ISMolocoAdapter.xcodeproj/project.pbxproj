@@ -144,6 +144,8 @@
 			dependencies = (
 			);
 			name = ISMolocoAdapter;
+			packageProductDependencies = (
+			);
 			productName = ISMolocoAdapter;
 			productReference = DA9DE395DB6EC290EAA25C42 /* ISMolocoAdapter.framework */;
 			productType = "com.apple.product-type.framework";
@@ -172,6 +174,8 @@
 				en,
 			);
 			mainGroup = 4786E57AC2A2EC3029E75E57;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
