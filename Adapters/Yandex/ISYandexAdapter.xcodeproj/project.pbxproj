@@ -144,6 +144,8 @@
 			dependencies = (
 			);
 			name = ISYandexAdapter;
+			packageProductDependencies = (
+			);
 			productName = ISYandexAdapter;
 			productReference = 2A92E31EADFAE06BF8230276 /* ISYandexAdapter.framework */;
 			productType = "com.apple.product-type.framework";
@@ -172,6 +174,8 @@
 				en,
 			);
 			mainGroup = 63825EF1D55AB0B374C090C3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
