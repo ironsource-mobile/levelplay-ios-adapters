@@ -52,7 +52,6 @@
     LogAdapterDelegate_Internal(@"zoneId = %@", self.zoneId);
     [self.delegate adapterInterstitialDidOpen];
     [self.delegate adapterInterstitialDidShow];
-    [self.delegate adapterInterstitialDidBecomeVisible];
 }
 
 @end

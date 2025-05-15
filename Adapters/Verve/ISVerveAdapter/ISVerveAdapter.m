@@ -80,6 +80,10 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     dispatch_once(&initSdkOnceToken, ^{
         LogAdapterApi_Internal(@"appToken = %@", appToken);
         
+        if ([ISConfigurations getConfigurations].adaptersDebug) {
+            [HyBidLogger setLogLevel:HyBidLogLevelDebug];
+        }
+        
         initState = INIT_STATE_IN_PROGRESS;
         [HyBid initWithAppToken:appToken 
                      completion: ^(BOOL initSuccess){
