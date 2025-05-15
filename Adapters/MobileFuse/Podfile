@@ -3,7 +3,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'ISMobileFuseAdapter' do
-  pod 'IronSourceSDK','8.7.0.0'
-  pod 'MobileFuseSDK', '1.9.0'
+  pod 'IronSourceSDK', '8.8.0.0'
+  pod 'MobileFuseSDK', '1.9.1'
 
 end

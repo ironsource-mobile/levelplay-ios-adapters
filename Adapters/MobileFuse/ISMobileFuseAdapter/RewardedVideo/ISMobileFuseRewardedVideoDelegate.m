@@ -66,6 +66,9 @@
 /// Triggered when a loaded ad has expired - you should manually try to load a new ad here
 - (void)onAdExpired:(MFAd *)ad {
     LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    NSError *smashError = [ISError createError:ERROR_RV_EXPIRED_ADS
+                              withMessage:@"ads are expired"];
+    [self.delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
 }
 
 @end
