@@ -4,6 +4,6 @@ use_frameworks!
 
 target 'ISMobileFuseAdapter' do
   pod 'IronSourceSDK', '8.8.0.0'
-  pod 'MobileFuseSDK', '1.9.1'
+  pod 'MobileFuseSDK', '1.9.2'
 
 end
