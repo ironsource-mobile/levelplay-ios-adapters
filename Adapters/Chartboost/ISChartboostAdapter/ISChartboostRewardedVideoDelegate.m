@@ -52,8 +52,6 @@
     if (error) {
         [_delegate onRewardedVideoShowFail:_locationId
                                  withError:error];
-    } else {
-        [_delegate onRewardedVideoDidOpen:_locationId];
     }
 }
 

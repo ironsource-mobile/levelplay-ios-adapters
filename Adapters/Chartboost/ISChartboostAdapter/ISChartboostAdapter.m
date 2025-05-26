@@ -457,15 +457,10 @@ static NSNumber *setCOPPA = nil;
     [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
 }
 
-- (void)onRewardedVideoDidOpen:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
-    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-    [delegate adapterRewardedVideoDidOpen];
-}
-
 - (void)onRewardedVideoDidRecordImpression:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterRewardedVideoDidOpen];
     [delegate adapterRewardedVideoDidStart];
 }
 
@@ -681,15 +676,10 @@ static NSNumber *setCOPPA = nil;
     [delegate adapterInterstitialDidFailToLoadWithError:smashError];
 }
 
-- (void)onInterstitialDidOpen:(NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
-    id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
-    [delegate adapterInterstitialDidOpen];
-}
-
 - (void)onInterstitialDidRecordImpression:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterInterstitialDidOpen];
     [delegate adapterInterstitialDidShow];
 }
 
@@ -905,10 +895,6 @@ static NSNumber *setCOPPA = nil;
                                           userInfo:@{NSLocalizedDescriptionKey:error.description}];
     
     [delegate adapterBannerDidFailToLoadWithError:smashError];
-}
-
-- (void)onBannerDidShow:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
 }
 
 - (void)onBannerDidRecordImpression:(nonnull NSString *)locationId {

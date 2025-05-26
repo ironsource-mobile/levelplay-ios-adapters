@@ -52,8 +52,6 @@
     if (error) {
         [_delegate onInterstitialShowFail:_locationId
                                 withError:error];
-    } else {
-        [_delegate onInterstitialDidOpen:_locationId];
     }
 }
 

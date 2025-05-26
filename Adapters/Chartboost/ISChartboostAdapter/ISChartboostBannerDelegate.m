@@ -52,8 +52,6 @@
     if (error) {
         [_delegate onBannerDidFailToShow:_locationId
                                withError:error];
-    } else {
-        [_delegate onBannerDidShow:_locationId];
     }
 }
 

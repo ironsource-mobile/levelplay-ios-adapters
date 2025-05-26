@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)locationId
                            withError:(nonnull CHBCacheError *)error;
 
-- (void)onRewardedVideoDidOpen:(nonnull NSString *)locationId;
-
 - (void)onRewardedVideoShowFail:(nonnull NSString *)locationId
                       withError:(nonnull CHBShowError *)error;
 

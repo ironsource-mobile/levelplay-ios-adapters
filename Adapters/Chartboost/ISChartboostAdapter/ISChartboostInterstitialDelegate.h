@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onInterstitialDidFailToLoad:(nonnull NSString *)locationId
                           withError:(nonnull CHBCacheError *)error;
 
-- (void)onInterstitialDidOpen:(nonnull NSString *)locationId;
-
 - (void)onInterstitialShowFail:(nonnull NSString *)locationId
                      withError:(nonnull CHBShowError *)error;
 
