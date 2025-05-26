@@ -440,91 +440,79 @@ static NSNumber *setCOPPA = nil;
 - (void)onRewardedVideoDidLoad:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-    
-    if (delegate) {
-        [delegate adapterRewardedVideoHasChangedAvailability:YES];
-    }
+    [delegate adapterRewardedVideoHasChangedAvailability:YES];
 }
 
 - (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)locationId
                            withError:(nonnull CHBCacheError *)error {
     LogAdapterDelegate_Internal(@"locationId = %@, error = %@", locationId, error.description);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        
-        NSInteger errorCode = (error.code == CHBCacheErrorCodeNoAdFound) ? ERROR_RV_LOAD_NO_FILL : error.code;
-        NSError *smashError = [NSError errorWithDomain:kAdapterName
-                                                  code:errorCode
-                                              userInfo:@{NSLocalizedDescriptionKey:error.description}];
-        
-        [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
-    }
+    [delegate adapterRewardedVideoHasChangedAvailability:NO];
+    
+    NSInteger errorCode = (error.code == CHBCacheErrorCodeNoAdFound) ? ERROR_RV_LOAD_NO_FILL : error.code;
+    NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                              code:errorCode
+                                          userInfo:@{NSLocalizedDescriptionKey:error.description}];
+    
+    [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
 }
 
 - (void)onRewardedVideoDidOpen:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterRewardedVideoDidOpen];
+}
 
-    if (delegate) {
-        [delegate adapterRewardedVideoDidOpen];
-        [delegate adapterRewardedVideoDidStart];
-    }
+- (void)onRewardedVideoDidRecordImpression:(nonnull NSString *)locationId {
+    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterRewardedVideoDidStart];
 }
 
 - (void)onRewardedVideoShowFail:(nonnull NSString *)locationId
                       withError:(nonnull CHBShowError *)error {
     LogAdapterDelegate_Internal(@"locationId = %@, error = %@", locationId, error.description);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        NSError *smashError = [NSError errorWithDomain:kAdapterName
-                                                  code:error.code
-                                              userInfo:@{NSLocalizedDescriptionKey: error.description}];
-        [delegate adapterRewardedVideoDidFailToShowWithError:smashError];
-    }
+    NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                              code:error.code
+                                          userInfo:@{NSLocalizedDescriptionKey: error.description}];
+    [delegate adapterRewardedVideoDidFailToShowWithError:smashError];
 }
 
 - (void)onRewardedVideoDidClick:(nonnull NSString *)locationId
                       withError:(nullable CHBClickError *)error {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        [delegate adapterRewardedVideoDidClick];
-        
-        if (error) {
-            LogAdapterDelegate_Internal(@"error = %@", error.description);
-        }
+    [delegate adapterRewardedVideoDidClick];
+    if (error) {
+        LogAdapterDelegate_Internal(@"error = %@", error.description);
     }
 }
 
 - (void)onRewardedVideoDidReceiveReward:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        [delegate adapterRewardedVideoDidReceiveReward];
-    }
+    [delegate adapterRewardedVideoDidReceiveReward];
 }
 
 - (void)onRewardedVideoDidEnd:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        [delegate adapterRewardedVideoDidEnd];
-    }
+    [delegate adapterRewardedVideoDidEnd];
 }
 
 - (void)onRewardedVideoDidClose:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterRewardedVideoDidClose];
+}
 
-    if (delegate) {
-        [delegate adapterRewardedVideoDidClose];
-    }
+-(void)onRewardedVideoDidExpire:(NSString *)locationId {
+    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+    id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
+    NSError *smashError = [ISError createError:ERROR_RV_EXPIRED_ADS
+                                   withMessage:@"ads are expired"];
+    [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
 }
 
 #pragma mark - Interstitial API
@@ -678,48 +666,41 @@ static NSNumber *setCOPPA = nil;
 - (void)onInterstitialDidLoad:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
-    
-    if (delegate) {
-        [delegate adapterInterstitialDidLoad];
-    }
+    [delegate adapterInterstitialDidLoad];
 }
 
 - (void)onInterstitialDidFailToLoad:(nonnull NSString *)locationId
                           withError:(nonnull CHBCacheError *)error {
     LogAdapterDelegate_Internal(@"locationId = %@, error = %@", locationId, error.description);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        NSInteger errorCode = (error.code == CHBCacheErrorCodeNoAdFound) ? ERROR_IS_LOAD_NO_FILL : error.code;
-        NSError *smashError = [NSError errorWithDomain:kAdapterName
-                                                  code:errorCode
-                                              userInfo:@{NSLocalizedDescriptionKey: error.description}];
-        
-        [delegate adapterInterstitialDidFailToLoadWithError:smashError];
-    }
+    NSInteger errorCode = (error.code == CHBCacheErrorCodeNoAdFound) ? ERROR_IS_LOAD_NO_FILL : error.code;
+    NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                              code:errorCode
+                                          userInfo:@{NSLocalizedDescriptionKey: error.description}];
+    
+    [delegate adapterInterstitialDidFailToLoadWithError:smashError];
 }
 
 - (void)onInterstitialDidOpen:(NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterInterstitialDidOpen];
+}
 
-    if (delegate) {
-        [delegate adapterInterstitialDidOpen];
-        [delegate adapterInterstitialDidShow];
-    }
+- (void)onInterstitialDidRecordImpression:(nonnull NSString *)locationId {
+    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+    id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterInterstitialDidShow];
 }
 
 - (void)onInterstitialShowFail:(nonnull NSString *)locationId
                      withError:(nonnull CHBShowError *)error {
     LogAdapterDelegate_Internal(@"locationId = %@, error = %@", locationId, error.description);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        NSError *smashError = [NSError errorWithDomain:kAdapterName
-                                                  code:error.code
-                                              userInfo:@{NSLocalizedDescriptionKey:error.description}];
-        [delegate adapterInterstitialDidFailToShowWithError:smashError];
-    }
+    NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                              code:error.code
+                                          userInfo:@{NSLocalizedDescriptionKey:error.description}];
+    [delegate adapterInterstitialDidFailToShowWithError:smashError];
 }
 
 - (void)onInterstitialDidClick:(nonnull NSString *)locationId
@@ -727,23 +708,21 @@ static NSNumber *setCOPPA = nil;
 
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        [delegate adapterInterstitialDidClick];
-        
-        if (error) {
-            LogAdapterDelegate_Internal(@"error = %@", error.description);
-        }
+    [delegate adapterInterstitialDidClick];
+    
+    if (error) {
+        LogAdapterDelegate_Internal(@"error = %@", error.description);
     }
 }
 
 - (void)onInterstitialDidClose:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterInterstitialDidClose];
+}
 
-    if (delegate) {
-        [delegate adapterInterstitialDidClose];
-    }
+- (void)onInterstitialDidExpire:(nonnull NSString *)locationId {
+    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
 }
 
 #pragma mark - Banner API
@@ -886,7 +865,7 @@ static NSNumber *setCOPPA = nil;
     });
 }
 
-- (void) destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
+- (void) destroyBannerWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {    
     NSString *locationId = adapterConfig.settings[kLocationId];
     LogAdapterApi_Internal(@"locationId = %@", locationId);
 
@@ -911,11 +890,8 @@ static NSNumber *setCOPPA = nil;
 
     if (bannerAd && viewController) {
         id<ISBannerAdapterDelegate> delegate = [_bannerLocationIdToSmashDelegate objectForKey:locationId];
-
-        if (delegate) {
-            [delegate adapterBannerDidLoad:bannerAd];
-            [bannerAd showFromViewController:viewController];
-        }
+        [delegate adapterBannerDidLoad:bannerAd];
+        [bannerAd showFromViewController:viewController];
     }
 }
 
@@ -923,24 +899,22 @@ static NSNumber *setCOPPA = nil;
                     withError:(nonnull CHBCacheError *)error {
     LogAdapterDelegate_Internal(@"locationId = %@, error = %@", locationId, error.description);
     id<ISBannerAdapterDelegate> delegate = [_bannerLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        NSInteger errorCode = (error.code == CHBCacheErrorCodeNoAdFound) ? ERROR_BN_LOAD_NO_FILL : error.code;
-        NSError *smashError = [NSError errorWithDomain:kAdapterName
-                                                  code:errorCode
-                                              userInfo:@{NSLocalizedDescriptionKey:error.description}];
-        
-        [delegate adapterBannerDidFailToLoadWithError:smashError];
-    }
+    NSInteger errorCode = (error.code == CHBCacheErrorCodeNoAdFound) ? ERROR_BN_LOAD_NO_FILL : error.code;
+    NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                              code:errorCode
+                                          userInfo:@{NSLocalizedDescriptionKey:error.description}];
+    
+    [delegate adapterBannerDidFailToLoadWithError:smashError];
 }
 
 - (void)onBannerDidShow:(nonnull NSString *)locationId {
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
-    id<ISBannerAdapterDelegate> delegate = [_bannerLocationIdToSmashDelegate objectForKey:locationId];
+}
 
-    if (delegate) {
-        [delegate adapterBannerDidShow];
-    }
+- (void)onBannerDidRecordImpression:(nonnull NSString *)locationId {
+    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+    id<ISBannerAdapterDelegate> delegate = [_bannerLocationIdToSmashDelegate objectForKey:locationId];
+    [delegate adapterBannerDidShow];
 }
 
 - (void)onBannerDidFailToShow:(nonnull NSString *)locationId
@@ -953,14 +927,15 @@ static NSNumber *setCOPPA = nil;
 
     LogAdapterDelegate_Internal(@"locationId = %@", locationId);
     id<ISBannerAdapterDelegate> delegate = [_bannerLocationIdToSmashDelegate objectForKey:locationId];
-
-    if (delegate) {
-        [delegate adapterBannerDidClick];
-        
-        if (error) {
-            LogAdapterDelegate_Internal(@"error = %@", error.description);
-        }
+    [delegate adapterBannerDidClick];
+    
+    if (error) {
+        LogAdapterDelegate_Internal(@"error = %@", error.description);
     }
+}
+
+- (void)onBannerDidExpire:(NSString *)locationId {
+    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
 }
 
 #pragma mark - Memory Handling
@@ -1024,11 +999,11 @@ static NSNumber *setCOPPA = nil;
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
         
     } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                                   flag:kMetaDataCOPPAKey
-                                               andValue:value]) {
-         NSString *formattedValue = [ISMetaDataUtils formatValue:value
-                                                         forType:(META_DATA_VALUE_BOOL)];
-         [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
+                                                  flag:kMetaDataCOPPAKey
+                                              andValue:value]) {
+        NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                        forType:(META_DATA_VALUE_BOOL)];
+        [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
     }
 }
 

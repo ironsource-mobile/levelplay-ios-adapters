@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onBannerDidClick:(nonnull NSString *)locationId
                withError:(nullable CHBClickError *)error;
 
+- (void)onBannerDidExpire:(nonnull NSString *)locationId;
+
+- (void)onBannerDidRecordImpression:(nonnull NSString *)locationId;
 
 @end
 

@@ -58,6 +58,16 @@
 }
 
 /*!
+ @brief Called after an ad has recorded an impression.
+ @param event An impression event with info related to the visible ad.
+ @discussion Implement to be notified of when an ad has recorded an impression.
+ This method will be called once a valid impression is recorded after showing the ad.
+*/
+- (void)didRecordImpression:(CHBImpressionEvent *)event {
+    [_delegate onBannerDidRecordImpression:_locationId];
+}
+
+/*!
  @brief Called after an ad has been clicked.
  @param event A click event with info related to the ad clicked.
  @param error An error specifying the failure reason, or nil if the operation was successful.
@@ -68,6 +78,15 @@
              error:(nullable CHBClickError *)error {
     [_delegate onBannerDidClick:_locationId
                       withError:error];
+}
+
+/*!
+ @brief Called when a loaded ad has expired.
+ @param event An expiration event with info related to the expired ad.
+ @discussion Implement to be notified of when an ad has expired. This method will be called if a loaded as is not shown before a predetermined expiration interval. After expired a new ad may be loaded.
+ */
+- (void)didExpireAd:(CHBExpirationEvent *)event {
+    [_delegate onBannerDidExpire:_locationId];
 }
 
 @end

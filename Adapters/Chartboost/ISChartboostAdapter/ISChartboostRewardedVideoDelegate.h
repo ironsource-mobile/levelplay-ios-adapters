@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onRewardedVideoDidClose:(nonnull NSString *)locationId;
 
+- (void)onRewardedVideoDidExpire:(nonnull NSString *)locationId;
+
+- (void)onRewardedVideoDidRecordImpression:(nonnull NSString *)locationId;
+
 @end
 
 @interface ISChartboostRewardedVideoDelegate : NSObject <CHBRewardedDelegate>

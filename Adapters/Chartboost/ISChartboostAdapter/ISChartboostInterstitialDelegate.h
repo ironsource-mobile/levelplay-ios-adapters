@@ -28,6 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onInterstitialDidClose:(nonnull NSString *)locationId;
 
+- (void)onInterstitialDidExpire:(nonnull NSString *)locationId;
+
+- (void)onInterstitialDidRecordImpression:(nonnull NSString *)locationId;
+
 @end
 
 @interface ISChartboostInterstitialDelegate : NSObject <CHBInterstitialDelegate>
