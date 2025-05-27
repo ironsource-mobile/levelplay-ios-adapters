@@ -27,7 +27,7 @@ static NSString * const kInMobiDoNotSellKey         = @"do_not_sell";
 
 // Consent and metadata
 static NSString *consentCollectingUserData = nil;
-static BOOL      isAgeRestrictionCollectingUserData = nil;
+static NSNumber *ageRestrictionCollectingUserData = nil;
 static NSNumber *doNotSellCollectingUserData = nil;
 
 // Handle init callback for all adapter instances
@@ -171,7 +171,13 @@ static InitState initState = INIT_STATE_NONE;
 
 - (void)onNetworkInitCallbackSuccess {
     if (consentCollectingUserData != nil) {
-        [self setAgeRestricted:consentCollectingUserData];
+        BOOL isConsent = [consentCollectingUserData  intValue] == 1 ? YES : NO;
+        [self setConsent:isConsent];
+    }
+    
+    if(ageRestrictionCollectingUserData != nil) {
+        BOOL isAgeRestricted = [ageRestrictionCollectingUserData  intValue] == 1 ? YES : NO;
+        [self setAgeRestricted:isAgeRestricted];
     }
     
     // Rewarded video
@@ -1020,7 +1026,7 @@ static InitState initState = INIT_STATE_NONE;
         LogAdapterApi_Internal(@"Restricted = %@", isAgeRestricted ? @"YES" : @"NO");
         [IMSdk setIsAgeRestricted:isAgeRestricted];
     } else {
-        isAgeRestrictionCollectingUserData = isAgeRestricted;
+        ageRestrictionCollectingUserData = isAgeRestricted ? @1 : @0;
     }
 }
 
