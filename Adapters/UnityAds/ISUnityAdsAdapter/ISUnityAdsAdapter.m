@@ -453,7 +453,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 - (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                   adData:(NSDictionary *)adData
                                                 delegate:(id<ISBiddingDataDelegate>)delegate {
-    [self getBiddingDataWithDelegate: delegate];
+    [self getBiddingDataFor:UnityAdsAdFormatRewarded withDelegate: delegate];
 }
 
 #pragma mark - Rewarded Video Delegate
@@ -695,7 +695,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 - (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                  adData:(NSDictionary *)adData
                                                delegate:(id<ISBiddingDataDelegate>)delegate {
-    [self getBiddingDataWithDelegate:delegate];
+    [self getBiddingDataFor:UnityAdsAdFormatInterstitial withDelegate:delegate];
 }
 
 #pragma mark - Interstitial Delegate
@@ -918,7 +918,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 - (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
                                            adData:(NSDictionary *)adData
                                          delegate:(id<ISBiddingDataDelegate>)delegate {
-    [self getBiddingDataWithDelegate: delegate];
+    [self getBiddingDataFor:UnityAdsAdFormatBanner withDelegate: delegate];
 }
 
 #pragma mark - Banner Delegate
@@ -1032,8 +1032,9 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 #pragma mark - Private Methods
 
-- (void)getBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
-    [UnityAds getToken:^(NSString * _Nullable token) {
+- (void)getBiddingDataFor:(UnityAdsAdFormat)format withDelegate:(id<ISBiddingDataDelegate>)delegate {
+    UnityAdsTokenConfiguration *config = [UnityAdsTokenConfiguration newWithAdFormat:format];
+    [UnityAds getTokenWith:config completion:^(NSString * _Nullable token) {
         if (token != nil && ![token isEqualToString:@""]) {
             LogAdapterApi_Internal(@"token = %@", token);
             [delegate successWithBiddingData:@{ @"token": token }];
