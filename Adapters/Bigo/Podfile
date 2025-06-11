@@ -3,7 +3,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'ISBigoAdapter' do
-  pod 'IronSourceSDK', '8.7.0.0'
-  pod 'BigoADS', '4.7.0'
+  pod 'IronSourceSDK', '8.9.0.0'
+  pod 'BigoADS', '4.8.0'
 
 end
