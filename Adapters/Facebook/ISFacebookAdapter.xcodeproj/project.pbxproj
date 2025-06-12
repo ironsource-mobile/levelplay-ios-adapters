@@ -180,6 +180,8 @@
 			dependencies = (
 			);
 			name = ISFacebookAdapter;
+			packageProductDependencies = (
+			);
 			productName = ISFacebookAdapter;
 			productReference = E84B9AAC0354C51F3F1621FA /* ISFacebookAdapter.framework */;
 			productType = "com.apple.product-type.framework";
@@ -208,6 +210,8 @@
 				en,
 			);
 			mainGroup = 8CE88424CAD3E82D1E0C0CD0;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 54;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -273,7 +277,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ISFacebookAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -357,7 +361,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ISFacebookAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
