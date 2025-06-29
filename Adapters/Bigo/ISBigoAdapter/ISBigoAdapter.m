@@ -64,7 +64,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 - (NSString *)getMediationInfo {
     NSDictionary *mediationInfoDict = @{@"mediationName" : @"LevelPlay",
-                                        @"mediationVersion" : [IronSource sdkVersion],
+                                        @"mediationVersion" : [LevelPlay sdkVersion],
                                         @"adapterVersion" : BigoAdapterVersion};
     
     NSError *error = nil;
