@@ -129,7 +129,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             @synchronized (self.unityAdsStorageLock) {
                 UADSMediationMetaData *mediationMetaData = [[UADSMediationMetaData alloc] init];
                 [mediationMetaData setName:kMediationName];
-                [mediationMetaData setVersion:[IronSource sdkVersion]];
+                [mediationMetaData setVersion:[LevelPlay sdkVersion]];
                 [mediationMetaData set:kAdapterVersionKey
                                  value:kAdapterVersion];
                 [mediationMetaData set:kUnityAdsInitBlobKey
