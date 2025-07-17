@@ -9,7 +9,7 @@
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const FacebookAdapterVersion = @"4.3.50";
+static NSString * const FacebookAdapterVersion = @"4.3.51";
 static NSString * Githash = @"";
 
 //System Frameworks For Facebook Adapter

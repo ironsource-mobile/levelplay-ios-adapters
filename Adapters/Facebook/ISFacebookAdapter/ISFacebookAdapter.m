@@ -187,7 +187,7 @@ static NSString* _mediationService = nil;
 
 - (NSString *)getMediationService {
     if (!_mediationService) {
-        _mediationService = [NSString stringWithFormat:@"%@_%@:%@", kMediationName, [IronSource sdkVersion], FacebookAdapterVersion];
+        _mediationService = [NSString stringWithFormat:@"%@_%@:%@", kMediationName, [LevelPlay sdkVersion], FacebookAdapterVersion];
         LogAdapterApi_Internal(@"mediationService = %@", _mediationService);
     }
     
