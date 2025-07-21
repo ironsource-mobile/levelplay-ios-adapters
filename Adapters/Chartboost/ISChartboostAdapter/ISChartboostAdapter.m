@@ -1126,7 +1126,7 @@ static NSNumber *setCOPPA = nil;
 - (CHBMediation *)getMediationInfo {
     if (_mediationInfo == nil) {
         _mediationInfo = [[CHBMediation alloc] initWithName:kMediationName
-                                             libraryVersion:[IronSource sdkVersion]
+                                             libraryVersion:[LevelPlay sdkVersion]
                                              adapterVersion:kAdapterVersion];
     }
     
