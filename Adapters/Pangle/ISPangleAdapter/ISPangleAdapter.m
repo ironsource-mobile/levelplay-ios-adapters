@@ -18,9 +18,6 @@ static NSString * const kAppId              = @"appID";
 static NSString * const kSlotId             = @"slotID";
 
 // Meta data flags
-static NSString * const kMetaDataCOPPAKey   = @"Pangle_COPPA";
-static NSString * const kCOPPAChild         = @"1";
-static NSString * const kCOPPAAdult         = @"0";
 static NSString * const kLevelPlayAdxID     = @"33";
 
 // Pangle errors
