@@ -150,7 +150,7 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
     NSDictionary *configParams = @{
         @"adapter_version": YandexAdapterVersion,
         @"adapter_network_name": kMediationName,
-        @"adapter_network_sdk_version": [IronSource sdkVersion]
+        @"adapter_network_sdk_version": [LevelPlay sdkVersion]
     };
     
     return configParams;
