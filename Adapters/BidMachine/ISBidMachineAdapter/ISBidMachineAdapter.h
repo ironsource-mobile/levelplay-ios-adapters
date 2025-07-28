@@ -2,12 +2,12 @@
 //  ISBidMachineAdapter.h
 //  ISBidMachineAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const BidMachineAdapterVersion = @"4.3.17";
+static NSString * const BidMachineAdapterVersion = @"4.3.18";
 static NSString * Githash = @"";
 
 //No System Frameworks For BidMachine Adapter are required

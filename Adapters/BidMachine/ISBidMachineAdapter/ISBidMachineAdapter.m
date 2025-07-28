@@ -2,7 +2,7 @@
 //  ISBidMachineAdapter.m
 //  ISBidMachineAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <ISBidMachineAdapter.h>
@@ -174,10 +174,8 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     self.rewardedVideoSmashDelegate = delegate;
     
     NSError *configurationError = nil;
-    NSString *sourceId = adapterConfig.settings[kSourceId];
-
     BidMachineAuctionRequest *auctionRequest = [self createAuctionRequestWithFormat:BidMachinePlacementFormatRewarded
-                                                                           sourceId:sourceId
+                                                                      adapterConfig:adapterConfig
                                                                          serverData:serverData];
     if (configurationError) {
         LogInternal_Error(@"error = %@", configurationError.description);
@@ -241,10 +239,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 - (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                   adData:(NSDictionary *)adData
                                                 delegate:(id<ISBiddingDataDelegate>)delegate {
-    NSString *sourceId = adapterConfig.settings[kSourceId];
     [self collectBiddingDataWithAdData:adData
                               adFormat:BidMachinePlacementFormatRewarded
-                              sourceId:sourceId
+                         adapterConfig:adapterConfig
                               delegate:delegate];
 }
 
@@ -288,10 +285,8 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     self.interstitialSmashDelegate = delegate;
     
     NSError *configurationError = nil;
-    NSString *sourceId = adapterConfig.settings[kSourceId];
-
     BidMachineAuctionRequest *auctionRequest = [self createAuctionRequestWithFormat:BidMachinePlacementFormatInterstitial
-                                                                           sourceId:sourceId
+                                                                      adapterConfig:adapterConfig
                                                                          serverData:serverData];
     if (configurationError) {
         LogInternal_Error(@"error = %@", configurationError.description);
@@ -358,10 +353,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 - (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                  adData:(NSDictionary *)adData
                                                delegate:(id<ISBiddingDataDelegate>)delegate {
-    NSString *sourceId = adapterConfig.settings[kSourceId];
     [self collectBiddingDataWithAdData:adData
                               adFormat:BidMachinePlacementFormatInterstitial
-                              sourceId:sourceId
+                         adapterConfig:adapterConfig
                               delegate:delegate];
 }
 
@@ -409,9 +403,8 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     BidMachinePlacementFormat bannerFormat = [self getBannerFormat:size];
     
     NSError *configurationError = nil;
-    NSString *sourceId = adapterConfig.settings[kSourceId];
     BidMachineAuctionRequest *auctionRequest = [self createAuctionRequestWithFormat:bannerFormat
-                                                                           sourceId:sourceId
+                                                                      adapterConfig:adapterConfig
                                                                          serverData:serverData];
     if (configurationError) {
         LogInternal_Error(@"error = %@", configurationError.description);
@@ -469,10 +462,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     if ([adData objectForKey:@"bannerSize"]) {
         ISBannerSize *size = [adData objectForKey:@"bannerSize"];
         BidMachinePlacementFormat bannerFormat = [self getBannerFormat:size];
-        NSString *sourceId = adapterConfig.settings[kSourceId];
         [self collectBiddingDataWithAdData:adData
                                   adFormat:bannerFormat
-                                  sourceId:sourceId
+                             adapterConfig:adapterConfig
                                   delegate:delegate];
     }
 }
@@ -562,7 +554,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 - (void)collectBiddingDataWithAdData:(NSDictionary *)adData
                             adFormat:(BidMachinePlacementFormat)adFormat
-                         sourceId:(NSString *)sourceId
+                       adapterConfig:(ISAdapterConfig *)adapterConfig
                             delegate:(id<ISBiddingDataDelegate>)delegate {
     
     if (initState == INIT_STATE_NONE) {
@@ -572,9 +564,14 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         return;
     }
     NSError *placementError = nil;
+    NSString *placementId = adapterConfig.settings[kPlacementId];
     BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:adFormat
                                                                    error:&placementError
-                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {}];
+                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+        if(placementId.length > 0) {
+            [builder withPlacementId:placementId];
+        }
+    }];
     [BidMachineSdk.shared tokenWithPlacement:placement completion:^(NSString * _Nullable token) {
         NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: token, @"token", nil];
         NSString *returnedToken = token? token : @"";
@@ -599,12 +596,17 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (nullable BidMachineAuctionRequest *)createAuctionRequestWithFormat:(BidMachinePlacementFormat)format
-                                                            sourceId:(NSString *)sourceId
-                                                          serverData:(NSString *)serverData {
+                                                        adapterConfig:(ISAdapterConfig *)adapterConfig
+                                                           serverData:(NSString *)serverData {
     NSError *placementError = nil;
+    NSString *placementId = adapterConfig.settings[kPlacementId];
     BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:format
                                                                    error:&placementError
-                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {}];
+                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+        if (placementId.length > 0) {
+            [builder withPlacementId:placementId];
+        }
+    }];
     
     if (!placement) {
         return nil;
