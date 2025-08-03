@@ -2,7 +2,7 @@
 //  ISAppLovinRewardedVideoDelegate.m
 //  ISAppLovinAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <ISAppLovinRewardedVideoDelegate.h>
@@ -37,6 +37,7 @@
  */
 - (void)adService:(ALAdService *)adService
         didLoadAd:(ALAd *)ad {
+    [_adapter setRewardedAd:ad];
     [_delegate onRewardedVideoDidLoad:_zoneId];
 }
 

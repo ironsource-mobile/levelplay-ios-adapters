@@ -3,241 +3,143 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29C05363BD63B7671A065D54 /* libPods-ISAppLovinAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFABBB11F7ED01217603BEE /* libPods-ISAppLovinAdapter.a */; };
-		561EF16E29C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 561EF16629C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.h */; };
-		561EF16F29C73F3A0056916F /* ISAppLovinAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EF16729C73F3A0056916F /* ISAppLovinAdapter.m */; };
-		561EF17029C73F3A0056916F /* ISAppLovinBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 561EF16829C73F3A0056916F /* ISAppLovinBannerDelegate.h */; };
-		561EF17129C73F3A0056916F /* ISAppLovinInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 561EF16929C73F3A0056916F /* ISAppLovinInterstitialDelegate.h */; };
-		561EF17229C73F3A0056916F /* ISAppLovinBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EF16A29C73F3A0056916F /* ISAppLovinBannerDelegate.m */; };
-		561EF17329C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EF16B29C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.m */; };
-		561EF17429C73F3A0056916F /* ISAppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 561EF16C29C73F3A0056916F /* ISAppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		561EF17529C73F3A0056916F /* ISAppLovinInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 561EF16D29C73F3A0056916F /* ISAppLovinInterstitialDelegate.m */; };
+		07C762E84F6C8FD41E1ACFE5 /* ISAppLovinAdHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4737C841DD5DFEB3DA940B9 /* ISAppLovinAdHolder.m */; };
+		4605774779390E2275AD7D8A /* ISAppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D6F24BD49760F1015E0A0D1C /* ISAppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4BD22D382C26A6268F9EDA3D /* ISApplovinInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE588FB717B3B22DDF71C37 /* ISApplovinInterstitialDelegate.m */; };
+		564F5AA32C996A3B5EBD2BE1 /* ISApplovinBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C27688A200DB579DBDFED2B /* ISApplovinBannerDelegate.m */; };
+		718EE55673A946098515342B /* ISApplovinRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E8FFA5AA35C2B954AF3914 /* ISApplovinRewardedVideoDelegate.m */; };
+		BD63B204976E81B925FB8B12 /* ISApplovinInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DB8996EDC412EA23A3243D63 /* ISApplovinInterstitialDelegate.h */; };
+		CD9CE0B92BFED565D25E761A /* ISApplovinBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D75B08C08201C50FDC9EEC20 /* ISApplovinBannerDelegate.h */; };
+		F2C7F0104C141D3EC5A35560 /* ISAppLovinAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DD4DB780E10CA54854B7D9 /* ISAppLovinAdapter.m */; };
+		FC98685195FBC04FF31DA944 /* ISAppLovinAdHolder.h in Headers */ = {isa = PBXBuildFile; fileRef = F5DDA91A1B4D4773BAB47BF7 /* ISAppLovinAdHolder.h */; };
+		FD1C587164A213EA9FD8AC39 /* ISApplovinRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C74A6746DAF545A7223559AE /* ISApplovinRewardedVideoDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A5D82A3155947DA1F761136 /* Pods-ISAppLovinAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAppLovinAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISAppLovinAdapter/Pods-ISAppLovinAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		3CE6F94EAAE0B81744253373 /* Pods-ISApplovinAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISApplovinAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISApplovinAdapter/Pods-ISApplovinAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		3DFABBB11F7ED01217603BEE /* libPods-ISAppLovinAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ISAppLovinAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4D65FD6A09068DCFDF32EDFC /* Pods-ISApplovinAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISApplovinAdapter.debug.xcconfig"; path = "Target Support Files/Pods-ISApplovinAdapter/Pods-ISApplovinAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		561EF16629C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISAppLovinRewardedVideoDelegate.h; path = ISAppLovinAdapter/ISAppLovinRewardedVideoDelegate.h; sourceTree = SOURCE_ROOT; };
-		561EF16729C73F3A0056916F /* ISAppLovinAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISAppLovinAdapter.m; path = ISAppLovinAdapter/ISAppLovinAdapter.m; sourceTree = SOURCE_ROOT; };
-		561EF16829C73F3A0056916F /* ISAppLovinBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISAppLovinBannerDelegate.h; path = ISAppLovinAdapter/ISAppLovinBannerDelegate.h; sourceTree = SOURCE_ROOT; };
-		561EF16929C73F3A0056916F /* ISAppLovinInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISAppLovinInterstitialDelegate.h; path = ISAppLovinAdapter/ISAppLovinInterstitialDelegate.h; sourceTree = SOURCE_ROOT; };
-		561EF16A29C73F3A0056916F /* ISAppLovinBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISAppLovinBannerDelegate.m; path = ISAppLovinAdapter/ISAppLovinBannerDelegate.m; sourceTree = SOURCE_ROOT; };
-		561EF16B29C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISAppLovinRewardedVideoDelegate.m; path = ISAppLovinAdapter/ISAppLovinRewardedVideoDelegate.m; sourceTree = SOURCE_ROOT; };
-		561EF16C29C73F3A0056916F /* ISAppLovinAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISAppLovinAdapter.h; path = ISAppLovinAdapter/ISAppLovinAdapter.h; sourceTree = SOURCE_ROOT; };
-		561EF16D29C73F3A0056916F /* ISAppLovinInterstitialDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISAppLovinInterstitialDelegate.m; path = ISAppLovinAdapter/ISAppLovinInterstitialDelegate.m; sourceTree = SOURCE_ROOT; };
-		A8BAA3CC03C74D4F66AB5D9D /* Pods-ISAppLovinAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISAppLovinAdapter.release.xcconfig"; path = "Target Support Files/Pods-ISAppLovinAdapter/Pods-ISAppLovinAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		EFE27C4A2833831C00391127 /* ISAppLovinAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAppLovinAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C27688A200DB579DBDFED2B /* ISApplovinBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISApplovinBannerDelegate.m; sourceTree = "<group>"; };
+		80E8FFA5AA35C2B954AF3914 /* ISApplovinRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISApplovinRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		96DD4DB780E10CA54854B7D9 /* ISAppLovinAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinAdapter.m; sourceTree = "<group>"; };
+		9A51D7CEFFEC0EB965F3172A /* ISAppLovinAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAppLovinAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4737C841DD5DFEB3DA940B9 /* ISAppLovinAdHolder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinAdHolder.m; sourceTree = "<group>"; };
+		C74A6746DAF545A7223559AE /* ISApplovinRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISApplovinRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		D6F24BD49760F1015E0A0D1C /* ISAppLovinAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinAdapter.h; sourceTree = "<group>"; };
+		D75B08C08201C50FDC9EEC20 /* ISApplovinBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISApplovinBannerDelegate.h; sourceTree = "<group>"; };
+		DB8996EDC412EA23A3243D63 /* ISApplovinInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISApplovinInterstitialDelegate.h; sourceTree = "<group>"; };
+		ECE588FB717B3B22DDF71C37 /* ISApplovinInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISApplovinInterstitialDelegate.m; sourceTree = "<group>"; };
+		F5DDA91A1B4D4773BAB47BF7 /* ISAppLovinAdHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinAdHolder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		EFE27C472833831C00391127 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				29C05363BD63B7671A065D54 /* libPods-ISAppLovinAdapter.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		56A8D870D6A9BC19868B3199 /* Pods */ = {
+		40976E7D3CFAD944D83D85CD = {
 			isa = PBXGroup;
 			children = (
-				4D65FD6A09068DCFDF32EDFC /* Pods-ISApplovinAdapter.debug.xcconfig */,
-				3CE6F94EAAE0B81744253373 /* Pods-ISApplovinAdapter.release.xcconfig */,
-				0A5D82A3155947DA1F761136 /* Pods-ISAppLovinAdapter.debug.xcconfig */,
-				A8BAA3CC03C74D4F66AB5D9D /* Pods-ISAppLovinAdapter.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		B830D39B985A5D2D3C73B973 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3DFABBB11F7ED01217603BEE /* libPods-ISAppLovinAdapter.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EFE27C402833831B00391127 = {
-			isa = PBXGroup;
-			children = (
-				EFE27C4C2833831C00391127 /* ISApplovinAdapter */,
-				EFE27C4B2833831C00391127 /* Products */,
-				56A8D870D6A9BC19868B3199 /* Pods */,
-				B830D39B985A5D2D3C73B973 /* Frameworks */,
+				59A03BC363A457C820E5F3EE /* ISAppLovinAdapter */,
+				B904E8D5733BB267E754177A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		EFE27C4B2833831C00391127 /* Products */ = {
+		59A03BC363A457C820E5F3EE /* ISAppLovinAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				EFE27C4A2833831C00391127 /* ISAppLovinAdapter.framework */,
+				D6F24BD49760F1015E0A0D1C /* ISAppLovinAdapter.h */,
+				96DD4DB780E10CA54854B7D9 /* ISAppLovinAdapter.m */,
+				F5DDA91A1B4D4773BAB47BF7 /* ISAppLovinAdHolder.h */,
+				B4737C841DD5DFEB3DA940B9 /* ISAppLovinAdHolder.m */,
+				D75B08C08201C50FDC9EEC20 /* ISApplovinBannerDelegate.h */,
+				1C27688A200DB579DBDFED2B /* ISApplovinBannerDelegate.m */,
+				DB8996EDC412EA23A3243D63 /* ISApplovinInterstitialDelegate.h */,
+				ECE588FB717B3B22DDF71C37 /* ISApplovinInterstitialDelegate.m */,
+				C74A6746DAF545A7223559AE /* ISApplovinRewardedVideoDelegate.h */,
+				80E8FFA5AA35C2B954AF3914 /* ISApplovinRewardedVideoDelegate.m */,
+			);
+			path = ISAppLovinAdapter;
+			sourceTree = "<group>";
+		};
+		B904E8D5733BB267E754177A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A51D7CEFFEC0EB965F3172A /* ISAppLovinAdapter.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		EFE27C4C2833831C00391127 /* ISApplovinAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				561EF16C29C73F3A0056916F /* ISAppLovinAdapter.h */,
-				561EF16729C73F3A0056916F /* ISAppLovinAdapter.m */,
-				561EF16829C73F3A0056916F /* ISAppLovinBannerDelegate.h */,
-				561EF16A29C73F3A0056916F /* ISAppLovinBannerDelegate.m */,
-				561EF16929C73F3A0056916F /* ISAppLovinInterstitialDelegate.h */,
-				561EF16D29C73F3A0056916F /* ISAppLovinInterstitialDelegate.m */,
-				561EF16629C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.h */,
-				561EF16B29C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.m */,
-			);
-			path = ISApplovinAdapter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		EFE27C452833831C00391127 /* Headers */ = {
+		9D301615F20A3E806AE8FEB1 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				561EF17429C73F3A0056916F /* ISAppLovinAdapter.h in Headers */,
-				561EF17029C73F3A0056916F /* ISAppLovinBannerDelegate.h in Headers */,
-				561EF17129C73F3A0056916F /* ISAppLovinInterstitialDelegate.h in Headers */,
-				561EF16E29C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.h in Headers */,
+				FC98685195FBC04FF31DA944 /* ISAppLovinAdHolder.h in Headers */,
+				4605774779390E2275AD7D8A /* ISAppLovinAdapter.h in Headers */,
+				CD9CE0B92BFED565D25E761A /* ISApplovinBannerDelegate.h in Headers */,
+				BD63B204976E81B925FB8B12 /* ISApplovinInterstitialDelegate.h in Headers */,
+				FD1C587164A213EA9FD8AC39 /* ISApplovinRewardedVideoDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EFE27C492833831C00391127 /* ISAppLovinAdapter */ = {
+		A3CA850D879F13EC35619533 /* ISAppLovinAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EFE27C512833831C00391127 /* Build configuration list for PBXNativeTarget "ISAppLovinAdapter" */;
+			buildConfigurationList = 3D9BB87ED3AD53D3DE7B1C67 /* Build configuration list for PBXNativeTarget "ISAppLovinAdapter" */;
 			buildPhases = (
-				EF51D08A59D0617F62DD8A5D /* [CP] Check Pods Manifest.lock */,
-				EFE27C452833831C00391127 /* Headers */,
-				EFE27C462833831C00391127 /* Sources */,
-				EFE27C472833831C00391127 /* Frameworks */,
-				EFE27C482833831C00391127 /* Resources */,
-				11AE775A66BB280C766CE4AA /* [CP] Copy Pods Resources */,
-				EF12BF022848D99E00700538 /* ShellScript */,
-				EFE27C6228338A4700391127 /* Create XCFramework */,
+				0615C3F8AA11D682DF6270A2 /* Create XCFramework */,
+				9D301615F20A3E806AE8FEB1 /* Headers */,
+				7B3F1CD1E57AA09F50DA73A7 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ISAppLovinAdapter;
-			productName = ISApplovinAdapter;
-			productReference = EFE27C4A2833831C00391127 /* ISAppLovinAdapter.framework */;
+			packageProductDependencies = (
+			);
+			productName = ISAppLovinAdapter;
+			productReference = 9A51D7CEFFEC0EB965F3172A /* ISAppLovinAdapter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EFE27C412833831B00391127 /* Project object */ = {
+		E812A797B1F008CCFD738321 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1330;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					EFE27C492833831C00391127 = {
-						CreatedOnToolsVersion = 13.3.1;
+					A3CA850D879F13EC35619533 = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
 					};
 				};
 			};
-			buildConfigurationList = EFE27C442833831B00391127 /* Build configuration list for PBXProject "ISAppLovinAdapter" */;
-			compatibilityVersion = "Xcode 13.0";
+			buildConfigurationList = 1B6EA92CACE0EB1AFF97DE37 /* Build configuration list for PBXProject "ISAppLovinAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = EFE27C402833831B00391127;
-			productRefGroup = EFE27C4B2833831C00391127 /* Products */;
+			mainGroup = 40976E7D3CFAD944D83D85CD;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EFE27C492833831C00391127 /* ISAppLovinAdapter */,
+				A3CA850D879F13EC35619533 /* ISAppLovinAdapter */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		EFE27C482833831C00391127 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
-		11AE775A66BB280C766CE4AA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ISAppLovinAdapter/Pods-ISAppLovinAdapter-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ISAppLovinAdapter/Pods-ISAppLovinAdapter-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ISAppLovinAdapter/Pods-ISAppLovinAdapter-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EF12BF022848D99E00700538 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "## Remove Applovin Resources from the adapter not to create Duplicate resources\nrm -fr \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppLovinSDKResources.bundle\"\n\n";
-		};
-		EF51D08A59D0617F62DD8A5D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ISAppLovinAdapter-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EFE27C6228338A4700391127 /* Create XCFramework */ = {
+		0615C3F8AA11D682DF6270A2 /* Create XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,32 +155,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EFE27C462833831C00391127 /* Sources */ = {
+		7B3F1CD1E57AA09F50DA73A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				561EF17329C73F3A0056916F /* ISAppLovinRewardedVideoDelegate.m in Sources */,
-				561EF16F29C73F3A0056916F /* ISAppLovinAdapter.m in Sources */,
-				561EF17529C73F3A0056916F /* ISAppLovinInterstitialDelegate.m in Sources */,
-				561EF17229C73F3A0056916F /* ISAppLovinBannerDelegate.m in Sources */,
+				07C762E84F6C8FD41E1ACFE5 /* ISAppLovinAdHolder.m in Sources */,
+				F2C7F0104C141D3EC5A35560 /* ISAppLovinAdapter.m in Sources */,
+				564F5AA32C996A3B5EBD2BE1 /* ISApplovinBannerDelegate.m in Sources */,
+				4BD22D382C26A6268F9EDA3D /* ISApplovinInterstitialDelegate.m in Sources */,
+				718EE55673A946098515342B /* ISApplovinRewardedVideoDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EFE27C4F2833831C00391127 /* Debug */ = {
+		366432DD53248A12134EBC48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -305,18 +209,129 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		86D3F985290F909CB0E57279 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
 				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISAppLovinAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISApplovinAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		E09068AD96A4119066BC1801 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISAppLovinAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISApplovinAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		E2BC41C951F567A969C184FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -324,160 +339,39 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
-		};
-		EFE27C502833831C00391127 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		EFE27C522833831C00391127 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A5D82A3155947DA1F761136 /* Pods-ISAppLovinAdapter.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				EXCLUDED_ARCHS = armv7;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISApplovinAdapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		EFE27C532833831C00391127 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8BAA3CC03C74D4F66AB5D9D /* Pods-ISAppLovinAdapter.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = NLKYWCU5C3;
-				DYLIB_COMPATIBILITY_VERSION = "";
-				DYLIB_CURRENT_VERSION = "";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				EXCLUDED_ARCHS = armv7;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 1.0;
-				OTHER_CFLAGS = "-fno-objc-msgsend-selector-stubs";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ironsource.ISApplovinAdapter;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EFE27C442833831B00391127 /* Build configuration list for PBXProject "ISAppLovinAdapter" */ = {
+		1B6EA92CACE0EB1AFF97DE37 /* Build configuration list for PBXProject "ISAppLovinAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C4F2833831C00391127 /* Debug */,
-				EFE27C502833831C00391127 /* Release */,
+				E2BC41C951F567A969C184FD /* Debug */,
+				366432DD53248A12134EBC48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		EFE27C512833831C00391127 /* Build configuration list for PBXNativeTarget "ISAppLovinAdapter" */ = {
+		3D9BB87ED3AD53D3DE7B1C67 /* Build configuration list for PBXNativeTarget "ISAppLovinAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EFE27C522833831C00391127 /* Debug */,
-				EFE27C532833831C00391127 /* Release */,
+				86D3F985290F909CB0E57279 /* Debug */,
+				E09068AD96A4119066BC1801 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EFE27C412833831B00391127 /* Project object */;
+	rootObject = E812A797B1F008CCFD738321 /* Project object */;
 }
