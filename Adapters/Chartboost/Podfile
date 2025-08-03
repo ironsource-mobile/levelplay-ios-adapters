@@ -3,6 +3,6 @@
 
 target 'ISChartboostAdapter' do
   pod 'IronSourceSDK', '8.10.0.0'
-  pod 'ChartboostSDK', '9.9.1'
+  pod 'ChartboostSDK', '9.9.2'
 
 end
