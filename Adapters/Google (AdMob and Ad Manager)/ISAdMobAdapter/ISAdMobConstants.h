@@ -3,7 +3,7 @@
 //  ISAdMobAdapter
 //
 //  Created by Hadar Pur on 20/04/2023.
-//  Copyright © 2023 ironSource. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

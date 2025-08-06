@@ -2,14 +2,14 @@
 //  ISAdMobAdapter.h
 //  ISAdMobAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-static NSString * const AdMobAdapterVersion = @"4.3.68";
+static NSString * const AdMobAdapterVersion = @"4.3.69";
 static NSString * Githash = @"";
 
 //System Frameworks For AdMob Adapter
