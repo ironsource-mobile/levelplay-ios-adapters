@@ -2,13 +2,13 @@
 //  ISPangleAdapter.h
 //  ISPangleAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const PangleAdapterVersion = @"4.3.50";
+static NSString * const PangleAdapterVersion = @"4.3.51";
 static NSString * Githash = @"";
 
 // System Frameworks For Pangle Adapter
