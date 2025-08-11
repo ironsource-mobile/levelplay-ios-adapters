@@ -3,7 +3,17 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'ISVerveAdapter' do
-  pod 'IronSourceSDK', '8.8.0.0'
-  pod 'HyBid', '3.6.0'
+  pod 'IronSourceSDK', '8.10.0.0'
+  pod 'HyBid', '3.6.1'
 
+end
+
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphoneos*]'] = ''
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = ''
+    end
+  end
 end
