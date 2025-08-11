@@ -2,7 +2,7 @@
 //  ISMolocoBannerDelegate.m
 //  ISMolocoAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import "ISMolocoBannerDelegate.h"

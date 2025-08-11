@@ -2,7 +2,7 @@
 //  ISMolocoBannerAdapter.h
 //  ISMolocoAdapter
 //
-//  Copyright © 2024 ironSource. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import "ISMolocoAdapter.h"

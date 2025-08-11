@@ -2,13 +2,13 @@
 //  ISMolocoAdapter.h
 //  ISMolocoAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const MolocoAdapterVersion = @"4.3.22";
+static NSString * const MolocoAdapterVersion = @"4.3.23";
 static NSString * Githash = @"";
 
 //System Frameworks For Moloco Adapter
