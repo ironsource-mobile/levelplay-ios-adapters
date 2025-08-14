@@ -2,7 +2,7 @@
 //  ISFacebookAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <FBAudienceNetwork/FBAudienceNetwork.h>

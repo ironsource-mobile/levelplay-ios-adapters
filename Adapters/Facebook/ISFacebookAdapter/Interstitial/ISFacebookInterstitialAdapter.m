@@ -2,7 +2,7 @@
 //  ISFacebookInterstitialAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2023 ironSource. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
@@ -167,7 +167,7 @@
             } else {
                 NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                           withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-                [delegate adapterInterstitialInitFailedWithError:error];
+                [delegate adapterInterstitialDidFailToShowWithError:error];
             }
             
         } @catch (NSException *exception) {
@@ -175,7 +175,7 @@
             NSError *error = [NSError errorWithDomain:kAdapterName
                                                  code:ERROR_CODE_GENERIC
                                              userInfo:@{NSLocalizedDescriptionKey:exception.description}];
-            [delegate adapterInterstitialInitFailedWithError:error];
+            [delegate adapterInterstitialDidFailToShowWithError:error];
         }
         
     });

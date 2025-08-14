@@ -2,7 +2,7 @@
 //  ISFacebookNativeAdAdapter.m
 //  ISFacebookAdapter
 //
-//  Copyright © 2023 ironSource. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import "ISFacebookNativeAdAdapter.h"
