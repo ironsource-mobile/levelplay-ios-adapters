@@ -2,7 +2,7 @@
 //  ISUnityAdsAdapter.m
 //  ISUnityAdsAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <ISUnityAdsAdapter.h>
@@ -42,7 +42,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                                 ISUnityAdsInterstitialDelegateWrapper,
                                 ISUnityAdsRewardedVideoDelegateWrapper>
 
-// Rewrded video
+// Rewarded video
 @property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToSmashDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToObjectId;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *rewardedVideoPlacementIdToDelegate;
@@ -1087,7 +1087,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             result = @"AD_BLOCKER_DETECTED";
             break;
         default:
-            result = @"UNKOWN_ERROR";
+            result = @"UNKNOWN_ERROR";
     }
     
     return result;
@@ -1113,7 +1113,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             result = @"LOAD_TIMEOUT";
             break;
         default:
-            result = @"UNKOWN_ERROR";
+            result = @"UNKNOWN_ERROR";
     }
     
     return result;
@@ -1139,16 +1139,16 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             result = @"NO_INTERNET_CONNECTION";
             break;
         case kUnityShowErrorAlreadyShowing:
-            result = @"AD_IS_ALREADY_BEIGN_SHOWED";
+            result = @"AD_IS_ALREADY_BEING_SHOWN";
             break;
         case kUnityShowErrorInternalError:
             result = @"INTERNAL_ERROR";
             break;
         case kUnityShowErrorTimeout:
-            result = @"AD_EXPIRED";
+            result = @"SHOW_TIMEOUT";
             break;
         default:
-            result = @"UNKOWN_ERROR";
+            result = @"UNKNOWN_ERROR";
     }
     
     return result;
