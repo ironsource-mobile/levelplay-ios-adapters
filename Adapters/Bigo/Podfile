@@ -4,6 +4,6 @@ use_frameworks!
 
 target 'ISBigoAdapter' do
   pod 'IronSourceSDK', '8.10.0.0'
-  pod 'BigoADS', '4.9.1'
+  pod 'BigoADS', '4.9.3'
 
 end
