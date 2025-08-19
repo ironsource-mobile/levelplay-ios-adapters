@@ -19,9 +19,13 @@ static NSString * const kSlotId             = @"slotID";
 
 // Meta data flags
 static NSString * const kLevelPlayAdxID     = @"33";
+static NSString * const kMetaDataCOPPAKey   = @"Pangle_COPPA";
+static NSString * const kCOPPAChild         = @"1";
+static NSString * const kCOPPAAdult         = @"0";
 
 // Pangle errors
 static NSInteger kFPangleNoFillErrorCode    = 20001;
+static NSInteger kFPangleChildErrorCode     = 20002;
 
 // Init state possible values
 typedef NS_ENUM(NSInteger, InitState) {
@@ -37,6 +41,13 @@ static InitState _initState = INIT_STATE_NONE;
 
 // Pangle SDK instance
 static PAGSdk* _pangleSDK = nil;
+
+// Pangle coppa
+static NSInteger const PANGLE_CHILD_DIRECTED_TYPE_CHILD  = 1;
+static NSInteger const PANGLE_CHILD_DIRECTED_TYPE_NON_CHILD  = 0;
+static NSInteger const PANGLE_CHILD_DIRECTED_TYPE_DEFAULT  = -1;
+
+static NSInteger _pangleCoppa = PANGLE_CHILD_DIRECTED_TYPE_DEFAULT;
 
 @interface ISPangleAdapter () <ISPangleBannerDelegateWrapper, ISPangleInterstitialDelegateWrapper, ISPangleRewardedVideoDelegateWrapper, ISNetworkInitCallbackProtocol>
 
@@ -118,6 +129,11 @@ static PAGSdk* _pangleSDK = nil;
     // Add self to the init delegates only in case the initialization has not finished yet
     if (_initState == INIT_STATE_NONE || _initState == INIT_STATE_IN_PROGRESS) {
         [initCallbackDelegates addObject:self];
+    }
+    
+    if ([self _isChild]) {
+        [self initializationFailure:[self _childError].description];
+        return;
     }
     
     static dispatch_once_t initSdkOnceToken;
@@ -383,6 +399,12 @@ static PAGSdk* _pangleSDK = nil;
         [self.rewardedVideoAdsAvailability setObject:@NO
                                               forKey:slotId];
         
+        if ([self _isChild]) {
+            [self onRewardedVideoDidFailToLoad:slotId
+                                     withError:[self _childError]];
+            return;
+        }
+        
         PAGRewardedRequest *request = [PAGRewardedRequest request];
          
         if (serverData) {
@@ -417,6 +439,11 @@ static PAGSdk* _pangleSDK = nil;
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
                               adapterConfig:(ISAdapterConfig *)adapterConfig
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    
+    if ([self _isChild]) {
+        [delegate adapterRewardedVideoDidFailToShowWithError:[self _childError]];
+        return;
+    }
     
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
@@ -617,6 +644,12 @@ static PAGSdk* _pangleSDK = nil;
         [self.interstitialAdsAvailability setObject:@NO
                                              forKey:slotId];
         
+        if ([self _isChild]) {
+            [self onInterstitialDidFailToLoad:slotId
+                                    withError:[self _childError]];
+            return;
+        }
+        
         PAGInterstitialRequest *request = [PAGInterstitialRequest request];
         
         if (serverData) {
@@ -648,6 +681,11 @@ static PAGSdk* _pangleSDK = nil;
 - (void)showInterstitialWithViewController:(UIViewController *)viewController
                              adapterConfig:(ISAdapterConfig *)adapterConfig
                                   delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
+    if ([self _isChild]) {
+        [delegate adapterInterstitialDidFailToShowWithError:[self _childError]];
+        return;
+    }
     
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
@@ -802,6 +840,13 @@ static PAGSdk* _pangleSDK = nil;
                                                                                       andDelegate:self];
         [self.bannerSlotIdToPangleAdDelegate setObject:bannerAdDelegate
                                                 forKey:slotId];
+        
+        if ([self _isChild]) {
+            [self onBannerDidFailToLoad:slotId
+                                    withError:[self _childError]];
+            return;
+        }
+        
         PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:[self getBannerSize:size]];
          
         if (serverData) {
@@ -921,6 +966,19 @@ static PAGSdk* _pangleSDK = nil;
     config.GDPRConsent = consent ? PAGGDPRConsentTypeConsent : PAGGDPRConsentTypeNoConsent;
 }
 
+- (void)setCOPPAValue:(NSInteger)value {
+    LogAdapterApi_Internal(@"value = %@", value == 1 ? @"PAGChildDirectedTypeChild" : @"PAGChildDirectedTypeNonChild");
+    if (value == 1) {
+        _pangleCoppa = PANGLE_CHILD_DIRECTED_TYPE_CHILD;
+    }
+    else if (value == 0) {
+        _pangleCoppa = PANGLE_CHILD_DIRECTED_TYPE_NON_CHILD;
+    }
+    else {
+        _pangleCoppa = PANGLE_CHILD_DIRECTED_TYPE_DEFAULT;
+    }
+}
+
 - (void)setCCPAValue:(BOOL)value {
     LogAdapterApi_Internal(@"value = %@", value ? @"PAGPAConsentTypeNoConsent" : @"PAGPAConsentTypeConsent");
     PAGConfig *config = [PAGConfig shareConfig];
@@ -941,7 +999,25 @@ static PAGSdk* _pangleSDK = nil;
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
 
-    }
+    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                                 flag:kMetaDataCOPPAKey
+                                             andValue:value]) {
+       if ([value isEqualToString:kCOPPAChild] || [value isEqualToString:kCOPPAAdult]) {
+           [self setCOPPAValue:value.integerValue];
+       }
+   }
+}
+
+#pragma mark - Child
+
+- (BOOL)_isChild {
+    return _pangleCoppa == PANGLE_CHILD_DIRECTED_TYPE_CHILD;
+}
+
+- (NSError *)_childError {
+    return [NSError errorWithDomain:kAdapterName
+                               code:kFPangleChildErrorCode
+                           userInfo:@{NSLocalizedDescriptionKey:@"Ironsource indicates the user is a child.Pangle SDK V71 or higher does not support child users."}];
 }
 
 #pragma mark - Helper Methods
@@ -956,6 +1032,12 @@ static PAGSdk* _pangleSDK = nil;
         [delegate failureWithError:error];
         return;
     }
+    
+    if ([self _isChild]) {
+        [delegate failureWithError:[self _childError].description];
+        return;
+    }
+    
     PAGBiddingRequest *request = [PAGBiddingRequest new];
     request.adxID = kLevelPlayAdxID;
     request.slotID = slotId;
