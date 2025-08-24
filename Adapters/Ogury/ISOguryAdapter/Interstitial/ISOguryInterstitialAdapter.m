@@ -86,7 +86,8 @@
     
     self.oguryAdDelegate = adDelegate;
     self.ad = [[OguryInterstitialAd alloc] initWithAdUnitId:adUnitId
-                                                  mediation:[[OguryMediation alloc] initWithName: kMediationName version:[IronSource sdkVersion]]];
+                                                  mediation:[[OguryMediation alloc] initWithName: kMediationName version:[LevelPlay sdkVersion]
+                                                            adapterVersion:oguryAdapterVersion]];
     self.ad.delegate = self.oguryAdDelegate;
 
     [self.ad loadWithAdMarkup: serverData];

@@ -97,7 +97,8 @@
         
         self.ad = [[OguryBannerAdView alloc] initWithAdUnitId:adUnitId
                                                          size:bannerSize
-                                                    mediation:[[OguryMediation alloc] initWithName: kMediationName version:[IronSource sdkVersion]]];
+                                                    mediation:[[OguryMediation alloc] initWithName: kMediationName version:[LevelPlay sdkVersion]
+                                                              adapterVersion:oguryAdapterVersion]];
         self.ad.delegate = self.oguryAdDelegate;
         
         CGRect bannerFrame = [self getBannerFrame:size];
