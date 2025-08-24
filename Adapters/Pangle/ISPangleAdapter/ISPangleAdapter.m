@@ -19,9 +19,18 @@ static NSString * const kSlotId             = @"slotID";
 
 // Meta data flags
 static NSString * const kLevelPlayAdxID     = @"33";
+static NSString * const kMetaDataCOPPAKey   = @"Pangle_COPPA";
 
-// Pangle errors
-static NSInteger kFPangleNoFillErrorCode    = 20001;
+// Pangle errors codes
+static NSInteger kPangleNoFillErrorCode    = 20001;
+static NSInteger kPangleChildErrorCode     = 20002;
+
+// Pangle coppa
+static NSInteger const PANGLE_CHILD_DIRECTED_TYPE_CHILD  = 1;
+static NSInteger const PANGLE_CHILD_DIRECTED_TYPE_NON_CHILD  = 0;
+static NSInteger const PANGLE_CHILD_DIRECTED_TYPE_DEFAULT  = -1;
+
+static NSInteger _childDirected = PANGLE_CHILD_DIRECTED_TYPE_DEFAULT;
 
 // Init state possible values
 typedef NS_ENUM(NSInteger, InitState) {
@@ -125,6 +134,11 @@ static PAGSdk* _pangleSDK = nil;
         _initState = INIT_STATE_IN_PROGRESS;
 
         LogAdapterApi_Internal(@"appId = %@", appId);
+        
+        if ([self _isCoppaChildUser]) {
+            [self initializationFailure:[self _childError].description];
+            return;
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -383,6 +397,13 @@ static PAGSdk* _pangleSDK = nil;
         [self.rewardedVideoAdsAvailability setObject:@NO
                                               forKey:slotId];
         
+        if ([self _isCoppaChildUser]) {
+            NSError *error = [self _childError];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [self onRewardedVideoDidFailToLoad:slotId withError:error];
+            return;
+        }
+        
         PAGRewardedRequest *request = [PAGRewardedRequest request];
          
         if (serverData) {
@@ -421,13 +442,19 @@ static PAGSdk* _pangleSDK = nil;
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
-    PAGRewardedAd *rewardedVideoAd = [self.rewardedVideoSlotIdToAd objectForKey:slotId];
-    
+    if ([self _isCoppaChildUser]) {
+        NSError *error = [self _childError];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterRewardedVideoDidFailToShowWithError:error];
+        return;
+    }
+        
     if ([self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         [self.rewardedVideoAdsAvailability setObject:@NO
                                               forKey:slotId];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            PAGRewardedAd *rewardedVideoAd = [self.rewardedVideoSlotIdToAd objectForKey:slotId];
             [rewardedVideoAd presentFromRootViewController:viewController];
         });
     } else {
@@ -474,7 +501,7 @@ static PAGSdk* _pangleSDK = nil;
 
     [delegate adapterRewardedVideoHasChangedAvailability:NO];
 
-    NSInteger errorCode = (error.code == kFPangleNoFillErrorCode) ? ERROR_RV_LOAD_NO_FILL : error.code;
+    NSInteger errorCode = (error.code == kPangleNoFillErrorCode) ? ERROR_RV_LOAD_NO_FILL : error.code;
     NSError *rewardedVideoError = [NSError errorWithDomain:kAdapterName
                                                       code:errorCode
                                                   userInfo:@{NSLocalizedDescriptionKey:error.description}];
@@ -617,6 +644,13 @@ static PAGSdk* _pangleSDK = nil;
         [self.interstitialAdsAvailability setObject:@NO
                                              forKey:slotId];
         
+        if ([self _isCoppaChildUser]) {
+            NSError *error = [self _childError];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [self onInterstitialDidFailToLoad:slotId withError:error];
+            return;
+        }
+        
         PAGInterstitialRequest *request = [PAGInterstitialRequest request];
         
         if (serverData) {
@@ -652,14 +686,19 @@ static PAGSdk* _pangleSDK = nil;
     NSString *slotId = adapterConfig.settings[kSlotId];
     LogAdapterApi_Internal(@"slotId = %@", slotId);
     
-    
-    PAGLInterstitialAd *interstitialAd = [self.interstitialSlotIdToAd objectForKey:slotId];
-    
+    if ([self _isCoppaChildUser]) {
+        NSError *error = [self _childError];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterInterstitialDidFailToShowWithError:error];
+        return;
+    }
+        
     if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
         [self.interstitialAdsAvailability setObject:@NO
                                              forKey:slotId];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            PAGLInterstitialAd *interstitialAd = [self.interstitialSlotIdToAd objectForKey:slotId];
             [interstitialAd presentFromRootViewController:viewController];
         });
         
@@ -706,7 +745,7 @@ static PAGSdk* _pangleSDK = nil;
     LogAdapterDelegate_Internal(@"slotId = %@, error = %@", slotId, error.description);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialSlotIdToSmashDelegate objectForKey:slotId];
 
-    NSInteger errorCode = (error.code == kFPangleNoFillErrorCode) ? ERROR_IS_LOAD_NO_FILL : error.code;
+    NSInteger errorCode = (error.code == kPangleNoFillErrorCode) ? ERROR_IS_LOAD_NO_FILL : error.code;
     NSError *interstitialError = [NSError errorWithDomain:kAdapterName
                                                      code:errorCode
                                                  userInfo:@{NSLocalizedDescriptionKey:error.description}];
@@ -802,6 +841,14 @@ static PAGSdk* _pangleSDK = nil;
                                                                                       andDelegate:self];
         [self.bannerSlotIdToPangleAdDelegate setObject:bannerAdDelegate
                                                 forKey:slotId];
+        
+        if ([self _isCoppaChildUser]) {
+            NSError *error = [self _childError];
+            LogAdapterApi_Internal(@"error = %@", error);
+            [self onBannerDidFailToLoad:slotId withError:error];
+            return;
+        }
+        
         PAGBannerRequest *request = [PAGBannerRequest requestWithBannerSize:[self getBannerSize:size]];
          
         if (serverData) {
@@ -864,7 +911,7 @@ static PAGSdk* _pangleSDK = nil;
     LogAdapterDelegate_Internal(@"slotId = %@, error = %@", slotId, error);
     id<ISBannerAdapterDelegate> delegate = [_bannerSlotIdToSmashDelegate objectForKey:slotId];
 
-    NSInteger errorCode = (error.code == kFPangleNoFillErrorCode) ? ERROR_BN_LOAD_NO_FILL : error.code;
+    NSInteger errorCode = (error.code == kPangleNoFillErrorCode) ? ERROR_BN_LOAD_NO_FILL : error.code;
     NSError *bannerError = [NSError errorWithDomain:kAdapterName
                                                code:errorCode
                                            userInfo:@{NSLocalizedDescriptionKey:error.description}];
@@ -927,6 +974,25 @@ static PAGSdk* _pangleSDK = nil;
     config.PAConsent = value ? PAGPAConsentTypeNoConsent : PAGPAConsentTypeConsent;
 }
 
+- (void)setCOPPAValue:(NSString *)value {
+    NSString *coppaValueString;
+    
+    if (value.integerValue == PANGLE_CHILD_DIRECTED_TYPE_CHILD) {
+        _childDirected = PANGLE_CHILD_DIRECTED_TYPE_CHILD;
+        coppaValueString = @"PANGLE_CHILD_DIRECTED_TYPE_CHILD";
+    }
+    else if (value.integerValue == PANGLE_CHILD_DIRECTED_TYPE_NON_CHILD) {
+        _childDirected = PANGLE_CHILD_DIRECTED_TYPE_NON_CHILD;
+        coppaValueString = @"PANGLE_CHILD_DIRECTED_TYPE_NON_CHILD";
+    }
+    else {
+        _childDirected = PANGLE_CHILD_DIRECTED_TYPE_DEFAULT;
+        coppaValueString = @"PANGLE_CHILD_DIRECTED_TYPE_DEFAULT";
+    }
+    
+    LogAdapterApi_Internal(@"coppaValue = %@", coppaValueString);
+}
+
 - (void)setMetaDataWithKey:(NSString *)key
                  andValues:(NSMutableArray *)values {
 
@@ -936,12 +1002,21 @@ static PAGSdk* _pangleSDK = nil;
 
     // This is an array of 1 value
     NSString *value = values[0];
+    LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
 
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
 
-    }
+    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                                 flag:kMetaDataCOPPAKey
+                                             andValue:value]) {
+        [self setCOPPAValue:value];
+   }
+}
+
+- (BOOL)_isCoppaChildUser {
+    return _childDirected == PANGLE_CHILD_DIRECTED_TYPE_CHILD;
 }
 
 #pragma mark - Helper Methods
@@ -954,6 +1029,12 @@ static PAGSdk* _pangleSDK = nil;
         NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
         LogAdapterApi_Internal(@"%@", error);
         [delegate failureWithError:error];
+        return;
+    }
+    if ([self _isCoppaChildUser]) {
+        NSError *error = [self _childError];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate failureWithError:error.description];
         return;
     }
     PAGBiddingRequest *request = [PAGBiddingRequest new];
@@ -1005,6 +1086,12 @@ static PAGSdk* _pangleSDK = nil;
     }
     
     return rect;
+}
+
+- (NSError *)_childError {
+    return [NSError errorWithDomain:kAdapterName
+                               code:kPangleChildErrorCode
+                           userInfo:@{NSLocalizedDescriptionKey:@"Pangle_COPPA indicates the user is a child. Pangle SDK V71 or higher does not support child users."}];
 }
 
 @end
