@@ -173,18 +173,30 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     // delegate on both init and load APIs
     self.rewardedVideoSmashDelegate = delegate;
     
-    NSError *configurationError = nil;
-    BidMachineAuctionRequest *auctionRequest = [self createAuctionRequestWithFormat:BidMachinePlacementFormatRewarded
-                                                                      adapterConfig:adapterConfig
-                                                                         serverData:serverData];
-    if (configurationError) {
-        LogInternal_Error(@"error = %@", configurationError.description);
+    NSError *placementError = nil;
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:BidMachinePlacementFormatRewarded
+                                                                   error:&placementError
+                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+        if (placementId.length > 0) {
+            [builder withPlacementId:placementId];
+        }
+    }];
+    
+    if (!placement || placementError) {
+        LogInternal_Error(@"error = %@", placementError.description);
         NSError *error = [NSError errorWithDomain:kAdapterName
-                                             code:configurationError.code
-                                         userInfo:@{NSLocalizedDescriptionKey:configurationError.description}];
+                                             code:placementError.code
+                                         userInfo:@{NSLocalizedDescriptionKey:placementError.description}];
+        [delegate adapterRewardedVideoHasChangedAvailability:NO];
         [delegate adapterRewardedVideoDidFailToLoadWithError:error];
         return;
     }
+    
+    BidMachineAuctionRequest *auctionRequest = [BidMachineSdk.shared auctionRequestWithPlacement:placement
+                                                                                         builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
+        [builder withPayload:serverData];
+    }];
     
     ISBidMachineAdapter * __weak weakSelf = self;
     [BidMachineSdk.shared rewardedWithRequest:auctionRequest
@@ -199,6 +211,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                                                      code:code
                                                  userInfo:@{NSLocalizedDescriptionKey:decription}];
             LogInternal_Error(@"error = %@", errorInfo.description);
+            [delegate adapterRewardedVideoHasChangedAvailability:NO];
             [delegate adapterRewardedVideoDidFailToLoadWithError:errorInfo];
             return;
         }
@@ -284,18 +297,29 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     // delegate on both init and load APIs
     self.interstitialSmashDelegate = delegate;
     
-    NSError *configurationError = nil;
-    BidMachineAuctionRequest *auctionRequest = [self createAuctionRequestWithFormat:BidMachinePlacementFormatInterstitial
-                                                                      adapterConfig:adapterConfig
-                                                                         serverData:serverData];
-    if (configurationError) {
-        LogInternal_Error(@"error = %@", configurationError.description);
+    NSError *placementError = nil;
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:BidMachinePlacementFormatInterstitial
+                                                                   error:&placementError
+                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+        if (placementId.length > 0) {
+            [builder withPlacementId:placementId];
+        }
+    }];
+    
+    if (!placement || placementError) {
+        LogInternal_Error(@"error = %@", placementError.description);
         NSError *error = [NSError errorWithDomain:kAdapterName
-                                             code:configurationError.code
-                                         userInfo:@{NSLocalizedDescriptionKey:configurationError.description}];
+                                             code:placementError.code
+                                         userInfo:@{NSLocalizedDescriptionKey:placementError.description}];
         [delegate adapterInterstitialDidFailToLoadWithError:error];
         return;
     }
+    
+    BidMachineAuctionRequest *auctionRequest = [BidMachineSdk.shared auctionRequestWithPlacement:placement
+                                                                                         builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
+        [builder withPayload:serverData];
+    }];
     
     LogAdapterApi_Internal(@"");
     ISBidMachineAdapter * __weak weakSelf = self;
@@ -402,18 +426,38 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     
     BidMachinePlacementFormat bannerFormat = [self getBannerFormat:size];
     
-    NSError *configurationError = nil;
-    BidMachineAuctionRequest *auctionRequest = [self createAuctionRequestWithFormat:bannerFormat
-                                                                      adapterConfig:adapterConfig
-                                                                         serverData:serverData];
-    if (configurationError) {
-        LogInternal_Error(@"error = %@", configurationError.description);
+    if (bannerFormat == BidMachinePlacementFormatUnknown) {
         NSError *error = [NSError errorWithDomain:kAdapterName
-                                             code:configurationError.code
-                                         userInfo:@{NSLocalizedDescriptionKey:configurationError.description}];
+                                             code:ERROR_BN_UNSUPPORTED_SIZE
+                                         userInfo:@{NSLocalizedDescriptionKey:@"unsupported banner size"}];
+        LogAdapterApi_Internal(@"%@", error);
         [delegate adapterBannerDidFailToLoadWithError:error];
         return;
     }
+    
+    NSError *placementError = nil;
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:bannerFormat
+                                                                   error:&placementError
+                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+        if (placementId.length > 0) {
+            [builder withPlacementId:placementId];
+        }
+    }];
+    
+    if (!placement || placementError) {
+        LogInternal_Error(@"error = %@", placementError.description);
+        NSError *error = [NSError errorWithDomain:kAdapterName
+                                             code:placementError.code
+                                         userInfo:@{NSLocalizedDescriptionKey:placementError.description}];
+        [delegate adapterBannerDidFailToLoadWithError:error];
+        return;
+    }
+    
+    BidMachineAuctionRequest *auctionRequest = [BidMachineSdk.shared auctionRequestWithPlacement:placement
+                                                                                         builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
+        [builder withPayload:serverData];
+    }];
     
     LogAdapterApi_Internal(@"");
     ISBidMachineAdapter * __weak weakSelf = self;
@@ -462,6 +506,14 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     if ([adData objectForKey:@"bannerSize"]) {
         ISBannerSize *size = [adData objectForKey:@"bannerSize"];
         BidMachinePlacementFormat bannerFormat = [self getBannerFormat:size];
+        
+        if (bannerFormat == BidMachinePlacementFormatUnknown) {
+            NSString *error = [NSString stringWithFormat:@"failed to receive token - BidMachine"];
+            LogAdapterApi_Internal(@"%@", error);
+            [delegate failureWithError:error];
+            return;
+        }
+        
         [self collectBiddingDataWithAdData:adData
                                   adFormat:bannerFormat
                              adapterConfig:adapterConfig
@@ -572,6 +624,13 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
             [builder withPlacementId:placementId];
         }
     }];
+    
+    if (!placement || placementError) {
+        LogAdapterApi_Internal(@"error = %@", placementError.description);
+        [delegate failureWithError:placementError.description];
+        return;
+    }
+    
     [BidMachineSdk.shared tokenWithPlacement:placement completion:^(NSString * _Nullable token) {
         NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: token, @"token", nil];
         NSString *returnedToken = token? token : @"";
@@ -593,31 +652,6 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         }
     }
     return BidMachinePlacementFormatUnknown;
-}
-
-- (nullable BidMachineAuctionRequest *)createAuctionRequestWithFormat:(BidMachinePlacementFormat)format
-                                                        adapterConfig:(ISAdapterConfig *)adapterConfig
-                                                           serverData:(NSString *)serverData {
-    NSError *placementError = nil;
-    NSString *placementId = adapterConfig.settings[kPlacementId];
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:format
-                                                                   error:&placementError
-                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
-        if (placementId.length > 0) {
-            [builder withPlacementId:placementId];
-        }
-    }];
-    
-    if (!placement) {
-        return nil;
-    }
-    
-    BidMachineAuctionRequest *auctionRequest = [BidMachineSdk.shared auctionRequestWithPlacement:placement
-                                                                                         builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
-        [builder withPayload:serverData];
-    }];
-    
-    return auctionRequest;
 }
 
 @end
