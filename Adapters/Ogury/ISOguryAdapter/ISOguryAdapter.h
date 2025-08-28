@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const oguryAdapterVersion = @"4.3.4";
+static NSString * const oguryAdapterVersion = @"4.3.5";
 static NSString * Githash = @"";
 
 @interface ISOguryAdapter : ISBaseAdapter
