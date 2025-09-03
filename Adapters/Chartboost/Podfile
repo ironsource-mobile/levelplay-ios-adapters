@@ -2,7 +2,7 @@
  platform :ios, '13.0'
 
 target 'ISChartboostAdapter' do
-  pod 'IronSourceSDK', '8.10.0.0'
-  pod 'ChartboostSDK', '9.9.2'
+  pod 'IronSourceSDK', '8.11.0.0'
+  pod 'ChartboostSDK', '9.9.3'
 
 end
