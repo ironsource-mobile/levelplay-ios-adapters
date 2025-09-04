@@ -17,6 +17,7 @@
     self = [super init];
     if (self) {
         mapTable = [NSMapTable weakToStrongObjectsMapTable];
+        syncObject = [[NSObject alloc] init];
     }
     return self;
 }
@@ -41,8 +42,10 @@
 }
 
 - (NSArray<ISAppLovinAdapter *> *)getAdapters {
-    NSArray<ISAppLovinAdapter *> *keys = [[mapTable keyEnumerator] allObjects];
-    return keys;
+    @synchronized (syncObject) {
+        NSArray<ISAppLovinAdapter *> *keys = [[mapTable keyEnumerator] allObjects];
+        return keys;
+    }
 }
 
 @end

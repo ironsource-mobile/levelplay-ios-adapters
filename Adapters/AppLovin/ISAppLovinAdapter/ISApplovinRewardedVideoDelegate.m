@@ -37,8 +37,8 @@
  */
 - (void)adService:(ALAdService *)adService
         didLoadAd:(ALAd *)ad {
-    [_adapter setRewardedAd:ad];
-    [_delegate onRewardedVideoDidLoad:_zoneId];
+    [_delegate onRewardedVideoDidLoad:_zoneId
+                               adView:ad];
 }
 
 /**
@@ -50,7 +50,6 @@
  * @param code      An error code that corresponds to one of the constants defined in ALErrorCodes.h.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
-    [_adapter disposeRewardedVideoAdWithZoneId:_zoneId];
     [_delegate onRewardedVideoDidFailToLoad:_zoneId
                                   errorCode:code];
 }
@@ -90,7 +89,6 @@
  * @param view  Ad view in which the ad was hidden.
  */
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
-    [_adapter disposeRewardedVideoAdWithZoneId:_zoneId];
     [_delegate onRewardedVideoDidClose:_zoneId];
 }
 

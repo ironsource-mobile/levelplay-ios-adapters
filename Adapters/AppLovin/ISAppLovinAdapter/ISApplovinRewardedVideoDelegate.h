@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ISAppLovinRewardedVideoDelegateWrapper <NSObject>
 
-- (void)onRewardedVideoDidLoad:(nonnull NSString *)zoneId;
+- (void)onRewardedVideoDidLoad:(nonnull NSString *)zoneId
+                        adView:(ALAd *)adView;
 
 - (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)zoneId
                            errorCode:(int)code;
