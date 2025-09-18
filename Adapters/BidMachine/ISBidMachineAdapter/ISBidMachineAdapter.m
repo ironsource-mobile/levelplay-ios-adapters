@@ -523,24 +523,20 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
-    
-    // Rewarded Video
-    self.rewardedAd.controller = nil;
-    self.rewardedAd.delegate = nil;
-    self.rewardedAd = nil;
-    self.rewardedVideoSmashDelegate = nil;
-    self.rewardedVideoBidMachineAdDelegate = nil;
-    
-    // Interstitial
-    self.interstitialAd.controller = nil;
-    self.interstitialAd.delegate = nil;
-    self.interstitialAd = nil;
-    self.interstitialSmashDelegate = nil;
-    self.interstitialBidMachineAdDelegate = nil;
-    
-    // Banner
-    [self destroyBannerWithAdapterConfig:adapterConfig];
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  self.interstitialAd.controller = nil;
+  self.interstitialAd.delegate = nil;
+  self.interstitialAd = nil;
+  self.interstitialSmashDelegate = nil;
+  self.interstitialBidMachineAdDelegate = nil;
+}
+
+- (void)destroyRewardedVideoAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  self.rewardedAd.controller = nil;
+  self.rewardedAd.delegate = nil;
+  self.rewardedAd = nil;
+  self.rewardedVideoSmashDelegate = nil;
+  self.rewardedVideoBidMachineAdDelegate = nil;
 }
 
 #pragma mark - Legal Methods
