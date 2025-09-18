@@ -131,16 +131,6 @@
     [self.smashDelegate adapterBannerInitFailedWithError:error];
 }
 
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kPlacementId];
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    
-    [self destroyBannerWithAdapterConfig:adapterConfig];
-}
-
 #pragma mark - Helper Methods
 
 - (MFBannerAdSize)getBannerSize:(ISBannerSize *)size {
