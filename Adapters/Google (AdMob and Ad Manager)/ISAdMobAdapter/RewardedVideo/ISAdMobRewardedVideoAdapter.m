@@ -277,12 +277,6 @@
     }
 }
 
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // there is no required implementation for AdMob release memory
-}
-
 #pragma mark - Availability
 
 - (void)onAdUnitAvailabilityChangeWithAdUnitId:(NSString *)adUnitId

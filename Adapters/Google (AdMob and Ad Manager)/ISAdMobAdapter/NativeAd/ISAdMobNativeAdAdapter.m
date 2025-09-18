@@ -200,18 +200,6 @@
     [self.adUnitIdToSmashDelegate adapterNativeAdInitFailedWithError:error];
 }
 
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    self.nativeAdLoader = nil;
-    self.adUnitIdToSmashDelegate = nil;
-    self.adUnitIdToAdDelegate = nil;
-}
-
 #pragma mark - Helpers
 
 -(GADAdChoicesPosition) getAdChoicesPosition:(ISAdOptionsPosition)adOptionsPosition {

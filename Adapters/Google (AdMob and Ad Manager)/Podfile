@@ -2,9 +2,11 @@
  use_frameworks!
  platform :ios, '13.0'
 
+source 'https://cdn.cocoapods.org/'
+
 target 'ISAdMobAdapter' do
 
-  pod 'IronSourceSDK', '8.10.0.0'
+  pod 'IronSourceSDK', '9.0.0.0'
   pod 'Google-Mobile-Ads-SDK', '12.9.0'
 
 

@@ -8,6 +8,7 @@
 #import "ISAdMobBannerAdapter.h"
 #import "ISAdMobBannerDelegate.h"
 #import "ISAdMobNativeBannerDelegate.h"
+#import <IronSource/LPMAdSize.h>
 
 @interface ISAdMobBannerAdapter ()
 
@@ -317,24 +318,6 @@
     }
 }
 
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    self.nativeAdLoader = nil;
-    
-    // remove from dictionaries
-    if ([self.adUnitIdToAdDelegate hasObjectForKey:adUnitId]) {
-        [self.adUnitIdToAdDelegate removeObjectForKey:adUnitId];
-    }
-    if ([self.adUnitIdToSmashDelegate hasObjectForKey:adUnitId]) {
-        [self.adUnitIdToSmashDelegate removeObjectForKey:adUnitId];
-    }
-}
-
 #pragma mark - Helper Methods
 
 - (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
@@ -386,13 +369,10 @@
         adMobSize = GADAdSizeFromCGSize(CGSizeMake(size.width, size.height));
     }
     
-    if ([size respondsToSelector:@selector(containerParams)]) {
-        if (size.isAdaptive) {
-            adMobSize = [self getAdmobAdaptiveAdSizeWithWidth:size.containerParams.width];
-            LogAdapterApi_Internal(@"default height - %@ adaptive height - %@ container height - %@ default width - %@ container width - %@", @(size.height), @(adMobSize.size.height), @(size.containerParams.height), @(size.width), @(size.containerParams.width));
-        }
-    } else {
-        LogInternal_Error(@"containerParams is not supported");
+    if (size.isAdaptive) {
+        LPMAdSize *adaptiveSize = [size toLPMAdSize];
+        adMobSize = [self getAdmobAdaptiveAdSizeWithWidth:adaptiveSize.width];
+        LogAdapterApi_Internal(@"default height - %@ adMob height - %@ adaptive height - %@ default width - %@ adaptive width - %@", @(size.height), @(adMobSize.size.height), @(adaptiveSize.height), @(size.width), @(adaptiveSize.width));
     }
     
     return adMobSize;
