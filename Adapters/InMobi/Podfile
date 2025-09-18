@@ -2,7 +2,7 @@
  platform :ios, '13.0'
 
 target 'ISInMobiAdapter' do
-  pod 'IronSourceSDK', '8.10.0.0'
+  pod 'IronSourceSDK', '9.0.0.0'
   pod 'InMobiSDK', '10.8.6'
 
 end

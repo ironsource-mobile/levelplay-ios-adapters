@@ -2,7 +2,7 @@
 //  ISInMobiAdapter.m
 //  ISInMobiAdapter
 //
-//  Copyright © 2023 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <ISInMobiAdapter.h>
@@ -49,7 +49,6 @@ static InitState initState = INIT_STATE_NONE;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *placementIdToRewardedVideoAd;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *placementIdToRewardedVideoDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary *placementIdToRewardedVideoSmashDelegate;
-@property (nonatomic, strong) ISConcurrentMutableSet        *rewardedVideoPlacementIdsForInitCallbacks;
 
 // Interstitial
 @property (nonatomic, strong) ISConcurrentMutableDictionary *placementIdToInterstitialAd;
@@ -90,7 +89,6 @@ static InitState initState = INIT_STATE_NONE;
         self.placementIdToRewardedVideoAd = [ISConcurrentMutableDictionary dictionary];
         self.placementIdToRewardedVideoDelegate = [ISConcurrentMutableDictionary dictionary];
         self.placementIdToRewardedVideoSmashDelegate = [ISConcurrentMutableDictionary dictionary];
-        self.rewardedVideoPlacementIdsForInitCallbacks = [ISConcurrentMutableSet set];
         
         // Interstitial
         self.placementIdToInterstitialAd = [ISConcurrentMutableDictionary dictionary];
@@ -184,13 +182,7 @@ static InitState initState = INIT_STATE_NONE;
     NSArray *rewardedVideoPlacementIDs = self.placementIdToRewardedVideoSmashDelegate.allKeys;
     for (NSString* placementId in rewardedVideoPlacementIDs) {
         id<ISRewardedVideoAdapterDelegate> delegate = [self.placementIdToRewardedVideoSmashDelegate objectForKey:placementId];
-        if ([self.rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
-            [delegate adapterRewardedVideoInitSuccess];
-        } else {
-            [self loadRewardedVideoInternalWithPlacementId:placementId
-                                                serverData:nil
-                                                  delegate:delegate];
-        }
+        [delegate adapterRewardedVideoInitSuccess];
     }
     
     // Interstitial
@@ -216,11 +208,7 @@ static InitState initState = INIT_STATE_NONE;
     NSArray *rewardedVideoPlacementIDs = self.placementIdToRewardedVideoSmashDelegate.allKeys;
     for (NSString* placementId in rewardedVideoPlacementIDs) {
         id<ISRewardedVideoAdapterDelegate> delegate = [self.placementIdToRewardedVideoSmashDelegate objectForKey:placementId];
-        if ([self.rewardedVideoPlacementIdsForInitCallbacks hasObject:placementId]) {
-            [delegate adapterRewardedVideoInitFailed:error];
-        } else {
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        }
+        [delegate adapterRewardedVideoInitFailed:error];
     }
     
     // Interstitial
@@ -268,9 +256,7 @@ static InitState initState = INIT_STATE_NONE;
     
     [self.placementIdToRewardedVideoSmashDelegate setObject:delegate
                                                      forKey:placementId];
-    
-    [self.rewardedVideoPlacementIdsForInitCallbacks addObject:placementId];
-    
+        
     // Handle init state if already initialized
     switch (initState) {
         case INIT_STATE_NONE:
@@ -298,85 +284,12 @@ static InitState initState = INIT_STATE_NONE;
     }
 }
 
-- (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    adData:(NSDictionary *)adData
-                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    NSString *placementId = adapterConfig.settings[kPlacementId];
-    NSString *accountId = adapterConfig.settings[kAccountId];
-    
-    // Verified placementId
-    if (![self isConfigValueValid:placementId]) {
-        NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        return;
-    }
-    
-    // Verified accountId
-    if (![self isConfigValueValid:accountId]) {
-        NSError *error = [self errorForMissingCredentialFieldWithName:kAccountId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        return;
-    }
-    
-    LogAdapterApi_Internal(@"accountId = %@, placementId = %@", accountId, placementId);
-    
-    [self.placementIdToRewardedVideoSmashDelegate setObject:delegate
-                                                     forKey:placementId];
-    
-    // Handle init state if already initialized
-    switch (initState) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self initSDKWithAccountId:accountId];
-            });
-            
-            break;
-        }
-        case INIT_STATE_FAILED:{
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_INIT_FAILED
-                                             userInfo:@{NSLocalizedDescriptionKey:@"InMobi SDK Init Failed"}];
-            LogAdapterApi_Internal(@"error = %@", error);
-            
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        }
-        case INIT_STATE_SUCCESS:
-            LogAdapterApi_Internal(@"init rewarded video: INIT_STATE_SUCCESS");
-            
-            [self loadRewardedVideoInternalWithPlacementId:placementId
-                                                serverData:nil
-                                                  delegate:delegate];
-    }
-}
-
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                               adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    [self loadRewardedVideoInternalWithPlacementId:placementId
-                                        serverData:serverData
-                                          delegate:delegate];
-}
 
-- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                    adData:(NSDictionary *)adData
-                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    NSString *placementId = adapterConfig.settings[kPlacementId];
-    [self loadRewardedVideoInternalWithPlacementId:placementId
-                                        serverData:nil
-                                          delegate:delegate];
-}
-
-- (void)loadRewardedVideoInternalWithPlacementId:(NSString*)placementId
-                                      serverData:(NSString *)serverData
-                                        delegate:(id<ISRewardedVideoAdapterDelegate>) delegate {
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     [self.placementIdToRewardedVideoSmashDelegate setObject:delegate
@@ -528,14 +441,6 @@ static InitState initState = INIT_STATE_NONE;
 - (void)initInterstitialForBiddingWithUserId:(NSString *)userId
                                adapterConfig:(ISAdapterConfig *)adapterConfig
                                     delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    [self initInterstitialWithUserId:userId
-                       adapterConfig:adapterConfig
-                            delegate:delegate];
-}
-
-- (void)initInterstitialWithUserId:(NSString *)userId
-                     adapterConfig:(ISAdapterConfig *)adapterConfig
-                          delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     NSString *accountId = adapterConfig.settings[kAccountId];
     
@@ -592,23 +497,7 @@ static InitState initState = INIT_STATE_NONE;
                                          serverData:(NSString *)serverData
                                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    [self loadInterstitialInternalWithDelegate:delegate
-                                   placementId:placementId
-                                    serverData:serverData];
-}
 
-- (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                   adData:(NSDictionary *)adData
-                                 delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *placementId = adapterConfig.settings[kPlacementId];
-    [self loadInterstitialInternalWithDelegate:delegate
-                                   placementId:placementId
-                                    serverData:nil];
-}
-
-- (void)loadInterstitialInternalWithDelegate:(id<ISInterstitialAdapterDelegate>)delegate
-                                 placementId:(NSString *)placementId
-                                  serverData:(NSString *)serverData {
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
     [self.placementIdToInterstitialSmashDelegate setObject:delegate
@@ -757,14 +646,7 @@ static InitState initState = INIT_STATE_NONE;
 - (void)initBannerForBiddingWithUserId:(NSString *)userId
                          adapterConfig:(ISAdapterConfig *)adapterConfig
                               delegate:(id<ISBannerAdapterDelegate>)delegate {
-    [self initBannerWithUserId:userId
-                 adapterConfig:adapterConfig
-                      delegate:delegate];
-}
 
-- (void)initBannerWithUserId:(nonnull NSString *)userId
-               adapterConfig:(nonnull ISAdapterConfig *)adapterConfig
-                    delegate:(nonnull id<ISBannerAdapterDelegate>)delegate {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     NSString *accountId = adapterConfig.settings[kAccountId];
     
@@ -816,33 +698,12 @@ static InitState initState = INIT_STATE_NONE;
     }
 }
 
-- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                             adData:(NSDictionary *)adData
-                     viewController:(UIViewController *)viewController
-                               size:(ISBannerSize *)size
-                           delegate:(id <ISBannerAdapterDelegate>)delegate {
-    [self loadBannerInternalWithAdapterConfig:adapterConfig
-                                     delegate:delegate
-                                         size:size
-                                   serverData:nil];
-}
-
 - (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                        adData:(NSDictionary *)adData
                                    serverData:(NSString *)serverData
                                viewController:(UIViewController *)viewController
                                          size:(ISBannerSize *)size
                                      delegate:(id <ISBannerAdapterDelegate>)delegate {
-    [self loadBannerInternalWithAdapterConfig:adapterConfig
-                                     delegate:delegate
-                                         size:size
-                                   serverData:serverData];
-}
-
-- (void)loadBannerInternalWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                   delegate:(id<ISBannerAdapterDelegate>)delegate
-                                       size:(ISBannerSize * _Nonnull)size
-                                 serverData:(NSString *)serverData {
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
@@ -975,13 +836,6 @@ static InitState initState = INIT_STATE_NONE;
     
     id<ISBannerAdapterDelegate> delegate = [self.placementIdToBannerSmashDelegate objectForKey:placementId];
     [delegate adapterBannerDidDismissScreen];
-}
-
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // Release memory - currently only for banners
-    [self destroyBannerWithAdapterConfig:adapterConfig];
 }
 
 #pragma mark - Legal Methods
