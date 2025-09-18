@@ -886,7 +886,15 @@ static PAGSdk* _pangleSDK = nil;
 }
 
 - (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // There is no required implementation for Pangle destroy banner
+  NSString *slotId = adapterConfig.settings[kSlotId];
+
+  if ([_bannerSlotIdToAd hasObjectForKey:slotId]) {
+      [_bannerSlotIdToSmashDelegate removeObjectForKey:slotId];
+      [_bannerSlotIdToPangleAdDelegate removeObjectForKey:slotId];
+      [_bannerSlotIdToAd removeObjectForKey:slotId];
+      [_bannerSlotIdToViewController removeObjectForKey:slotId];
+      [_bannerSlotIdToAdSize removeObjectForKey:slotId];
+  }
 }
 
 - (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
@@ -935,29 +943,29 @@ static PAGSdk* _pangleSDK = nil;
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
-    NSString *slotId = adapterConfig.settings[kSlotId];
+- (void)destroyRewardedVideoAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  NSString *slotId = adapterConfig.settings[kSlotId];
 
-    if ([_rewardedVideoSlotIdToAd hasObjectForKey:slotId]) {
-        [_rewardedVideoSlotIdToSmashDelegate removeObjectForKey:slotId];
-        [_rewardedVideoSlotIdToPangleAdDelegate removeObjectForKey:slotId];
-        [_rewardedVideoSlotIdToAd removeObjectForKey:slotId];
-        [_rewardedVideoAdsAvailability removeObjectForKey:slotId];
-        [_rewardedVideoSlotIdsForInitCallbacks removeObject:slotId];
-        
-    } else if ([_interstitialSlotIdToAd hasObjectForKey:slotId]) {
-        [_interstitialSlotIdToSmashDelegate removeObjectForKey:slotId];
-        [_interstitialSlotIdToPangleAdDelegate removeObjectForKey:slotId];
-        [_interstitialSlotIdToAd removeObjectForKey:slotId];
-        [_interstitialAdsAvailability removeObjectForKey:slotId];
-        
-    } else if ([_bannerSlotIdToAd hasObjectForKey:slotId]) {
-        [_bannerSlotIdToSmashDelegate removeObjectForKey:slotId];
-        [_bannerSlotIdToPangleAdDelegate removeObjectForKey:slotId];
-        [_bannerSlotIdToAd removeObjectForKey:slotId];
-        [_bannerSlotIdToViewController removeObjectForKey:slotId];
-        [_bannerSlotIdToAdSize removeObjectForKey:slotId];
-    }
+  if ([_rewardedVideoSlotIdToAd hasObjectForKey:slotId]) {
+      [_rewardedVideoSlotIdToSmashDelegate removeObjectForKey:slotId];
+      [_rewardedVideoSlotIdToPangleAdDelegate removeObjectForKey:slotId];
+      [_rewardedVideoSlotIdToAd removeObjectForKey:slotId];
+      [_rewardedVideoAdsAvailability removeObjectForKey:slotId];
+      [_rewardedVideoSlotIdsForInitCallbacks removeObject:slotId];
+      
+  }
+}
+
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  NSString *slotId = adapterConfig.settings[kSlotId];
+
+  if ([_interstitialSlotIdToAd hasObjectForKey:slotId]) {
+      [_interstitialSlotIdToSmashDelegate removeObjectForKey:slotId];
+      [_interstitialSlotIdToPangleAdDelegate removeObjectForKey:slotId];
+      [_interstitialSlotIdToAd removeObjectForKey:slotId];
+      [_interstitialAdsAvailability removeObjectForKey:slotId];
+      
+  }
 }
 
 #pragma mark - Legal Methods
