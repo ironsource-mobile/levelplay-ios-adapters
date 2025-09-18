@@ -150,7 +150,7 @@
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kSlotId];
     LogAdapterDelegate_Internal(@"slotId = %@", slotId);

@@ -9,7 +9,7 @@
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const BigoAdapterVersion = @"4.3.10";
+static NSString * const BigoAdapterVersion = @"5.0.0";
 static NSString * Githash = @"";
 
 @interface ISBigoAdapter : ISBaseAdapter
