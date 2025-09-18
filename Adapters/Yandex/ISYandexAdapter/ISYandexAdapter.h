@@ -2,13 +2,13 @@
 //  ISYandexAdapter.h
 //  ISYandexAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const YandexAdapterVersion = @"4.3.22";
+static NSString * const YandexAdapterVersion = @"5.0.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Yandex Adapter

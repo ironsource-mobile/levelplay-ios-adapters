@@ -2,7 +2,7 @@
 //  ISYandexBannerAdapter.m
 //  ISYandexAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import "ISYandexBannerAdapter.h"
@@ -145,16 +145,6 @@
 
 - (void)onNetworkInitCallbackSuccess {
     [self.smashDelegate adapterBannerInitSuccess];
-}
-
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    [self destroyBannerWithAdapterConfig:adapterConfig];
 }
 
 #pragma mark - Helper Methods

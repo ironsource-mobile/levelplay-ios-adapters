@@ -2,7 +2,7 @@
 //  ISYandexRewardedVideoAdapter.m
 //  IronSourceYandexAdapter
 //
-//  Copyright © 2024 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import "ISYandexRewardedVideoAdapter.h"
@@ -156,7 +156,7 @@
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (void)destroyRewardedVideoAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kAdUnitId];
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
