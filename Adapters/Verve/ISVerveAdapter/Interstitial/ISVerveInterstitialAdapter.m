@@ -145,7 +145,7 @@
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *zoneId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kZoneId];
     LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);

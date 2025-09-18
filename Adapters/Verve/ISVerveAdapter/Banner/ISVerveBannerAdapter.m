@@ -137,16 +137,6 @@
     [self.smashDelegate adapterBannerInitFailedWithError:error];
 }
 
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *zoneId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kZoneId];
-    LogAdapterDelegate_Internal(@"zoneId = %@", zoneId);
-    
-    [self destroyBannerWithAdapterConfig:adapterConfig];
-}
-
 #pragma mark - Helper Methods
 
 - (HyBidAdSize *)getBannerSize:(ISBannerSize *)ironSourceAdSize {

@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const VerveAdapterVersion = @"4.3.7";
+static NSString * const VerveAdapterVersion = @"5.0.0";
 static NSString * Githash = @"";
 
 //System Frameworks For VerveAdapter
