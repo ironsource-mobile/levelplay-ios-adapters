@@ -695,23 +695,27 @@ static InitState initState = INIT_STATE_NONE;
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
-    NSString *placementId = adapterConfig.settings[kPlacementId];
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  NSString *placementId = adapterConfig.settings[kPlacementId];
 
-    if ([self.rewardedVideoPlacementIdToAd hasObjectForKey:placementId]) {
-        [self.rewardedVideoPlacementIdToSmashDelegate removeObjectForKey:placementId];
-        [self.rewardedVideoPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
-        [self.rewardedVideoPlacementIdToAd removeObjectForKey:placementId];
-        [self.rewardedVideoPlacementIdsForInitCallbacks removeObject:placementId];
+  if ([self.interstitialPlacementIdToAd hasObjectForKey:placementId]) {
+      [self.interstitialPlacementIdToSmashDelegate removeObjectForKey:placementId];
+      [self.interstitialPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
+      [self.interstitialPlacementIdToAd removeObjectForKey:placementId];
 
-    } else if ([self.interstitialPlacementIdToAd hasObjectForKey:placementId]) {
-        [self.interstitialPlacementIdToSmashDelegate removeObjectForKey:placementId];
-        [self.interstitialPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
-        [self.interstitialPlacementIdToAd removeObjectForKey:placementId];
+  }
+}
 
-    } else if ([self.bannerPlacementIdToAd hasObjectForKey:placementId]) {
-        [self destroyBannerWithAdapterConfig:adapterConfig];
-    }
+- (void)destroyRewardedVideoAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  NSString *placementId = adapterConfig.settings[kPlacementId];
+
+  if ([self.rewardedVideoPlacementIdToAd hasObjectForKey:placementId]) {
+      [self.rewardedVideoPlacementIdToSmashDelegate removeObjectForKey:placementId];
+      [self.rewardedVideoPlacementIdToVungleAdDelegate removeObjectForKey:placementId];
+      [self.rewardedVideoPlacementIdToAd removeObjectForKey:placementId];
+      [self.rewardedVideoPlacementIdsForInitCallbacks removeObject:placementId];
+
+  }
 }
 
 #pragma mark - Legal Methods
