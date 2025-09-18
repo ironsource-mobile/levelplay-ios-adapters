@@ -926,27 +926,27 @@ static NSNumber *setCOPPA = nil;
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(nonnull ISAdapterConfig *)adapterConfig {
-    NSString *locationId = adapterConfig.settings[kLocationId];
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  NSString *locationId = adapterConfig.settings[kLocationId];
 
-    if ([_rewardedVideoLocationIdToAd hasObjectForKey:locationId]) {
-        [_rewardedVideoLocationIdToSmashDelegate removeObjectForKey:locationId];
-        [_rewardedVideoLocationIdToChartboostAdDelegate removeObjectForKey:locationId];
-        [_rewardedVideoLocationIdToAd removeObjectForKey:locationId];
-        [_rewardedVideoLocationIdsForInitCallbacks removeObject:locationId];
-        
-    } else if ([_interstitialLocationIdToAd hasObjectForKey:locationId]) {
-        [_interstitialLocationIdToSmashDelegate removeObjectForKey:locationId];
-        [_interstitialLocationIdToChartboostAdDelegate removeObjectForKey:locationId];
-        [_interstitialLocationIdToAd removeObjectForKey:locationId];
-        
-    } else if ([_bannerLocationIdToAd hasObjectForKey:locationId]) {
-        [_bannerLocationIdToSmashDelegate removeObjectForKey:locationId];
-        [_bannerLocationIdToChartboostAdDelegate removeObjectForKey:locationId];
-        [_bannerLocationIdToAd removeObjectForKey:locationId];
-        [_bannerLocationIdToViewController removeObjectForKey:locationId];
-        [_bannerLocationIdToSize removeObjectForKey:locationId];
-    }
+  if ([_interstitialLocationIdToAd hasObjectForKey:locationId]) {
+      [_interstitialLocationIdToSmashDelegate removeObjectForKey:locationId];
+      [_interstitialLocationIdToChartboostAdDelegate removeObjectForKey:locationId];
+      [_interstitialLocationIdToAd removeObjectForKey:locationId];
+      
+  }
+}
+
+- (void)destroyRewardedVideoAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+  NSString *locationId = adapterConfig.settings[kLocationId];
+
+  if ([_rewardedVideoLocationIdToAd hasObjectForKey:locationId]) {
+      [_rewardedVideoLocationIdToSmashDelegate removeObjectForKey:locationId];
+      [_rewardedVideoLocationIdToChartboostAdDelegate removeObjectForKey:locationId];
+      [_rewardedVideoLocationIdToAd removeObjectForKey:locationId];
+      [_rewardedVideoLocationIdsForInitCallbacks removeObject:locationId];
+      
+  }
 }
 
 #pragma mark - Legal Methods
