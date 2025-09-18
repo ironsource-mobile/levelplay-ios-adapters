@@ -132,7 +132,7 @@
 
 #pragma mark - Memory Handling
 
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
                                                         forKey:kPlacementId];
     LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);

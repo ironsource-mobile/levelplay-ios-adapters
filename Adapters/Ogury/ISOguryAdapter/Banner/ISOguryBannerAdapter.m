@@ -141,12 +141,6 @@
     [self.smashDelegate adapterBannerInitFailedWithError:error];
 }
 
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    [self destroyBannerWithAdapterConfig:adapterConfig];
-}
-
 #pragma mark - Helper Methods
 
 - (OguryBannerAdSize *)getBannerSize:(ISBannerSize *)size {

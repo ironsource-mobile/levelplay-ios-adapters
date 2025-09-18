@@ -3,7 +3,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'ISOguryAdapter' do
-  pod 'IronSourceSDK', '8.11.0.0'
+  pod 'IronSourceSDK', '9.0.0.0'
   pod 'OgurySdk', '5.1.1'
 
 end
