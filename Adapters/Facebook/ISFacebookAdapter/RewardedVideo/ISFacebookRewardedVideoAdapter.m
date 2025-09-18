@@ -16,7 +16,6 @@
 @property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToSmashDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToAdDelegate;
 @property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToAd;
-@property (nonatomic, strong) ISConcurrentMutableSet            *adUnitPlacementIdsForInitCallbacks;
 
 @end
 
@@ -29,7 +28,6 @@
         _adUnitPlacementIdToSmashDelegate        = [ISConcurrentMutableDictionary dictionary];
         _adUnitPlacementIdToAdDelegate           = [ISConcurrentMutableDictionary dictionary];
         _adUnitPlacementIdToAd                   = [ISConcurrentMutableDictionary dictionary];
-        _adUnitPlacementIdsForInitCallbacks      = [ISConcurrentMutableSet set];
     }
     return self;
 }
@@ -63,10 +61,7 @@
     //add to rewarded video delegate map
     [self.adUnitPlacementIdToSmashDelegate setObject:delegate
                                               forKey:placementId];
-    
-    //add to rewarded video init callback map
-    [self.adUnitPlacementIdsForInitCallbacks addObject:placementId];
-            
+                
     switch ([self.adapter getInitState]) {
         case INIT_STATE_NONE:
         case INIT_STATE_IN_PROGRESS:
@@ -86,53 +81,6 @@
     }
 }
 
-// used for flows when the mediation doesn't need to get a callback for init
-- (void)initAndLoadRewardedVideoWithUserId:(NSString *)userId
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    adData:(NSDictionary *)adData
-                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    NSString *allPlacementIds = [self getStringValueFromAdapterConfig:adapterConfig
-                                                               forKey:kAllPlacementIds];
-
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:placementId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kPlacementId];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        return;
-    }
-    
-    if (![self.adapter isConfigValueValid:allPlacementIds]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAllPlacementIds];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        return;
-    }
-    
-    //add to rewarded video delegate map
-    [self.adUnitPlacementIdToSmashDelegate setObject:delegate
-                                              forKey:placementId];
-
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithPlacementIds:allPlacementIds];
-            break;
-        case INIT_STATE_SUCCESS:
-            [self loadRewardedVideoInternal:placementId
-                                   delegate:delegate
-                                 serverData:nil];
-            break;
-        case INIT_STATE_FAILED: {
-            LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-            break;
-        }
-    }
-}
-
 - (void)loadRewardedVideoForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                               adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
@@ -140,24 +88,6 @@
    
     NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
                                                            forKey:kPlacementId];
-    [self loadRewardedVideoInternal:placementId
-                           delegate:delegate
-                         serverData:serverData];
-}
-
-- (void)loadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                    adData:(NSDictionary *)adData
-                                  delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    [self loadRewardedVideoInternal:placementId
-                           delegate:delegate
-                         serverData:nil];
-}
-
-- (void)loadRewardedVideoInternal:(NSString *)placementId
-                         delegate:(id<ISRewardedVideoAdapterDelegate>)delegate
-                       serverData:(NSString *)serverData {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         LogAdapterApi_Internal(@"placementId = %@", placementId);
@@ -247,15 +177,9 @@
 - (void)onNetworkInitCallbackSuccess {
     NSArray *placementIds = self.adUnitPlacementIdToSmashDelegate.allKeys;
     
-    for (NSString * placementId in placementIds) {
+    for (NSString *placementId in placementIds) {
         id<ISRewardedVideoAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
-        if ([self.adUnitPlacementIdsForInitCallbacks hasObject:placementId]) {
-            [delegate adapterRewardedVideoInitSuccess];
-        } else {
-            [self loadRewardedVideoInternal:placementId
-                                   delegate:delegate
-                                 serverData:nil];
-        }
+        [delegate adapterRewardedVideoInitSuccess];
     }
 }
 
@@ -266,20 +190,10 @@
     
     NSArray *placementIds = self.adUnitPlacementIdToSmashDelegate.allKeys;
     
-    for (NSString * placementId in placementIds) {
+    for (NSString *placementId in placementIds) {
         id<ISRewardedVideoAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
-        if ([self.adUnitPlacementIdsForInitCallbacks hasObject:placementId]) {
-            [delegate adapterRewardedVideoInitFailed:error];
-        } else {
-            [delegate adapterRewardedVideoHasChangedAvailability:NO];
-        }
+        [delegate adapterRewardedVideoInitFailed:error];
     }
-}
-
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // there is no required implementation for Meta release memory
 }
 
 @end

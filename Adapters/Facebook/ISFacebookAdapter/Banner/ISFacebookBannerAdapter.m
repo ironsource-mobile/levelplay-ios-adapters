@@ -37,15 +37,6 @@
                          adapterConfig:(ISAdapterConfig *)adapterConfig
                               delegate:(id<ISBannerAdapterDelegate>)delegate {
     
-    [self initBannerWithUserId:userId
-                 adapterConfig:adapterConfig
-                      delegate:delegate];
-}
-
-- (void)initBannerWithUserId:(NSString *)userId
-               adapterConfig:(ISAdapterConfig *)adapterConfig
-                    delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
     NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
                                                            forKey:kPlacementId];
     NSString *allPlacementIds = [self getStringValueFromAdapterConfig:adapterConfig
@@ -97,32 +88,6 @@
                                viewController:(UIViewController *)viewController
                                          size:(ISBannerSize *)size
                                      delegate:(id <ISBannerAdapterDelegate>)delegate {
-    
-    [self loadBannerInternal:serverData
-              viewController:viewController
-                        size:size
-               adapterConfig:adapterConfig
-                    delegate:delegate];
-}
-
-- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                             adData:(NSDictionary *)adData
-                     viewController:(UIViewController *)viewController
-                               size:(ISBannerSize *)size
-                           delegate:(id <ISBannerAdapterDelegate>)delegate {
-    
-    [self loadBannerInternal:nil
-              viewController:viewController
-                        size:size
-               adapterConfig:adapterConfig
-                    delegate:delegate];
-}
-
-- (void)loadBannerInternal:(NSString *)serverData
-            viewController:(UIViewController *)viewController
-                      size:(ISBannerSize *)size
-             adapterConfig:(ISAdapterConfig *)adapterConfig
-                  delegate:(id <ISBannerAdapterDelegate>)delegate {
     
     NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
                                                            forKey:kPlacementId];
@@ -218,13 +183,6 @@
         id<ISBannerAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
         [delegate adapterBannerInitFailedWithError:error];
     }
-}
-
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // there is no required implementation for AdMob release memory
-
 }
 
 #pragma mark - Helper Methods

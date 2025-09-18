@@ -34,14 +34,6 @@
 
 #pragma mark - Native Ad API
 
-- (void)initNativeAdsWithUserId:(NSString *)userId
-                  adapterConfig:(ISAdapterConfig *)adapterConfig
-                       delegate:(id<ISNativeAdAdapterDelegate>)delegate {
-    [self initNativeAdForBiddingWithUserId:userId
-                             adapterConfig:adapterConfig
-                                  delegate:delegate];
-}
-
 - (void)initNativeAdForBiddingWithUserId:(NSString *)userId
                            adapterConfig:(ISAdapterConfig *)adapterConfig
                                 delegate:(id<ISNativeAdAdapterDelegate>)delegate {
@@ -88,36 +80,11 @@
     }
 }
 
-- (void)loadNativeAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                               adData:(NSDictionary *)adData
-                       viewController:(UIViewController *)viewController
-                             delegate:(id<ISNativeAdAdapterDelegate>)delegate {
-    
-    [self loadNativeAdInternalWithAdapterConfig:adapterConfig
-                                         adData:adData
-                                     serverData:nil
-                                 viewController:viewController
-                                       delegate:delegate];
-}
-
 - (void)loadNativeAdForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                          adData:(NSDictionary *)adData
                                      serverData:(NSString *)serverData
                                  viewController:(UIViewController *)viewController
                                        delegate:(id<ISNativeAdAdapterDelegate>)delegate {
-    
-    [self loadNativeAdInternalWithAdapterConfig:adapterConfig
-                                         adData:adData
-                                     serverData:serverData
-                                 viewController:viewController
-                                       delegate:delegate];
-}
-
-- (void)loadNativeAdInternalWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                       adData:(NSDictionary *)adData
-                                   serverData:(NSString *)serverData
-                               viewController:(UIViewController *)viewController
-                                     delegate:(id<ISNativeAdAdapterDelegate>)delegate {
     
     NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
                                                            forKey:kPlacementId];
@@ -184,12 +151,6 @@
                                             message:errorMessage];
     
     [self.adUnitPlacementIdToSmashDelegate adapterNativeAdInitFailedWithError:error];
-}
-
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // there is no required implementation for Facebook release memory
 }
 
 

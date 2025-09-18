@@ -36,15 +36,6 @@
                                adapterConfig:(ISAdapterConfig *)adapterConfig
                                     delegate:(id<ISInterstitialAdapterDelegate>)delegate {
     
-    [self initInterstitialWithUserId:userId
-                       adapterConfig:adapterConfig
-                            delegate:delegate];
-}
-
-- (void)initInterstitialWithUserId:(NSString *)userId
-                     adapterConfig:(ISAdapterConfig *)adapterConfig
-                          delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
     NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
                                                            forKey:kPlacementId];
     NSString *allPlacementIds = [self getStringValueFromAdapterConfig:adapterConfig
@@ -94,24 +85,6 @@
                                              adData:(NSDictionary *)adData
                                          serverData:(NSString *)serverData
                                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
-    [self loadInterstitialInternal:adapterConfig
-                          delegate:delegate
-                        serverData:serverData];
-}
-
-- (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                   adData:(NSDictionary *)adData
-                                 delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
-    [self loadInterstitialInternal:adapterConfig
-                          delegate:delegate
-                        serverData:nil];
-}
-
-- (void)loadInterstitialInternal:(ISAdapterConfig *)adapterConfig
-                  delegate:(id<ISInterstitialAdapterDelegate>)delegate
-                      serverData:(NSString *)serverData {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
@@ -216,12 +189,6 @@
         id<ISInterstitialAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
         [delegate adapterInterstitialInitFailedWithError:error];
     }
-}
-
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // there is no required implementation for Meta release memory
 }
 
 @end
