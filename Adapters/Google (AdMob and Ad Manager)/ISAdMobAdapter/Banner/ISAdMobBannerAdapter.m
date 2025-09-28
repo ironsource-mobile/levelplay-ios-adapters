@@ -8,7 +8,7 @@
 #import "ISAdMobBannerAdapter.h"
 #import "ISAdMobBannerDelegate.h"
 #import "ISAdMobNativeBannerDelegate.h"
-#import <IronSource/LPMAdSize.h>
+#import "LPMAdSize.h"
 
 @interface ISAdMobBannerAdapter ()
 
