@@ -33,7 +33,9 @@
         [_delegate onBannerDidFailToLoad:_locationId
                                withError:error];
     } else {
-        [_delegate onBannerDidLoad:_locationId];
+        NSString *creativeId = event.adID;
+        [_delegate onBannerDidLoad:_locationId
+                    withCreativeId:creativeId];
     }
 }
 
@@ -62,7 +64,9 @@
  This method will be called once a valid impression is recorded after showing the ad.
 */
 - (void)didRecordImpression:(CHBImpressionEvent *)event {
-    [_delegate onBannerDidRecordImpression:_locationId];
+    NSString *creativeId = event.adID;
+    [_delegate onBannerDidRecordImpression:_locationId
+                            withCreativeId:creativeId];
 }
 
 /*!

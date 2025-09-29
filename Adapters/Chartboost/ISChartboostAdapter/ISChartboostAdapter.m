@@ -21,6 +21,7 @@ static NSString * const kAdapterName                = @"Chartboost";
 static NSString * const kAppSignature               = @"appSignature";
 static NSString * const kLocationId                 = @"adLocation";
 static NSString * const kAppID                      = @"appID";
+static NSString * const kCreativeId                 = @"creativeId";
 
 // MetaData keys
 static NSString * const kMetaDataCOPPAKey           = @"CHARTBOOST_COPPA";
@@ -437,10 +438,17 @@ static NSNumber *setCOPPA = nil;
 
 #pragma mark - Rewarded Video Delegate
 
-- (void)onRewardedVideoDidLoad:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+- (void)onRewardedVideoDidLoad:(nonnull NSString *)locationId
+                    withCreativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"locationId = %@ , creativeId = %@", locationId, creativeId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-    [delegate adapterRewardedVideoHasChangedAvailability:YES];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterRewardedVideoHasChangedAvailability:YES
+                                                        extraData:extraData];
+    } else {
+        [delegate adapterRewardedVideoHasChangedAvailability:YES];
+    }
 }
 
 - (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)locationId
@@ -457,11 +465,18 @@ static NSNumber *setCOPPA = nil;
     [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
 }
 
-- (void)onRewardedVideoDidRecordImpression:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+- (void)onRewardedVideoDidRecordImpression:(nonnull NSString *)locationId
+                                withCreativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"locationId = %@ , creativeId = %@", locationId, creativeId);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoLocationIdToSmashDelegate objectForKey:locationId];
-    [delegate adapterRewardedVideoDidOpen];
-    [delegate adapterRewardedVideoDidStart];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterRewardedVideoDidOpenWithExtraData:extraData];
+        [delegate adapterRewardedVideoDidStartWithExtraData:extraData];
+    } else {
+        [delegate adapterRewardedVideoDidOpen];
+        [delegate adapterRewardedVideoDidStart];
+    }
 }
 
 - (void)onRewardedVideoShowFail:(nonnull NSString *)locationId
@@ -658,10 +673,16 @@ static NSNumber *setCOPPA = nil;
 
 #pragma mark - Interstitial Delegate
 
-- (void)onInterstitialDidLoad:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+- (void)onInterstitialDidLoad:(nonnull NSString *)locationId
+                   withCreativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"locationId = %@ , creativeId = %@", locationId, creativeId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
-    [delegate adapterInterstitialDidLoad];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterInterstitialDidLoadWithExtraData:extraData];
+    } else {
+        [delegate adapterInterstitialDidLoad];
+    }
 }
 
 - (void)onInterstitialDidFailToLoad:(nonnull NSString *)locationId
@@ -676,11 +697,18 @@ static NSNumber *setCOPPA = nil;
     [delegate adapterInterstitialDidFailToLoadWithError:smashError];
 }
 
-- (void)onInterstitialDidRecordImpression:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+- (void)onInterstitialDidRecordImpression:(nonnull NSString *)locationId
+                           withCreativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"locationId = %@ , creativeId = %@", locationId, creativeId);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialLocationIdToSmashDelegate objectForKey:locationId];
-    [delegate adapterInterstitialDidOpen];
-    [delegate adapterInterstitialDidShow];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterInterstitialDidOpenWithExtraData:extraData];
+        [delegate adapterInterstitialDidShowWithExtraData:extraData];
+    } else {
+        [delegate adapterInterstitialDidOpen];
+        [delegate adapterInterstitialDidShow];
+    }
 }
 
 - (void)onInterstitialShowFail:(nonnull NSString *)locationId
@@ -873,14 +901,20 @@ static NSNumber *setCOPPA = nil;
 
 #pragma mark - Banner Delegate
 
-- (void)onBannerDidLoad:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+- (void)onBannerDidLoad:(nonnull NSString *)locationId
+         withCreativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"locationId = %@ , creativeId = %@", locationId, creativeId);
     CHBBanner *bannerAd = [_bannerLocationIdToAd objectForKey:locationId];
     UIViewController *viewController = [_bannerLocationIdToViewController objectForKey:locationId];
 
     if (bannerAd && viewController) {
         id<ISBannerAdapterDelegate> delegate = [_bannerLocationIdToSmashDelegate objectForKey:locationId];
-        [delegate adapterBannerDidLoad:bannerAd];
+        if (creativeId.length) {
+            NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+            [delegate adapterBannerDidLoad:bannerAd extraData:extraData];
+        } else {
+            [delegate adapterBannerDidLoad:bannerAd];
+        }
         [bannerAd showFromViewController:viewController];
     }
 }
@@ -897,10 +931,16 @@ static NSNumber *setCOPPA = nil;
     [delegate adapterBannerDidFailToLoadWithError:smashError];
 }
 
-- (void)onBannerDidRecordImpression:(nonnull NSString *)locationId {
-    LogAdapterDelegate_Internal(@"locationId = %@", locationId);
+- (void)onBannerDidRecordImpression:(nonnull NSString *)locationId
+                     withCreativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"locationId = %@ , creativeId = %@", locationId, creativeId);
     id<ISBannerAdapterDelegate> delegate = [_bannerLocationIdToSmashDelegate objectForKey:locationId];
-    [delegate adapterBannerDidShow];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterBannerDidShowWithExtraData:extraData];
+    } else {
+        [delegate adapterBannerDidShow];
+    }
 }
 
 - (void)onBannerDidFailToShow:(nonnull NSString *)locationId

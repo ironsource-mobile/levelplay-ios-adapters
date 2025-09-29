@@ -12,12 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ISChartboostBannerDelegateWrapper <NSObject>
 
-- (void)onBannerDidLoad:(nonnull NSString *)locationId;
+- (void)onBannerDidLoad:(nonnull NSString *)locationId
+         withCreativeId:(nonnull NSString *)creativeId;
 
 - (void)onBannerDidFailToLoad:(nonnull NSString *)locationId
                     withError:(nonnull CHBCacheError *)error;
 
-- (void)onBannerDidShow:(nonnull NSString *)locationId;
+- (void)onBannerDidRecordImpression:(nonnull NSString *)locationId
+                     withCreativeId:(nonnull NSString *)creativeId;
 
 - (void)onBannerDidFailToShow:(nonnull NSString *)locationId
                     withError:(nonnull CHBShowError *)error;
@@ -26,8 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
                withError:(nullable CHBClickError *)error;
 
 - (void)onBannerDidExpire:(nonnull NSString *)locationId;
-
-- (void)onBannerDidRecordImpression:(nonnull NSString *)locationId;
 
 @end
 

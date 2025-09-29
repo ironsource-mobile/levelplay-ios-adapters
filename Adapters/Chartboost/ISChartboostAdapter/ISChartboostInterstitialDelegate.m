@@ -33,7 +33,9 @@
         [_delegate onInterstitialDidFailToLoad:_locationId
                                      withError:error];
     } else {
-        [_delegate onInterstitialDidLoad:_locationId];
+        NSString *creativeId = event.adID;
+        [_delegate onInterstitialDidLoad:_locationId
+                          withCreativeId:creativeId];
     }
 }
 
@@ -62,7 +64,9 @@
  This method will be called once a valid impression is recorded after showing the ad.
 */
 - (void)didRecordImpression:(CHBImpressionEvent *)event {
-    [_delegate onInterstitialDidRecordImpression:_locationId];
+    NSString *creativeId = event.adID;
+    [_delegate onInterstitialDidRecordImpression:_locationId
+                                  withCreativeId:creativeId];
 }
 
 /*!

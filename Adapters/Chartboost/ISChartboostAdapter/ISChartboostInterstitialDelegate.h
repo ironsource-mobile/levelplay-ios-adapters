@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ISChartboostInterstitialDelegateWrapper <NSObject>
 
-- (void)onInterstitialDidLoad:(nonnull NSString *)locationId;
+- (void)onInterstitialDidLoad:(nonnull NSString *)locationId
+               withCreativeId:(nonnull NSString *)creativeId;
 
 - (void)onInterstitialDidFailToLoad:(nonnull NSString *)locationId
                           withError:(nonnull CHBCacheError *)error;
@@ -28,7 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onInterstitialDidExpire:(nonnull NSString *)locationId;
 
-- (void)onInterstitialDidRecordImpression:(nonnull NSString *)locationId;
+- (void)onInterstitialDidRecordImpression:(nonnull NSString *)locationId
+                               withCreativeId:(nonnull NSString *)creativeId;
 
 @end
 

@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ISChartboostRewardedVideoDelegateWrapper <NSObject>
 
-- (void)onRewardedVideoDidLoad:(nonnull NSString *)locationId;
+- (void)onRewardedVideoDidLoad:(nonnull NSString *)locationId
+                withCreativeId:(nonnull NSString *)creativeId;
 
 - (void)onRewardedVideoDidFailToLoad:(nonnull NSString *)locationId
                            withError:(nonnull CHBCacheError *)error;
@@ -31,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onRewardedVideoDidExpire:(nonnull NSString *)locationId;
 
-- (void)onRewardedVideoDidRecordImpression:(nonnull NSString *)locationId;
+- (void)onRewardedVideoDidRecordImpression:(nonnull NSString *)locationId
+                            withCreativeId:(nonnull NSString *)creativeId;
 
 @end
 

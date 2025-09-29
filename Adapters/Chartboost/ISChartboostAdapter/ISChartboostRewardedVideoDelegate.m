@@ -33,7 +33,9 @@
         [_delegate onRewardedVideoDidFailToLoad:_locationId
                                       withError:error];
     } else {
-        [_delegate onRewardedVideoDidLoad:_locationId];
+        NSString *creativeId = event.adID;
+        [_delegate onRewardedVideoDidLoad:_locationId
+                               withCreativeId:creativeId];
     }
 }
 
@@ -62,7 +64,9 @@
  This method will be called once a valid impression is recorded after showing the ad.
 */
 - (void)didRecordImpression:(CHBImpressionEvent *)event {
-    [_delegate onRewardedVideoDidRecordImpression:_locationId];
+    NSString *creativeId = event.adID;
+    [_delegate onRewardedVideoDidRecordImpression:_locationId
+                                       withCreativeId:creativeId];
 }
 
 /*!
