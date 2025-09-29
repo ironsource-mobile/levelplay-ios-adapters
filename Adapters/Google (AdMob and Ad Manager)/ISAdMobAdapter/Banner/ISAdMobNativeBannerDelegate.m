@@ -7,6 +7,7 @@
 
 #import "ISAdMobNativeBannerDelegate.h"
 #import "ISAdMobNativeView.h"
+#import "ISAdMobConstants.h"
 
 @implementation ISAdMobNativeBannerDelegate
 
@@ -30,8 +31,18 @@
             ISAdMobNativeView *nativeView = [[ISAdMobNativeView alloc] initWithTemplate:self.nativeTemplate
                                                                                nativeAd:nativeAd];
             nativeAd.delegate = self;
+        
+        NSString *creativeId = nativeAd.responseInfo.responseIdentifier;
+        LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", self.adUnitId, kCreativeId, creativeId);
+        
+        if (creativeId.length) {
+            NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+            [self.delegate adapterBannerDidLoad:nativeView
+                                      extraData:extraData];
+        } else {
             [self.delegate adapterBannerDidLoad:nativeView];
-        });
+        }
+    });
 }
 
 /// Called when adLoader fails to load an ad.

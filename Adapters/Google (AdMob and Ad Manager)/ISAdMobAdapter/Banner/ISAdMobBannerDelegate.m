@@ -7,6 +7,7 @@
 
 #import "ISAdMobBannerAdapter.h"
 #import "ISAdMobBannerDelegate.h"
+#import "ISAdMobConstants.h"
 
 @implementation ISAdMobBannerDelegate
 
@@ -23,8 +24,16 @@
 /// Tells the delegate that an ad request successfully received an ad. The delegate may want to add
 /// the banner view to the view hierarchy if it hasn't been added yet.
 - (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterBannerDidLoad:bannerView];
+    NSString *creativeId = bannerView.responseInfo.responseIdentifier;
+    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", self.adUnitId, kCreativeId, creativeId);
+
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterBannerDidLoad:bannerView
+                                  extraData:extraData];
+    } else {
+        [self.delegate adapterBannerDidLoad:bannerView];
+    }
 }
 
 /// Tells the delegate that an ad request failed. The failure is normally due to network

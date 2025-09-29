@@ -14,6 +14,7 @@ static NSString * const kPlatformName             = @"unity";
 
 static NSString * const kAdapterName              = @"AdMob";
 static NSString * const kAdUnitId                 = @"adUnitId";
+static NSString * const kCreativeId               = @"creativeId";
 static NSString * const kIsNative                 = @"isNative";
 
 static int const kMinUserAge                      = -1;

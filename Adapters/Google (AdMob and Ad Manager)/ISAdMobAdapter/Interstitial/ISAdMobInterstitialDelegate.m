@@ -6,6 +6,7 @@
 //
 
 #import "ISAdMobInterstitialDelegate.h"
+#import "ISAdMobConstants.h"
 
 @implementation ISAdMobInterstitialDelegate
 
@@ -32,13 +33,19 @@
 }
 
 - (void)adDidLoadWithAd:(GADInterstitialAd *)interstitialAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-
     [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
                                             availability:YES
                                           interstitialAd:interstitialAd];
     
-    [self.delegate adapterInterstitialDidLoad];
+    NSString *creativeId = interstitialAd.responseInfo.responseIdentifier;
+    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", self.adUnitId, kCreativeId, creativeId);
+    
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterInterstitialDidLoadWithExtraData:extraData];
+    } else {
+        [self.delegate adapterInterstitialDidLoad];
+    }
 }
 
 - (void)adDidFailToLoadWithError:(NSError *)error {

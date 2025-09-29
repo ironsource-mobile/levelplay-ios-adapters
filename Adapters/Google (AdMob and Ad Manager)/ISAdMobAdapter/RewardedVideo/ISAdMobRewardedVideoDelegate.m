@@ -6,6 +6,7 @@
 //
 
 #import "ISAdMobRewardedVideoDelegate.h"
+#import "ISAdMobConstants.h"
 
 @implementation ISAdMobRewardedVideoDelegate
 
@@ -33,13 +34,20 @@
 }
 
 - (void)adDidLoadWithAd:(GADRewardedAd *)rewardedAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-
     [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
                                             availability:YES
                                               rewardedAd:rewardedAd];
     
-    [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
+    NSString *creativeId = rewardedAd.responseInfo.responseIdentifier;
+    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", self.adUnitId, kCreativeId, creativeId);
+    
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterRewardedVideoHasChangedAvailability:YES
+                                                        extraData:extraData];
+    } else {
+        [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
+    }
 }
 
 - (void)adDidFailToLoadWithError:(NSError *)error {
