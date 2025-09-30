@@ -352,14 +352,14 @@ static InitState initState = INIT_STATE_NONE;
     
     [self.rewardedVideoPlacementIdToVungleAdDelegate setObject:rewardedVideoAdDelegate
                                                         forKey:placementId];
-    
+
     VungleRewarded *rewardedVideoAd = [[VungleRewarded alloc] initWithPlacementId:placementId];
     rewardedVideoAd.delegate = rewardedVideoAdDelegate;
-    
+
     // Add rewarded video ad to dictionary
     [self.rewardedVideoPlacementIdToAd setObject:rewardedVideoAd
                                           forKey:placementId];
-    
+
     [rewardedVideoAd load:serverData];
 }
 
@@ -485,27 +485,27 @@ static InitState initState = INIT_STATE_NONE;
 - (void)loadInterstitialInternal:(NSString *)placementId
                       serverData:(NSString *)serverData
                         delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
+
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
+
     // In favor of supporting all of the Mediation modes there is a need to store the Interstitial delegate
     // in a dictionary on both init and load APIs
     [self.interstitialPlacementIdToSmashDelegate setObject:delegate
                                                     forKey:placementId];
-    
+
     ISVungleInterstitialDelegate *interstitialAdDelegate = [[ISVungleInterstitialDelegate alloc] initWithPlacementId:placementId
                                                                                                          andDelegate:delegate];
-    
+
     [self.interstitialPlacementIdToVungleAdDelegate setObject:interstitialAdDelegate
                                                        forKey:placementId];
-    
+
     VungleInterstitial *interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:placementId];
     interstitialAd.delegate = interstitialAdDelegate;
-    
+
     // Add interstitial ad to dictionary
     [self.interstitialPlacementIdToAd setObject:interstitialAd
                                          forKey:placementId];
-    
+
     [interstitialAd load:serverData];
 }
 

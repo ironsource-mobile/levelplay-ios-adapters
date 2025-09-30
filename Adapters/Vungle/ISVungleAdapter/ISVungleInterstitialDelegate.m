@@ -24,8 +24,15 @@
 #pragma mark - Interstitial Delegate
 
 - (void)interstitialAdDidLoad:(VungleInterstitial * _Nonnull)interstitial {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidLoad];
+    NSString *creativeId = interstitial.creativeId;
+    LogAdapterDelegate_Internal(@"placementId = %@, creativeId = %@", self.placementId, creativeId);
+
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterInterstitialDidLoadWithExtraData:extraData];
+    } else {
+        [self.delegate adapterInterstitialDidLoad];
+    }
 }
 
 - (void)interstitialAdDidFailToLoad:(VungleInterstitial * _Nonnull)interstitial

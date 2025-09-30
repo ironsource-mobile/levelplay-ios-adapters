@@ -26,9 +26,18 @@
 #pragma mark - VungleBannerView Delegate
 
 - (void)bannerAdDidLoad:(VungleBannerView * _Nonnull)bannerView {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
     self.isAdloadSuccess = YES;
-    [self.delegate adapterBannerDidLoad:bannerView];
+    
+    NSString *creativeId = bannerView.creativeId;
+    LogAdapterDelegate_Internal(@"placementId = %@, creativeId = %@", self.placementId, creativeId);
+
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterBannerDidLoad:bannerView
+                                  extraData:extraData];
+    } else {
+        [self.delegate adapterBannerDidLoad:bannerView];
+    }
 }
 
 // This callback is called both for banner load failures and banner show failures

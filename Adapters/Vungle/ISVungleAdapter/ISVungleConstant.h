@@ -12,6 +12,7 @@ static NSString * const kMediationName          = @"ironsource";
 static NSString * const kAdapterName            = @"Vungle";
 static NSString * const kAppId                  = @"AppID";
 static NSString * const kPlacementId            = @"PlacementId";
+static NSString * const kCreativeId             = @"creativeId";
 
 // Meta data flags
 static NSString * const kMetaDataCOPPAKey       = @"Vungle_COPPA";

@@ -23,8 +23,16 @@
 #pragma mark - Rewarded Video Delegate
 
 - (void)rewardedAdDidLoad:(VungleRewarded * _Nonnull)rewarded {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
+    NSString *creativeId = rewarded.creativeId;
+    LogAdapterDelegate_Internal(@"placementId = %@, creativeId = %@", self.placementId, creativeId);
+
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterRewardedVideoHasChangedAvailability:YES
+                                                        extraData:extraData];
+    } else {
+        [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
+    }
 }
 
 - (void)rewardedAdDidFailToLoad:(VungleRewarded * _Nonnull)rewarded
