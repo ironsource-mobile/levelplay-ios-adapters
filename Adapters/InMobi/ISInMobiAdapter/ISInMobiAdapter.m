@@ -30,6 +30,8 @@ static NSString *consentCollectingUserData = nil;
 static NSNumber *ageRestrictionCollectingUserData = nil;
 static NSNumber *doNotSellCollectingUserData = nil;
 
+static NSString * const kCreativeId                 = @"creativeId";
+
 // Handle init callback for all adapter instances
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
 
@@ -366,11 +368,18 @@ static InitState initState = INIT_STATE_NONE;
 #pragma mark - Rewarded Video Delegate
 
 - (void)onRewardedVideoDidLoad:(IMInterstitial *)rewardedVideo
-                   placementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+                   placementId:(NSString *)placementId
+                    creativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"placementId = %@, creativeId = %@", placementId, creativeId);
     
     id<ISRewardedVideoAdapterDelegate> delegate = [self.placementIdToRewardedVideoSmashDelegate objectForKey:placementId];
-    [delegate adapterRewardedVideoHasChangedAvailability:YES];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterRewardedVideoHasChangedAvailability:YES
+                                                   extraData:extraData];
+    } else {
+        [delegate adapterRewardedVideoHasChangedAvailability:YES];
+    }
 }
 
 - (void)onRewardedVideoDidFailToLoad:(IMInterstitial *)rewardedVideo
@@ -580,11 +589,17 @@ static InitState initState = INIT_STATE_NONE;
 #pragma mark - Interstitial Delegate
 
 - (void)onInterstitialDidLoad:(IMInterstitial *)interstitial
-                  placementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    
+                  placementId:(NSString *)placementId
+                   creativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"placementId = %@, creativeId = %@", placementId, creativeId);
+
     id<ISInterstitialAdapterDelegate> delegate = [self.placementIdToInterstitialSmashDelegate objectForKey:placementId];
-    [delegate adapterInterstitialDidLoad];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterInterstitialDidLoadWithExtraData:extraData];
+    } else {
+        [delegate adapterInterstitialDidLoad];
+    }
 }
 
 - (void)onInterstitialDidFailToLoad:(IMInterstitial *)interstitial
@@ -773,11 +788,17 @@ static InitState initState = INIT_STATE_NONE;
 #pragma mark - Banner Delegate
 
 - (void)onBannerDidLoad:(IMBanner *)banner
-            placementId:(NSString *)placementId {
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    
+            placementId:(NSString *)placementId
+             creativeId:(NSString *)creativeId {
+    LogAdapterDelegate_Internal(@"placementId = %@, creativeId = %@", placementId, creativeId);
+
     id<ISBannerAdapterDelegate> delegate = [self.placementIdToBannerSmashDelegate objectForKey:placementId];
-    [delegate adapterBannerDidLoad:banner];
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterBannerDidLoad:banner extraData:extraData];
+    } else {
+        [delegate adapterBannerDidLoad:banner];
+    }
 }
 
 - (void)onBannerDidFailToLoad:(IMBanner *)banner

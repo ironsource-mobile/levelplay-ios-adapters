@@ -27,8 +27,10 @@
  @param interstitial IMInterstitial object that was loaded successfully.
  */
 - (void)interstitialDidFinishLoading:(IMInterstitial *)interstitial {
-    [self.delegate onInterstitialDidLoad:(IMInterstitial *)interstitial
-                             placementId:self.placementId];
+    NSString *creativeId = interstitial.creativeId;
+    [self.delegate onInterstitialDidLoad:interstitial
+                             placementId:self.placementId
+                              creativeId:creativeId];
 }
 
 /**

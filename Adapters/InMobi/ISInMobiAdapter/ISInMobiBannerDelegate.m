@@ -27,8 +27,10 @@
  @param banner View that was loaded
  */
 - (void)bannerDidFinishLoading:(IMBanner *)banner {
+    NSString *creativeId = banner.creativeId;
     [self.delegate onBannerDidLoad:banner
-                       placementId:self.placementId];
+                       placementId:self.placementId
+                        creativeId:creativeId];
 }
 
 /**

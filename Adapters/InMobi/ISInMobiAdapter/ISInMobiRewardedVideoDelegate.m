@@ -27,8 +27,10 @@
  @param interstitial IMInterstitial object that was loaded successfully.
  */
 - (void)interstitialDidFinishLoading:(IMInterstitial *)interstitial {
+    NSString *creativeId = interstitial.creativeId;
     [self.delegate onRewardedVideoDidLoad:interstitial
-                              placementId:self.placementId];
+                              placementId:self.placementId
+                               creativeId:creativeId];
 }
 
 /**

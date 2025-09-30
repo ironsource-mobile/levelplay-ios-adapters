@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ISInMobiBannerDelegateWrapper  <NSObject>
 
 - (void)onBannerDidLoad:(IMBanner *)banner
-            placementId:(NSString *)placementId;
+            placementId:(NSString *)placementId
+             creativeId:(NSString *)creativeId;
 
 - (void)onBannerDidFailToLoad:(IMBanner *)banner
                         error:(IMRequestStatus *)error

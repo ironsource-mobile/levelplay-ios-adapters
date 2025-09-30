@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ISInMobiInterstitialDelegateWrapper  <NSObject>
 
 - (void)onInterstitialDidLoad:(IMInterstitial *)interstitial
-                  placementId:(NSString *)placementId;
+                  placementId:(NSString *)placementId
+                   creativeId:(NSString *)creativeId;
 
 - (void)onInterstitialDidFailToLoad:(IMInterstitial *)interstitial
                               error:(IMRequestStatus *)error

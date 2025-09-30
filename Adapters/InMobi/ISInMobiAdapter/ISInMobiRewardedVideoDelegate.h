@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol ISInMobiRewardedVideoDelegateWrapper  <NSObject>
 
 - (void)onRewardedVideoDidLoad:(IMInterstitial *)rewardedVideo
-                   placementId:(NSString *)placementId;
+                   placementId:(NSString *)placementId
+                    creativeId:(NSString *)creativeId;
 
 - (void)onRewardedVideoDidFailToLoad:(IMInterstitial *)rewardedVideo
                                error:(IMRequestStatus *)error
