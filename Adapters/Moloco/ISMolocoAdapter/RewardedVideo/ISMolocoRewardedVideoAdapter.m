@@ -87,14 +87,19 @@
     LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-    // create rewarded ad delegate
-    ISMolocoRewardedVideoDelegate *adDelegate = [[ISMolocoRewardedVideoDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                               andDelegate:delegate];
-    
-    self.molocoAdDelegate = adDelegate;
-    self.ad = [[Moloco shared] createRewardedFor:adUnitId delegate:adDelegate watermarkData:nil];
-    
-    // load ad
+        // create rewarded ad delegate
+        ISMolocoRewardedVideoDelegate *adDelegate = [[ISMolocoRewardedVideoDelegate alloc] initWithAdUnitId:adUnitId
+                                                                                                   andDelegate:delegate];
+        
+        self.molocoAdDelegate = adDelegate;
+        
+        // Create MolocoCreateAdParams with the required parameters
+        MolocoCreateAdParams *params = [self.adapter createMolocoAdParamsWithAdUnitId:adUnitId];
+        
+        self.ad = [[Moloco shared] createRewardedWithParams:params];
+        self.ad.rewardedDelegate = adDelegate;
+        
+        // load ad
         [self.ad loadWithBidResponse:serverData];
     });
 

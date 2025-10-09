@@ -17,4 +17,6 @@
 
 - (InitState)getInitState;
 
+- (MolocoCreateAdParams *)createMolocoAdParamsWithAdUnitId:(NSString *)adUnitId;
+
 @end

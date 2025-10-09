@@ -96,8 +96,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         MolocoBannerAdView *bannerAdView = [self createBannerWithAdSize:adSize
                                                                adUnitId:adUnitId
-                                                         viewController:viewController
-                                                               delegate:bannerAdDelegate];
+                                                         viewController:viewController];
     bannerAdView.delegate = bannerAdDelegate;
 
     // add banner ad to local variable
@@ -153,15 +152,17 @@
 }
 
 - (MolocoBannerAdView *)createBannerWithAdSize:(MolocoBannerType)adSize
-                                       adUnitId:(NSString *)adUnitId
-                                    viewController:(UIViewController *)viewController
-                                          delegate:(id<MolocoBannerDelegate>)delegate {
+                                      adUnitId:(NSString *)adUnitId
+                                 viewController:(UIViewController *)viewController {
     MolocoBannerAdView *bannerAdView = nil;
     
+    // Create MolocoCreateAdParams with the required parameters
+    MolocoCreateAdParams *params = [self.adapter createMolocoAdParamsWithAdUnitId:adUnitId];
+    
     if (adSize == MolocoBannerTypeMrec) {
-        bannerAdView = [[Moloco shared] createMRECFor:adUnitId viewController:viewController delegate:delegate watermarkData:nil];
+        bannerAdView = [[Moloco shared] createMRECWithParams:params viewController:viewController];
     } else if (adSize == MolocoBannerTypeRegular){
-        bannerAdView = [[Moloco shared] createBannerFor:adUnitId viewController:viewController delegate:delegate watermarkData:nil];
+        bannerAdView = [[Moloco shared] createBannerWithParams:params viewController:viewController];
     }
     return bannerAdView;
 }

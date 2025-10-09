@@ -10,6 +10,9 @@ static NSString * const kAppKey                   = @"appKey";
 static NSString * const kAdUnitId                 = @"adUnitId";
 static NSString * const kAdapterName              = @"Moloco";
 
+// Mediation info
+static NSString * const kMediationInfo            = @"LevelPlay";
+
 // MetaData
 static NSString * const kMetaDataCOPPAKey         = @"Moloco_COPPA";
 

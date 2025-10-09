@@ -75,11 +75,12 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         LogAdapterApi_Internal(@"appKey = %@", appKey);
         
         initState = INIT_STATE_IN_PROGRESS;
+        
         MolocoInitParams *initParams = [[MolocoInitParams alloc] initWithAppKey:appKey
-                                                                       mediator:MolocoMediationInfoLevelPlay];
+                                                                       mediation:kMediationInfo];
         ISMolocoAdapter * __weak weakSelf = self;
-        [[Moloco shared] initializeWithInitParams:initParams 
-                                       completion:^(BOOL success, NSError * _Nullable error){
+        [[Moloco shared] initializeWithParams:initParams 
+                                   completion:^(BOOL success, NSError * _Nullable error){
             typeof(self) strongSelf = weakSelf;
             if (success) {
                 [strongSelf initializationSuccess];
@@ -178,7 +179,8 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         return;
     }
     
-    [Moloco.shared getBidTokenWithCompletion:^(NSString *token, NSError *error) {
+    MolocoParams *params = [[MolocoParams alloc] initWithMediation:kMediationInfo];
+    [Moloco.shared getBidTokenWithParams:params completion:^(NSString *token, NSError *error) {
         
         if (error) {
             LogAdapterApi_Internal(@"%@", error.localizedDescription);
@@ -191,6 +193,11 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         LogAdapterApi_Internal(@"token = %@", returnedToken);
         [delegate successWithBiddingData:biddingDataDictionary];
     }];
+}
+
+- (MolocoCreateAdParams *)createMolocoAdParamsWithAdUnitId:(NSString *)adUnitId {
+    return [[MolocoCreateAdParams alloc] initWithAdUnit:adUnitId
+                                              mediation:kMediationInfo];
 }
 
 @end

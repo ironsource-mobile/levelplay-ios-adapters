@@ -85,13 +85,18 @@
     LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
     
     dispatch_async(dispatch_get_main_queue(), ^{
-    // create interstitial ad delegate
-    ISMolocoInterstitialDelegate *adDelegate = [[ISMolocoInterstitialDelegate alloc] initWithAdUnitId:adUnitId
-                                                            andDelegate:delegate];
-    self.molocoAdDelegate = adDelegate;
-    self.ad = [[Moloco shared] createInterstitialFor:adUnitId delegate:adDelegate watermarkData:nil];
+        // create interstitial ad delegate
+        ISMolocoInterstitialDelegate *adDelegate = [[ISMolocoInterstitialDelegate alloc] initWithAdUnitId:adUnitId
+                                                                andDelegate:delegate];
+        self.molocoAdDelegate = adDelegate;
+        
+        // Create MolocoCreateAdParams with the required parameters
+        MolocoCreateAdParams *params = [self.adapter createMolocoAdParamsWithAdUnitId:adUnitId];
+        
+        self.ad = [[Moloco shared] createInterstitialWithParams:params];
+        self.ad.interstitialDelegate = adDelegate;
 
-    // load ad
+        // load ad
         [self.ad loadWithBidResponse:serverData];
     });
 }
