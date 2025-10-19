@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/ISBaseAdapter+Internal.h>
 
-static NSString * const VungleAdapterVersion = @"5.1.0";
+static NSString * const VungleAdapterVersion = @"5.2.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Vungle Adapter
