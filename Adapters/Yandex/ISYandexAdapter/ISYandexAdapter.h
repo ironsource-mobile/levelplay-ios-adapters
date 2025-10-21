@@ -8,7 +8,7 @@
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const YandexAdapterVersion = @"5.2.0";
+static NSString * const YandexAdapterVersion = @"5.3.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Yandex Adapter
