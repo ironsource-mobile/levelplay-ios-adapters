@@ -18,6 +18,8 @@ static NSString * const kMetaDataCOPPAKey            = @"BidMachine_COPPA";
 static NSString * const kMetaDataCCPANoConsentValue  = @"1YY-";
 static NSString * const kMetaDataCCPAConsentValue    = @"1YN-";
 
+static NSString * const kCreativeId                 = @"creativeId";
+
 // init state possible values
 typedef NS_ENUM(NSInteger, InitState) {
     INIT_STATE_NONE,

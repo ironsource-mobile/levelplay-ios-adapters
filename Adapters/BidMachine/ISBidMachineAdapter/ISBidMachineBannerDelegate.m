@@ -23,8 +23,15 @@
 }
 
 - (void)didLoadAd:(id <BidMachineAdProtocol> _Nonnull)ad {
-    LogAdapterDelegate_Internal(@"");
-    [self.delegate adapterBannerDidLoad:self.banner];
+    NSString *creativeId = ad.auctionInfo.creativeId;
+    LogAdapterDelegate_Internal(@"creativeId = %@", creativeId);
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterBannerDidLoad:self.banner
+                                  extraData:extraData];
+    } else {
+        [self.delegate adapterBannerDidLoad:self.banner];
+    }
 }
 
 - (void)didFailLoadAd:(id <BidMachineAdProtocol> _Nonnull)ad

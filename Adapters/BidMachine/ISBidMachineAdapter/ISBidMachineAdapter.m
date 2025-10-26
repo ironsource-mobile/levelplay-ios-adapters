@@ -175,9 +175,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     
     NSError *placementError = nil;
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:BidMachinePlacementFormatRewarded
-                                                                   error:&placementError
-                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+    BidMachinePlacement *placement = [BidMachineSdk.shared placement:BidMachineAdFormat.rewarded
+                                                                error:&placementError
+                                                             builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
         if (placementId.length > 0) {
             [builder withPlacementId:placementId];
         }
@@ -253,7 +253,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                                                   adData:(NSDictionary *)adData
                                                 delegate:(id<ISBiddingDataDelegate>)delegate {
     [self collectBiddingDataWithAdData:adData
-                              adFormat:BidMachinePlacementFormatRewarded
+                              adFormat:BidMachineAdFormat.rewarded
                          adapterConfig:adapterConfig
                               delegate:delegate];
 }
@@ -299,9 +299,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     
     NSError *placementError = nil;
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:BidMachinePlacementFormatInterstitial
-                                                                   error:&placementError
-                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+    BidMachinePlacement *placement = [BidMachineSdk.shared placement:BidMachineAdFormat.interstitial
+                                                               error:&placementError
+                                                             builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
         if (placementId.length > 0) {
             [builder withPlacementId:placementId];
         }
@@ -378,7 +378,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                                                  adData:(NSDictionary *)adData
                                                delegate:(id<ISBiddingDataDelegate>)delegate {
     [self collectBiddingDataWithAdData:adData
-                              adFormat:BidMachinePlacementFormatInterstitial
+                              adFormat:BidMachineAdFormat.interstitial
                          adapterConfig:adapterConfig
                               delegate:delegate];
 }
@@ -424,9 +424,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     // delegate on both init and load APIs
     self.bannerSmashDelegate = delegate;
     
-    BidMachinePlacementFormat bannerFormat = [self getBannerFormat:size];
+    BidMachineAdFormat *bannerFormat = [self getBannerFormat:size];
     
-    if (bannerFormat == BidMachinePlacementFormatUnknown) {
+    if (bannerFormat == nil) {
         NSError *error = [NSError errorWithDomain:kAdapterName
                                              code:ERROR_BN_UNSUPPORTED_SIZE
                                          userInfo:@{NSLocalizedDescriptionKey:@"unsupported banner size"}];
@@ -437,9 +437,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     
     NSError *placementError = nil;
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:bannerFormat
-                                                                   error:&placementError
-                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+    BidMachinePlacement *placement = [BidMachineSdk.shared placement:bannerFormat
+                                                               error:&placementError
+                                                             builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
         if (placementId.length > 0) {
             [builder withPlacementId:placementId];
         }
@@ -505,9 +505,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                                          delegate:(id<ISBiddingDataDelegate>)delegate {
     if ([adData objectForKey:@"bannerSize"]) {
         ISBannerSize *size = [adData objectForKey:@"bannerSize"];
-        BidMachinePlacementFormat bannerFormat = [self getBannerFormat:size];
+        BidMachineAdFormat *bannerFormat = [self getBannerFormat:size];
         
-        if (bannerFormat == BidMachinePlacementFormatUnknown) {
+        if (bannerFormat == nil) {
             NSString *error = [NSString stringWithFormat:@"failed to receive token - BidMachine"];
             LogAdapterApi_Internal(@"%@", error);
             [delegate failureWithError:error];
@@ -561,7 +561,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         
         if ([ISMetaDataUtils isValidMetaDataWithKey:key
                                                flag:kMetaDataCOPPAKey
-                                           andValue:value]) {
+                                           andValue:formattedValue]) {
             [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
@@ -601,7 +601,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 #pragma mark - Helper Methods
 
 - (void)collectBiddingDataWithAdData:(NSDictionary *)adData
-                            adFormat:(BidMachinePlacementFormat)adFormat
+                            adFormat:(BidMachineAdFormat *)adFormat
                        adapterConfig:(ISAdapterConfig *)adapterConfig
                             delegate:(id<ISBiddingDataDelegate>)delegate {
     
@@ -613,9 +613,9 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     }
     NSError *placementError = nil;
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    BidMachinePlacement *placement = [BidMachineSdk.shared placementFrom:adFormat
-                                                                   error:&placementError
-                                                                 builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
+    BidMachinePlacement *placement = [BidMachineSdk.shared placement:adFormat
+                                                               error:&placementError
+                                                             builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
         if(placementId.length > 0) {
             [builder withPlacementId:placementId];
         }
@@ -635,19 +635,19 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     }];
 }
 
-- (BidMachinePlacementFormat)getBannerFormat:(ISBannerSize *)size {
+- (BidMachineAdFormat *)getBannerFormat:(ISBannerSize *)size {
     if ([size.sizeDescription isEqualToString:@"BANNER"]) {
-        return BidMachinePlacementFormatBanner320x50;
+        return BidMachineAdFormat.banner320x50;
     } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
-        return BidMachinePlacementFormatBanner300x250;
+        return BidMachineAdFormat.banner300x250;
     } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return BidMachinePlacementFormatBanner728x90;
+            return BidMachineAdFormat.banner728x90;
         } else {
-            return BidMachinePlacementFormatBanner320x50;
+            return BidMachineAdFormat.banner320x50;
         }
     }
-    return BidMachinePlacementFormatUnknown;
+    return nil;
 }
 
 @end
