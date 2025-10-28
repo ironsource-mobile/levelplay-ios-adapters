@@ -141,7 +141,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         
         if ([ISMetaDataUtils isValidMetaDataWithKey:key
                                                flag:kMetaDataCOPPAKey
-                                           andValue:value]) {
+                                           andValue:formattedValue]) {
             [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
@@ -149,7 +149,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 
 - (void)setConsent:(BOOL)consent {
     LogAdapterApi_Internal(@"consent = %@", consent? @"YES" : @"NO");
-    MolocoPrivacySettings.hasUserConsent = true;
+    MolocoPrivacySettings.hasUserConsent = consent;
 }
 
 
