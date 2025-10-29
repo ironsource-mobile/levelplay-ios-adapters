@@ -29,6 +29,8 @@ static BOOL coppaValue = NO;
 static BOOL doNotTrackValue = NO;
 static NSString *doNotSellValue = @"1-";
 
+static NSString * const adapterName = @"unity_bidding";
+
 @interface ISMobileFuseAdapter() <IMFInitializationCallbackReceiver, ISNetworkInitCallbackProtocol>
 
 @end
@@ -87,6 +89,9 @@ static NSString *doNotSellValue = @"1-";
     dispatch_once(&initSdkOnceToken, ^{
         LogAdapterApi_Internal(@"placementId = %@", placementId);
         initState = INIT_STATE_IN_PROGRESS;
+        if ([MobileFuseSettings respondsToSelector:@selector(setSdkAdapter:)]) {
+            [MobileFuseSettings setSdkAdapter:adapterName];
+        }
         if ([ISConfigurations getConfigurations].adaptersDebug) {
             [MobileFuse enableVerboseLogging];
         }
