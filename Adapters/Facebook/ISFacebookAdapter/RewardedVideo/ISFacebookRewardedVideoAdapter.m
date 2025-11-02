@@ -108,15 +108,16 @@
             
             [self.adUnitPlacementIdToAd setObject:ad
                                            forKey:placementId];
+            // load ad
+            [ad loadAdWithBidPayload:serverData];
             
-            if (serverData == nil) {
-                [ad loadAd];
-            } else {
-                [ad loadAdWithBidPayload:serverData];
-            }
         } @catch (NSException *exception) {
             LogAdapterApi_Internal(@"exception = %@", exception);
             [delegate adapterRewardedVideoHasChangedAvailability:NO];
+            NSError *error = [NSError errorWithDomain:kAdapterName
+                                                 code:ERROR_CODE_GENERIC
+                                             userInfo:@{NSLocalizedDescriptionKey:exception.description}];
+            [delegate adapterRewardedVideoDidFailToLoadWithError:error];
         }
     });
 }
@@ -142,8 +143,11 @@
                                    withCurrency:@""];
                 }
                 
-                [ad showAdFromRootViewController:viewController];
-
+                if (![ad showAdFromRootViewController:viewController]) {
+                    NSError *error = [ISError createError:ERROR_CODE_GENERIC
+                                              withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+                    [delegate adapterRewardedVideoDidFailToShowWithError:error];
+                }
             } else {
                 NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                           withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
@@ -152,8 +156,9 @@
             
         } @catch (NSException *exception) {
             LogAdapterApi_Internal(@"exception = %@", exception);
-            NSError *error = [ISError createError:ERROR_CODE_GENERIC
-                                      withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+            NSError *error = [NSError errorWithDomain:kAdapterName
+                                                 code:ERROR_CODE_GENERIC
+                                             userInfo:@{NSLocalizedDescriptionKey:exception.description}];
             [delegate adapterRewardedVideoDidFailToShowWithError:error];
         }
     });

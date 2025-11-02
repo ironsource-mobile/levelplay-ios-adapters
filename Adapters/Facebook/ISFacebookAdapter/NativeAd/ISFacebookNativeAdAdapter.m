@@ -115,11 +115,7 @@
         self.nativeAd.delegate = facebookDelegate;
      
         // load ad
-        if (serverData == nil) {
-            [self.nativeAd loadAd];
-        } else {
-            [self.nativeAd loadAdWithBidPayload:serverData];
-        }
+        [self.nativeAd loadAdWithBidPayload:serverData];
     });
 }
 

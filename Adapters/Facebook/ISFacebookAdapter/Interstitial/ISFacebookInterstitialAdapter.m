@@ -107,17 +107,15 @@
             [self.adUnitPlacementIdToAd setObject:ad
                                            forKey:placementId];
             
-            if (serverData == nil) {
-                [ad loadAd];
-            } else {
-                [ad loadAdWithBidPayload:serverData];
-            }
+            // load the ad
+            [ad loadAdWithBidPayload:serverData];
+            
         } @catch (NSException *exception) {
             LogAdapterApi_Internal(@"exception = %@", exception);
             NSError *error = [NSError errorWithDomain:kAdapterName
                                                  code:ERROR_CODE_GENERIC
                                              userInfo:@{NSLocalizedDescriptionKey:exception.description}];
-            [delegate adapterInterstitialInitFailedWithError:error];
+            [delegate adapterInterstitialDidFailToLoadWithError:error];
         }
     });
 }
@@ -135,8 +133,12 @@
             
             if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
                 FBInterstitialAd *ad = [self.adUnitPlacementIdToAd objectForKey:placementId];
-                [ad showAdFromRootViewController:viewController];
                 
+                if (![ad showAdFromRootViewController:viewController]) {
+                    NSError *error = [ISError createError:ERROR_CODE_GENERIC
+                                              withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+                    [delegate adapterInterstitialDidFailToShowWithError:error];
+                }
             } else {
                 NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                           withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];

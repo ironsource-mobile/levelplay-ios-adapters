@@ -135,11 +135,7 @@
                                            forKey:placementId];
             
             // load the ad
-            if (serverData == nil) {
-                [ad loadAd];
-            } else {
-                [ad loadAdWithBidPayload:serverData];
-            }
+            [ad loadAdWithBidPayload:serverData];
             
         } @catch (NSException *exception) {
             LogAdapterApi_Internal(@"exception = %@", exception);
