@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04DC49A5193A32BACEF282DC /* ISLineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3BF1CA1CA88CE4DE0B3B84 /* ISLineConstants.h */; };
+		07C6B23AE6F0EA0146F226D5 /* ISLineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 79D31002A661499DF1B92874 /* ISLineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1DB9A71D5092DEA63AF07A63 /* ISLineAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AD602C583458305FCF30EF96 /* ISLineAdapter+Internal.h */; };
+		23B70C2E841EFDC64EE210BD /* ISLineRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 59CEBE3476070B649E3F6F6B /* ISLineRewardedVideoAdapter.m */; };
+		255339EEDD2918CAB6FD7442 /* ISLineInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12E50CF472BC110594AC0F5B /* ISLineInterstitialDelegate.m */; };
+		3819EEDDBC364CD78DD21658 /* ISLineInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AF2E52C06825C479B055D033 /* ISLineInterstitialDelegate.h */; };
+		434CBF6C733E12EBB50C0862 /* ISLineInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 581BB995DDB3019C5E87C3FE /* ISLineInterstitialAdapter.m */; };
+		4F30582CE95C3F424679BDC3 /* ISLineAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C42FC0C11C870B79BC53E3A /* ISLineAdapter.m */; };
+		A1CDA7B7154B4F20CDDF5815 /* ISLineRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C45B1F14DFDEA5945C95AF8 /* ISLineRewardedVideoDelegate.h */; };
+		B035804E5CB0D10891E762BC /* ISLineRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 496CF1A8C6E69641331EFB96 /* ISLineRewardedVideoAdapter.h */; };
+		E000EDE3280A97F8DE3308DA /* ISLineRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BDEDBDD44917C7CF6E681 /* ISLineRewardedVideoDelegate.m */; };
+		FF4A88C524732F206B78655E /* ISLineInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A59EC27B798C52D44A92229B /* ISLineInterstitialAdapter.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0C45B1F14DFDEA5945C95AF8 /* ISLineRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		12E50CF472BC110594AC0F5B /* ISLineInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineInterstitialDelegate.m; sourceTree = "<group>"; };
+		496CF1A8C6E69641331EFB96 /* ISLineRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		581BB995DDB3019C5E87C3FE /* ISLineInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineInterstitialAdapter.m; sourceTree = "<group>"; };
+		59CEBE3476070B649E3F6F6B /* ISLineRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		79D31002A661499DF1B92874 /* ISLineAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineAdapter.h; sourceTree = "<group>"; };
+		8C42FC0C11C870B79BC53E3A /* ISLineAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineAdapter.m; sourceTree = "<group>"; };
+		9A5BDEDBDD44917C7CF6E681 /* ISLineRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		A59EC27B798C52D44A92229B /* ISLineInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineInterstitialAdapter.h; sourceTree = "<group>"; };
+		AD602C583458305FCF30EF96 /* ISLineAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISLineAdapter+Internal.h"; sourceTree = "<group>"; };
+		AF2E52C06825C479B055D033 /* ISLineInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineInterstitialDelegate.h; sourceTree = "<group>"; };
+		D31E616F11D1BAF8C7102623 /* ISLineAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISLineAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD3BF1CA1CA88CE4DE0B3B84 /* ISLineConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineConstants.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		304F9E6029A02AA28C3ED4EF /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				496CF1A8C6E69641331EFB96 /* ISLineRewardedVideoAdapter.h */,
+				59CEBE3476070B649E3F6F6B /* ISLineRewardedVideoAdapter.m */,
+				0C45B1F14DFDEA5945C95AF8 /* ISLineRewardedVideoDelegate.h */,
+				9A5BDEDBDD44917C7CF6E681 /* ISLineRewardedVideoDelegate.m */,
+			);
+			path = RewardedVideo;
+			sourceTree = "<group>";
+		};
+		4D5F7E3B7387A31A5BF4FB55 /* ISLineAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				79D31002A661499DF1B92874 /* ISLineAdapter.h */,
+				8C42FC0C11C870B79BC53E3A /* ISLineAdapter.m */,
+				AD602C583458305FCF30EF96 /* ISLineAdapter+Internal.h */,
+				FD3BF1CA1CA88CE4DE0B3B84 /* ISLineConstants.h */,
+				97E799A28E3946ADDA7EDA92 /* Interstitial */,
+				304F9E6029A02AA28C3ED4EF /* RewardedVideo */,
+			);
+			path = ISLineAdapter;
+			sourceTree = "<group>";
+		};
+		5B0FDBA31E8381AEC2D7879B = {
+			isa = PBXGroup;
+			children = (
+				4D5F7E3B7387A31A5BF4FB55 /* ISLineAdapter */,
+				B01EBC82422E61EB18AB7A19 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		97E799A28E3946ADDA7EDA92 /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				A59EC27B798C52D44A92229B /* ISLineInterstitialAdapter.h */,
+				581BB995DDB3019C5E87C3FE /* ISLineInterstitialAdapter.m */,
+				AF2E52C06825C479B055D033 /* ISLineInterstitialDelegate.h */,
+				12E50CF472BC110594AC0F5B /* ISLineInterstitialDelegate.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
+		B01EBC82422E61EB18AB7A19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D31E616F11D1BAF8C7102623 /* ISLineAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B51F4063F088A43D8ACBDF93 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DB9A71D5092DEA63AF07A63 /* ISLineAdapter+Internal.h in Headers */,
+				07C6B23AE6F0EA0146F226D5 /* ISLineAdapter.h in Headers */,
+				04DC49A5193A32BACEF282DC /* ISLineConstants.h in Headers */,
+				FF4A88C524732F206B78655E /* ISLineInterstitialAdapter.h in Headers */,
+				3819EEDDBC364CD78DD21658 /* ISLineInterstitialDelegate.h in Headers */,
+				B035804E5CB0D10891E762BC /* ISLineRewardedVideoAdapter.h in Headers */,
+				A1CDA7B7154B4F20CDDF5815 /* ISLineRewardedVideoDelegate.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		36A88B90AF55EDD56C2AE49B /* ISLineAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19F16A4D24BA79F83E0787A7 /* Build configuration list for PBXNativeTarget "ISLineAdapter" */;
+			buildPhases = (
+				E07E4F05EC770C79695FAF32 /* Create XCFramework */,
+				B51F4063F088A43D8ACBDF93 /* Headers */,
+				227D5DB5C2402F8299BF438E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISLineAdapter;
+			packageProductDependencies = (
+			);
+			productName = ISLineAdapter;
+			productReference = D31E616F11D1BAF8C7102623 /* ISLineAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		666D5A57FDD78A19546E8AE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					36A88B90AF55EDD56C2AE49B = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
+					};
+				};
+			};
+			buildConfigurationList = 9A44A215168CA7913D30867E /* Build configuration list for PBXProject "ISLineAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 5B0FDBA31E8381AEC2D7879B;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				36A88B90AF55EDD56C2AE49B /* ISLineAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E07E4F05EC770C79695FAF32 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		227D5DB5C2402F8299BF438E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F30582CE95C3F424679BDC3 /* ISLineAdapter.m in Sources */,
+				434CBF6C733E12EBB50C0862 /* ISLineInterstitialAdapter.m in Sources */,
+				255339EEDD2918CAB6FD7442 /* ISLineInterstitialDelegate.m in Sources */,
+				23B70C2E841EFDC64EE210BD /* ISLineRewardedVideoAdapter.m in Sources */,
+				E000EDE3280A97F8DE3308DA /* ISLineRewardedVideoDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		883802CF63960552A3B459F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A561FCF289350D28A048A809 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISLineAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISLineAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		B18CA3153CF2017C363DAC3B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISLineAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISLineAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		FB3DE9051CB8FFA5419552BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		19F16A4D24BA79F83E0787A7 /* Build configuration list for PBXNativeTarget "ISLineAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A561FCF289350D28A048A809 /* Debug */,
+				B18CA3153CF2017C363DAC3B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9A44A215168CA7913D30867E /* Build configuration list for PBXProject "ISLineAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB3DE9051CB8FFA5419552BE /* Debug */,
+				883802CF63960552A3B459F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 666D5A57FDD78A19546E8AE0 /* Project object */;
+}

@@ -1,0 +1,9 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+use_frameworks!
+
+target 'ISLineAdapter' do
+  pod 'IronSourceSDK', '9.1.0.0'
+  pod 'FiveAd', '2.9.20250930'
+
+end
