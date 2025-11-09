@@ -1024,12 +1024,15 @@ static NSNumber *setCOPPA = nil;
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
         
-    } else if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                                  flag:kMetaDataCOPPAKey
-                                              andValue:value]) {
+    } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                         forType:(META_DATA_VALUE_BOOL)];
-        [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
+        
+        if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                                  flag:kMetaDataCOPPAKey
+                                              andValue:formattedValue]) {
+            [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
+        }
     }
 }
 

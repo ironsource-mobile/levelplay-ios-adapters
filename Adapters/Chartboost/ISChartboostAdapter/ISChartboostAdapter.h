@@ -9,7 +9,7 @@
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const ChartboostAdapterVersion = @"5.1.0";
+static NSString * const ChartboostAdapterVersion = @"5.2.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Chartboost Adapter
