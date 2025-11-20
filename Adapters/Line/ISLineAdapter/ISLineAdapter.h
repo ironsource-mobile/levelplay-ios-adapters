@@ -9,7 +9,7 @@
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <FiveAd/FiveAd.h>
 
-static NSString * const LineAdapterVersion = @"5.1.0";
+static NSString * const LineAdapterVersion = @"5.2.0";
 static NSString * Githash = @"";
 
 //System Frameworks For LineAdapter
