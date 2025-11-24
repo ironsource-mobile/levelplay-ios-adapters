@@ -148,7 +148,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         
         if ([ISMetaDataUtils isValidMetaDataWithKey:key
                                                flag:kMetaDataCOPPAKey
-                                           andValue:value]) {
+                                           andValue:formattedValue]) {
             [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
