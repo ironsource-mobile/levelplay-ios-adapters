@@ -36,10 +36,10 @@ jobs:
             -scheme ISAppLovinAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-bidmachine:
     name: Build BidMachine Adapter
@@ -67,10 +67,10 @@ jobs:
             -scheme ISBidMachineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-bigo:
     name: Build Bigo Adapter
@@ -98,10 +98,10 @@ jobs:
             -scheme ISBigoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-chartboost:
     name: Build Chartboost Adapter
@@ -129,10 +129,10 @@ jobs:
             -scheme ISChartboostAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-facebook:
     name: Build Facebook Adapter
@@ -160,10 +160,10 @@ jobs:
             -scheme ISFacebookAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-admob:
     name: Build AdMob Adapter
@@ -191,10 +191,10 @@ jobs:
             -scheme ISAdMobAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-inmobi:
     name: Build InMobi Adapter
@@ -222,10 +222,10 @@ jobs:
             -scheme ISInMobiAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-line:
     name: Build Line Adapter
@@ -253,10 +253,10 @@ jobs:
             -scheme ISLineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-mobilefuse:
     name: Build MobileFuse Adapter
@@ -284,10 +284,10 @@ jobs:
             -scheme ISMobileFuseAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-moloco:
     name: Build Moloco Adapter
@@ -315,10 +315,10 @@ jobs:
             -scheme ISMolocoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-ogury:
     name: Build Ogury Adapter
@@ -346,10 +346,10 @@ jobs:
             -scheme ISOguryAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-pangle:
     name: Build Pangle Adapter
@@ -377,10 +377,10 @@ jobs:
             -scheme ISPangleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-pubmatic:
     name: Build PubMatic Adapter
@@ -408,10 +408,10 @@ jobs:
             -scheme ISPubMaticAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-unityads:
     name: Build UnityAds Adapter
@@ -439,10 +439,10 @@ jobs:
             -scheme ISUnityAdsAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-verve:
     name: Build Verve Adapter
@@ -470,10 +470,10 @@ jobs:
             -scheme ISVerveAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-vungle:
     name: Build Vungle Adapter
@@ -501,10 +501,10 @@ jobs:
             -scheme ISVungleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-yandex:
     name: Build Yandex Adapter
@@ -532,10 +532,10 @@ jobs:
             -scheme ISYandexAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   build-yso:
     name: Build YSO Adapter
@@ -563,10 +563,10 @@ jobs:
             -scheme ISYSOAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            ONLY_ACTIVE_ARCH=NO
 
   all-builds-success:
     name: All Builds Successful
