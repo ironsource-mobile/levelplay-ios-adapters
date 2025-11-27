@@ -195,7 +195,8 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
+            IPHONEOS_DEPLOYMENT_TARGET=13.0
 
   build-inmobi:
     name: Build InMobi Adapter
@@ -471,11 +472,13 @@ jobs:
             -scheme ISVerveAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -arch x86_64 \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ENABLE_USER_SCRIPT_SANDBOXING=NO
+            ENABLE_USER_SCRIPT_SANDBOXING=NO \
+            ONLY_ACTIVE_ARCH=YES
 
   build-vungle:
     name: Build Vungle Adapter
