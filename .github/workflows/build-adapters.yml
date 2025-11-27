@@ -36,6 +36,7 @@ jobs:
             -scheme ISAppLovinAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -67,6 +68,7 @@ jobs:
             -scheme ISBidMachineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -98,6 +100,7 @@ jobs:
             -scheme ISBigoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -129,6 +132,7 @@ jobs:
             -scheme ISChartboostAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -160,6 +164,7 @@ jobs:
             -scheme ISFacebookAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -191,6 +196,7 @@ jobs:
             -scheme ISAdMobAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -222,6 +228,7 @@ jobs:
             -scheme ISInMobiAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -253,6 +260,7 @@ jobs:
             -scheme ISLineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -284,6 +292,7 @@ jobs:
             -scheme ISMobileFuseAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -315,6 +324,7 @@ jobs:
             -scheme ISMolocoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -346,6 +356,7 @@ jobs:
             -scheme ISOguryAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -377,6 +388,7 @@ jobs:
             -scheme ISPangleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -408,6 +420,7 @@ jobs:
             -scheme ISPubMaticAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -439,6 +452,7 @@ jobs:
             -scheme ISUnityAdsAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -470,6 +484,7 @@ jobs:
             -scheme ISVerveAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -501,6 +516,7 @@ jobs:
             -scheme ISVungleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -532,6 +548,7 @@ jobs:
             -scheme ISYandexAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
@@ -563,6 +580,7 @@ jobs:
             -scheme ISYSOAdapter \
             -configuration Release \
             -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO \
             RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
