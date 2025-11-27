@@ -1,0 +1,16 @@
+name: Build All Adapters
+
+# This is a placeholder workflow to enable GitHub Actions in the repository.
+# The full build workflow will be added in a feature branch.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  placeholder:
+    name: Placeholder Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder step
+        run: echo "This is a placeholder workflow. Add your actual workflows in feature branches."
+
