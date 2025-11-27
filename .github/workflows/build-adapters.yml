@@ -35,13 +35,14 @@ jobs:
             -scheme ISAppLovinAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-bidmachine:
     name: Build BidMachine Adapter
     runs-on: macos-latest
+    needs: build-applovin
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -63,13 +64,14 @@ jobs:
             -scheme ISBidMachineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-bigo:
     name: Build Bigo Adapter
     runs-on: macos-latest
+    needs: build-bidmachine
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -91,13 +93,14 @@ jobs:
             -scheme ISBigoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-chartboost:
     name: Build Chartboost Adapter
     runs-on: macos-latest
+    needs: build-bigo
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -119,13 +122,14 @@ jobs:
             -scheme ISChartboostAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-facebook:
     name: Build Facebook Adapter
     runs-on: macos-latest
+    needs: build-chartboost
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -147,13 +151,14 @@ jobs:
             -scheme ISFacebookAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-admob:
     name: Build AdMob Adapter
     runs-on: macos-latest
+    needs: build-facebook
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -175,13 +180,14 @@ jobs:
             -scheme ISAdMobAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-inmobi:
     name: Build InMobi Adapter
     runs-on: macos-latest
+    needs: build-admob
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -203,13 +209,14 @@ jobs:
             -scheme ISInMobiAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-line:
     name: Build Line Adapter
     runs-on: macos-latest
+    needs: build-inmobi
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -231,13 +238,14 @@ jobs:
             -scheme ISLineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-mobilefuse:
     name: Build MobileFuse Adapter
     runs-on: macos-latest
+    needs: build-line
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -259,13 +267,14 @@ jobs:
             -scheme ISMobileFuseAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-moloco:
     name: Build Moloco Adapter
     runs-on: macos-latest
+    needs: build-mobilefuse
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -287,13 +296,14 @@ jobs:
             -scheme ISMolocoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-ogury:
     name: Build Ogury Adapter
     runs-on: macos-latest
+    needs: build-moloco
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -315,13 +325,14 @@ jobs:
             -scheme ISOguryAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-pangle:
     name: Build Pangle Adapter
     runs-on: macos-latest
+    needs: build-ogury
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -343,13 +354,14 @@ jobs:
             -scheme ISPangleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-pubmatic:
     name: Build PubMatic Adapter
     runs-on: macos-latest
+    needs: build-pangle
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -371,13 +383,14 @@ jobs:
             -scheme ISPubMaticAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-unityads:
     name: Build UnityAds Adapter
     runs-on: macos-latest
+    needs: build-pubmatic
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -399,13 +412,14 @@ jobs:
             -scheme ISUnityAdsAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-verve:
     name: Build Verve Adapter
     runs-on: macos-latest
+    needs: build-unityads
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -427,13 +441,14 @@ jobs:
             -scheme ISVerveAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-vungle:
     name: Build Vungle Adapter
     runs-on: macos-latest
+    needs: build-verve
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -455,13 +470,14 @@ jobs:
             -scheme ISVungleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-yandex:
     name: Build Yandex Adapter
     runs-on: macos-latest
+    needs: build-vungle
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -483,13 +499,14 @@ jobs:
             -scheme ISYandexAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
   build-yso:
     name: Build YSO Adapter
     runs-on: macos-latest
+    needs: build-yandex
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -511,7 +528,7 @@ jobs:
             -scheme ISYSOAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             clean build \
             CODE_SIGNING_ALLOWED=NO
 
