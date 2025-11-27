@@ -32,20 +32,19 @@ jobs:
         run: |
           cd "Adapters/AppLovin"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISAppLovinAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISAppLovinAdapter.xcworkspace \
             -scheme ISAppLovinAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-bidmachine:
     name: Build BidMachine Adapter
     runs-on: macos-latest
-    needs: build-applovin
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -64,20 +63,19 @@ jobs:
         run: |
           cd "Adapters/BidMachine"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISBidMachineAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISBidMachineAdapter.xcworkspace \
             -scheme ISBidMachineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-bigo:
     name: Build Bigo Adapter
     runs-on: macos-latest
-    needs: build-bidmachine
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -96,20 +94,19 @@ jobs:
         run: |
           cd "Adapters/Bigo"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISBigoAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISBigoAdapter.xcworkspace \
             -scheme ISBigoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-chartboost:
     name: Build Chartboost Adapter
     runs-on: macos-latest
-    needs: build-bigo
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -128,20 +125,19 @@ jobs:
         run: |
           cd "Adapters/Chartboost"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISChartboostAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISChartboostAdapter.xcworkspace \
             -scheme ISChartboostAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-facebook:
     name: Build Facebook Adapter
     runs-on: macos-latest
-    needs: build-chartboost
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -160,20 +156,19 @@ jobs:
         run: |
           cd "Adapters/Facebook"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISFacebookAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISFacebookAdapter.xcworkspace \
             -scheme ISFacebookAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-admob:
     name: Build AdMob Adapter
     runs-on: macos-latest
-    needs: build-facebook
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -192,20 +187,19 @@ jobs:
         run: |
           cd "Adapters/Google (AdMob and Ad Manager)"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISAdMobAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISAdMobAdapter.xcworkspace \
             -scheme ISAdMobAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-inmobi:
     name: Build InMobi Adapter
     runs-on: macos-latest
-    needs: build-admob
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -224,20 +218,19 @@ jobs:
         run: |
           cd "Adapters/InMobi"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISInMobiAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISInMobiAdapter.xcworkspace \
             -scheme ISInMobiAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-line:
     name: Build Line Adapter
     runs-on: macos-latest
-    needs: build-inmobi
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -256,20 +249,19 @@ jobs:
         run: |
           cd "Adapters/Line"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISLineAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISLineAdapter.xcworkspace \
             -scheme ISLineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-mobilefuse:
     name: Build MobileFuse Adapter
     runs-on: macos-latest
-    needs: build-line
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -288,20 +280,19 @@ jobs:
         run: |
           cd "Adapters/MobileFuse"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISMobileFuseAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISMobileFuseAdapter.xcworkspace \
             -scheme ISMobileFuseAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-moloco:
     name: Build Moloco Adapter
     runs-on: macos-latest
-    needs: build-mobilefuse
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -320,20 +311,19 @@ jobs:
         run: |
           cd "Adapters/Moloco"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISMolocoAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISMolocoAdapter.xcworkspace \
             -scheme ISMolocoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-ogury:
     name: Build Ogury Adapter
     runs-on: macos-latest
-    needs: build-moloco
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -352,20 +342,19 @@ jobs:
         run: |
           cd "Adapters/Ogury"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISOguryAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISOguryAdapter.xcworkspace \
             -scheme ISOguryAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-pangle:
     name: Build Pangle Adapter
     runs-on: macos-latest
-    needs: build-ogury
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -384,20 +373,19 @@ jobs:
         run: |
           cd "Adapters/Pangle"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISPangleAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISPangleAdapter.xcworkspace \
             -scheme ISPangleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-pubmatic:
     name: Build PubMatic Adapter
     runs-on: macos-latest
-    needs: build-pangle
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -416,20 +404,19 @@ jobs:
         run: |
           cd "Adapters/PubMatic"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISPubMaticAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISPubMaticAdapter.xcworkspace \
             -scheme ISPubMaticAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-unityads:
     name: Build UnityAds Adapter
     runs-on: macos-latest
-    needs: build-pubmatic
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -448,20 +435,19 @@ jobs:
         run: |
           cd "Adapters/UnityAds"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISUnityAdsAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISUnityAdsAdapter.xcworkspace \
             -scheme ISUnityAdsAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-verve:
     name: Build Verve Adapter
     runs-on: macos-latest
-    needs: build-unityads
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -480,20 +466,19 @@ jobs:
         run: |
           cd "Adapters/Verve"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISVerveAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISVerveAdapter.xcworkspace \
             -scheme ISVerveAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-vungle:
     name: Build Vungle Adapter
     runs-on: macos-latest
-    needs: build-verve
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -512,20 +497,19 @@ jobs:
         run: |
           cd "Adapters/Vungle"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISVungleAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISVungleAdapter.xcworkspace \
             -scheme ISVungleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-yandex:
     name: Build Yandex Adapter
     runs-on: macos-latest
-    needs: build-vungle
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -544,20 +528,19 @@ jobs:
         run: |
           cd "Adapters/Yandex"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISYandexAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISYandexAdapter.xcworkspace \
             -scheme ISYandexAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-yso:
     name: Build YSO Adapter
     runs-on: macos-latest
-    needs: build-yandex
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -576,15 +559,15 @@ jobs:
         run: |
           cd "Adapters/YSO"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild -workspace ISYSOAdapter.xcworkspace \
+          xcodebuild build \
+            -workspace ISYSOAdapter.xcworkspace \
             -scheme ISYSOAdapter \
             -configuration Release \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator' \
-            clean build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1 \
-            ONLY_ACTIVE_ARCH=NO
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   all-builds-success:
     name: All Builds Successful
