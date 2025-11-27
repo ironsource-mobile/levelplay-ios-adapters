@@ -1,0 +1,543 @@
+name: Build All Adapters
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+  schedule:
+    # Runs every day at 2:00 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  build-applovin:
+    name: Build AppLovin Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/AppLovin"
+          pod install
+      
+      - name: Build AppLovin Adapter
+        run: |
+          cd "Adapters/AppLovin"
+          xcodebuild -workspace ISAppLovinAdapter.xcworkspace \
+            -scheme ISAppLovinAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-bidmachine:
+    name: Build BidMachine Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/BidMachine"
+          pod install
+      
+      - name: Build BidMachine Adapter
+        run: |
+          cd "Adapters/BidMachine"
+          xcodebuild -workspace ISBidMachineAdapter.xcworkspace \
+            -scheme ISBidMachineAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-bigo:
+    name: Build Bigo Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Bigo"
+          pod install
+      
+      - name: Build Bigo Adapter
+        run: |
+          cd "Adapters/Bigo"
+          xcodebuild -workspace ISBigoAdapter.xcworkspace \
+            -scheme ISBigoAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-chartboost:
+    name: Build Chartboost Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Chartboost"
+          pod install
+      
+      - name: Build Chartboost Adapter
+        run: |
+          cd "Adapters/Chartboost"
+          xcodebuild -workspace ISChartboostAdapter.xcworkspace \
+            -scheme ISChartboostAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-facebook:
+    name: Build Facebook Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Facebook"
+          pod install
+      
+      - name: Build Facebook Adapter
+        run: |
+          cd "Adapters/Facebook"
+          xcodebuild -workspace ISFacebookAdapter.xcworkspace \
+            -scheme ISFacebookAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-admob:
+    name: Build AdMob Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Google (AdMob and Ad Manager)"
+          pod install
+      
+      - name: Build AdMob Adapter
+        run: |
+          cd "Adapters/Google (AdMob and Ad Manager)"
+          xcodebuild -workspace ISAdMobAdapter.xcworkspace \
+            -scheme ISAdMobAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-inmobi:
+    name: Build InMobi Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/InMobi"
+          pod install
+      
+      - name: Build InMobi Adapter
+        run: |
+          cd "Adapters/InMobi"
+          xcodebuild -workspace ISInMobiAdapter.xcworkspace \
+            -scheme ISInMobiAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-line:
+    name: Build Line Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Line"
+          pod install
+      
+      - name: Build Line Adapter
+        run: |
+          cd "Adapters/Line"
+          xcodebuild -workspace ISLineAdapter.xcworkspace \
+            -scheme ISLineAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-mobilefuse:
+    name: Build MobileFuse Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/MobileFuse"
+          pod install
+      
+      - name: Build MobileFuse Adapter
+        run: |
+          cd "Adapters/MobileFuse"
+          xcodebuild -workspace ISMobileFuseAdapter.xcworkspace \
+            -scheme ISMobileFuseAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-moloco:
+    name: Build Moloco Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Moloco"
+          pod install
+      
+      - name: Build Moloco Adapter
+        run: |
+          cd "Adapters/Moloco"
+          xcodebuild -workspace ISMolocoAdapter.xcworkspace \
+            -scheme ISMolocoAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-ogury:
+    name: Build Ogury Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Ogury"
+          pod install
+      
+      - name: Build Ogury Adapter
+        run: |
+          cd "Adapters/Ogury"
+          xcodebuild -workspace ISOguryAdapter.xcworkspace \
+            -scheme ISOguryAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-pangle:
+    name: Build Pangle Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Pangle"
+          pod install
+      
+      - name: Build Pangle Adapter
+        run: |
+          cd "Adapters/Pangle"
+          xcodebuild -workspace ISPangleAdapter.xcworkspace \
+            -scheme ISPangleAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-pubmatic:
+    name: Build PubMatic Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/PubMatic"
+          pod install
+      
+      - name: Build PubMatic Adapter
+        run: |
+          cd "Adapters/PubMatic"
+          xcodebuild -workspace ISPubMaticAdapter.xcworkspace \
+            -scheme ISPubMaticAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-unityads:
+    name: Build UnityAds Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/UnityAds"
+          pod install
+      
+      - name: Build UnityAds Adapter
+        run: |
+          cd "Adapters/UnityAds"
+          xcodebuild -workspace ISUnityAdsAdapter.xcworkspace \
+            -scheme ISUnityAdsAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-verve:
+    name: Build Verve Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Verve"
+          pod install
+      
+      - name: Build Verve Adapter
+        run: |
+          cd "Adapters/Verve"
+          xcodebuild -workspace ISVerveAdapter.xcworkspace \
+            -scheme ISVerveAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-vungle:
+    name: Build Vungle Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Vungle"
+          pod install
+      
+      - name: Build Vungle Adapter
+        run: |
+          cd "Adapters/Vungle"
+          xcodebuild -workspace ISVungleAdapter.xcworkspace \
+            -scheme ISVungleAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-yandex:
+    name: Build Yandex Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/Yandex"
+          pod install
+      
+      - name: Build Yandex Adapter
+        run: |
+          cd "Adapters/Yandex"
+          xcodebuild -workspace ISYandexAdapter.xcworkspace \
+            -scheme ISYandexAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  build-yso:
+    name: Build YSO Adapter
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      
+      - name: Install CocoaPods
+        run: |
+          cd "Adapters/YSO"
+          pod install
+      
+      - name: Build YSO Adapter
+        run: |
+          cd "Adapters/YSO"
+          xcodebuild -workspace ISYSOAdapter.xcworkspace \
+            -scheme ISYSOAdapter \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+  all-builds-success:
+    name: All Builds Successful
+    runs-on: ubuntu-latest
+    needs: 
+      - build-applovin
+      - build-bidmachine
+      - build-bigo
+      - build-chartboost
+      - build-facebook
+      - build-admob
+      - build-inmobi
+      - build-line
+      - build-mobilefuse
+      - build-moloco
+      - build-ogury
+      - build-pangle
+      - build-pubmatic
+      - build-unityads
+      - build-verve
+      - build-vungle
+      - build-yandex
+      - build-yso
+    steps:
+      - name: All builds passed
+        run: echo "✅ All adapter builds completed successfully!"
+
