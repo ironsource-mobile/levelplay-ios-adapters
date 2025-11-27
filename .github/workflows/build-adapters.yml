@@ -31,13 +31,15 @@ jobs:
       - name: Build AppLovin Adapter
         run: |
           cd "Adapters/AppLovin"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISAppLovinAdapter.xcworkspace \
             -scheme ISAppLovinAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-bidmachine:
     name: Build BidMachine Adapter
@@ -60,13 +62,15 @@ jobs:
       - name: Build BidMachine Adapter
         run: |
           cd "Adapters/BidMachine"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISBidMachineAdapter.xcworkspace \
             -scheme ISBidMachineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-bigo:
     name: Build Bigo Adapter
@@ -89,13 +93,15 @@ jobs:
       - name: Build Bigo Adapter
         run: |
           cd "Adapters/Bigo"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISBigoAdapter.xcworkspace \
             -scheme ISBigoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-chartboost:
     name: Build Chartboost Adapter
@@ -118,13 +124,15 @@ jobs:
       - name: Build Chartboost Adapter
         run: |
           cd "Adapters/Chartboost"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISChartboostAdapter.xcworkspace \
             -scheme ISChartboostAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-facebook:
     name: Build Facebook Adapter
@@ -147,13 +155,15 @@ jobs:
       - name: Build Facebook Adapter
         run: |
           cd "Adapters/Facebook"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISFacebookAdapter.xcworkspace \
             -scheme ISFacebookAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-admob:
     name: Build AdMob Adapter
@@ -176,13 +186,15 @@ jobs:
       - name: Build AdMob Adapter
         run: |
           cd "Adapters/Google (AdMob and Ad Manager)"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISAdMobAdapter.xcworkspace \
             -scheme ISAdMobAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-inmobi:
     name: Build InMobi Adapter
@@ -205,13 +217,15 @@ jobs:
       - name: Build InMobi Adapter
         run: |
           cd "Adapters/InMobi"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISInMobiAdapter.xcworkspace \
             -scheme ISInMobiAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-line:
     name: Build Line Adapter
@@ -234,13 +248,15 @@ jobs:
       - name: Build Line Adapter
         run: |
           cd "Adapters/Line"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISLineAdapter.xcworkspace \
             -scheme ISLineAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-mobilefuse:
     name: Build MobileFuse Adapter
@@ -263,13 +279,15 @@ jobs:
       - name: Build MobileFuse Adapter
         run: |
           cd "Adapters/MobileFuse"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISMobileFuseAdapter.xcworkspace \
             -scheme ISMobileFuseAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-moloco:
     name: Build Moloco Adapter
@@ -292,13 +310,15 @@ jobs:
       - name: Build Moloco Adapter
         run: |
           cd "Adapters/Moloco"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISMolocoAdapter.xcworkspace \
             -scheme ISMolocoAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-ogury:
     name: Build Ogury Adapter
@@ -321,13 +341,15 @@ jobs:
       - name: Build Ogury Adapter
         run: |
           cd "Adapters/Ogury"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISOguryAdapter.xcworkspace \
             -scheme ISOguryAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-pangle:
     name: Build Pangle Adapter
@@ -350,13 +372,15 @@ jobs:
       - name: Build Pangle Adapter
         run: |
           cd "Adapters/Pangle"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISPangleAdapter.xcworkspace \
             -scheme ISPangleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-pubmatic:
     name: Build PubMatic Adapter
@@ -379,13 +403,15 @@ jobs:
       - name: Build PubMatic Adapter
         run: |
           cd "Adapters/PubMatic"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISPubMaticAdapter.xcworkspace \
             -scheme ISPubMaticAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-unityads:
     name: Build UnityAds Adapter
@@ -408,13 +434,15 @@ jobs:
       - name: Build UnityAds Adapter
         run: |
           cd "Adapters/UnityAds"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISUnityAdsAdapter.xcworkspace \
             -scheme ISUnityAdsAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-verve:
     name: Build Verve Adapter
@@ -437,13 +465,15 @@ jobs:
       - name: Build Verve Adapter
         run: |
           cd "Adapters/Verve"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISVerveAdapter.xcworkspace \
             -scheme ISVerveAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-vungle:
     name: Build Vungle Adapter
@@ -466,13 +496,15 @@ jobs:
       - name: Build Vungle Adapter
         run: |
           cd "Adapters/Vungle"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISVungleAdapter.xcworkspace \
             -scheme ISVungleAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-yandex:
     name: Build Yandex Adapter
@@ -495,13 +527,15 @@ jobs:
       - name: Build Yandex Adapter
         run: |
           cd "Adapters/Yandex"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISYandexAdapter.xcworkspace \
             -scheme ISYandexAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   build-yso:
     name: Build YSO Adapter
@@ -524,13 +558,15 @@ jobs:
       - name: Build YSO Adapter
         run: |
           cd "Adapters/YSO"
+          export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
           xcodebuild -workspace ISYSOAdapter.xcworkspace \
             -scheme ISYSOAdapter \
             -configuration Release \
             -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' \
             clean build \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
   all-builds-success:
     name: All Builds Successful
