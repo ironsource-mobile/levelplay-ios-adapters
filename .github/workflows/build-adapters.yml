@@ -32,7 +32,7 @@ jobs:
         run: |
           cd "Adapters/AppLovin"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISAppLovinAdapter.xcworkspace \
             -scheme ISAppLovinAdapter \
             -configuration Release \
@@ -63,7 +63,7 @@ jobs:
         run: |
           cd "Adapters/BidMachine"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISBidMachineAdapter.xcworkspace \
             -scheme ISBidMachineAdapter \
             -configuration Release \
@@ -94,7 +94,7 @@ jobs:
         run: |
           cd "Adapters/Bigo"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISBigoAdapter.xcworkspace \
             -scheme ISBigoAdapter \
             -configuration Release \
@@ -125,7 +125,7 @@ jobs:
         run: |
           cd "Adapters/Chartboost"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISChartboostAdapter.xcworkspace \
             -scheme ISChartboostAdapter \
             -configuration Release \
@@ -156,7 +156,7 @@ jobs:
         run: |
           cd "Adapters/Facebook"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISFacebookAdapter.xcworkspace \
             -scheme ISFacebookAdapter \
             -configuration Release \
@@ -187,7 +187,7 @@ jobs:
         run: |
           cd "Adapters/Google (AdMob and Ad Manager)"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISAdMobAdapter.xcworkspace \
             -scheme ISAdMobAdapter \
             -configuration Release \
@@ -218,7 +218,7 @@ jobs:
         run: |
           cd "Adapters/InMobi"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISInMobiAdapter.xcworkspace \
             -scheme ISInMobiAdapter \
             -configuration Release \
@@ -249,7 +249,7 @@ jobs:
         run: |
           cd "Adapters/Line"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISLineAdapter.xcworkspace \
             -scheme ISLineAdapter \
             -configuration Release \
@@ -280,7 +280,7 @@ jobs:
         run: |
           cd "Adapters/MobileFuse"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISMobileFuseAdapter.xcworkspace \
             -scheme ISMobileFuseAdapter \
             -configuration Release \
@@ -311,7 +311,7 @@ jobs:
         run: |
           cd "Adapters/Moloco"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISMolocoAdapter.xcworkspace \
             -scheme ISMolocoAdapter \
             -configuration Release \
@@ -342,7 +342,7 @@ jobs:
         run: |
           cd "Adapters/Ogury"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISOguryAdapter.xcworkspace \
             -scheme ISOguryAdapter \
             -configuration Release \
@@ -373,7 +373,7 @@ jobs:
         run: |
           cd "Adapters/Pangle"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISPangleAdapter.xcworkspace \
             -scheme ISPangleAdapter \
             -configuration Release \
@@ -404,7 +404,7 @@ jobs:
         run: |
           cd "Adapters/PubMatic"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISPubMaticAdapter.xcworkspace \
             -scheme ISPubMaticAdapter \
             -configuration Release \
@@ -435,7 +435,7 @@ jobs:
         run: |
           cd "Adapters/UnityAds"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISUnityAdsAdapter.xcworkspace \
             -scheme ISUnityAdsAdapter \
             -configuration Release \
@@ -466,7 +466,7 @@ jobs:
         run: |
           cd "Adapters/Verve"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISVerveAdapter.xcworkspace \
             -scheme ISVerveAdapter \
             -configuration Release \
@@ -498,7 +498,7 @@ jobs:
         run: |
           cd "Adapters/Vungle"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISVungleAdapter.xcworkspace \
             -scheme ISVungleAdapter \
             -configuration Release \
@@ -529,7 +529,7 @@ jobs:
         run: |
           cd "Adapters/Yandex"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISYandexAdapter.xcworkspace \
             -scheme ISYandexAdapter \
             -configuration Release \
@@ -562,7 +562,7 @@ jobs:
         run: |
           cd "Adapters/YSO"
           export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
-          xcodebuild build \
+          xcodebuild build -quiet \
             -workspace ISYSOAdapter.xcworkspace \
             -scheme ISYSOAdapter \
             -configuration Release \
