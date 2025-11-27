@@ -2,9 +2,9 @@ name: Build All Adapters
 
 on:
   push:
-    branches: [ master, main, develop ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, main, develop ]
+    branches: [ master ]
   schedule:
     # Runs every day at 2:00 AM UTC
     - cron: '0 2 * * *'
