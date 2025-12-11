@@ -140,16 +140,6 @@
     [self.smashDelegate adapterBannerInitFailedWithError:error];
 }
 
-#pragma mark - Memory Handling
-
-- (void)releaseMemoryWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    [self destroyBannerWithAdapterConfig:adapterConfig];
-}
-
 #pragma mark - Helper Methods
 
 - (MolocoBannerType)getBannerSize:(ISBannerSize *)size {
