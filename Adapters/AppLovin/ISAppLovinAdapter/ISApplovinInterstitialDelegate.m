@@ -50,9 +50,9 @@
  * @param code      An error code that corresponds to one of the constants defined in ALErrorCodes.h.
  */
 - (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code {
-    [_adapter disposeInterstitialAdWithZoneId:_zoneId];
     [_delegate onInterstitialDidFailToLoad:_zoneId
                                  errorCode:code];
+    [_adapter disposeInterstitialAdWithZoneId:_zoneId];
 }
 
 #pragma mark - ALAdDisplayDelegate
@@ -90,8 +90,8 @@
  * @param view  Ad view in which the ad was hidden.
  */
 - (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
-    [_adapter disposeInterstitialAdWithZoneId:_zoneId];
     [_delegate onInterstitialDidClose:_zoneId];
+    [_adapter disposeInterstitialAdWithZoneId:_zoneId];
 }
 
 @end
