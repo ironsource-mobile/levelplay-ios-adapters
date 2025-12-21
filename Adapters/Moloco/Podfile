@@ -4,6 +4,6 @@ platform :ios, '13.0'
 
 target 'ISMolocoAdapter' do
   pod 'IronSourceSDK', '9.2.0.0'
-  pod 'MolocoSDKiOS', '4.1.2'
+  pod 'MolocoSDKiOS', '4.2.0'
 
 end
