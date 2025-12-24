@@ -3,7 +3,7 @@ use_frameworks!
 platform :ios, '12.0'
 
 target 'ISPubMaticAdapter' do
-  pod 'IronSourceSDK', '9.1.0.0'
-  pod 'OpenWrapSDK', '4.10.0'
+  pod 'IronSourceSDK', '9.2.0.0'
+  pod 'OpenWrapSDK', '4.11.0'
 
 end
