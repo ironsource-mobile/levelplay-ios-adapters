@@ -3,6 +3,6 @@
 
 target 'ISPangleAdapter' do
   pod 'IronSourceSDK', '9.2.0.0'
-  pod "Ads-Global", '7.8.0.7'
+  pod "Ads-Global", '7.8.5.5'
 
 end
