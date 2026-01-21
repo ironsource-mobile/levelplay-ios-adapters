@@ -87,6 +87,9 @@ static NSString *doNotSellValue = @"1-";
     dispatch_once(&initSdkOnceToken, ^{
         LogAdapterApi_Internal(@"placementId = %@", placementId);
         initState = INIT_STATE_IN_PROGRESS;
+        if ([MobileFuseSettings respondsToSelector:@selector(setSdkAdapter:)]) {
+            [MobileFuseSettings setSdkAdapter:kMediationName];
+        }
         if ([ISConfigurations getConfigurations].adaptersDebug) {
             [MobileFuse enableVerboseLogging];
         }

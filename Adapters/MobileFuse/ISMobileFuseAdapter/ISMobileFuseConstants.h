@@ -1,6 +1,7 @@
 // Network keys
 static NSString * const kPlacementId            = @"placementId";
 static NSString * const kAdapterName            = @"MobileFuse";
+static NSString * const kMediationName          = @"unity_bidding";
 
 // MetaData
 static NSString * const kMetaDataCOPPAKey       = @"LevelPlay_ChildDirected";
