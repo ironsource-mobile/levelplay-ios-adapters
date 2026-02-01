@@ -7,6 +7,7 @@
 
 #import "ISYandexRewardedVideoAdapter.h"
 #import "ISYandexRewardedVideoAdDelegate.h"
+#import "ISYandexAdapter+Internal.h"
 
 @implementation ISYandexRewardedVideoAdDelegate
 
@@ -27,14 +28,21 @@
 /// @param rewardedAd A reference to an object of the RewardedAd class that invoked the method.
 - (void)rewardedAdLoader:(YMARewardedAdLoader * _Nonnull)adLoader
                  didLoad:(YMARewardedAd * _Nonnull)rewardedAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-
     [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
                                             availability:YES
                                          rewardedVideoAd:rewardedAd];
     
-    [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
+    // Extract creative IDs and pass as extra data if available
+    NSString *creativeId = [ISYandexAdapter buildCreativeIdStringFromCreatives:rewardedAd.adInfo.creatives];
+    LogAdapterDelegate_Internal(@"adUnitId = %@, creativeId = %@", self.adUnitId, creativeId);
 
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterRewardedVideoHasChangedAvailability:YES
+                                                        extraData:extraData];
+    } else {
+        [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
+    }
 }
 
 /// Notifies that the ad failed to load.

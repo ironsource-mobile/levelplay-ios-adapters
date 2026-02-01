@@ -11,6 +11,7 @@ static NSString * const kAppId                    = @"appId";
 static NSString * const kAdUnitId                 = @"adUnitId";
 static NSString * const kMediationName            = @"ironsource";
 static NSString * const kAdapterName              = @"Yandex";
+static NSString * const kCreativeId               = @"creativeId";
 
 // init state possible values
 typedef NS_ENUM(NSInteger, InitState) {

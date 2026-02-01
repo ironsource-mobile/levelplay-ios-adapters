@@ -7,6 +7,7 @@
 
 #import "ISYandexBannerAdapter.h"
 #import "ISYandexBannerAdDelegate.h"
+#import "ISYandexAdapter+Internal.h"
 
 @implementation ISYandexBannerAdDelegate
 
@@ -25,8 +26,17 @@
 /// At this time, you can add AdView if you haven’t done so yet.
 /// @param adView A reference to the object of the AdView class that invoked the method.
 - (void)adViewDidLoad:(YMAAdView * _Nonnull)adView {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterBannerDidLoad:adView];
+    // Extract creative IDs and pass as extra data if available
+    NSString *creativeId = [ISYandexAdapter buildCreativeIdStringFromCreatives:adView.adInfo.creatives];
+    LogAdapterDelegate_Internal(@"adUnitId = %@, creativeId = %@", self.adUnitId, creativeId);
+
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterBannerDidLoad:adView
+                                  extraData:extraData];
+    } else {
+        [self.delegate adapterBannerDidLoad:adView];
+    }
 }
 
 /// Notifies that the banner failed to load.

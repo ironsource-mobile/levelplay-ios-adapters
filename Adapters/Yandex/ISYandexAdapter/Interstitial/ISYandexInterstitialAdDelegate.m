@@ -7,6 +7,7 @@
 
 #import "ISYandexInterstitialAdapter.h"
 #import "ISYandexInterstitialAdDelegate.h"
+#import "ISYandexAdapter+Internal.h"
 
 @implementation ISYandexInterstitialAdDelegate
 
@@ -27,13 +28,20 @@
 /// @param interstitialAd Interstitial ad that is loaded and ready to be displayed.
 - (void)interstitialAdLoader:(YMAInterstitialAdLoader * _Nonnull)adLoader 
                      didLoad:(YMAInterstitialAd * _Nonnull)interstitialAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-
     [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
                                             availability:YES
                                           interstitialAd:interstitialAd];
     
-    [self.delegate adapterInterstitialDidLoad];
+    // Extract creative IDs and pass as extra data if available
+    NSString *creativeId = [ISYandexAdapter buildCreativeIdStringFromCreatives:interstitialAd.adInfo.creatives];
+    LogAdapterDelegate_Internal(@"adUnitId = %@, creativeId = %@", self.adUnitId, creativeId);
+
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [self.delegate adapterInterstitialDidLoadWithExtraData:extraData];
+    } else {
+        [self.delegate adapterInterstitialDidLoad];
+    }
 }
 /// Notifies that the ad failed to load.
 /// @param adLoader A reference to an object of the InterstitialAdLoader class that invoked the method.

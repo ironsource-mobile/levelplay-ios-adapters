@@ -80,18 +80,17 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
-        
+
         LogAdapterApi_Internal(@"appId = %@", appId);
 
         if ([ISConfigurations getConfigurations].adaptersDebug) {
             [YMAMobileAds enableLogging];
         }
-        
+
         ISYandexAdapter * __weak weakSelf = self;
         [YMAMobileAds initializeSDKWithCompletionHandler:^{
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf initializationSuccess];
-
         }];
     });
 }
@@ -173,6 +172,18 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
     return adRequest;
 }
 
++ (NSString *)buildCreativeIdStringFromCreatives:(NSArray<YMACreative *> *)creatives {
+    NSMutableArray<NSString *> *creativeIds = [NSMutableArray array];
+    
+    for (YMACreative *creative in creatives) {
+        NSString *creativeId = creative.creativeID;
+        if (creativeId.length > 0) {
+            [creativeIds addObject:creativeId];
+        }
+    }
+    
+    return [creativeIds componentsJoinedByString:@","];
+}
 
 @end
 

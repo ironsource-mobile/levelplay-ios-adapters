@@ -25,5 +25,7 @@
 - (YMAMutableAdRequestConfiguration *)createAdRequestWithBidResponse:(NSString *)bidResponse
                                                             adUnitId:(NSString *)adUnitId;
 
++ (NSString *)buildCreativeIdStringFromCreatives:(NSArray<YMACreative *> *)creatives;
+
 @end
 
