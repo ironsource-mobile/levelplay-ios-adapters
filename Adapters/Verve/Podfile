@@ -3,7 +3,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'ISVerveAdapter' do
-  pod 'IronSourceSDK', '9.1.0.0'
+  pod 'IronSourceSDK', '9.3.0.0'
   pod 'HyBid', '3.7.1'
 
 end
