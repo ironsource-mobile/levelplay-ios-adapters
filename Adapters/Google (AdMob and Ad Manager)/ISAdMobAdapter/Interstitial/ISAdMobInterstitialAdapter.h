@@ -16,5 +16,8 @@
                                   availability:(BOOL)availability
                                 interstitialAd:(GADInterstitialAd *)interstitialAd;
 
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig;
+
 @end
 

@@ -15,7 +15,6 @@
 @property (nonatomic, strong)   NSString                            *adUnitId;
 @property (nonatomic, weak)     ISAdMobInterstitialAdapter          *adapter;
 @property (nonatomic, weak)     id<ISInterstitialAdapterDelegate>   delegate;
-@property (nonatomic,copy)      void(^completionBlock)              (GADInterstitialAd *rewardedAd, NSError *error);
 
 - (instancetype)initWithAdapter:(ISAdMobInterstitialAdapter *)adapter
                        adUnitId:(NSString *)adUnitId

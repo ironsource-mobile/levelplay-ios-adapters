@@ -56,8 +56,8 @@ static NSArray *neighboringContentMappingURLValue = nil;
         [self setRewardedVideoAdapter:rewardedVideoAdapter];
         
         // Interstitial
-        ISAdMobInterstitialAdapter *InterstitialAdapter = [[ISAdMobInterstitialAdapter alloc] initWithAdMobAdapter:self];
-        [self setInterstitialAdapter:InterstitialAdapter];
+        ISAdMobInterstitialAdapter *interstitialAdapter = [[ISAdMobInterstitialAdapter alloc] initWithAdMobAdapter:self];
+        [self setInterstitialAdapter:interstitialAdapter];
 
         // Banner
         ISAdMobBannerAdapter *bannerAdapter = [[ISAdMobBannerAdapter alloc] initWithAdMobAdapter:self];
@@ -300,53 +300,59 @@ static NSArray *neighboringContentMappingURLValue = nil;
     return initState;
 }
 
-- (GADRequest *)createGADRequestForLoadWithAdData:(NSDictionary *)adData
-                                       serverData:(NSString *)serverData {
-    GADRequest *request = [GADRequest request];
-    request.requestAgent = kRequestAgent;
-    
-    if (serverData.length) {
-        request.adString = serverData;
-    }
-    
+- (NSMutableDictionary *)buildAdditionalParametersWithAdData:(NSDictionary *)adData {
     NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
-    additionalParameters[@"platform_name"] = kPlatformName;
+    
+    additionalParameters[kPlatformNameKey] = kPlatformName;
     BOOL hybridMode = NO;
     
     if (adData) {
-        NSString *requestId = [adData objectForKey:@"requestId"];
-        hybridMode = [[adData objectForKey:@"isHybrid"] boolValue];
+        NSString *requestId = [adData objectForKey:kAdDataRequestIdKey];
+        hybridMode = [[adData objectForKey:kAdDataIsHybridKey] boolValue];
         
         if (requestId.length) {
-            additionalParameters[@"placement_req_id"] = requestId;
+            additionalParameters[kPlacementRequestIdKey] = requestId;
             LogInternal_Internal(@"adData requestId = %@, isHybrid = %@", requestId, hybridMode? @"YES" : @"NO");
         }
     } else {
         LogInternal_Internal(@"adData is nil, using default hybridMode = NO");
     }
     
-    additionalParameters[@"is_hybrid_setup"] = hybridMode? @"true" : @"false";
+    additionalParameters[kIsHybridSetupKey] = hybridMode? @"true" : @"false";
     
+    if (_didSetConsentCollectingUserData && !_consentCollectingUserData) {
+        // The default behavior of the Google Mobile Ads SDK is to serve personalized ads
+        // If a user has consented to receive only non-personalized ads, we can configure an GADRequest object with the following code to specify that only non-personalized ads should be returned.
+        additionalParameters[kNonPersonalizedAdsKey] = @"1";
+    }
+    
+    return additionalParameters;
+}
+
+- (void)setChildDirectedTreatmentIfNeeded {
     if ([ISConfigurations getConfigurations].userAge > kMinUserAge) {
         BOOL tagForChildDirectedTreatment = [ISConfigurations getConfigurations].userAge < kMaxChildAge;
         LogAdapterApi_Internal(@"creating request with age = %ld tagForChildDirectedTreatment = %d", (long)[ISConfigurations getConfigurations].userAge, tagForChildDirectedTreatment);
         GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment = @(tagForChildDirectedTreatment);
     }
+}
+
+- (GADRequest *)createGADRequestWithAdData:(NSDictionary *)adData {
+    GADRequest *request = [GADRequest request];
+    request.requestAgent = kRequestAgent;
     
-    if (_didSetConsentCollectingUserData && !_consentCollectingUserData) {
-        // The default behavior of the Google Mobile Ads SDK is to serve personalized ads
-        // If a user has consented to receive only non-personalized ads, you can configure an GADRequest object with the following code to specify that only non-personalized ads should be returned:
-        additionalParameters[@"npa"] = @"1";
-    }
+    NSMutableDictionary *additionalParameters = [self buildAdditionalParametersWithAdData:adData];
     
-    //handle single content mapping for ad request
-    if(contentMappingURLValue.length){
+    [self setChildDirectedTreatmentIfNeeded];
+    
+    // Handle single content mapping for ad request
+    if (contentMappingURLValue.length) {
         LogAdapterApi_Internal(@"contentMappingURLValue = %@", contentMappingURLValue);
         request.contentURL = contentMappingURLValue;
     }
-
-    //handle neighboring content mapping for ad request
-    if(neighboringContentMappingURLValue.count){
+    
+    // Handle neighboring content mapping for ad request
+    if (neighboringContentMappingURLValue.count) {
         LogAdapterApi_Internal(@"neighboringContentMappingURLValue = %@" , neighboringContentMappingURLValue);
         request.neighboringContentURLStrings = neighboringContentMappingURLValue;
     }
@@ -358,9 +364,73 @@ static NSArray *neighboringContentMappingURLValue = nil;
     return request;
 }
 
-- (void)collectBiddingDataWithAdData:(GADRequest *)request
-                            adFormat:(GADAdFormat)adFormat
-                            delegate:(id<ISBiddingDataDelegate>)delegate {
+- (GADSignalRequest *)createGADSignalRequestWithAdData:(NSDictionary *)adData
+                                                     adFormat:(GADAdFormat)adFormat
+                                                adapterConfig:(ISAdapterConfig *)adapterConfig {
+    
+    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    GADSignalRequest *request = nil;
+    
+    // Delegate to the appropriate adapter to create the format-specific signal request
+    if (adFormat == GADAdFormatBanner) {
+        ISAdMobBannerAdapter *bannerAdapter = (ISAdMobBannerAdapter *)[self getBannerAdapter];
+        request = [bannerAdapter createSignalRequestWithAdData:adData adapterConfig:adapterConfig];
+    } else if (adFormat == GADAdFormatInterstitial) {
+        ISAdMobInterstitialAdapter *interstitialAdapter = (ISAdMobInterstitialAdapter *)[self getInterstitialAdapter];
+        request = [interstitialAdapter createSignalRequestWithAdData:adData adapterConfig:adapterConfig];
+    } else if (adFormat == GADAdFormatRewarded) {
+        ISAdMobRewardedVideoAdapter *rewardedAdapter = (ISAdMobRewardedVideoAdapter *)[self getRewardedVideoAdapter];
+        request = [rewardedAdapter createSignalRequestWithAdData:adData adapterConfig:adapterConfig];
+    } else if (adFormat == GADAdFormatNative) {
+        ISAdMobNativeAdAdapter *nativeAdAdapter = (ISAdMobNativeAdAdapter *)[self getNativeAdAdapter];
+        request = [nativeAdAdapter createSignalRequestWithAdData:adData adapterConfig:adapterConfig];
+    } else {
+        LogInternal_Error(@"adFormat %ld is not supported", (long)adFormat);
+        return nil;
+    }
+    
+    if (!request) {
+        LogInternal_Error(@"Failed to create signal request for adFormat %ld", (long)adFormat);
+        return nil;
+    }
+    
+    request.requestAgent = kRequestAgent;
+
+    // Set ad unit ID for better targeting and reporting
+    if (adUnitId.length) {
+        request.adUnitID = adUnitId;
+        LogAdapterApi_Internal(@"adUnitID = %@", adUnitId);
+    }
+    
+    NSMutableDictionary *additionalParameters = [self buildAdditionalParametersWithAdData:adData];
+    
+    additionalParameters[kAdMobQueryInfoType] = kAdMobRequesterType;
+    
+    [self setChildDirectedTreatmentIfNeeded];
+    
+    // Handle single content mapping for ad request
+    if (contentMappingURLValue.length) {
+        LogAdapterApi_Internal(@"contentMappingURLValue = %@", contentMappingURLValue);
+        request.contentURL = contentMappingURLValue;
+    }
+
+    // Handle neighboring content mapping for ad request
+    if (neighboringContentMappingURLValue.count) {
+        LogAdapterApi_Internal(@"neighboringContentMappingURLValue = %@" , neighboringContentMappingURLValue);
+        request.neighboringContentURLStrings = neighboringContentMappingURLValue;
+    }
+    
+    GADExtras *gadExtras = [[GADExtras alloc] init];
+    gadExtras.additionalParameters = additionalParameters;
+    [request registerAdNetworkExtras:gadExtras];
+    
+    return request;
+}
+
+- (void)collectBiddingDataWithAdFormat:(GADAdFormat)adFormat
+                         adapterConfig:(ISAdapterConfig *)adapterConfig
+                                adData:(NSDictionary *)adData
+                              delegate:(id<ISBiddingDataDelegate>)delegate {
     
     if (initState == INIT_STATE_NONE) {
         NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't started"];
@@ -368,32 +438,39 @@ static NSArray *neighboringContentMappingURLValue = nil;
         [delegate failureWithError:error];
         return;
     }
-            
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    
+    GADSignalRequest *request = [self createGADSignalRequestWithAdData:adData
+                                                                     adFormat:adFormat
+                                                                adapterConfig:adapterConfig];
+
+    if (!request) {
+        NSString *error = @"Failed to create signal request";
+        LogAdapterApi_Internal(@"%@", error);
+        [delegate failureWithError:error];
+        return;
+    }
+    
+    [GADMobileAds generateSignal:request completionHandler:^(GADSignal *_Nullable signal, NSError *_Nullable error) {
         
-        [GADQueryInfo createQueryInfoWithRequest:request
-                                        adFormat:adFormat
-                               completionHandler:^(GADQueryInfo *_Nullable queryInfo, NSError *_Nullable error) {
-            
-            if (error) {
-                LogAdapterApi_Internal(@"%@", error.localizedDescription);
-                [delegate failureWithError:error.localizedDescription];
-                return;
-            }
-            
-            if (!queryInfo) {
-                [delegate failureWithError:@"queryInfo is nil"];
-                return;
-            }
-            
-            NSString *sdkVersion = [self sdkVersion];
-            NSString *returnedToken = queryInfo.query? queryInfo.query : @"";
-            LogAdapterApi_Internal(@"token = %@, sdkVersion = %@", returnedToken, sdkVersion);
-            NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", sdkVersion, @"sdkVersion", nil];
-            
-            [delegate successWithBiddingData:biddingDataDictionary];
-        }];
-    });
+        if (error) {
+            LogAdapterApi_Internal(@"%@", error.localizedDescription);
+            [delegate failureWithError:error.localizedDescription];
+            return;
+        }
+        
+        if (!signal) {
+            LogAdapterApi_Internal(@"signal is nil");
+            [delegate failureWithError:@"signal is nil"];
+            return;
+        }
+        
+        NSString *sdkVersion = [self sdkVersion];
+        NSString *returnedToken = signal.signalString? signal.signalString : @"";
+        LogAdapterApi_Internal(@"token = %@, sdkVersion = %@", returnedToken, sdkVersion);
+        NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", sdkVersion, @"sdkVersion", nil];
+        
+        [delegate successWithBiddingData:biddingDataDictionary];
+    }];
 }
 
 @end

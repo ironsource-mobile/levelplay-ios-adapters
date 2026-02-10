@@ -18,46 +18,8 @@
         _adapter = adapter;
         _adUnitId = adUnitId;
         _delegate = delegate;
-        
-        ISAdMobInterstitialDelegate * __weak weakSelf = self;
-        _completionBlock = ^(GADInterstitialAd *interstitialAd, NSError *error) {
-            __typeof__(self) strongSelf = weakSelf;
-            if (error) {
-                [strongSelf adDidFailToLoadWithError:error];
-            } else {
-                [strongSelf adDidLoadWithAd:interstitialAd];
-            }
-        };
     }
     return self;
-}
-
-- (void)adDidLoadWithAd:(GADInterstitialAd *)interstitialAd {
-    [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
-                                            availability:YES
-                                          interstitialAd:interstitialAd];
-    
-    NSString *creativeId = interstitialAd.responseInfo.responseIdentifier;
-    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", self.adUnitId, kCreativeId, creativeId);
-    
-    if (creativeId.length) {
-        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
-        [self.delegate adapterInterstitialDidLoadWithExtraData:extraData];
-    } else {
-        [self.delegate adapterInterstitialDidLoad];
-    }
-}
-
-- (void)adDidFailToLoadWithError:(NSError *)error {
-    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", self.adUnitId, error);
-    NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_IS_LOAD_NO_FILL
-                                                                                                             withMessage:@"AdMob no fill"] : error;
-    
-    [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
-                                            availability:NO
-                                          interstitialAd:nil];
-    
-    [self.delegate adapterInterstitialDidFailToLoadWithError:smashError];
 }
 
 /// Tells the delegate that the ad presented full screen content.

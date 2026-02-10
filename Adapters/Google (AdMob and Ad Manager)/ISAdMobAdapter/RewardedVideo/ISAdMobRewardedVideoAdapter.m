@@ -157,27 +157,51 @@
                            adData:(NSDictionary *)adData
                        serverData:(NSString *)serverData
                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.adUnitIdToAdsAvailability setObject:@NO
-                                           forKey:adUnitId];
-        //add to rewarded video delegate map
-        [self.adUnitIdToSmashDelegate setObject:delegate
-                                         forKey:adUnitId];
+    [self.adUnitIdToAdsAvailability setObject:@NO
+                                       forKey:adUnitId];
+    //add to rewarded video delegate map
+    [self.adUnitIdToSmashDelegate setObject:delegate
+                                     forKey:adUnitId];
+            
+    GADRewardedAdLoadCompletionHandler loadHandler = ^(GADRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
+        if (error) {
+            LogAdapterDelegate_Internal(@"adUnitId = %@ failed to load with error = %@", adUnitId, error);
+            NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_RV_LOAD_NO_FILL
+                                                                             withMessage:@"AdMob no fill"] : error;
+            
+            [delegate adapterRewardedVideoHasChangedAvailability:NO];
+            [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
+            return;
+        }
         
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        GADRequest *request = [self.adapter createGADRequestForLoadWithAdData:adData
-                                                                   serverData:serverData];
+        if (!rewardedAd) {
+            LogAdapterDelegate_Internal(@"adUnitId = %@ failed to load: ad is nil", adUnitId);
+            NSError *error = [ISError createError:ERROR_CODE_GENERIC
+                                                withMessage:@"Rewarded ad is nil"];
+            
+            [delegate adapterRewardedVideoHasChangedAvailability:NO];
+            [delegate adapterRewardedVideoDidFailToLoadWithError:error];
+            return;
+        }
         
-        ISAdMobRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISAdMobRewardedVideoDelegate alloc] initWithAdapter:self
-                                                                                                             adUnitId:adUnitId
-                                                                                                          andDelegate:delegate];
-        [self.adUnitIdToAdDelegate setObject:rewardedVideoAdDelegate
-                                      forKey:adUnitId];
-        
+        [self handleRewardedVideoLoadSuccess:rewardedAd
+                                    adUnitId:adUnitId
+                                    delegate:delegate];
+    };
+    
+    if (serverData) {
+        // For bidding, use loadWithAdResponseString
+        LogAdapterApi_Internal(@"loading bidding rewarded video for adUnitId = %@", adUnitId);
+        [GADRewardedAd loadWithAdResponseString:serverData
+                              completionHandler:loadHandler];
+    } else {
+        // For non-bidding, use request
+        LogAdapterApi_Internal(@"loading rewarded video for adUnitId = %@", adUnitId);
+        GADRequest *request = [self.adapter createGADRequestWithAdData:adData];
         [GADRewardedAd loadWithAdUnitID:adUnitId
                                 request:request
-                      completionHandler:[rewardedVideoAdDelegate completionBlock]];
-    });
+                      completionHandler:loadHandler];
+    }
 }
 
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
@@ -190,10 +214,16 @@
         
         GADRewardedAd *rewardedVideoAd = [self.adUnitIdToAds objectForKey:adUnitId];
         
+        // Show the ad if it's ready.
         if (rewardedVideoAd && [self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
             
-            ISAdMobRewardedVideoDelegate *rewardedVideoAdDelegate = [self.adUnitIdToAdDelegate objectForKey:adUnitId];
-            
+            // Create and save delegate for show callbacks
+            ISAdMobRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISAdMobRewardedVideoDelegate alloc] initWithAdapter:self
+                                                                                                                 adUnitId:adUnitId
+                                                                                                              andDelegate:delegate];
+            [self.adUnitIdToAdDelegate setObject:rewardedVideoAdDelegate
+                                          forKey:adUnitId];
+                        
             rewardedVideoAd.fullScreenContentDelegate = rewardedVideoAdDelegate;
             
             [rewardedVideoAd presentFromRootViewController:viewController
@@ -223,20 +253,10 @@
 - (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                   adData:(NSDictionary *)adData
                                                 delegate:(id<ISBiddingDataDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        GADRequest *request = [GADRequest request];
-        request.requestAgent = kRequestAgent;
-        NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
-        additionalParameters[kAdMobQueryInfoType] = kAdMobRequesterType;
-
-        GADExtras *extras = [[GADExtras alloc] init];
-        extras.additionalParameters = additionalParameters;
-        [request registerAdNetworkExtras:extras];
-        
-        [self.adapter collectBiddingDataWithAdData:request
-                                          adFormat:GADAdFormatRewarded
-                                          delegate:delegate];
-    });
+    [self.adapter collectBiddingDataWithAdFormat:GADAdFormatRewarded
+                                    adapterConfig:adapterConfig
+                                           adData:adData
+                                         delegate:delegate];
 }
 
 #pragma mark - Init Delegate
@@ -289,6 +309,33 @@
 
     [self.adUnitIdToAdsAvailability setObject:@(availability)
                                        forKey:adUnitId];
+}
+
+#pragma mark - Helpers
+
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig {
+    return [[GADRewardedSignalRequest alloc] initWithSignalType:kAdMobRequesterType];
+}
+
+- (void)handleRewardedVideoLoadSuccess:(GADRewardedAd *)rewardedAd
+                              adUnitId:(NSString *)adUnitId
+                              delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    
+    [self onAdUnitAvailabilityChangeWithAdUnitId:adUnitId
+                                    availability:YES
+                                      rewardedAd:rewardedAd];
+        
+    NSString *creativeId = rewardedAd.responseInfo.responseIdentifier;
+    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", adUnitId, kCreativeId, creativeId);
+
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterRewardedVideoHasChangedAvailability:YES
+                                                        extraData:extraData];
+    } else {
+        [delegate adapterRewardedVideoHasChangedAvailability:YES];
+    }
 }
 
 @end

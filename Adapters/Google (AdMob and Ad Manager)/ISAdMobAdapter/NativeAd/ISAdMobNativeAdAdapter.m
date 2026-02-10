@@ -146,12 +146,14 @@
         self.adUnitIdToAdDelegate = adMobDelegate;
         self.nativeAdLoader.delegate = adMobDelegate;
 
-        // creating ad request
-        GADRequest *request = [self.adapter createGADRequestForLoadWithAdData:adData
-                                                                   serverData:serverData];
-        
-        // load request
-        [self.nativeAdLoader loadRequest:request];
+        if (serverData) {
+            // For bidding, use loadWithAdResponseString
+            [self.nativeAdLoader loadWithAdResponseString:serverData];
+        } else {
+            // For non-bidding, use request
+            GADRequest *request = [self.adapter createGADRequestWithAdData:adData];
+            [self.nativeAdLoader loadRequest:request];
+        }
         
     });
 }
@@ -170,20 +172,10 @@
 - (void)collectNativeAdBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                              adData:(NSDictionary *)adData
                                            delegate:(id<ISBiddingDataDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        GADRequest *request = [GADRequest request];
-        request.requestAgent = kRequestAgent;
-        NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
-        additionalParameters[kAdMobQueryInfoType] = kAdMobRequesterType;
-
-        GADExtras *extras = [[GADExtras alloc] init];
-        extras.additionalParameters = additionalParameters;
-        [request registerAdNetworkExtras:extras];
-        
-        [self.adapter collectBiddingDataWithAdData:request
-                                          adFormat:GADAdFormatNative
-                                          delegate:delegate];
-    });
+    [self.adapter collectBiddingDataWithAdFormat:GADAdFormatNative
+                                    adapterConfig:adapterConfig
+                                           adData:adData
+                                         delegate:delegate];
 }
 
 #pragma mark - Init Delegate
@@ -215,6 +207,30 @@
     }
     
     return GADAdChoicesPositionBottomLeftCorner;
+}
+
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig {
+    GADNativeSignalRequest *nativeRequest = [[GADNativeSignalRequest alloc] initWithSignalType:kAdMobRequesterType];
+    
+    // Set native ad properties
+    ISNativeAdProperties *nativeAdProperties = [self getNativeAdPropertiesWithAdapterConfig:adapterConfig];
+    
+    nativeRequest.preferredAdChoicesPosition = [self getAdChoicesPosition:nativeAdProperties.adOptionsPosition];
+    nativeRequest.adLoaderAdTypes = [NSSet setWithObject:GADAdLoaderAdTypeNative];
+    
+    // Set shouldRequestMultipleImages based on media view support
+    // Regular native ads: YES (support media view)
+    // Native banners: Only RECTANGLE size has media view in the xib, others don't
+    BOOL isNativeBanner = [adapterConfig.settings[kIsNative] boolValue];
+    if (isNativeBanner) {
+        ISBannerSize *bannerSize = [adData objectForKey:@"bannerSize"];
+        nativeRequest.shouldRequestMultipleImages = bannerSize && [bannerSize.sizeDescription isEqualToString:@"RECTANGLE"];
+    } else {
+        nativeRequest.shouldRequestMultipleImages = YES;
+    }
+    
+    return nativeRequest;
 }
 
 @end

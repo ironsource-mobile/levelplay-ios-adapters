@@ -13,4 +13,8 @@
 - (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
 
 - (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width;
+
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig;
+
 @end

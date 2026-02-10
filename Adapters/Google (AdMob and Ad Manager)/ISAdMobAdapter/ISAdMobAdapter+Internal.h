@@ -5,12 +5,12 @@
 
 - (void)initAdMobSDKWithAdapterConfig:(ISAdapterConfig *)adapterConfig;
 
-- (void)collectBiddingDataWithAdData:(GADRequest *)request
-                            adFormat:(GADAdFormat)adFormat
-                            delegate:(id<ISBiddingDataDelegate>)delegate;
+- (void)collectBiddingDataWithAdFormat:(GADAdFormat)adFormat
+                         adapterConfig:(ISAdapterConfig *)adapterConfig
+                                adData:(NSDictionary *)adData
+                              delegate:(id<ISBiddingDataDelegate>)delegate;
 
-- (GADRequest *)createGADRequestForLoadWithAdData:(NSDictionary *)adData
-                                       serverData:(NSString *)serverData;
+- (GADRequest *)createGADRequestWithAdData:(NSDictionary *)adData;
 
 - (InitState)getInitState;
 

@@ -135,13 +135,11 @@
         
         BOOL isNative = [adapterConfig.settings[kIsNative] boolValue];
         
-        GADRequest *request = [self.adapter createGADRequestForLoadWithAdData:adData
-                                                                   serverData:serverData];
-        
         if (isNative) {
             [self loadNativeBannerWithViewController:viewController
                                        adapterConfig:adapterConfig
-                                             request:request
+                                          serverData:serverData
+                                              adData:adData
                                                 size:size
                                             delegate:delegate];
             return;
@@ -169,8 +167,14 @@
             [self.adUnitIdToAds setObject:banner
                                    forKey:adUnitId];
             
-            // load request
-            [banner loadRequest:request];
+            if (serverData) {
+                // For bidding, use loadWithAdResponseString
+                [banner loadWithAdResponseString:serverData];
+            } else {
+                // For non-bidding, use request
+                GADRequest *request = [self.adapter createGADRequestWithAdData:adData];
+                [banner loadRequest:request];
+            }
             
         }else{
             // size not supported
@@ -185,7 +189,8 @@
 
 - (void)loadNativeBannerWithViewController:(UIViewController *)viewController
                              adapterConfig:(ISAdapterConfig *)adapterConfig
-                                   request:(GADRequest *)request
+                                serverData:(NSString *)serverData
+                                    adData:(NSDictionary *)adData
                                       size:(ISBannerSize *)size
                                   delegate:(id<ISBannerAdapterDelegate>)delegate{
     
@@ -211,7 +216,15 @@
                                       forKey:adUnitId];
         
         self.nativeAdLoader.delegate = nativeBannerDelegate;
-        [self.nativeAdLoader loadRequest:request];
+        
+        if (serverData) {
+            // For bidding, use loadWithAdResponseString
+            [self.nativeAdLoader loadWithAdResponseString:serverData];
+        } else {
+            // For non-bidding, use request
+            GADRequest *request = [self.adapter createGADRequestWithAdData:adData];
+            [self.nativeAdLoader loadRequest:request];
+        }
     } else {
         // size not supported
         NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE
@@ -266,32 +279,14 @@
 - (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                            adData:(NSDictionary *)adData
                                          delegate:(id<ISBiddingDataDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        GADRequest *request = [GADRequest request];
-        request.requestAgent = kRequestAgent;
-        NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
-        additionalParameters[kAdMobQueryInfoType] = kAdMobRequesterType;
-        
-        if (adData) {
-            if ([adData objectForKey:@"bannerSize"]) {
-                ISBannerSize *size = [adData objectForKey:@"bannerSize"];
-                
-                if (size.adaptive) {
-                    GADAdSize adSize = [self getBannerSize:size];
-                    additionalParameters[kAdMobAdaptiveBannerWidth] = @(adSize.size.width);
-                    additionalParameters[kAdMobAdaptiveBannerHeight] = @(adSize.size.height);
-                    LogInternal_Internal(@"adaptive banner width = %@, height = %@", @(adSize.size.width), @(adSize.size.height));
-                }
-            }
-        }
-        GADExtras *extras = [[GADExtras alloc] init];
-        extras.additionalParameters = additionalParameters;
-        [request registerAdNetworkExtras:extras];
-        
-        [self.adapter collectBiddingDataWithAdData:request
-                                          adFormat:GADAdFormatBanner
-                                          delegate:delegate];
-    });
+    // Check if this is a native banner or regular banner
+    BOOL isNative = [adapterConfig.settings[kIsNative] boolValue];
+    GADAdFormat adFormat = isNative ? GADAdFormatNative : GADAdFormatBanner;
+    
+    [self.adapter collectBiddingDataWithAdFormat:adFormat
+                                    adapterConfig:adapterConfig
+                                           adData:adData
+                                         delegate:delegate];
 }
 
 #pragma mark - Init Delegate
@@ -378,7 +373,7 @@
     return adMobSize;
 }
 
-- (GADAdSize) getAdmobAdaptiveAdSizeWithWidth:(CGFloat) width {
+- (GADAdSize)getAdmobAdaptiveAdSizeWithWidth:(CGFloat) width {
     __block GADAdSize adaptiveSize;
     
     void (^calculateAdaptiveSize)(void) = ^{
@@ -396,8 +391,25 @@
     return adaptiveSize;
 }
 
-- (BOOL) isLargeScreen {
+- (BOOL)isLargeScreen {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+}
+
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig {
+    GADBannerSignalRequest *bannerRequest = [[GADBannerSignalRequest alloc] initWithSignalType:kAdMobRequesterType];
+    
+    // Set ad size for banner requests
+    if (adData) {
+        ISBannerSize *size = [adData objectForKey:@"bannerSize"];
+        if (size) {
+            GADAdSize adSize = [self getBannerSize:size];
+            bannerRequest.adSize = adSize;
+            LogAdapterApi_Internal(@"adSize width = %@, height = %@", @(adSize.size.width), @(adSize.size.height));
+        }
+    }
+    
+    return bannerRequest;
 }
 
 @end

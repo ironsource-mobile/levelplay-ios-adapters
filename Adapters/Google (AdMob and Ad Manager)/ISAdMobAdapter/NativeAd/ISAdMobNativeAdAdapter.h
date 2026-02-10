@@ -12,4 +12,7 @@
 
 - (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
 
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig;
+
 @end

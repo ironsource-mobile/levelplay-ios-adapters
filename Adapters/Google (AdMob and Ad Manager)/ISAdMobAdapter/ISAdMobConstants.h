@@ -26,8 +26,6 @@ static NSString * const kAdMobNetworkId           = @"GADMobileAds";
 // AdMob banner bidding parameters
 static NSString * const kAdMobQueryInfoType        = @"query_info_type";
 static NSString * const kAdMobRequesterType        = @"requester_type_2";
-static NSString * const kAdMobAdaptiveBannerWidth  = @"adaptive_banner_w";
-static NSString * const kAdMobAdaptiveBannerHeight = @"adaptive_banner_h";
 
 // Init configuration flags
 static NSString * const kNetworkOnlyInitFlag      = @"networkOnlyInit";
@@ -49,6 +47,16 @@ static NSString * const kAdMobMaxContentRatingMA   = @"max_ad_content_rating_ma"
 // Network data keys
 static NSString * const kNetworkKeyContentMapping   = @"ContentMapping";
 static NSString * const kNetworkKeyContentRating    = @"MaxAdContentRating";
+
+// AdData keys
+static NSString * const kAdDataRequestIdKey         = @"requestId";
+static NSString * const kAdDataIsHybridKey          = @"isHybrid";
+
+// Additional parameters keys
+static NSString * const kPlatformNameKey            = @"platform_name";
+static NSString * const kPlacementRequestIdKey      = @"placement_req_id";
+static NSString * const kIsHybridSetupKey           = @"is_hybrid_setup";
+static NSString * const kNonPersonalizedAdsKey      = @"npa";
 
 // Init state
 typedef NS_ENUM(NSInteger, InitState) {

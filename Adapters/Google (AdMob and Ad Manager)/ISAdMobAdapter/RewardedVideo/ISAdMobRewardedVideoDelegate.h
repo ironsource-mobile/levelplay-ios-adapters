@@ -15,7 +15,6 @@
 @property (nonatomic, strong)   NSString                            *adUnitId;
 @property (nonatomic, weak)     ISAdMobRewardedVideoAdapter         *adapter;
 @property (nonatomic, weak)     id<ISRewardedVideoAdapterDelegate>  delegate;
-@property (nonatomic,copy)      void(^completionBlock)              (GADRewardedAd *rewardedAd, NSError *error);
 
 - (instancetype)initWithAdapter:(ISAdMobRewardedVideoAdapter *)adapter
                        adUnitId:(NSString *)adUnitId

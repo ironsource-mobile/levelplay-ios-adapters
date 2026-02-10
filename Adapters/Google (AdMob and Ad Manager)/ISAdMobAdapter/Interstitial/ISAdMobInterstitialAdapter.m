@@ -109,29 +109,51 @@
                           adData:(NSDictionary *)adData
                       serverData:(NSString *)serverData
                         delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        
-        [self.adUnitIdToAdsAvailability setObject:@NO
-                                           forKey:adUnitId];
+    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
+    
+    [self.adUnitIdToAdsAvailability setObject:@NO
+                                       forKey:adUnitId];
 
-        [self.adUnitIdToSmashDelegate setObject:delegate
-                                         forKey:adUnitId];
+    [self.adUnitIdToSmashDelegate setObject:delegate
+                                     forKey:adUnitId];
+    
+    GADInterstitialAdLoadCompletionHandler loadHandler = ^(GADInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
+        if (error) {
+            LogAdapterDelegate_Internal(@"adUnitId = %@ failed to load with error = %@", adUnitId, error);
+            NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_IS_LOAD_NO_FILL
+                                                                             withMessage:@"AdMob no fill"] : error;
+            
+            [delegate adapterInterstitialDidFailToLoadWithError:smashError];
+            return;
+        }
         
-        GADRequest *request = [self.adapter createGADRequestForLoadWithAdData:adData
-                                                                   serverData:serverData];
+        if (!interstitialAd) {
+            LogAdapterDelegate_Internal(@"adUnitId = %@ failed to load: ad is nil", adUnitId);
+            NSError *error = [ISError createError:ERROR_CODE_GENERIC
+                                                withMessage:@"Interstitial ad is nil"];
+            
+            [delegate adapterInterstitialDidFailToLoadWithError:error];
+            return;
+        }
         
-        ISAdMobInterstitialDelegate *interstitialAdDelegate = [[ISAdMobInterstitialDelegate alloc] initWithAdapter:self
-                                                                                                          adUnitId:adUnitId
-                                                                                                       andDelegate:delegate];
-        [self.adUnitIdToAdDelegate setObject:interstitialAdDelegate
-                                      forKey:adUnitId];
-        
+        [self handleInterstitialLoadSuccess:interstitialAd
+                                   adUnitId:adUnitId
+                                   delegate:delegate];
+    };
+    
+    if (serverData) {
+        // For bidding, use loadWithAdResponseString
+        LogAdapterApi_Internal(@"loading bidding interstitial for adUnitId = %@", adUnitId);
+        [GADInterstitialAd loadWithAdResponseString:serverData
+                                  completionHandler:loadHandler];
+    } else {
+        // For non-bidding, use request
+        LogAdapterApi_Internal(@"loading interstitial for adUnitId = %@", adUnitId);
+        GADRequest *request = [self.adapter createGADRequestWithAdData:adData];
         [GADInterstitialAd loadWithAdUnitID:adUnitId
                                     request:request
-                          completionHandler:[interstitialAdDelegate completionBlock]];
-    });
+                          completionHandler:loadHandler];
+    }
 }
 
 - (void)showInterstitialWithViewController:(UIViewController *)viewController
@@ -142,8 +164,13 @@
         LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
         
         GADInterstitialAd *interstitialAd = [self.adUnitIdToAds objectForKey:adUnitId];
-        
-        ISAdMobInterstitialDelegate *interstitialAdDelegate = [self.adUnitIdToAdDelegate objectForKey:adUnitId];
+                
+        // Create and save delegate for show callbacks
+        ISAdMobInterstitialDelegate *interstitialAdDelegate = [[ISAdMobInterstitialDelegate alloc] initWithAdapter:self
+                                                                                                          adUnitId:adUnitId
+                                                                                                       andDelegate:delegate];
+        [self.adUnitIdToAdDelegate setObject:interstitialAdDelegate
+                                      forKey:adUnitId];
         
         interstitialAd.fullScreenContentDelegate = interstitialAdDelegate;
         
@@ -173,20 +200,10 @@
 - (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                  adData:(NSDictionary *)adData
                                                delegate:(id<ISBiddingDataDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        GADRequest *request = [GADRequest request];
-        request.requestAgent = kRequestAgent;
-        NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
-        additionalParameters[kAdMobQueryInfoType] = kAdMobRequesterType;
-
-        GADExtras *extras = [[GADExtras alloc] init];
-        extras.additionalParameters = additionalParameters;
-        [request registerAdNetworkExtras:extras];
-        
-        [self.adapter collectBiddingDataWithAdData:request
-                                          adFormat:GADAdFormatInterstitial
-                                          delegate:delegate];
-    });
+    [self.adapter collectBiddingDataWithAdFormat:GADAdFormatInterstitial
+                                    adapterConfig:adapterConfig
+                                           adData:adData
+                                         delegate:delegate];
 }
 
 #pragma mark - Init Delegate
@@ -225,6 +242,32 @@
 
     [self.adUnitIdToAdsAvailability setObject:@(availability)
                                        forKey:adUnitId];
+}
+
+#pragma mark - Helpers
+
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig {
+    return [[GADInterstitialSignalRequest alloc] initWithSignalType:kAdMobRequesterType];
+}
+
+- (void)handleInterstitialLoadSuccess:(GADInterstitialAd *)interstitialAd
+                             adUnitId:(NSString *)adUnitId
+                             delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
+    [self onAdUnitAvailabilityChangeWithAdUnitId:adUnitId
+                                    availability:YES
+                                  interstitialAd:interstitialAd];
+    
+    NSString *creativeId = interstitialAd.responseInfo.responseIdentifier;
+    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", adUnitId, kCreativeId, creativeId);
+    
+    if (creativeId.length) {
+        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
+        [delegate adapterInterstitialDidLoadWithExtraData:extraData];
+    } else {
+        [delegate adapterInterstitialDidLoad];
+    }
 }
 
 @end

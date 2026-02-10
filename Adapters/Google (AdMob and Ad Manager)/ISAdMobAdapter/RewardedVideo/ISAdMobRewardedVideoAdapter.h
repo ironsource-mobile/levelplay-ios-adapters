@@ -15,4 +15,8 @@
 - (void)onAdUnitAvailabilityChangeWithAdUnitId:(NSString *)adUnitId
                                   availability:(BOOL)availability
                                     rewardedAd:(GADRewardedAd *)rewardedAd;
+
+- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
+                                      adapterConfig:(ISAdapterConfig *)adapterConfig;
+
 @end

@@ -19,48 +19,8 @@
         _adapter = adapter;
         _adUnitId = adUnitId;
         _delegate = delegate;
-        
-        ISAdMobRewardedVideoDelegate * __weak weakSelf = self;
-        _completionBlock = ^(GADRewardedAd *rewardedAd, NSError *error) {
-            __typeof__(self) strongSelf = weakSelf;
-            if (error) {
-                [strongSelf adDidFailToLoadWithError:error];
-            } else {
-                [strongSelf adDidLoadWithAd:rewardedAd];
-            }
-        };
     }
     return self;
-}
-
-- (void)adDidLoadWithAd:(GADRewardedAd *)rewardedAd {
-    [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
-                                            availability:YES
-                                              rewardedAd:rewardedAd];
-    
-    NSString *creativeId = rewardedAd.responseInfo.responseIdentifier;
-    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", self.adUnitId, kCreativeId, creativeId);
-    
-    if (creativeId.length) {
-        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
-        [self.delegate adapterRewardedVideoHasChangedAvailability:YES
-                                                        extraData:extraData];
-    } else {
-        [self.delegate adapterRewardedVideoHasChangedAvailability:YES];
-    }
-}
-
-- (void)adDidFailToLoadWithError:(NSError *)error {
-    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", self.adUnitId, error);
-    NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_RV_LOAD_NO_FILL
-                                                                                                             withMessage:@"AdMob no fill"] : error;
-
-    [self.adapter onAdUnitAvailabilityChangeWithAdUnitId:self.adUnitId
-                                            availability:NO
-                                              rewardedAd:nil];
-    
-    [self.delegate adapterRewardedVideoHasChangedAvailability:NO];
-    [self.delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
 }
 
 /// Tells the delegate that the ad presented full screen content.
