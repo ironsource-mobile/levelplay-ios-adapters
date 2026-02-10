@@ -3,7 +3,7 @@ platform :ios, '13.0'
 use_frameworks!
 
 target 'ISLineAdapter' do
-  pod 'IronSourceSDK', '9.1.0.0'
-  pod 'FiveAd', '2.9.20251119'
+  pod 'IronSourceSDK', '9.3.0.0'
+  pod 'FiveAd', '3.0.0'
 
 end
