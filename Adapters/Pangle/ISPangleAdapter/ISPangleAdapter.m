@@ -971,9 +971,9 @@ static PAGSdk* _pangleSDK = nil;
 #pragma mark - Legal Methods
 
 - (void)setConsent:(BOOL)consent {
-    LogAdapterApi_Internal(@"consent = %@", consent ? @"PAGGDPRConsentTypeConsent" : @"PAGGDPRConsentTypeNoConsent");
+    LogAdapterApi_Internal(@"consent = %@", consent ? @"PAGPAConsentTypeConsent" : @"PAGPAConsentTypeNoConsent");
     PAGConfig *config = [PAGConfig shareConfig];
-    config.GDPRConsent = consent ? PAGGDPRConsentTypeConsent : PAGGDPRConsentTypeNoConsent;
+    config.PAConsent = consent ? PAGPAConsentTypeConsent : PAGPAConsentTypeNoConsent;
 }
 
 - (void)setCCPAValue:(BOOL)value {
