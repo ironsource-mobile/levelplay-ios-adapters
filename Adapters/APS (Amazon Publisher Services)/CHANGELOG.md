@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.1.0
+* Supporting SDK version 5.4.0
+
 ## Version 5.0.0
 * The adapter is compatible with LevelPlay 9.0.0 and above
 * Supporting SDK version 5.3.2
