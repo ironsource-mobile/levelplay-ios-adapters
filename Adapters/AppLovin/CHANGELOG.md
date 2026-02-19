@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.4.0
+* Supporting SDK version 13.6.0
+
 ## Version 5.3.0
 * Fixed bug where "didClosedAd" callback failed to trigger
 
