@@ -3,5 +3,5 @@ platform :ios, '13.0'
 
 target 'ISFacebookAdapter' do
   pod 'IronSourceSDK', '9.3.0.0'
-  pod 'FBAudienceNetwork', '6.21.0'
+  pod 'FBAudienceNetwork', '6.21.1'
 end

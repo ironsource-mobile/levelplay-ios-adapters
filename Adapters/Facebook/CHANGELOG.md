@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.2.0
+* Supporting SDK version 6.21.1
+
 ## Version 5.1.0
 * Supporting Meta Audience Network SDK version 6.21.0
 * Requirements:
