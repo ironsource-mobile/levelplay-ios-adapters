@@ -143,6 +143,7 @@ static PAGSdk* _pangleSDK = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             
             PAGConfig *config = [PAGConfig shareConfig];
+            config.userDataString = [NSString stringWithFormat: @"[{\"name\":\"mediation\",\"value\":\"Ironsource\"},{\"name\":\"adapter_version\",\"value\":\"%@\"}]", self.version];
             config.appID = appId;
             config.debugLog = [ISConfigurations getConfigurations].adaptersDebug ? YES : NO;
             config.adxID = kLevelPlayAdxID;
@@ -971,9 +972,7 @@ static PAGSdk* _pangleSDK = nil;
 #pragma mark - Legal Methods
 
 - (void)setConsent:(BOOL)consent {
-    LogAdapterApi_Internal(@"consent = %@", consent ? @"PAGPAConsentTypeConsent" : @"PAGPAConsentTypeNoConsent");
-    PAGConfig *config = [PAGConfig shareConfig];
-    config.PAConsent = consent ? PAGPAConsentTypeConsent : PAGPAConsentTypeNoConsent;
+    //     Manual configuration of GDPR information is no longer supported. Pangle will automatically read the settings from the CMP.
 }
 
 - (void)setCCPAValue:(BOOL)value {
@@ -1049,16 +1048,17 @@ static PAGSdk* _pangleSDK = nil;
     request.adxID = kLevelPlayAdxID;
     request.slotID = slotId;
     
-    [PAGSdk getBiddingTokenWithRequest:request completion:^(NSString *biddingToken) {
+    [PAGSdk getBiddingTokenWithRequest: request
+                     completionHandler: ^(NSString * _Nullable biddingToken, NSError * _Nullable error) {
         if (biddingToken.length > 0) {
             NSDictionary *biddingDataDictionary = @{@"token": biddingToken};
             LogAdapterApi_Internal(@"token = %@", biddingToken);
             [delegate successWithBiddingData:biddingDataDictionary];
         }
         else {
-            NSString *error = [NSString stringWithFormat:@"token is nil or empty"];
-                LogAdapterApi_Internal(@"%@", error);
-                [delegate failureWithError:error];
+            NSString *errorMsg = error.description ?: [NSString stringWithFormat:@"token is nil or empty"];
+            LogAdapterApi_Internal(@"%@", errorMsg);
+            [delegate failureWithError:errorMsg];
         }
     }];
     
