@@ -1,5 +1,5 @@
 //
-//  ISYandexInterstitialAdapter.m
+//  ISYandexRewardedAdapter.m
 //  IronSourceYandexAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -8,26 +8,26 @@
 #import <YandexMobileAds/YandexMobileAds.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISYandexInterstitialAdapter.h"
-#import "ISYandexInterstitialDelegate.h"
+#import "ISYandexRewardedAdapter.h"
+#import "ISYandexRewardedDelegate.h"
 #import "ISYandexAdapter+Internal.h"
 #import "ISYandexAdapter.h"
 #import "ISYandexConstants.h"
 
-@interface ISYandexInterstitialAdapter ()
+@interface ISYandexRewardedAdapter ()
 
-@property (nonatomic, strong) YMAInterstitialAd *ad;
-@property (nonatomic, strong) YMAInterstitialAdLoader *adLoader;
-@property (nonatomic, strong) ISYandexInterstitialDelegate *yandexAdDelegate;
+@property (nonatomic, strong) YMARewardedAd *ad;
+@property (nonatomic, strong) YMARewardedAdLoader *adLoader;
+@property (nonatomic, strong) ISYandexRewardedDelegate *yandexAdDelegate;
 @property (nonatomic, assign) BOOL adAvailability;
 
 @end
 
-@implementation ISYandexInterstitialAdapter
+@implementation ISYandexRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
-- (void)loadAdWithAdData:(ISAdData *)adData delegate:(id<ISInterstitialAdDelegate>)delegate {
+- (void)loadAdWithAdData:(ISAdData *)adData delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *adUnitId = [adData getString:adUnitIdKey];
     LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
@@ -46,13 +46,13 @@
     self.adAvailability = NO;
 
     // create delegate
-    ISYandexInterstitialDelegate *adDelegate = [[ISYandexInterstitialDelegate alloc] initWithAdapter:self
-                                                                                             adUnitId:adUnitId
-                                                                                          andDelegate:delegate];
+    ISYandexRewardedDelegate *adDelegate = [[ISYandexRewardedDelegate alloc] initWithAdapter:self
+                                                                                     adUnitId:adUnitId
+                                                                                  andDelegate:delegate];
     self.yandexAdDelegate = adDelegate;
 
     // create adLoader
-    YMAInterstitialAdLoader *adLoader = [[YMAInterstitialAdLoader alloc] init];
+    YMARewardedAdLoader *adLoader = [[YMARewardedAdLoader alloc] init];
     adLoader.delegate = adDelegate;
     self.adLoader = adLoader;
 
@@ -78,7 +78,7 @@
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -115,7 +115,7 @@
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
-    YMABidderTokenRequestConfiguration *requestConfiguration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType:YMAAdTypeInterstitial];
+    YMABidderTokenRequestConfiguration *requestConfiguration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType:YMAAdTypeRewarded];
 
     ISYandexAdapter *adapter = (ISYandexAdapter *)[self getNetworkAdapter];
     if (!adapter) {
@@ -130,8 +130,8 @@
 }
 
 - (void)setAdAvailability:(BOOL)availability
-        withInterstitialAd:(YMAInterstitialAd *)interstitialAd {
-    self.ad = interstitialAd;
+           withRewardedAd:(YMARewardedAd *)rewardedAd {
+    self.ad = rewardedAd;
     self.ad.delegate = self.yandexAdDelegate;
     self.adAvailability = availability;
 }

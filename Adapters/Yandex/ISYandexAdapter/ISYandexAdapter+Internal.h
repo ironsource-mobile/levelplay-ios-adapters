@@ -11,12 +11,8 @@
 
 @interface ISYandexAdapter()
 
-- (void)initSDKWithAppId:(NSString *)appId;
-
 - (void)collectBiddingDataWithRequestConfiguration:(YMABidderTokenRequestConfiguration *)requestConfiguration
                                           delegate:(id<ISBiddingDataDelegate>)delegate;
-
-- (InitState)getInitState;
 
 - (NSDictionary *)getConfigParams;
 
@@ -28,4 +24,3 @@
 + (NSString *)buildCreativeIdStringFromCreatives:(NSArray<YMACreative *> *)creatives;
 
 @end
-

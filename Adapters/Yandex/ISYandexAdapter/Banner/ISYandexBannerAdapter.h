@@ -6,12 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISYandexAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseBannerAdapter.h>
 
-
-@interface ISYandexBannerAdapter : ISBaseBannerAdapter
-
-- (instancetype)initWithYandexAdapter:(ISYandexAdapter *)adapter;
+@interface ISYandexBannerAdapter : LevelPlayBaseBannerAdapter
 
 @end
-

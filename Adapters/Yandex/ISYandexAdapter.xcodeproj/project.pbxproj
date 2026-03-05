@@ -8,41 +8,41 @@
 
 /* Begin PBXBuildFile section */
 		0F779D394F835228CADA629B /* ISYandexInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B8CA8AF25CDECE1E7D3916 /* ISYandexInterstitialAdapter.m */; };
-		342D6288553A1D3B9AAA111E /* ISYandexRewardedVideoAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A3C6C196BE91A70BFA4E1801 /* ISYandexRewardedVideoAdDelegate.h */; };
-		374D00DF6BEA018B9EEC8063 /* ISYandexRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 904C8C17665CD9A625C75AC6 /* ISYandexRewardedVideoAdapter.m */; };
+		11333C88E9A6747FAF21ADA0 /* ISYandexRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A1F3B083351D275F65E8A7 /* ISYandexRewardedAdapter.m */; };
+		231ACD767A703D7BCC18228D /* ISYandexBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EA8F7BFB29EFD5C97832527 /* ISYandexBannerDelegate.h */; };
+		2BB68AA20881FE24AD4C8991 /* ISYandexRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 660BCA5B48A1E33DAC4B7D26 /* ISYandexRewardedDelegate.m */; };
 		475A6F3B25936FDC5DB103A3 /* ISYandexInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE3E40DF3633B0052770A194 /* ISYandexInterstitialAdapter.h */; };
-		4C1B46657CBC7BD11F745FFD /* ISYandexRewardedVideoAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A19CB6AFE531F562FEBA3E /* ISYandexRewardedVideoAdDelegate.m */; };
+		4ED9AEEA110A3E399DF3243C /* ISYandexRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ACCC025415AD40977D27279 /* ISYandexRewardedDelegate.h */; };
 		6B44D10A13A1C30307AFCD23 /* ISYandexConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A07A9D65AEF9CEECC04B9CC /* ISYandexConstants.h */; };
+		7A0C2998A1938B256D1334D7 /* ISYandexRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DE5FB977C9F00C93B396754 /* ISYandexRewardedAdapter.h */; };
+		960D76E3D6E9725D08B20388 /* ISYandexBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29458F6EF077BC75AC886C6A /* ISYandexBannerDelegate.m */; };
+		A610895E9E51CBBF36E39228 /* ISYandexInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BF45820181C862BD3640AA /* ISYandexInterstitialDelegate.m */; };
 		A8059150D5827902E4C28CA3 /* ISYandexAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2056D18852DB67F5C9D95A24 /* ISYandexAdapter.m */; };
 		ACCC826A797C0B6159BA695E /* ISYandexBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5DDEED0EAE807DEBC1AFF4 /* ISYandexBannerAdapter.m */; };
+		B71DCBBFF5AAEEA5CDD1C54D /* ISYandexInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F88537CDA1D3941E985FB335 /* ISYandexInterstitialDelegate.h */; };
 		C94E8C56E0111A395234A870 /* ISYandexAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 591FDF51FDC71533BDEE5DBE /* ISYandexAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D295C1BAC9CC16DBEFC0B871 /* ISYandexAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B8E4760885169BF47FC797F1 /* ISYandexAdapter+Internal.h */; };
-		D927D52E76EF7E00D25332B7 /* ISYandexBannerAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE2A3AA2496FC6C493EB4DC6 /* ISYandexBannerAdDelegate.m */; };
 		DAC9A4319FB92CD1E3C7B233 /* ISYandexBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D960D646A68465DD8AFAB7C /* ISYandexBannerAdapter.h */; };
-		E90741D463B7FF17C901764E /* ISYandexRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A6F08E1001E06E38C2E8235 /* ISYandexRewardedVideoAdapter.h */; };
-		F0E4477D998D1E8C8D857A81 /* ISYandexBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5026859E3DED10331CC16EE1 /* ISYandexBannerAdDelegate.h */; };
-		F8F83DC2CA2378962508C5AD /* ISYandexInterstitialAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6451F625303460B865FD4A46 /* ISYandexInterstitialAdDelegate.h */; };
-		FACDD2A2F59EBE8A46822C52 /* ISYandexInterstitialAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 15082AFB3BB12C00DE59059E /* ISYandexInterstitialAdDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A6F08E1001E06E38C2E8235 /* ISYandexRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedVideoAdapter.h; sourceTree = "<group>"; };
 		0D960D646A68465DD8AFAB7C /* ISYandexBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexBannerAdapter.h; sourceTree = "<group>"; };
-		15082AFB3BB12C00DE59059E /* ISYandexInterstitialAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexInterstitialAdDelegate.m; sourceTree = "<group>"; };
+		14BF45820181C862BD3640AA /* ISYandexInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexInterstitialDelegate.m; sourceTree = "<group>"; };
+		17A1F3B083351D275F65E8A7 /* ISYandexRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedAdapter.m; sourceTree = "<group>"; };
+		1ACCC025415AD40977D27279 /* ISYandexRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedDelegate.h; sourceTree = "<group>"; };
 		2056D18852DB67F5C9D95A24 /* ISYandexAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexAdapter.m; sourceTree = "<group>"; };
+		29458F6EF077BC75AC886C6A /* ISYandexBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexBannerDelegate.m; sourceTree = "<group>"; };
 		2A92E31EADFAE06BF8230276 /* ISYandexAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISYandexAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A07A9D65AEF9CEECC04B9CC /* ISYandexConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexConstants.h; sourceTree = "<group>"; };
-		5026859E3DED10331CC16EE1 /* ISYandexBannerAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexBannerAdDelegate.h; sourceTree = "<group>"; };
+		4DE5FB977C9F00C93B396754 /* ISYandexRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedAdapter.h; sourceTree = "<group>"; };
 		591FDF51FDC71533BDEE5DBE /* ISYandexAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexAdapter.h; sourceTree = "<group>"; };
-		6451F625303460B865FD4A46 /* ISYandexInterstitialAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexInterstitialAdDelegate.h; sourceTree = "<group>"; };
-		70A19CB6AFE531F562FEBA3E /* ISYandexRewardedVideoAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedVideoAdDelegate.m; sourceTree = "<group>"; };
-		904C8C17665CD9A625C75AC6 /* ISYandexRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedVideoAdapter.m; sourceTree = "<group>"; };
-		A3C6C196BE91A70BFA4E1801 /* ISYandexRewardedVideoAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexRewardedVideoAdDelegate.h; sourceTree = "<group>"; };
+		660BCA5B48A1E33DAC4B7D26 /* ISYandexRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexRewardedDelegate.m; sourceTree = "<group>"; };
+		8EA8F7BFB29EFD5C97832527 /* ISYandexBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexBannerDelegate.h; sourceTree = "<group>"; };
 		B8E4760885169BF47FC797F1 /* ISYandexAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISYandexAdapter+Internal.h"; sourceTree = "<group>"; };
 		CA5DDEED0EAE807DEBC1AFF4 /* ISYandexBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexBannerAdapter.m; sourceTree = "<group>"; };
 		CE3E40DF3633B0052770A194 /* ISYandexInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexInterstitialAdapter.h; sourceTree = "<group>"; };
-		DE2A3AA2496FC6C493EB4DC6 /* ISYandexBannerAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexBannerAdDelegate.m; sourceTree = "<group>"; };
 		F6B8CA8AF25CDECE1E7D3916 /* ISYandexInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISYandexInterstitialAdapter.m; sourceTree = "<group>"; };
+		F88537CDA1D3941E985FB335 /* ISYandexInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISYandexInterstitialDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -51,8 +51,8 @@
 			children = (
 				CE3E40DF3633B0052770A194 /* ISYandexInterstitialAdapter.h */,
 				F6B8CA8AF25CDECE1E7D3916 /* ISYandexInterstitialAdapter.m */,
-				6451F625303460B865FD4A46 /* ISYandexInterstitialAdDelegate.h */,
-				15082AFB3BB12C00DE59059E /* ISYandexInterstitialAdDelegate.m */,
+				F88537CDA1D3941E985FB335 /* ISYandexInterstitialDelegate.h */,
+				14BF45820181C862BD3640AA /* ISYandexInterstitialDelegate.m */,
 			);
 			path = Interstitial;
 			sourceTree = "<group>";
@@ -62,10 +62,21 @@
 			children = (
 				0D960D646A68465DD8AFAB7C /* ISYandexBannerAdapter.h */,
 				CA5DDEED0EAE807DEBC1AFF4 /* ISYandexBannerAdapter.m */,
-				5026859E3DED10331CC16EE1 /* ISYandexBannerAdDelegate.h */,
-				DE2A3AA2496FC6C493EB4DC6 /* ISYandexBannerAdDelegate.m */,
+				8EA8F7BFB29EFD5C97832527 /* ISYandexBannerDelegate.h */,
+				29458F6EF077BC75AC886C6A /* ISYandexBannerDelegate.m */,
 			);
 			path = Banner;
+			sourceTree = "<group>";
+		};
+		462ABBD3CD8BBED30A0245B6 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				4DE5FB977C9F00C93B396754 /* ISYandexRewardedAdapter.h */,
+				17A1F3B083351D275F65E8A7 /* ISYandexRewardedAdapter.m */,
+				1ACCC025415AD40977D27279 /* ISYandexRewardedDelegate.h */,
+				660BCA5B48A1E33DAC4B7D26 /* ISYandexRewardedDelegate.m */,
+			);
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 		63825EF1D55AB0B374C090C3 = {
@@ -84,17 +95,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EAAA4C2B2668CFF1F13915A2 /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				0A6F08E1001E06E38C2E8235 /* ISYandexRewardedVideoAdapter.h */,
-				904C8C17665CD9A625C75AC6 /* ISYandexRewardedVideoAdapter.m */,
-				A3C6C196BE91A70BFA4E1801 /* ISYandexRewardedVideoAdDelegate.h */,
-				70A19CB6AFE531F562FEBA3E /* ISYandexRewardedVideoAdDelegate.m */,
-			);
-			path = RewardedVideo;
-			sourceTree = "<group>";
-		};
 		F07EB8F3C084AA76717385F5 /* ISYandexAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +104,7 @@
 				4A07A9D65AEF9CEECC04B9CC /* ISYandexConstants.h */,
 				4208C3422F744C74A9F30BF2 /* Banner */,
 				02326B4756835E4B6ADECC28 /* Interstitial */,
-				EAAA4C2B2668CFF1F13915A2 /* RewardedVideo */,
+				462ABBD3CD8BBED30A0245B6 /* Rewarded */,
 			);
 			path = ISYandexAdapter;
 			sourceTree = "<group>";
@@ -118,13 +118,13 @@
 			files = (
 				D295C1BAC9CC16DBEFC0B871 /* ISYandexAdapter+Internal.h in Headers */,
 				C94E8C56E0111A395234A870 /* ISYandexAdapter.h in Headers */,
-				F0E4477D998D1E8C8D857A81 /* ISYandexBannerAdDelegate.h in Headers */,
 				DAC9A4319FB92CD1E3C7B233 /* ISYandexBannerAdapter.h in Headers */,
+				231ACD767A703D7BCC18228D /* ISYandexBannerDelegate.h in Headers */,
 				6B44D10A13A1C30307AFCD23 /* ISYandexConstants.h in Headers */,
-				F8F83DC2CA2378962508C5AD /* ISYandexInterstitialAdDelegate.h in Headers */,
 				475A6F3B25936FDC5DB103A3 /* ISYandexInterstitialAdapter.h in Headers */,
-				342D6288553A1D3B9AAA111E /* ISYandexRewardedVideoAdDelegate.h in Headers */,
-				E90741D463B7FF17C901764E /* ISYandexRewardedVideoAdapter.h in Headers */,
+				B71DCBBFF5AAEEA5CDD1C54D /* ISYandexInterstitialDelegate.h in Headers */,
+				7A0C2998A1938B256D1334D7 /* ISYandexRewardedAdapter.h in Headers */,
+				4ED9AEEA110A3E399DF3243C /* ISYandexRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,12 +211,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8059150D5827902E4C28CA3 /* ISYandexAdapter.m in Sources */,
-				D927D52E76EF7E00D25332B7 /* ISYandexBannerAdDelegate.m in Sources */,
 				ACCC826A797C0B6159BA695E /* ISYandexBannerAdapter.m in Sources */,
-				FACDD2A2F59EBE8A46822C52 /* ISYandexInterstitialAdDelegate.m in Sources */,
+				960D76E3D6E9725D08B20388 /* ISYandexBannerDelegate.m in Sources */,
 				0F779D394F835228CADA629B /* ISYandexInterstitialAdapter.m in Sources */,
-				4C1B46657CBC7BD11F745FFD /* ISYandexRewardedVideoAdDelegate.m in Sources */,
-				374D00DF6BEA018B9EEC8063 /* ISYandexRewardedVideoAdapter.m in Sources */,
+				A610895E9E51CBBF36E39228 /* ISYandexInterstitialDelegate.m in Sources */,
+				11333C88E9A6747FAF21ADA0 /* ISYandexRewardedAdapter.m in Sources */,
+				2BB68AA20881FE24AD4C8991 /* ISYandexRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

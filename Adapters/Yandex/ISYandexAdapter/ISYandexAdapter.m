@@ -7,81 +7,70 @@
 
 #import "ISYandexAdapter.h"
 #import "ISYandexConstants.h"
-#import "ISYandexRewardedVideoAdapter.h"
+#import "ISYandexRewardedAdapter.h"
 #import "ISYandexInterstitialAdapter.h"
 #import "ISYandexBannerAdapter.h"
 #import <YandexMobileAds/YandexMobileAds.h>
 
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDelegates = nil;
 static YMABidderTokenLoader *bidderTokenLoader = nil;
 
-@interface ISYandexAdapter() <ISNetworkInitCallbackProtocol>
+@interface ISYandexAdapter()
 
 @end
 
 @implementation ISYandexAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return YandexAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return [YMAMobileAds sdkVersion];
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
+
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
+
         // The Yandex token loader object needs to be saved so that we can retrieve
         // the completion handler callback for async token handling.
         if (bidderTokenLoader == nil) {
-            bidderTokenLoader = [[YMABidderTokenLoader alloc] initWithMediationNetworkName:kMediationName];
+            bidderTokenLoader = [[YMABidderTokenLoader alloc] initWithMediationNetworkName:mediationName];
         }
-        
-        // Rewarded video
-        ISYandexRewardedVideoAdapter *rewardedVideoAdapter = [[ISYandexRewardedVideoAdapter alloc] initWithYandexAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISYandexInterstitialAdapter *interstitialAdapter = [[ISYandexInterstitialAdapter alloc] initWithYandexAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        // Banner
-        ISYandexBannerAdapter *bannerAdapter = [[ISYandexBannerAdapter alloc] initWithYandexAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
     }
-    
+
     return self;
 }
 
-- (void)initSDKWithAppId:(NSString *)appId {
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+
+    if(initState == INIT_STATE_SUCCESS && delegate) {
+        [delegate onInitDidSucceed];
+        return;
     }
-    
+
+    // Add delegate to the init delegates only in case the initialization has not finished yet
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initCallbackDelegates addObject:delegate];
+    }
+
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
 
-        LogAdapterApi_Internal(@"appId = %@", appId);
+        NSString *appId = [adData getString:appIdKey];
+        LogAdapterApi_Internal(logAppId, appId);
 
         if ([ISConfigurations getConfigurations].adaptersDebug) {
             [YMAMobileAds enableLogging];
@@ -96,62 +85,53 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+
     initState = INIT_STATE_SUCCESS;
-    
+
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
     }
-    
+
     [initCallbackDelegates removeAllObjects];
 }
 
 #pragma mark - Legal Methods
 
 - (void)setConsent:(BOOL)consent {
-    LogAdapterApi_Internal(@"consent = %@", consent ? @"YES" : @"NO");
-    [YMAMobileAds setUserConsent: consent];
+    LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
+    [YMAMobileAds setUserConsent:consent];
 }
 
 #pragma mark - Helper Methods
 
 - (void)collectBiddingDataWithRequestConfiguration:(YMABidderTokenRequestConfiguration *)requestConfiguration
                                           delegate:(id<ISBiddingDataDelegate>)delegate {
-    
+
     if (initState != INIT_STATE_SUCCESS) {
-        NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
-        LogAdapterApi_Internal(@"%@", error);
-        [delegate failureWithError:error];
+        LogAdapterApi_Internal(logTokenError);
+        [delegate failureWithError:logTokenError];
         return;
     }
-    
+
     [bidderTokenLoader loadBidderTokenWithRequestConfiguration:requestConfiguration
                                              completionHandler:^(NSString *bidderToken) {
-        if (bidderToken.length >= 0) {
-            NSString *returnedToken = bidderToken ? bidderToken : @"";
-            LogAdapterApi_Internal(@"token = %@", returnedToken);
-            NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", nil];
-            [delegate successWithBiddingData:biddingDataDictionary];
-        } else {
-            [delegate failureWithError:@"Failed to receive token - Yandex"];
-        }
+        NSString *returnedToken = bidderToken ? bidderToken : @"";
+        LogAdapterApi_Internal(logToken, returnedToken);
+        NSDictionary *biddingDataDictionary = @{tokenKey: returnedToken};
+        [delegate successWithBiddingData:biddingDataDictionary];
     }];
-}
-
-- (InitState)getInitState {
-    return initState;
 }
 
 - (NSDictionary *)getConfigParams {
     NSDictionary *configParams = @{
-        @"adapter_version": YandexAdapterVersion,
-        @"adapter_network_name": kMediationName,
-        @"adapter_network_sdk_version": [LevelPlay sdkVersion]
+        adapterVersionKey: YandexAdapterVersion,
+        adapterNetworkNameKey: mediationName,
+        adapterNetworkSDKVersionKey: [LevelPlay sdkVersion]
     };
-    
+
     return configParams;
 }
 
@@ -173,17 +153,20 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 }
 
 + (NSString *)buildCreativeIdStringFromCreatives:(NSArray<YMACreative *> *)creatives {
+    if (!creatives) {
+        return @"";
+    }
+
     NSMutableArray<NSString *> *creativeIds = [NSMutableArray array];
-    
+
     for (YMACreative *creative in creatives) {
         NSString *creativeId = creative.creativeID;
         if (creativeId.length > 0) {
             [creativeIds addObject:creativeId];
         }
     }
-    
+
     return [creativeIds componentsJoinedByString:@","];
 }
 
 @end
-

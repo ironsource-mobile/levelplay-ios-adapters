@@ -6,14 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISYandexAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISYandexInterstitialAdapter : ISBaseInterstitialAdapter
+@class YMAInterstitialAd;
 
-- (instancetype)initWithYandexAdapter:(ISYandexAdapter *)adapter;
+@interface ISYandexInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
-- (void)onAdUnitAvailabilityChangeWithAdUnitId:(NSString *)adUnitId
-                                  availability:(BOOL)availability
-                                interstitialAd:(YMAInterstitialAd *)interstitialAd;
+- (void)setAdAvailability:(BOOL)availability
+        withInterstitialAd:(YMAInterstitialAd *)interstitialAd;
 
 @end

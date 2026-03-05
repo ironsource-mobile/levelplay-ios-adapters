@@ -5,10 +5,10 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const YandexAdapterVersion = @"5.6.0";
+static NSString * const YandexAdapterVersion = @"5.7.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Yandex Adapter
@@ -25,6 +25,6 @@ static NSString * Githash = @"";
 @import UIKit;
 @import QuartzCore;
 
-@interface ISYandexAdapter : ISBaseAdapter
+@interface ISYandexAdapter : LevelPlayBaseAdapter
 
 @end
