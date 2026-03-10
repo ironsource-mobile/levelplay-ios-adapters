@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.3.0
+* Supporting SDK version 5.2.1
+* Removed main thread dispatch workaround introduced in 5.2.0 — resolved by Ogury SDK 5.2.1
+
 ## Version 5.2.0
 * Dispatch to main queue to ensure Ogury SDK initialization runs on main thread
 

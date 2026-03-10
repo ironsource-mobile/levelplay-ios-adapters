@@ -67,12 +67,10 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)initSDKWithAssetKey:(NSString *)assetKey {
-
     // Add self to the init delegates only in case the initialization has not finished yet
     if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
         [initCallbackDelegates addObject:self];
     }
-
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
         LogAdapterApi_Internal(@"assetKey = %@", assetKey);
@@ -83,7 +81,6 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
             [Ogury setLogLevel:OguryLogLevelAll];
         }
 
-        dispatch_async(dispatch_get_main_queue(), ^{
             [Ogury startWith: assetKey completionHandler:^(BOOL success, OguryError *_Nullable error) {
                 if (success) {
                     // call init callback delegate success
@@ -93,7 +90,6 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
                     [self initializationFailure];
                 }
             }];
-        });
     });
 }
 
