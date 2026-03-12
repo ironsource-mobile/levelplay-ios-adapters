@@ -39,6 +39,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "95DB75DB5EAEEB85E65A20DB"
+               BuildableName = "ISUnityAdsAdapterTests.xctest"
+               BlueprintName = "ISUnityAdsAdapterTests"
+               ReferencedContainer = "container:ISUnityAdsAdapter.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

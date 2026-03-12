@@ -9,31 +9,78 @@
 /* Begin PBXBuildFile section */
 		10D3174065333D935E764587 /* ISUnityAdsRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 52E14DD6D394841ADA50D7D8 /* ISUnityAdsRewardedVideoDelegate.h */; };
 		2DD4AAE6E9D7DAECB77C3EE0 /* ISUnityAdsAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */; };
+		34FDE6AA04813B36D8AB77DE /* ISUnityAdsAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */; };
 		387A8CEB0DC730C0321BF68E /* ISUnityAdsInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8DD70EB26F129324F79B5D /* ISUnityAdsInterstitialDelegate.m */; };
+		4AC06E6625669F6E0C871026 /* ISUnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */; };
 		83839799F7415465FE6E46A6 /* ISUnityAdsInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 22617755AA68F3AFF779C7FD /* ISUnityAdsInterstitialDelegate.h */; };
+		859B4BD265C1D7DB053F9D0D /* ISUADSBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */; };
+		8F0AC21305321B6D67946A5D /* ISUADSInterstitialShowDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */; };
 		98AD0F237BD6DA3A5FF4C967 /* ISUnityAdsRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAB2E3A886BC5148860EA3B /* ISUnityAdsRewardedVideoDelegate.m */; };
 		99854F32F356A78F165E6D95 /* ISUnityAdsBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FFAEC6670EC46CBE011B7F4C /* ISUnityAdsBannerDelegate.m */; };
 		9B2FA8E73590C91E484E3F70 /* ISUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AC95BA1E2BEF866AFBA68384 /* ISUADSRewardedShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63298F4B17D4C428DCCF0383 /* ISUADSRewardedShowDelegate.m */; };
+		D635F074F5109F99E7DD22C9 /* ISUADSBannerAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C04C5802B3DDB428D2B677C4 /* ISUADSBannerAdDelegate.m */; };
 		E04B1F812949E27D878C5F31 /* ISUnityAdsBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = CBB3C3219077B3440EE0BDB4 /* ISUnityAdsBannerDelegate.h */; };
+		E3DDE66369DF887DDCFB3A2F /* ISUADSRewardedShowDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 665A7F0A1733DC5AD471B6D9 /* ISUADSRewardedShowDelegate.h */; };
+		EFACA6DE72D2D3A1212F2B88 /* ISUADSInterstitialShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5075417CE46ACEC11CB93DB /* ISUADSInterstitialShowDelegate.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		73FD2FEBD479C382FD2E2CA6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30BD357F30422A0CA7F388AF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DE5F7D6B10357AC641A2F72A;
+			remoteInfo = ISUnityAdsAdapter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22617755AA68F3AFF779C7FD /* ISUnityAdsInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialDelegate.h; sourceTree = "<group>"; };
+		3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSBannerAdDelegate.h; sourceTree = "<group>"; };
 		52E14DD6D394841ADA50D7D8 /* ISUnityAdsRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoDelegate.h; sourceTree = "<group>"; };
 		5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
+		63298F4B17D4C428DCCF0383 /* ISUADSRewardedShowDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSRewardedShowDelegate.m; sourceTree = "<group>"; };
+		663702694922B45979D26011 /* ISUnityAdsAdapterTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ISUnityAdsAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		665A7F0A1733DC5AD471B6D9 /* ISUADSRewardedShowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSRewardedShowDelegate.h; sourceTree = "<group>"; };
+		7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSInterstitialShowDelegate.h; sourceTree = "<group>"; };
 		8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
 		9B8DD70EB26F129324F79B5D /* ISUnityAdsInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialDelegate.m; sourceTree = "<group>"; };
+		9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapterTests.m; sourceTree = "<group>"; };
+		B5075417CE46ACEC11CB93DB /* ISUADSInterstitialShowDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSInterstitialShowDelegate.m; sourceTree = "<group>"; };
+		C04C5802B3DDB428D2B677C4 /* ISUADSBannerAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSBannerAdDelegate.m; sourceTree = "<group>"; };
 		CBB3C3219077B3440EE0BDB4 /* ISUnityAdsBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerDelegate.h; sourceTree = "<group>"; };
 		CDAB2E3A886BC5148860EA3B /* ISUnityAdsRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedVideoDelegate.m; sourceTree = "<group>"; };
 		FFAEC6670EC46CBE011B7F4C /* ISUnityAdsBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		B85E8BB8D17B6FFEA951E31A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AC06E6625669F6E0C871026 /* ISUnityAdsAdapter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
+		10AA9F2A6DF6289BFB252A0E /* ISUnityAdsAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+				9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */,
+			);
+			name = ISUnityAdsAdapterTests;
+			path = ../ISUnityAdsAdapterTests;
+			sourceTree = "<group>";
+		};
 		96E20E81004F0A882BA2CF80 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */,
+				663702694922B45979D26011 /* ISUnityAdsAdapterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -42,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				D2CDA2276544EA8C65A406DC /* ISUnityAdsAdapter */,
+				10AA9F2A6DF6289BFB252A0E /* ISUnityAdsAdapterTests */,
 				96E20E81004F0A882BA2CF80 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,6 +97,12 @@
 		D2CDA2276544EA8C65A406DC /* ISUnityAdsAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */,
+				C04C5802B3DDB428D2B677C4 /* ISUADSBannerAdDelegate.m */,
+				7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */,
+				B5075417CE46ACEC11CB93DB /* ISUADSInterstitialShowDelegate.m */,
+				665A7F0A1733DC5AD471B6D9 /* ISUADSRewardedShowDelegate.h */,
+				63298F4B17D4C428DCCF0383 /* ISUADSRewardedShowDelegate.m */,
 				8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */,
 				5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */,
 				CBB3C3219077B3440EE0BDB4 /* ISUnityAdsBannerDelegate.h */,
@@ -68,6 +122,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				859B4BD265C1D7DB053F9D0D /* ISUADSBannerAdDelegate.h in Headers */,
+				8F0AC21305321B6D67946A5D /* ISUADSInterstitialShowDelegate.h in Headers */,
+				E3DDE66369DF887DDCFB3A2F /* ISUADSRewardedShowDelegate.h in Headers */,
 				9B2FA8E73590C91E484E3F70 /* ISUnityAdsAdapter.h in Headers */,
 				E04B1F812949E27D878C5F31 /* ISUnityAdsBannerDelegate.h in Headers */,
 				83839799F7415465FE6E46A6 /* ISUnityAdsInterstitialDelegate.h in Headers */,
@@ -78,6 +135,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		95DB75DB5EAEEB85E65A20DB /* ISUnityAdsAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0BE3457D57EAA48534152436 /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapterTests" */;
+			buildPhases = (
+				F3405347762FE4E728927076 /* Sources */,
+				B85E8BB8D17B6FFEA951E31A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D812BDA02EEFF5634CD34E2E /* PBXTargetDependency */,
+			);
+			name = ISUnityAdsAdapterTests;
+			packageProductDependencies = (
+			);
+			productName = ISUnityAdsAdapterTests;
+			productReference = 663702694922B45979D26011 /* ISUnityAdsAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DE5F7D6B10357AC641A2F72A /* ISUnityAdsAdapter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 191111448C4B9D79D969649B /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */;
@@ -106,6 +182,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					95DB75DB5EAEEB85E65A20DB = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
+					};
 					DE5F7D6B10357AC641A2F72A = {
 						DevelopmentTeam = NLKYWCU5C3;
 						ProvisioningStyle = AUTOMATIC;
@@ -127,6 +207,7 @@
 			projectRoot = "";
 			targets = (
 				DE5F7D6B10357AC641A2F72A /* ISUnityAdsAdapter */,
+				95DB75DB5EAEEB85E65A20DB /* ISUnityAdsAdapterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -157,6 +238,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D635F074F5109F99E7DD22C9 /* ISUADSBannerAdDelegate.m in Sources */,
+				EFACA6DE72D2D3A1212F2B88 /* ISUADSInterstitialShowDelegate.m in Sources */,
+				AC95BA1E2BEF866AFBA68384 /* ISUADSRewardedShowDelegate.m in Sources */,
 				2DD4AAE6E9D7DAECB77C3EE0 /* ISUnityAdsAdapter.m in Sources */,
 				99854F32F356A78F165E6D95 /* ISUnityAdsBannerDelegate.m in Sources */,
 				387A8CEB0DC730C0321BF68E /* ISUnityAdsInterstitialDelegate.m in Sources */,
@@ -164,7 +248,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3405347762FE4E728927076 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34FDE6AA04813B36D8AB77DE /* ISUnityAdsAdapterTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D812BDA02EEFF5634CD34E2E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DE5F7D6B10357AC641A2F72A /* ISUnityAdsAdapter */;
+			targetProxy = 73FD2FEBD479C382FD2E2CA6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1922BD61C5AF25EB80E84964 /* Debug */ = {
@@ -195,6 +295,33 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
+		};
+		585BA8A16EC59A02ACDFDFAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/ISUnityAdsAdapter/ISUnityAdsAdapter/",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapterTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
 		};
 		703582E3BB8C944498E02105 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -342,9 +469,45 @@
 			};
 			name = Debug;
 		};
+		D2D259D049E36BC2FEDD9BD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/ISUnityAdsAdapter/ISUnityAdsAdapter/",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapterTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0BE3457D57EAA48534152436 /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2D259D049E36BC2FEDD9BD8 /* Debug */,
+				585BA8A16EC59A02ACDFDFAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		191111448C4B9D79D969649B /* Build configuration list for PBXNativeTarget "ISUnityAdsAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

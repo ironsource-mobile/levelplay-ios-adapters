@@ -9,6 +9,9 @@
 #import <ISUnityAdsRewardedVideoDelegate.h>
 #import <ISUnityAdsInterstitialDelegate.h>
 #import <ISUnityAdsBannerDelegate.h>
+#import <ISUADSRewardedShowDelegate.h>
+#import <ISUADSInterstitialShowDelegate.h>
+#import <ISUADSBannerAdDelegate.h>
 #import <UnityAds/UnityAds.h>
 
 // UnityAds Mediation MetaData
@@ -16,10 +19,11 @@ static NSString * const kMediationName          = @"ironSource";
 static NSString * const kAdapterVersionKey      = @"adapter_version";
 static NSString * const kUnityAdsInitBlobKey    = @"uads_init_blob";
 static NSString * const kUnityAdsEpTraitsKey    = @"traits";
+static NSString * const kUnityAdsNewApiEnabled  = @"newApiEnabled";
 
 // Network keys
 static NSString * const kAdapterVersion         = UnityAdsAdapterVersion;
-static NSString * const kAdapterName            = @"UnityAds";
+static NSString * const kAdapterName            = UnityAdsAdapterName;
 static NSString * const kGameId                 = @"sourceId";
 static NSString * const kPlacementId            = @"zoneId";
 
@@ -35,6 +39,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 // Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
+static int const kUnityAdsNoFillError           = 52100;
 
 @interface ISUnityAdsAdapter () <UnityAdsInitializationDelegate,
                                 ISNetworkInitCallbackProtocol,
@@ -61,6 +66,23 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 // synchronization lock
 @property (nonatomic, strong) NSObject                      *unityAdsStorageLock;
+
+
+// New API
+@property (nonatomic, assign) BOOL isNewAPIEnabled;
+// Rewarded
+@property (nonatomic, strong) NSString *rewardedPlacementId;
+@property (nonatomic, strong) UADSRewardedAd *rewardedAd;
+@property (nonatomic, strong) ISUADSRewardedShowDelegate *rewardedShowDelegate;
+// Interstitial
+@property (nonatomic, strong) NSString *interstitialPlacementId;
+@property (nonatomic, strong) UADSInterstitialAd *interstitialAd;
+@property (nonatomic, strong) ISUADSInterstitialShowDelegate *interstitialShowDelegate;
+//Banner
+@property (nonatomic, strong) NSString *bannerPlacementId;
+@property (nonatomic, strong) UADSBannerAd *bannerAd;
+@property (nonatomic, strong) ISUADSBannerAdDelegate *bannerAdDelegate;
+
 
 @end
 
@@ -113,10 +135,18 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 - (void)initSDKWithGameId:(NSString *)gameId
             adapterConfig:(ISAdapterConfig *)adapterConfig  {
-
+    
+    [self readNewApiEnabled:adapterConfig];
+    
     // add self to the init delegates only in case the initialization is not successful
     if (!UnityAds.isInitialized) {
         [initCallbackDelegates addObject:self];
+    }
+    
+    if (self.isNewAPIEnabled) {
+        [self newInitializeSDKWithGameId:gameId
+                           adapterConfig:adapterConfig];
+        return;
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -169,6 +199,11 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
         errorMsg = [NSString stringWithFormat:@"UnityAds SDK init failed with error code: %@, error message: %@", [self unityAdsInitErrorToString:error], message];
     }
     
+    [self initializationFailedWithMessage:errorMsg];
+}
+
+- (void)initializationFailedWithMessage:(NSString *)errorMsg {
+    
     LogAdapterDelegate_Internal(@"error - %@", errorMsg);
     
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
@@ -215,7 +250,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     
     // rewarded video
     NSArray *rewardedVideoPlacementIDs = _rewardedVideoPlacementIdToSmashDelegate.allKeys;
-
+    
     for (NSString *placementId in rewardedVideoPlacementIDs) {
         id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
         [delegate adapterRewardedVideoInitFailed:error];
@@ -237,7 +272,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
         [delegate adapterBannerInitFailedWithError:error];
     }
 }
-  
+
 #pragma mark - Rewarded Video API
 
 
@@ -247,7 +282,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                                        delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
     NSString *gameId = adapterConfig.settings[kGameId];
     NSString *placementId = adapterConfig.settings[kPlacementId];
-
+    
     // Configuration Validation
     if (![self isConfigValueValid:gameId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kGameId];
@@ -281,9 +316,11 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                                               adData:(NSDictionary *)adData
                                           serverData:(NSString *)serverData
                                             delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    [self readNewApiEnabled:adapterConfig];
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
+
     [_rewardedVideoAdsAvailability setObject:@NO
                                       forKey:placementId];
     
@@ -291,10 +328,15 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                  forKey:placementId];
     
+    if (self.isNewAPIEnabled) {
+        [self newLoadRewardedVideoWithAdapterConfig:adapterConfig adData:adData serverData:serverData delegate:delegate];
+        return;
+    }
+    
     // Create rewarded video delegate
     ISUnityAdsRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISUnityAdsRewardedVideoDelegate alloc]
                                                                 initWithPlacementId:placementId
-                                                                           delegate:self];
+                                                                delegate:self];
     [_rewardedVideoPlacementIdToDelegate setObject:rewardedVideoAdDelegate
                                             forKey:placementId];
     
@@ -320,8 +362,17 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 - (void)showRewardedVideoWithViewController:(UIViewController *)viewController
                               adapterConfig:(ISAdapterConfig *)adapterConfig
                                    delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    
+    if (self.isNewAPIEnabled) {
+        [self newShowRewardedVideoWithViewController:viewController
+                                       adapterConfig:adapterConfig
+                                            delegate:delegate];
+        return;
+    }
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
+    
     
     if (![self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
@@ -370,13 +421,26 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 - (BOOL)hasRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    NSNumber *available = [_rewardedVideoAdsAvailability objectForKey:placementId];
-    return (available != nil) && [available boolValue];
+    if (self.isNewAPIEnabled) {
+        return [self.rewardedPlacementId isEqualToString:placementId] && self.rewardedAd != nil;
+    } else {
+        NSNumber *available = [_rewardedVideoAdsAvailability objectForKey:placementId];
+        return (available != nil) && [available boolValue];
+    }
 }
 
 - (void)collectRewardedVideoBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                   adData:(NSDictionary *)adData
                                                 delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self readNewApiEnabled:adapterConfig];
+    
+    if (self.isNewAPIEnabled) {
+        [self newGetBiddingDataFor:UADSAdFormatRewarded
+                     adapterConfig:adapterConfig
+                            adData:adData
+                          delegate:delegate];
+        return;
+    }
     [self getBiddingDataFor:UnityAdsAdFormatRewarded withDelegate: delegate];
 }
 
@@ -419,7 +483,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     NSString *showError = [NSString stringWithFormat:@"%@ - %@", [self unityAdsShowErrorToString:error], errorMessage];
     LogAdapterDelegate_Internal(@"placementId = %@ reason = %@", placementId, showError);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
-
+    
     NSError *smashError = [NSError errorWithDomain:kAdapterName
                                               code:error
                                           userInfo:@{NSLocalizedDescriptionKey:showError}];
@@ -437,7 +501,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                        withFinishState:(UnityAdsShowCompletionState)state {
     LogAdapterDelegate_Internal(@"placementId = %@ and completion state = %d", placementId, (int)state);
     id<ISRewardedVideoAdapterDelegate> delegate = [_rewardedVideoPlacementIdToSmashDelegate objectForKey:placementId];
-       
+    
     switch (state) {
         case kUnityShowCompletionStateSkipped: {
             [delegate adapterRewardedVideoDidClose];
@@ -487,7 +551,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
         [self initSDKWithGameId:gameId
                   adapterConfig:adapterConfig];
     }
-  
+    
     [delegate adapterInterstitialInitSuccess];
 }
 
@@ -495,6 +559,8 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                                              adData:(NSDictionary *)adData
                                          serverData:(NSString *)serverData
                                            delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    [self readNewApiEnabled:adapterConfig];
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     [_interstitialAdsAvailability setObject:@NO
@@ -504,14 +570,22 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     [_interstitialPlacementIdToSmashDelegate setObject:delegate
                                                 forKey:placementId];
     
+    if (self.isNewAPIEnabled) {
+        [self newLoadInterstitialForBiddingWithAdapterConfig:adapterConfig
+                                                      adData:adData
+                                                  serverData:serverData
+                                                    delegate:delegate];
+        return;
+    }
+    
     // Create interstitial Delegate
     ISUnityAdsInterstitialDelegate *interstitialAdDelegate = [[ISUnityAdsInterstitialDelegate alloc] initWithPlacementId:placementId
                                                                                                              andDelegate:self];
     [_interstitialPlacementIdToDelegate setObject:interstitialAdDelegate
                                            forKey:placementId];
-
+    
     UADSLoadOptions *options = [UADSLoadOptions new];
-
+    
     // objectId is used to identify a loaded ad and to show it
     NSString *objectId = [[NSUUID UUID] UUIDString];
     [options setObjectId:objectId];
@@ -532,6 +606,14 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 - (void)showInterstitialWithViewController:(UIViewController *)viewController
                              adapterConfig:(ISAdapterConfig *)adapterConfig
                                   delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    
+    if (self.isNewAPIEnabled) {
+        [self newShowInterstitialWithViewController:viewController
+                                      adapterConfig:adapterConfig
+                                           delegate:delegate];
+        return;
+    }
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
     
@@ -559,12 +641,12 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             
             NSString *objectId = [self.interstitialPlacementIdToObjectId objectForKey:placementId];
             [options setObjectId:objectId];
-           
+            
             [UnityAds show:vc
                placementId:placementId
                    options:options
               showDelegate:showDelegate];
-        
+            
         }
         @catch (NSException *exception) {
             NSString *message = [NSString stringWithFormat:@"ISUnityAdsAdapter: Exception while trying to show an interstitial ad. Description: '%@'", exception.description];
@@ -582,13 +664,26 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 
 - (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
     NSString *placementId = adapterConfig.settings[kPlacementId];
-    NSNumber *available = [_interstitialAdsAvailability objectForKey:placementId];
-    return (available != nil) && [available boolValue];
+    if (self.isNewAPIEnabled) {
+        return [self.interstitialPlacementId isEqualToString:placementId] && self.interstitialAd != nil;
+    } else {
+        NSNumber *available = [_interstitialAdsAvailability objectForKey:placementId];
+        return (available != nil) && [available boolValue];
+    }
 }
 
 - (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                                  adData:(NSDictionary *)adData
                                                delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self readNewApiEnabled:adapterConfig];
+    
+    if (self.isNewAPIEnabled) {
+        [self newGetBiddingDataFor:UADSAdFormatInterstitial
+                     adapterConfig:adapterConfig
+                            adData:adData
+                          delegate:delegate];
+        return;
+    }
     [self getBiddingDataFor:UnityAdsAdFormatInterstitial withDelegate:delegate];
 }
 
@@ -630,7 +725,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     NSString *showError = [NSString stringWithFormat:@"%@ - %@", [self unityAdsShowErrorToString:error], errorMessage];
     LogAdapterDelegate_Internal(@"placementId = %@ reason = %@", placementId, showError);
     id<ISInterstitialAdapterDelegate> delegate = [_interstitialPlacementIdToSmashDelegate objectForKey:placementId];
-
+    
     NSError *smashError = [NSError errorWithDomain:kAdapterName
                                               code:error
                                           userInfo:@{NSLocalizedDescriptionKey:showError}];
@@ -692,7 +787,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     if (!UnityAds.isInitialized) {
         [self initSDKWithGameId:gameId adapterConfig:adapterConfig];
     }
-   
+    
     [delegate adapterBannerInitSuccess];
 }
 
@@ -702,6 +797,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
                                viewController:(UIViewController *)viewController
                                          size:(ISBannerSize *)size
                                      delegate:(id <ISBannerAdapterDelegate>)delegate {
+    [self readNewApiEnabled:adapterConfig];
     
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
@@ -718,9 +814,20 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     // add to banner delegate dictionary
     [_bannerPlacementIdToSmashDelegate setObject:delegate
                                           forKey:placementId];
-
+    
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         @try {
+            if (self.isNewAPIEnabled) {
+                [self newLoadBannerForBiddingWithAdapterConfig:adapterConfig
+                                                        adData:adData
+                                                    serverData:serverData
+                                                viewController:viewController
+                                                          size:size
+                                                      delegate:delegate];
+                return;
+            }
+            
             // Create banner
             UADSBannerView *bannerView = [[UADSBannerView alloc] initWithPlacementId:placementId
                                                                                 size:[self getBannerSize:size]];
@@ -738,7 +845,7 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
             bannerView.delegate = bannerAdDelegate;
             
             UADSLoadOptions *options = [UADSLoadOptions new];
-
+            
             // objectId is used to identify a loaded ad and to show it
             NSString *objectId = [[NSUUID UUID] UUIDString];
             [options setObjectId:objectId];
@@ -764,6 +871,11 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
 }
 
 - (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    if (_isNewAPIEnabled) {
+        [self newDestroyBannerWithAdapterConfig:adapterConfig];
+        return;
+    }
+    
     NSString *placementId = adapterConfig.settings[kPlacementId];
     
     // Get banner
@@ -779,9 +891,18 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     bannerView = nil;
 }
 
-- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
+- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
                                            adData:(NSDictionary *)adData
                                          delegate:(id<ISBiddingDataDelegate>)delegate {
+    [self readNewApiEnabled:adapterConfig];
+    
+    if (self.isNewAPIEnabled) {
+        [self newGetBiddingDataFor:UADSAdFormatBanner
+                     adapterConfig:adapterConfig
+                            adData:adData
+                          delegate:delegate];
+        return;
+    }
     [self getBiddingDataFor:UnityAdsAdFormatBanner withDelegate: delegate];
 }
 
@@ -858,18 +979,25 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     // Given that this is opposite to the ironSource Mediation CCPA flag of do_not_sell
     // we will use the opposite value of what is passed to this method
     BOOL optIn = !value;
+
     [self setUnityAdsMetaDataWithKey:kCCPAUnityAdsFlag
                                value:optIn];
+    
+    [UnityAds setUserOptOut:value];
 }
 
 - (void)setConsent:(BOOL)consent {
     [self setUnityAdsMetaDataWithKey:kGDPRUnityAdsFlag
                                value:consent];
+    
+    [UnityAds setUserConsent:consent];
 }
 
 - (void)setCOPPAValue:(BOOL)value {
     [self setUnityAdsMetaDataWithKey:kCOPPAUnityAdsFlag
                                value:value];
+    
+    [UnityAds setNonBehavioral:value];
 }
 
 - (void)setUnityAdsMetaDataWithKey:(NSString *)key
@@ -1020,6 +1148,308 @@ static NSString * const kIsLWSSupported         = @"isSupportedLWS";
     }
     
     return state;
+}
+
+
+#pragma mark - New API Init
+
+- (void)readNewApiEnabled:(ISAdapterConfig *)adapterConfig {
+    _isNewAPIEnabled = adapterConfig.settings[kUnityAdsEpTraitsKey][kUnityAdsNewApiEnabled];
+}
+
+- (void)newInitializeSDKWithGameId:(NSString *)gameId
+                     adapterConfig:(ISAdapterConfig *)adapterConfig {
+    
+    UADSInitializationConfigurationBuilder *builder = [[UADSInitializationConfigurationBuilder alloc] initWithGameId:gameId];
+    builder = [builder withTestMode:NO];
+    builder = [builder withLogLevel:[ISConfigurations getConfigurations].adaptersDebug ? UADSLogLevelDebug : UADSLogLevelInfo]; // or disabled if false?
+    builder = [builder withMediationInfo:[self adapterMediationInfo]];
+    builder = [builder withExtras:[self initializationExtrasFrom:adapterConfig]];
+    
+    [UnityAds initialize:[builder build]
+              completion:^(id<UnityAdsError> _Nullable error) {
+        if (error == nil) {
+            [self initializationComplete];
+        } else {
+            [self initializationFailedWithMessage:[NSString stringWithFormat:@"UnityAds SDK init failed with error code: %ld, error message: %@", error.code, error.message]];
+        }
+    }];
+}
+
+#pragma mark - New API Rewarded
+
+- (void)newLoadRewardedVideoWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                       adData:(NSDictionary *)adData
+                                   serverData:(NSString *)serverData
+                                     delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    LogAdapterApi_Internal(@"placementId = %@", placementId);
+    
+    UADSLoadConfigurationBuilder *builder = [[UADSLoadConfigurationBuilder alloc] initWithPlacementId:placementId];
+    if (serverData != nil) {
+        builder = [builder withAdMarkup:serverData];
+    }
+    builder = [builder withMediationInfo:[self adapterMediationInfo]];
+    builder = [builder withMediationAdUnitId:[self mediationAdUnitIdFor:UADSAdFormatRewarded adapterConfig:adapterConfig]];
+    
+    [UADSRewardedAd load:[builder build]
+              completion:^(UADSRewardedAd* _Nullable rewardedAd, id<UnityAdsError> _Nullable error) {
+        if (rewardedAd != nil) {
+            LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+            self.rewardedAd = rewardedAd;
+            self.rewardedPlacementId = placementId;
+            [delegate adapterRewardedVideoHasChangedAvailability:YES];
+        } else {
+            LogAdapterDelegate_Internal(@"placementId = %@ reason - %ld %@", placementId, error.code, error.message);
+            NSInteger errorCode = (error.code == kUnityAdsNoFillError) ? ERROR_RV_LOAD_NO_FILL : error.code;
+            NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                                      code:errorCode
+                                                  userInfo:@{NSLocalizedDescriptionKey:error.message}];
+            [delegate adapterRewardedVideoHasChangedAvailability:NO];
+            [delegate adapterRewardedVideoDidFailToLoadWithError:smashError];
+        }
+        
+    }];
+}
+
+- (void)newShowRewardedVideoWithViewController:(UIViewController *)viewController
+                                 adapterConfig:(ISAdapterConfig *)adapterConfig
+                                      delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    LogAdapterApi_Internal(@"placementId = %@", placementId);
+    
+    if (_rewardedAd == nil) {
+        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
+                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterRewardedVideoDidFailToShowWithError:error];
+        return;
+    }
+    
+    UADSShowConfigurationBuilder *builder = [[UADSShowConfigurationBuilder alloc] init];
+    if ([self dynamicUserId]) {
+        builder = [builder withCustomRewardString:[self dynamicUserId]];
+    }
+    UIViewController *vc = viewController == nil ? [self topMostController] : viewController;
+    builder = [builder withViewController:vc];
+    
+    _rewardedShowDelegate = [[ISUADSRewardedShowDelegate alloc] initWithPlacementId:placementId delegate:delegate];
+    [_rewardedAd show:[builder build] delegate:_rewardedShowDelegate];
+}
+
+- (void)destroyRewardedVideoAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    
+    if ([placementId isEqualToString:self.rewardedPlacementId]) {
+        _rewardedAd = nil;
+        _rewardedPlacementId = nil;
+        _rewardedShowDelegate = nil;
+    }
+}
+
+#pragma mark - New API Interstitial
+
+- (void)newLoadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                                adData:(NSDictionary *)adData
+                                            serverData:(NSString *)serverData
+                                              delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    LogAdapterApi_Internal(@"placementId = %@", placementId);
+    
+    UADSLoadConfigurationBuilder *builder = [[UADSLoadConfigurationBuilder alloc] initWithPlacementId:placementId];
+    if (serverData != nil) {
+        builder = [builder withAdMarkup:serverData];
+    }
+    builder = [builder withMediationInfo:[self adapterMediationInfo]];
+    builder = [builder withMediationAdUnitId:[self mediationAdUnitIdFor:UADSAdFormatInterstitial adapterConfig:adapterConfig]];
+    
+    [UADSInterstitialAd load:[builder build]
+                  completion:^(UADSInterstitialAd* _Nullable interstitialAd, id<UnityAdsError> _Nullable error) {
+        if (interstitialAd != nil) {
+            LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+            self.interstitialAd = interstitialAd;
+            self.interstitialPlacementId = placementId;
+            [delegate adapterInterstitialDidLoad];
+        } else {
+            LogAdapterDelegate_Internal(@"placementId = %@ reason - %ld %@", placementId, error.code, error.message);
+            NSInteger errorCode = (error.code == kUnityAdsNoFillError) ? ERROR_IS_LOAD_NO_FILL : error.code;
+            NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                                      code:errorCode
+                                                  userInfo:@{NSLocalizedDescriptionKey:error.message}];
+            [delegate adapterInterstitialDidFailToLoadWithError:smashError];
+        }
+    }];
+}
+
+- (void)newShowInterstitialWithViewController:(UIViewController *)viewController
+                                adapterConfig:(ISAdapterConfig *)adapterConfig
+                                     delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    LogAdapterApi_Internal(@"placementId = %@", placementId);
+    
+    if (_interstitialAd == nil) {
+        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
+                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterInterstitialDidFailToShowWithError:error];
+        return;
+    }
+    
+    UADSShowConfigurationBuilder *builder = [[UADSShowConfigurationBuilder alloc] init];
+    if ([self dynamicUserId]) {
+        builder = [builder withCustomRewardString:[self dynamicUserId]];
+    }
+    UIViewController *vc = viewController == nil ? [self topMostController] : viewController;
+    builder = [builder withViewController:vc];
+    
+    _interstitialShowDelegate = [[ISUADSInterstitialShowDelegate alloc] initWithPlacementId:placementId delegate:delegate];
+    [_interstitialAd show:[builder build] delegate:_interstitialShowDelegate];
+}
+
+- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    
+    if ([placementId isEqualToString:self.interstitialPlacementId]) {
+        _interstitialAd = nil;
+        _interstitialPlacementId = nil;
+        _interstitialShowDelegate = nil;
+    }
+}
+
+#pragma mark - New API Banner
+
+- (void)newLoadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
+                                          adData:(NSDictionary *)adData
+                                      serverData:(NSString *)serverData
+                                  viewController:(UIViewController *)viewController
+                                            size:(ISBannerSize *)size
+                                        delegate:(id <ISBannerAdapterDelegate>)delegate {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    LogAdapterApi_Internal(@"placementId = %@", placementId);
+ 
+    _bannerAdDelegate = [[ISUADSBannerAdDelegate alloc] initWithPlacementId:placementId delegate:delegate];
+    UADSBannerLoadConfigurationBuilder *builder = [[UADSBannerLoadConfigurationBuilder alloc]
+                                                   initWithPlacementId:placementId
+                                                   bannerSize:[self getBannerSize:size]
+                                                   delegate:_bannerAdDelegate];
+    if (serverData != nil) {
+        builder = [builder withAdMarkup:serverData];
+    }
+    builder = [builder withMediationInfo:[self adapterMediationInfo]];
+    builder = [builder withMediationAdUnitId:[self mediationAdUnitIdFor:UADSAdFormatBanner adapterConfig:adapterConfig]];
+    
+    [UADSBannerAd load:[builder build]
+            completion:^(UADSBannerAd * _Nullable bannerAd, id<UnityAdsError> _Nullable error) {
+        if (bannerAd != nil) {
+            LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+            self.bannerAd = bannerAd;
+            self.bannerPlacementId = placementId;
+            [delegate adapterBannerDidLoad:bannerAd.view];
+        } else {
+            LogAdapterDelegate_Internal(@"placementId = %@ reason - %ld %@", placementId, error.code, error.message);
+            
+            NSInteger errorCode = (error.code == kUnityAdsNoFillError)? ERROR_BN_LOAD_NO_FILL : error.code;
+            NSError *smashError = [NSError errorWithDomain:kAdapterName
+                                                      code:errorCode
+                                                  userInfo:@{NSLocalizedDescriptionKey:error.message}];
+            [delegate adapterBannerDidFailToLoadWithError:smashError];
+        }
+    }];
+}
+
+- (void)newDestroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    
+    if ([placementId isEqualToString:self.bannerPlacementId]) {
+        _bannerAd = nil;
+        _bannerPlacementId = nil;
+        _bannerAdDelegate = nil;
+    }
+}
+
+#pragma mark - New API GetToken
+
+- (void)newGetBiddingDataFor:(UADSAdFormat)format
+               adapterConfig:(ISAdapterConfig *)adapterConfig
+                      adData:(NSDictionary *)adData
+                    delegate:(id<ISBiddingDataDelegate>)delegate {
+    UADSTokenConfigurationBuilder *builder = [[UADSTokenConfigurationBuilder alloc] initWithAdFormat:format];
+    builder = [builder withMediationInfo:[self adapterMediationInfo]];
+    id bannerSizeValue = adData[@"bannerSize"];
+    if ([bannerSizeValue isKindOfClass:[ISBannerSize class]]) {
+        ISBannerSize *bannerSize = (ISBannerSize *)bannerSizeValue;
+        builder = [builder withBannerSize:CGSizeMake(bannerSize.width, bannerSize.height)];
+    }
+    
+    NSString *placementId = adapterConfig.settings[kPlacementId];
+    if(placementId != nil) {
+        builder = [builder withPlacementId: placementId];
+    }
+    
+    NSString *mediationAdUnitId = [self mediationAdUnitIdFor:format
+                                               adapterConfig:adapterConfig];
+    if (mediationAdUnitId != nil) {
+        builder = [builder withMediationAdUnitId: mediationAdUnitId];
+    }
+   
+    [UnityAds getToken:[builder build] completion:^(NSString * _Nullable token) {
+        if (token != nil && ![token isEqualToString:@""]) {
+            LogAdapterApi_Internal(@"token = %@", token);
+            [delegate successWithBiddingData:@{ @"token": token }];
+        } else {
+            LogAdapterApi_Internal(@"returning nil as token");
+            [delegate failureWithError:@"empty token"];
+        }
+    }];
+}
+
+#pragma mark - New API Helpers
+
+- (UADSMediationInfo*)adapterMediationInfo {
+    return [[UADSMediationInfo alloc] initWithName:kMediationName
+                                           version:[LevelPlay sdkVersion]
+                                    adapterVersion:kAdapterVersion];
+}
+
+- (NSString *)mediationAdUnitIdFor:(UADSAdFormat)format
+                     adapterConfig:(ISAdapterConfig *)adapterConfig {
+    switch (format) {
+        case UADSAdFormatBanner:
+            return adapterConfig.bannerSettings[kPlacementId];
+            
+        case UADSAdFormatRewarded:
+            return adapterConfig.rewardedVideoSettings[kPlacementId];
+            
+        case UADSAdFormatInterstitial:
+            return adapterConfig.interstitialSettings[kPlacementId];
+       
+        default:
+            return nil;
+    }
+}
+
+- (NSDictionary *)initializationExtrasFrom:(ISAdapterConfig *)adapterConfig {
+    NSMutableDictionary<NSString *, NSString *> *extras = [NSMutableDictionary dictionary];
+    NSString *blob = adapterConfig.settings[kUnityAdsInitBlobKey];
+    if ([blob isKindOfClass:NSString.class]) {
+        extras[kUnityAdsInitBlobKey] = blob;
+    }
+    id traitsObject = adapterConfig.settings[kUnityAdsEpTraitsKey];
+    if ([traitsObject isKindOfClass:NSDictionary.class]) {
+        NSDictionary *traits = (NSDictionary *)traitsObject;
+        for (id key in traits) {
+            if (![key isKindOfClass:NSString.class]) {
+                continue;
+            }
+            id value = traits[key];
+            if ([value isKindOfClass:NSString.class]) {
+                extras[key] = value;
+            } else if ([value isKindOfClass:NSNumber.class]) {
+                extras[key] = [((NSNumber *)value) stringValue];
+            }
+        }
+    }
+    return extras;
 }
 
 @end
