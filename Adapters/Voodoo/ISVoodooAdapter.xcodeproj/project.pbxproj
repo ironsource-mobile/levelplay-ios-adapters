@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		080B84575DD9628EBDBB5EE7 /* ISVoodooInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BA8D72CDF8657E46B4C0E6E /* ISVoodooInterstitialDelegate.h */; };
+		09209E9F7BDA63A271EC1C3D /* ISVoodooAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 76D69143348F6F797AE8C1C3 /* ISVoodooAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C747BD610A7DD51E296E970 /* ISVoodooInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F84805F9ABDF248F14E0167B /* ISVoodooInterstitialDelegate.m */; };
+		4A2936F408FAEB0A2BCE4860 /* ISVoodooRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F5DD0818B54FABDBB3028204 /* ISVoodooRewardedVideoDelegate.h */; };
+		57115AFBB7B2241164AD2429 /* ISVoodooConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD75FF7B3743ACAAFC1C7251 /* ISVoodooConstants.h */; };
+		7960BDA679785E7ADB7F6205 /* ISVoodooAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8561FD60E2224385ABFE52D /* ISVoodooAdapter.m */; };
+		8521AB7DB18481C48CFA4BE6 /* ISVoodooRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = E17C2CFC02EAF70D662BEB64 /* ISVoodooRewardedVideoAdapter.h */; };
+		B715CC5C18195C78B951BF31 /* ISVoodooInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 64D751C30DF4A2779EA84E2A /* ISVoodooInterstitialAdapter.h */; };
+		D65E49BDEA4F400146E7C256 /* ISVoodooInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A19C3D25EAC5CD664C80FF /* ISVoodooInterstitialAdapter.m */; };
+		D692496E4383E18314743996 /* ISVoodooRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A77FF39E760D8B8B7CDA193 /* ISVoodooRewardedVideoDelegate.m */; };
+		E62F98B7731818E2709829DF /* ISVoodooAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 50251ECD9FD539BD38FEF432 /* ISVoodooAdapter+Internal.h */; };
+		FF293E85A554D9FA4F609947 /* ISVoodooRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 111D66D91BBA57E9EBD70ED0 /* ISVoodooRewardedVideoAdapter.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		111D66D91BBA57E9EBD70ED0 /* ISVoodooRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		50251ECD9FD539BD38FEF432 /* ISVoodooAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISVoodooAdapter+Internal.h"; sourceTree = "<group>"; };
+		64D751C30DF4A2779EA84E2A /* ISVoodooInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooInterstitialAdapter.h; sourceTree = "<group>"; };
+		76D69143348F6F797AE8C1C3 /* ISVoodooAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooAdapter.h; sourceTree = "<group>"; };
+		7BA8D72CDF8657E46B4C0E6E /* ISVoodooInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooInterstitialDelegate.h; sourceTree = "<group>"; };
+		8A77FF39E760D8B8B7CDA193 /* ISVoodooRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		98A19C3D25EAC5CD664C80FF /* ISVoodooInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooInterstitialAdapter.m; sourceTree = "<group>"; };
+		C8561FD60E2224385ABFE52D /* ISVoodooAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooAdapter.m; sourceTree = "<group>"; };
+		D16734C42BAE53119E800EA7 /* ISVoodooAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISVoodooAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E17C2CFC02EAF70D662BEB64 /* ISVoodooRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		F5DD0818B54FABDBB3028204 /* ISVoodooRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		F84805F9ABDF248F14E0167B /* ISVoodooInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooInterstitialDelegate.m; sourceTree = "<group>"; };
+		FD75FF7B3743ACAAFC1C7251 /* ISVoodooConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooConstants.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		11CA17669EBF88A41509ADDA /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				64D751C30DF4A2779EA84E2A /* ISVoodooInterstitialAdapter.h */,
+				98A19C3D25EAC5CD664C80FF /* ISVoodooInterstitialAdapter.m */,
+				7BA8D72CDF8657E46B4C0E6E /* ISVoodooInterstitialDelegate.h */,
+				F84805F9ABDF248F14E0167B /* ISVoodooInterstitialDelegate.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
+		A5405B36F20B2BF915E11F88 /* ISVoodooAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				76D69143348F6F797AE8C1C3 /* ISVoodooAdapter.h */,
+				C8561FD60E2224385ABFE52D /* ISVoodooAdapter.m */,
+				50251ECD9FD539BD38FEF432 /* ISVoodooAdapter+Internal.h */,
+				FD75FF7B3743ACAAFC1C7251 /* ISVoodooConstants.h */,
+				11CA17669EBF88A41509ADDA /* Interstitial */,
+				E3020CC50B8F66B5A7980AE7 /* RewardedVideo */,
+			);
+			path = ISVoodooAdapter;
+			sourceTree = "<group>";
+		};
+		AA24D59B9885760223A693D8 = {
+			isa = PBXGroup;
+			children = (
+				A5405B36F20B2BF915E11F88 /* ISVoodooAdapter */,
+				B03D3BC86CD6A85875FD5529 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B03D3BC86CD6A85875FD5529 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D16734C42BAE53119E800EA7 /* ISVoodooAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E3020CC50B8F66B5A7980AE7 /* RewardedVideo */ = {
+			isa = PBXGroup;
+			children = (
+				E17C2CFC02EAF70D662BEB64 /* ISVoodooRewardedVideoAdapter.h */,
+				111D66D91BBA57E9EBD70ED0 /* ISVoodooRewardedVideoAdapter.m */,
+				F5DD0818B54FABDBB3028204 /* ISVoodooRewardedVideoDelegate.h */,
+				8A77FF39E760D8B8B7CDA193 /* ISVoodooRewardedVideoDelegate.m */,
+			);
+			path = RewardedVideo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E6EAD0A8C7CCF171EC356A4D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E62F98B7731818E2709829DF /* ISVoodooAdapter+Internal.h in Headers */,
+				09209E9F7BDA63A271EC1C3D /* ISVoodooAdapter.h in Headers */,
+				57115AFBB7B2241164AD2429 /* ISVoodooConstants.h in Headers */,
+				B715CC5C18195C78B951BF31 /* ISVoodooInterstitialAdapter.h in Headers */,
+				080B84575DD9628EBDBB5EE7 /* ISVoodooInterstitialDelegate.h in Headers */,
+				8521AB7DB18481C48CFA4BE6 /* ISVoodooRewardedVideoAdapter.h in Headers */,
+				4A2936F408FAEB0A2BCE4860 /* ISVoodooRewardedVideoDelegate.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		CF05DD3FB56A9B9B03B50634 /* ISVoodooAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4F427102F9DC4F8841321AE /* Build configuration list for PBXNativeTarget "ISVoodooAdapter" */;
+			buildPhases = (
+				1FB407F06B86F8B514BA7227 /* Create XCFramework */,
+				E6EAD0A8C7CCF171EC356A4D /* Headers */,
+				6B38E4B46AEC07A20894BD20 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISVoodooAdapter;
+			packageProductDependencies = (
+			);
+			productName = ISVoodooAdapter;
+			productReference = D16734C42BAE53119E800EA7 /* ISVoodooAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E7D9B89F090DD63EF037240F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					CF05DD3FB56A9B9B03B50634 = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
+					};
+				};
+			};
+			buildConfigurationList = A8852AAB0C336C6884CDB466 /* Build configuration list for PBXProject "ISVoodooAdapter" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = AA24D59B9885760223A693D8;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CF05DD3FB56A9B9B03B50634 /* ISVoodooAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1FB407F06B86F8B514BA7227 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6B38E4B46AEC07A20894BD20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7960BDA679785E7ADB7F6205 /* ISVoodooAdapter.m in Sources */,
+				D65E49BDEA4F400146E7C256 /* ISVoodooInterstitialAdapter.m in Sources */,
+				1C747BD610A7DD51E296E970 /* ISVoodooInterstitialDelegate.m in Sources */,
+				FF293E85A554D9FA4F609947 /* ISVoodooRewardedVideoAdapter.m in Sources */,
+				D692496E4383E18314743996 /* ISVoodooRewardedVideoDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0E990DFF426D2066F2586386 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISVoodooAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISVoodooAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		1694C8B1912D8F7ACBF45793 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B0F90DA88D61E868E70F68CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D5603E00ED6752E284AA59CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISVoodooAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISVoodooAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A8852AAB0C336C6884CDB466 /* Build configuration list for PBXProject "ISVoodooAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0F90DA88D61E868E70F68CD /* Debug */,
+				1694C8B1912D8F7ACBF45793 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E4F427102F9DC4F8841321AE /* Build configuration list for PBXNativeTarget "ISVoodooAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E990DFF426D2066F2586386 /* Debug */,
+				D5603E00ED6752E284AA59CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E7D9B89F090DD63EF037240F /* Project object */;
+}
