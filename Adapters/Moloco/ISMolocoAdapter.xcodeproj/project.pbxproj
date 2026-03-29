@@ -166,7 +166,6 @@
 				};
 			};
 			buildConfigurationList = ED7E396AFA268954E965EF55 /* Build configuration list for PBXProject "ISMolocoAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,6 +175,7 @@
 			mainGroup = 4786E57AC2A2EC3029E75E57;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = C38F2CAFDF1D0163DA7BBCDD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
