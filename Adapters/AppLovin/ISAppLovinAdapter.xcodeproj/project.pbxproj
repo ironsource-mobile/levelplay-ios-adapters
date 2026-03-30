@@ -120,7 +120,6 @@
 				};
 			};
 			buildConfigurationList = 1B6EA92CACE0EB1AFF97DE37 /* Build configuration list for PBXProject "ISAppLovinAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -130,6 +129,7 @@
 			mainGroup = 40976E7D3CFAD944D83D85CD;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = B904E8D5733BB267E754177A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
