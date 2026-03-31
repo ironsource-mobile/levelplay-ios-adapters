@@ -113,7 +113,6 @@
 				};
 			};
 			buildConfigurationList = FACA308597AB64A8EAD2FAF8 /* Build configuration list for PBXProject "ISInMobiAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -123,6 +122,7 @@
 			mainGroup = 5860FA0B38D99FDC34DD98BC;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 2A4CCB7FA38318E6B8A8082C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
