@@ -166,7 +166,6 @@
 				};
 			};
 			buildConfigurationList = BA0B50C750E3111910368C13 /* Build configuration list for PBXProject "ISMobileFuseAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,6 +175,7 @@
 			mainGroup = 06F486CB45227800ADCD6BC3;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = FE9A6F4E0EF529BEEBA36826 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
