@@ -166,7 +166,6 @@
 				};
 			};
 			buildConfigurationList = F17C6CD53BE50C86369D2740 /* Build configuration list for PBXProject "ISBigoAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,6 +175,7 @@
 			mainGroup = 46E538D2A27857A3A6B66D63;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 2C6AB1A6DE79A672D0633BA8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
