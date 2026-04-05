@@ -166,7 +166,6 @@
 				};
 			};
 			buildConfigurationList = 8A743A58633954403C7E3BF6 /* Build configuration list for PBXProject "ISPubMaticAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,6 +175,7 @@
 			mainGroup = FAC88B4B9BB0385E215C0E81;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = C679EC79D60EFCDA24819981 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
