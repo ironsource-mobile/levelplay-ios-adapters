@@ -236,7 +236,6 @@
 				};
 			};
 			buildConfigurationList = AC6B4AC26552DB65429FF363 /* Build configuration list for PBXProject "ISAdMobAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -246,6 +245,7 @@
 			mainGroup = F44D7A3BCD99C28077643D81;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 981A812C9105EE6DE48735EC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
