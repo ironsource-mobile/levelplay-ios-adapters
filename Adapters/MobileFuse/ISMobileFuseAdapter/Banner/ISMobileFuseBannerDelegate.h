@@ -1,14 +1,20 @@
+//
+//  ISMobileFuseBannerDelegate.h
+//  ISMobileFuseAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import <MobileFuseSdk/MobileFuse.h>
-#import <MobileFuseSdk/IMFAdCallbackReceiver.h>
+#import <MobileFuseSDK/MobileFuse.h>
+#import <MobileFuseSDK/IMFAdCallbackReceiver.h>
+
+@protocol ISBannerAdDelegate;
 
 @interface ISMobileFuseBannerDelegate : NSObject <IMFAdCallbackReceiver>
 
-@property (nonatomic, strong) NSString* placementId;
-@property (nonatomic, weak) id<ISBannerAdapterDelegate> delegate;
+@property (nonatomic, weak) id<ISBannerAdDelegate> delegate;
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                     andDelegate:(id<ISBannerAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate;
+
 @end

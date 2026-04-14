@@ -4,91 +4,83 @@
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
-#import "ISMobileFuseAdapter.h"
-#import "ISMobileFuseConstants.h"
-#import "ISMobileFuseRewardedVideoAdapter.h"
-#import "ISMobileFuseInterstitialAdapter.h"
-#import "ISMobileFuseBannerAdapter.h"
-
 #import <MobileFuseSDK/MobileFuse.h>
 #import <MobileFuseSDK/MobileFuseSettings.h>
 #import <MobileFuseSDK/IMFAdCallbackReceiver.h>
 #import <MobileFuseSDK/MFBiddingTokenProvider.h>
-#import <MobileFuseSDK/MFInterstitialAd.h>
-#import <MobileFuseSDK/MFBannerAd.h>
-#import <MobileFuseSDK/MFRewardedAd.h>
-#import <MobileFuseSDK/MFNativeAd.h>
 #import <MobileFuseSDK/MobileFusePrivacyPreferences.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISMetaDataUtils.h>
+#import <IronSource/ISConfigurations.h>
+#import "ISMobileFuseAdapter.h"
+#import "ISMobileFuseConstants.h"
 
-// Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
 // Privacy default values
 static BOOL coppaValue = NO;
 static BOOL doNotTrackValue = NO;
-static NSString *doNotSellValue = @"1-";
+static NSString *doNotSellValue = metaDataCCPADefaultValue;
 
-@interface ISMobileFuseAdapter() <IMFInitializationCallbackReceiver, ISNetworkInitCallbackProtocol>
+@interface ISMobileFuseAdapter() <IMFInitializationCallbackReceiver>
 
 @end
 
 @implementation ISMobileFuseAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return mobileFuseAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return [MobileFuse version];
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISMobileFuseRewardedVideoAdapter *rewardedVideoAdapter = [[ISMobileFuseRewardedVideoAdapter alloc] initWithMobileFuseAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISMobileFuseInterstitialAdapter *interstitialAdapter = [[ISMobileFuseInterstitialAdapter alloc] initWithMobileFuseAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        //Banner
-        ISMobileFuseBannerAdapter *bannerAdapter = [[ISMobileFuseBannerAdapter alloc] initWithMobileFuseAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
     }
-    
     return self;
 }
 
-- (void)initSDKWithPlacementId:(NSString *)placementId{
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    if (initState == INIT_STATE_SUCCESS && delegate) {
+        [delegate onInitDidSucceed];
+        return;
     }
-    
-    static dispatch_once_t initSdkOnceToken;
-    dispatch_once(&initSdkOnceToken, ^{
-        LogAdapterApi_Internal(@"placementId = %@", placementId);
+
+    // Add delegate to the init delegates only in case the initialization has not finished yet
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initializationDelegates addObject:delegate];
+    }
+
+    NSString *placementId = [adData getString:placementIdKey];
+
+    // Configuration Validation
+    if (!placementId || placementId.length == 0) {
+        LogAdapterApi_Internal(logError, logMissingPlacementId);
+        if (delegate) {
+            [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logMissingPlacementId];
+        }
+        return;
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
+
+        LogAdapterApi_Internal(logPlacementId, placementId);
+
         if ([MobileFuseSettings respondsToSelector:@selector(setSdkAdapter:)]) {
-            [MobileFuseSettings setSdkAdapter:kMediationName];
+            [MobileFuseSettings setSdkAdapter:mediationName];
         }
         if ([ISConfigurations getConfigurations].adaptersDebug) {
             [MobileFuse enableVerboseLogging];
@@ -98,39 +90,31 @@ static NSString *doNotSellValue = @"1-";
 }
 
 - (void)onInitSuccess:(NSString *)appId withPublisherId:(NSString *)publisherId {
-    [self initializationSuccess];
-}
-- (void)onInitError:(NSString *)appId withPublisherId:(NSString *)publisherId withError:(MFAdError *)error {
-    LogAdapterDelegate_Internal(@"error code = %ld, descrption = %@", (long)error.code, error.description);
-    [self initializationFailure];
-}
+    LogAdapterDelegate_Internal(logInitSuccess);
 
-- (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
     initState = INIT_STATE_SUCCESS;
-    
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> delegate in initDelegatesList) {
+        [delegate onInitDidSucceed];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
-- (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
-    
+- (void)onInitError:(NSString *)appId withPublisherId:(NSString *)publisherId withError:(MFAdError *)error {
+    LogAdapterDelegate_Internal(logError, error.description);
+
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"MobileFuse SDK init failed"];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> delegate in initDelegatesList) {
+        [delegate onInitDidFailWithErrorCode:error.code errorMessage:error.description];
     }
 
-    [initCallbackDelegates removeAllObjects];
+    [initializationDelegates removeAllObjects];
 }
 
 #pragma mark - Legal Methods
@@ -140,21 +124,20 @@ static NSString *doNotSellValue = @"1-";
     if (values.count == 0) {
         return;
     }
-    
-    // This is an array of 1 value
+
     NSString *value = values[0];
-    LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
-    
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-        
+
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                         forType:(META_DATA_VALUE_BOOL)];
-        
+
         if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                               flag:kMetaDataCOPPAKey
+                                               flag:metaDataCOPPAKey
                                            andValue:formattedValue]) {
             [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
@@ -162,26 +145,21 @@ static NSString *doNotSellValue = @"1-";
 }
 
 - (void)setConsent:(BOOL)consent {
-    LogAdapterApi_Internal(@"consent = %@", consent? @"YES" : @"NO");
+    LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
     doNotTrackValue = consent ? NO : YES; // doNotTrack is opposite of consent
 }
 
 - (void)setCCPAValue:(BOOL)doNotSell {
-    LogAdapterApi_Internal(@"ccpa = %@", doNotSell? @"YES" : @"NO");
-    doNotSellValue = doNotSell ? KDoNotSellYesValue : KDoNotSellNoValue;
-
+    LogAdapterApi_Internal(logCCPA, doNotSell ? @"YES" : @"NO");
+    doNotSellValue = doNotSell ? metaDataCCPANoConsentValue : metaDataCCPAConsentValue;
 }
 
 - (void)setCOPPAValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
+    LogAdapterApi_Internal(logCOPPA, value ? @"YES" : @"NO");
     coppaValue = value;
 }
 
 #pragma mark - Helper Methods
-
-- (InitState)getInitState {
-    return initState;
-}
 
 - (MobileFusePrivacyPreferences *)getPrivacyData {
     MobileFusePrivacyPreferences *privacyPreferences = [[MobileFusePrivacyPreferences alloc] init];
@@ -192,27 +170,24 @@ static NSString *doNotSellValue = @"1-";
 }
 
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
-    
+
     if (initState != INIT_STATE_SUCCESS) {
-        NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
-        LogAdapterApi_Internal(@"%@", error);
-        [delegate failureWithError:error];
+        LogAdapterApi_Internal(logTokenError);
+        [delegate failureWithError:logTokenError];
         return;
     }
-    
-    MFBiddingTokenRequest* request = [[MFBiddingTokenRequest alloc] init];
+
+    MFBiddingTokenRequest *request = [[MFBiddingTokenRequest alloc] init];
     request.privacyPreferences = [self getPrivacyData];
 
-    [MFBiddingTokenProvider getTokenWithRequest: request withCallback:^(NSString *token) {
-
-        if(token == nil || token.length == 0) {
-            [delegate failureWithError:@"Failed to receive token - MobileFuse"];
+    [MFBiddingTokenProvider getTokenWithRequest:request withCallback:^(NSString *token) {
+        if (token == nil || token.length == 0) {
+            [delegate failureWithError:logTokenFailed];
             return;
         }
 
-        NSString *returnedToken = token ? token : @"";
-        LogAdapterApi_Internal(@"token = %@", returnedToken);
-        NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", nil];
+        LogAdapterApi_Internal(logToken, token);
+        NSDictionary *biddingDataDictionary = @{tokenKey: token};
         [delegate successWithBiddingData:biddingDataDictionary];
     }];
 }
