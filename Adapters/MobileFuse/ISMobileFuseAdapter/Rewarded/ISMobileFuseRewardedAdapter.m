@@ -1,31 +1,31 @@
 //
-//  ISMobileFuseInterstitialAdapter.m
+//  ISMobileFuseRewardedAdapter.m
 //  ISMobileFuseAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <MobileFuseSDK/MFInterstitialAd.h>
+#import <MobileFuseSDK/MFRewardedAd.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISMobileFuseInterstitialAdapter.h"
-#import "ISMobileFuseInterstitialDelegate.h"
+#import "ISMobileFuseRewardedAdapter.h"
+#import "ISMobileFuseRewardedDelegate.h"
 #import "ISMobileFuseAdapter+Internal.h"
 #import "ISMobileFuseConstants.h"
 
-@interface ISMobileFuseInterstitialAdapter ()
+@interface ISMobileFuseRewardedAdapter ()
 
-@property (nonatomic, strong) MFInterstitialAd *ad;
-@property (nonatomic, strong) ISMobileFuseInterstitialDelegate *mobileFuseAdDelegate;
+@property (nonatomic, strong) MFAd *ad;
+@property (nonatomic, strong) ISMobileFuseRewardedDelegate *mobileFuseAdDelegate;
 
 @end
 
-@implementation ISMobileFuseInterstitialAdapter
+@implementation ISMobileFuseRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *placementId = [adData getString:placementIdKey];
     LogAdapterApi_Internal(logPlacementId, placementId);
 
@@ -40,13 +40,13 @@
         return;
     }
 
-    // create interstitial ad delegate
-    ISMobileFuseInterstitialDelegate *adDelegate = [[ISMobileFuseInterstitialDelegate alloc] initWithDelegate:delegate];
+    // create rewarded ad delegate
+    ISMobileFuseRewardedDelegate *adDelegate = [[ISMobileFuseRewardedDelegate alloc] initWithDelegate:delegate];
     self.mobileFuseAdDelegate = adDelegate;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad = [[MFInterstitialAd alloc] initWithPlacementId:placementId];
-        [self.ad registerAdCallbackReceiver:adDelegate];
+        self.ad = [[MFRewardedAd alloc] initWithPlacementId:placementId];
+        [self.ad registerAdCallbackReceiver:self.mobileFuseAdDelegate];
         // load ad
         [self.ad loadAdWithBiddingResponseToken:adData.serverData];
     });
@@ -54,7 +54,7 @@
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {

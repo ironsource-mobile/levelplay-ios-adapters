@@ -166,7 +166,6 @@
 				};
 			};
 			buildConfigurationList = 8394DEE782167528DAFB3F02 /* Build configuration list for PBXProject "ISVerveAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,6 +175,7 @@
 			mainGroup = 3CD0393295120D1159C12138;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 10968D336927431BB4603429 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

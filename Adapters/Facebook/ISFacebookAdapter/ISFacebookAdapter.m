@@ -12,6 +12,7 @@
 #import "ISFacebookInterstitialAdapter.h"
 #import "ISFacebookBannerAdapter.h"
 #import <ISFacebookNativeAdAdapter.h>
+#import <FBAudienceNetwork/FBAdSettings.h>
 
 // Handle init callback for all adapter instances
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
@@ -163,6 +164,17 @@ static NSString* _mediationService = nil;
 - (void)setMixedAudience:(BOOL)isMixedAudience {
     LogAdapterApi_Internal(@"isMixedAudience = %@", isMixedAudience ? @"YES" : @"NO");
     [FBAdSettings setMixedAudience:isMixedAudience];
+}
+
+#pragma mark - Test Mode
+
+- (void)setTestMode:(BOOL)enabled {
+    LogAdapterApi_Internal(@"setTestMode = %@", enabled ? @"YES" : @"NO");
+    if (enabled) {
+        [FBAdSettings addTestDevice:[FBAdSettings testDeviceHash]];
+    } else {
+        [FBAdSettings clearTestDevice:[FBAdSettings testDeviceHash]];
+    }
 }
 
 #pragma mark - Helper Methods

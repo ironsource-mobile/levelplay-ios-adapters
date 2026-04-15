@@ -1,5 +1,5 @@
 //
-//  ISMobileFuseInterstitialDelegate.m
+//  ISMobileFuseRewardedDelegate.m
 //  ISMobileFuseAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -7,13 +7,13 @@
 
 #import <IronSource/ISLog.h>
 #import <IronSource/ISError.h>
-#import <IronSource/ISBaseInterstitial.h>
-#import "ISMobileFuseInterstitialDelegate.h"
+#import <IronSource/ISBaseRewardedVideo.h>
+#import "ISMobileFuseRewardedDelegate.h"
 #import "ISMobileFuseConstants.h"
 
-@implementation ISMobileFuseInterstitialDelegate
+@implementation ISMobileFuseRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -31,7 +31,7 @@
 - (void)onAdNotFilled:(MFAd *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeNoFill
-                                      errorCode:ERROR_IS_LOAD_NO_FILL
+                                      errorCode:ERROR_RV_LOAD_NO_FILL
                                    errorMessage:logNoFill];
 }
 
@@ -54,6 +54,12 @@
     [self.delegate adDidOpen];
 }
 
+/// The user has watched this rewarded ad and earned the reward for doing so
+- (void)onUserEarnedReward:(MFAd *)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
+}
+
 /// Triggered when the ad is clicked by the user
 - (void)onAdClicked:(MFAd *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
@@ -69,6 +75,9 @@
 /// Triggered when a loaded ad has expired - you should manually try to load a new ad here
 - (void)onAdExpired:(MFAd *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                      errorCode:ERROR_RV_EXPIRED_ADS
+                                   errorMessage:logAdsExpired];
 }
 
 @end

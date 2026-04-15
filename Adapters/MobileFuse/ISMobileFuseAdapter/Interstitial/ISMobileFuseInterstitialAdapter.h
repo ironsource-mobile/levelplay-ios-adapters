@@ -1,9 +1,12 @@
-#import <Foundation/Foundation.h>
-#import "ISMobileFuseAdapter+Internal.h"
+//
+//  ISMobileFuseInterstitialAdapter.h
+//  ISMobileFuseAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
 
-@interface ISMobileFuseInterstitialAdapter : ISBaseInterstitialAdapter
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-- (instancetype)initWithMobileFuseAdapter:(ISMobileFuseAdapter *)adapter;
+@interface ISMobileFuseInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end
-

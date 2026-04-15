@@ -9,10 +9,9 @@
 /* Begin PBXBuildFile section */
 		0365C84684063BB8EE05DAC0 /* ISMobileFuseAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2958D90536A62546BD826184 /* ISMobileFuseAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0C7BA4DF3BB8CB5C74E5D658 /* ISMobileFuseBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E4EA51BE8F428FF318484EE /* ISMobileFuseBannerDelegate.h */; };
-		0E896A8F9E07BE979ED9836C /* ISMobileFuseRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4C666E6F52444328C28499A /* ISMobileFuseRewardedVideoDelegate.m */; };
 		2C8AFCB2A8DB5A40F1CE59F5 /* ISMobileFuseInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = F5207D48304AE1ABFC5B58CC /* ISMobileFuseInterstitialAdapter.h */; };
 		3130ED8090C7E84676840A68 /* ISMobileFuseBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = E48D3CC3A5A32948916D1B52 /* ISMobileFuseBannerAdapter.h */; };
-		462C8C589291B812DF129BB2 /* ISMobileFuseRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B66A52FC9F0BFB9A63873476 /* ISMobileFuseRewardedVideoAdapter.m */; };
+		360ACCBE43A37B84764BC590 /* ISMobileFuseRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B37569E5C2C6E38A7F4CE514 /* ISMobileFuseRewardedDelegate.m */; };
 		467E623C817D6F7E8332523D /* ISMobileFuseAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B68FB4F92478F8697A5462B /* ISMobileFuseAdapter+Internal.h */; };
 		49C6E0507AD68E542D4B00B9 /* ISMobileFuseInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 944AE860B99C32FE588358A7 /* ISMobileFuseInterstitialDelegate.m */; };
 		586E2C5D7911B3D985B368EF /* ISMobileFuseAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CC351BD0D822917CC2C96C5 /* ISMobileFuseAdapter.m */; };
@@ -20,29 +19,30 @@
 		7E8DCF3FA55EE298917A590C /* ISMobileFuseConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = D8E32CCBD45BF8864BF0D22A /* ISMobileFuseConstants.h */; };
 		80486DE0D1207BAEC20823CC /* ISMobileFuseInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE431BD0BCA924EFABC3F93F /* ISMobileFuseInterstitialAdapter.m */; };
 		8092AF34FF5FE315345C0537 /* ISMobileFuseInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D41874D9104B76A9A413170 /* ISMobileFuseInterstitialDelegate.h */; };
-		B5BC812204713A19C5EB556D /* ISMobileFuseRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9AA49828A2EAD6261E6949C2 /* ISMobileFuseRewardedVideoAdapter.h */; };
+		8200B909A0A3C041EE4C5755 /* ISMobileFuseRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F7354509265ED09553B18F19 /* ISMobileFuseRewardedAdapter.m */; };
+		936FB3EDB37DD7F9FA7C30B9 /* ISMobileFuseRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 943C4BF790B8F3AA9185D12F /* ISMobileFuseRewardedAdapter.h */; };
 		BAE64DCF2F9444B236A046B8 /* ISMobileFuseBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B12A1609C900D6FB0E02BAE1 /* ISMobileFuseBannerDelegate.m */; };
-		C2676FF9C82ED43AB494BF0A /* ISMobileFuseRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 50DB4F7D037BFFEB05F54B3B /* ISMobileFuseRewardedVideoDelegate.h */; };
+		BC0E5C7E1EFDC29BAFE6DD0C /* ISMobileFuseRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 42C5CD869E042F4306B8F935 /* ISMobileFuseRewardedDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2958D90536A62546BD826184 /* ISMobileFuseAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseAdapter.h; sourceTree = "<group>"; };
 		2B68FB4F92478F8697A5462B /* ISMobileFuseAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISMobileFuseAdapter+Internal.h"; sourceTree = "<group>"; };
-		50DB4F7D037BFFEB05F54B3B /* ISMobileFuseRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		42C5CD869E042F4306B8F935 /* ISMobileFuseRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseRewardedDelegate.h; sourceTree = "<group>"; };
 		5D41874D9104B76A9A413170 /* ISMobileFuseInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseInterstitialDelegate.h; sourceTree = "<group>"; };
 		5E4EA51BE8F428FF318484EE /* ISMobileFuseBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseBannerDelegate.h; sourceTree = "<group>"; };
 		6CC351BD0D822917CC2C96C5 /* ISMobileFuseAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseAdapter.m; sourceTree = "<group>"; };
 		85B0C0F5706B124C7CFD3430 /* ISMobileFuseBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseBannerAdapter.m; sourceTree = "<group>"; };
 		8679005EF5E615DDB76CB7B8 /* ISMobileFuseAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISMobileFuseAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		943C4BF790B8F3AA9185D12F /* ISMobileFuseRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseRewardedAdapter.h; sourceTree = "<group>"; };
 		944AE860B99C32FE588358A7 /* ISMobileFuseInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseInterstitialDelegate.m; sourceTree = "<group>"; };
-		9AA49828A2EAD6261E6949C2 /* ISMobileFuseRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseRewardedVideoAdapter.h; sourceTree = "<group>"; };
 		B12A1609C900D6FB0E02BAE1 /* ISMobileFuseBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseBannerDelegate.m; sourceTree = "<group>"; };
-		B66A52FC9F0BFB9A63873476 /* ISMobileFuseRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		B37569E5C2C6E38A7F4CE514 /* ISMobileFuseRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseRewardedDelegate.m; sourceTree = "<group>"; };
 		CE431BD0BCA924EFABC3F93F /* ISMobileFuseInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseInterstitialAdapter.m; sourceTree = "<group>"; };
-		D4C666E6F52444328C28499A /* ISMobileFuseRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseRewardedVideoDelegate.m; sourceTree = "<group>"; };
 		D8E32CCBD45BF8864BF0D22A /* ISMobileFuseConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseConstants.h; sourceTree = "<group>"; };
 		E48D3CC3A5A32948916D1B52 /* ISMobileFuseBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseBannerAdapter.h; sourceTree = "<group>"; };
 		F5207D48304AE1ABFC5B58CC /* ISMobileFuseInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMobileFuseInterstitialAdapter.h; sourceTree = "<group>"; };
+		F7354509265ED09553B18F19 /* ISMobileFuseRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMobileFuseRewardedAdapter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -63,20 +63,9 @@
 				D8E32CCBD45BF8864BF0D22A /* ISMobileFuseConstants.h */,
 				51EEC79F347B78771473A4D1 /* Banner */,
 				D34C237B1A985624EDAF2E45 /* Interstitial */,
-				43538CC3AB5E7ECD1C0378B9 /* RewardedVideo */,
+				BEC1F9A00D4EE9D4D5159A68 /* Rewarded */,
 			);
 			path = ISMobileFuseAdapter;
-			sourceTree = "<group>";
-		};
-		43538CC3AB5E7ECD1C0378B9 /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				9AA49828A2EAD6261E6949C2 /* ISMobileFuseRewardedVideoAdapter.h */,
-				B66A52FC9F0BFB9A63873476 /* ISMobileFuseRewardedVideoAdapter.m */,
-				50DB4F7D037BFFEB05F54B3B /* ISMobileFuseRewardedVideoDelegate.h */,
-				D4C666E6F52444328C28499A /* ISMobileFuseRewardedVideoDelegate.m */,
-			);
-			path = RewardedVideo;
 			sourceTree = "<group>";
 		};
 		51EEC79F347B78771473A4D1 /* Banner */ = {
@@ -88,6 +77,17 @@
 				B12A1609C900D6FB0E02BAE1 /* ISMobileFuseBannerDelegate.m */,
 			);
 			path = Banner;
+			sourceTree = "<group>";
+		};
+		BEC1F9A00D4EE9D4D5159A68 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				943C4BF790B8F3AA9185D12F /* ISMobileFuseRewardedAdapter.h */,
+				F7354509265ED09553B18F19 /* ISMobileFuseRewardedAdapter.m */,
+				42C5CD869E042F4306B8F935 /* ISMobileFuseRewardedDelegate.h */,
+				B37569E5C2C6E38A7F4CE514 /* ISMobileFuseRewardedDelegate.m */,
+			);
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 		D34C237B1A985624EDAF2E45 /* Interstitial */ = {
@@ -123,8 +123,8 @@
 				7E8DCF3FA55EE298917A590C /* ISMobileFuseConstants.h in Headers */,
 				2C8AFCB2A8DB5A40F1CE59F5 /* ISMobileFuseInterstitialAdapter.h in Headers */,
 				8092AF34FF5FE315345C0537 /* ISMobileFuseInterstitialDelegate.h in Headers */,
-				B5BC812204713A19C5EB556D /* ISMobileFuseRewardedVideoAdapter.h in Headers */,
-				C2676FF9C82ED43AB494BF0A /* ISMobileFuseRewardedVideoDelegate.h in Headers */,
+				936FB3EDB37DD7F9FA7C30B9 /* ISMobileFuseRewardedAdapter.h in Headers */,
+				BC0E5C7E1EFDC29BAFE6DD0C /* ISMobileFuseRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,8 +215,8 @@
 				BAE64DCF2F9444B236A046B8 /* ISMobileFuseBannerDelegate.m in Sources */,
 				80486DE0D1207BAEC20823CC /* ISMobileFuseInterstitialAdapter.m in Sources */,
 				49C6E0507AD68E542D4B00B9 /* ISMobileFuseInterstitialDelegate.m in Sources */,
-				462C8C589291B812DF129BB2 /* ISMobileFuseRewardedVideoAdapter.m in Sources */,
-				0E896A8F9E07BE979ED9836C /* ISMobileFuseRewardedVideoDelegate.m in Sources */,
+				8200B909A0A3C041EE4C5755 /* ISMobileFuseRewardedAdapter.m in Sources */,
+				360ACCBE43A37B84764BC590 /* ISMobileFuseRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

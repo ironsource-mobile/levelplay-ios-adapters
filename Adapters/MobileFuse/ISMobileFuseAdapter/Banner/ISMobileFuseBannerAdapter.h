@@ -1,12 +1,12 @@
-#import <Foundation/Foundation.h>
-#import "ISMobileFuseAdapter+Internal.h"
-#import <MobileFuseSdk/MobileFuse.h>
-#import <MobileFuseSDK/MFBannerAd.h>
+//
+//  ISMobileFuseBannerAdapter.h
+//  ISMobileFuseAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
 
+#import <IronSource/LevelPlayBaseBannerAdapter.h>
 
-@interface ISMobileFuseBannerAdapter : ISBaseBannerAdapter
-
-- (instancetype)initWithMobileFuseAdapter:(ISMobileFuseAdapter *)adapter;
+@interface ISMobileFuseBannerAdapter : LevelPlayBaseBannerAdapter
 
 @end
-
