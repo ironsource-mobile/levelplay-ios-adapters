@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.3.0
+* Added test mode support
+
 ## Version 5.2.0
 * Supporting SDK version 6.21.1
 

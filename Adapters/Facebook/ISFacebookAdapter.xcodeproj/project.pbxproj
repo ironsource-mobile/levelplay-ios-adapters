@@ -202,7 +202,6 @@
 				};
 			};
 			buildConfigurationList = 78685D1462C65134EB35C0E4 /* Build configuration list for PBXProject "ISFacebookAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -212,6 +211,7 @@
 			mainGroup = 8CE88424CAD3E82D1E0C0CD0;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = F8D3E5286BAF57395087B80C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
