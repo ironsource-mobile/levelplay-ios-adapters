@@ -116,7 +116,6 @@
 				};
 			};
 			buildConfigurationList = 218224BB1B9F6B7133C947E5 /* Build configuration list for PBXProject "ISVungleAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -126,6 +125,7 @@
 			mainGroup = B9E079CE5AF175281F87B1C1;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = D8CB3AA482A1A9091247580C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
