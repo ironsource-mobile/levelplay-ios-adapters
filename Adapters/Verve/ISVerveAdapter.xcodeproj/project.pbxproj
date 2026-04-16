@@ -7,42 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03BF413FD795E5A9C64946A8 /* ISVerveRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BBEA3E8BE076422460202369 /* ISVerveRewardedVideoDelegate.h */; };
+		02ECE18F4F85BDB4F68E50E0 /* ISVerveRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 21627EC2724923ACBFBD976C /* ISVerveRewardedDelegate.h */; };
 		0933BBCF4441C2EF7FE60FD5 /* ISVerveInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A6F9256101533221ABD99F9B /* ISVerveInterstitialDelegate.h */; };
 		0D6D82CA9F2411951B60E358 /* ISVerveConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = BE21FAA6D205FADC1C190359 /* ISVerveConstants.h */; };
 		1DAF4727CF188DD080D15EFF /* ISVerveAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = A016298D08FF52294C153558 /* ISVerveAdapter+Internal.h */; };
 		34B53BF4F32634E3C2E81F7F /* ISVerveAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4FBDC0E87BBFBE542054BC /* ISVerveAdapter.m */; };
-		55B8B42C14DB138D0CBDC229 /* ISVerveRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 68CD35DC4BCF03B20FECBA28 /* ISVerveRewardedVideoDelegate.m */; };
 		5A7E49659823B41D85C37E11 /* ISVerveBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E3F73E85E0A197F56D8F45 /* ISVerveBannerAdapter.h */; };
 		7130D01F2FBB1B565FC53D64 /* ISVerveInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F8DA6B85D41086905AF70E /* ISVerveInterstitialDelegate.m */; };
-		9F7D2674CBDCDA699C6B9491 /* ISVerveRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFC3E6A24D9D19CB4DBE2EE /* ISVerveRewardedVideoAdapter.m */; };
+		9CA17D07687D105EBB1A2FCA /* ISVerveRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F910E95A5A8EA7A2F2DB69BE /* ISVerveRewardedAdapter.m */; };
+		B515C71990369D9D8ECB4A76 /* ISVerveRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3623C643A734EA49246EA6FD /* ISVerveRewardedDelegate.m */; };
 		BBD2D884BA4FD887B2192016 /* ISVerveBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD78F63FBDD50D432DE8FB0 /* ISVerveBannerAdapter.m */; };
 		CCDA6971C53009EE7EFDDBAB /* ISVerveInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AA33CC49314E0373DD818F0 /* ISVerveInterstitialAdapter.h */; };
 		CCEF75DBF3218DE3041464F4 /* ISVerveBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 40EB2D7A60F497BF456C1B89 /* ISVerveBannerDelegate.m */; };
+		D4C6986299700605E7B4732A /* ISVerveRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = FDD57729240EEAD964B2308D /* ISVerveRewardedAdapter.h */; };
 		F1305BFABCF6F0AF0148D3C9 /* ISVerveBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 46F869438CDE4152011D2C58 /* ISVerveBannerDelegate.h */; };
 		F44E335FA569B9B48B83A60F /* ISVerveInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = E99EB48B727627173A03516B /* ISVerveInterstitialAdapter.m */; };
-		FC948D9F3AC1643A2C079DE5 /* ISVerveRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A586E0523E74C5C3BF530FC5 /* ISVerveRewardedVideoAdapter.h */; };
 		FD550F9B088F86446EED959D /* ISVerveAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 707D9831CC4B09AFCB448E42 /* ISVerveAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21627EC2724923ACBFBD976C /* ISVerveRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveRewardedDelegate.h; sourceTree = "<group>"; };
 		29F8DA6B85D41086905AF70E /* ISVerveInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveInterstitialDelegate.m; sourceTree = "<group>"; };
+		3623C643A734EA49246EA6FD /* ISVerveRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveRewardedDelegate.m; sourceTree = "<group>"; };
 		40EB2D7A60F497BF456C1B89 /* ISVerveBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveBannerDelegate.m; sourceTree = "<group>"; };
 		46F869438CDE4152011D2C58 /* ISVerveBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveBannerDelegate.h; sourceTree = "<group>"; };
-		68CD35DC4BCF03B20FECBA28 /* ISVerveRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveRewardedVideoDelegate.m; sourceTree = "<group>"; };
 		6AA33CC49314E0373DD818F0 /* ISVerveInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveInterstitialAdapter.h; sourceTree = "<group>"; };
 		707D9831CC4B09AFCB448E42 /* ISVerveAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveAdapter.h; sourceTree = "<group>"; };
 		88E3F73E85E0A197F56D8F45 /* ISVerveBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveBannerAdapter.h; sourceTree = "<group>"; };
 		8B7925C49577ECBF4B6271CB /* ISVerveAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISVerveAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FD78F63FBDD50D432DE8FB0 /* ISVerveBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveBannerAdapter.m; sourceTree = "<group>"; };
 		A016298D08FF52294C153558 /* ISVerveAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISVerveAdapter+Internal.h"; sourceTree = "<group>"; };
-		A586E0523E74C5C3BF530FC5 /* ISVerveRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveRewardedVideoAdapter.h; sourceTree = "<group>"; };
 		A6F9256101533221ABD99F9B /* ISVerveInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveInterstitialDelegate.h; sourceTree = "<group>"; };
 		AB4FBDC0E87BBFBE542054BC /* ISVerveAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveAdapter.m; sourceTree = "<group>"; };
-		BBEA3E8BE076422460202369 /* ISVerveRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveRewardedVideoDelegate.h; sourceTree = "<group>"; };
 		BE21FAA6D205FADC1C190359 /* ISVerveConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveConstants.h; sourceTree = "<group>"; };
 		E99EB48B727627173A03516B /* ISVerveInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveInterstitialAdapter.m; sourceTree = "<group>"; };
-		EAFC3E6A24D9D19CB4DBE2EE /* ISVerveRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		F910E95A5A8EA7A2F2DB69BE /* ISVerveRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVerveRewardedAdapter.m; sourceTree = "<group>"; };
+		FDD57729240EEAD964B2308D /* ISVerveRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVerveRewardedAdapter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -52,17 +52,6 @@
 				8B7925C49577ECBF4B6271CB /* ISVerveAdapter.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		1CB255679B130E7AD80FE7D9 /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				A586E0523E74C5C3BF530FC5 /* ISVerveRewardedVideoAdapter.h */,
-				EAFC3E6A24D9D19CB4DBE2EE /* ISVerveRewardedVideoAdapter.m */,
-				BBEA3E8BE076422460202369 /* ISVerveRewardedVideoDelegate.h */,
-				68CD35DC4BCF03B20FECBA28 /* ISVerveRewardedVideoDelegate.m */,
-			);
-			path = RewardedVideo;
 			sourceTree = "<group>";
 		};
 		3CB41FBBAAD688A53A0DB2A6 /* Banner */ = {
@@ -95,6 +84,17 @@
 			path = Interstitial;
 			sourceTree = "<group>";
 		};
+		700E0F0DFD1CC1E69BBE8509 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				FDD57729240EEAD964B2308D /* ISVerveRewardedAdapter.h */,
+				F910E95A5A8EA7A2F2DB69BE /* ISVerveRewardedAdapter.m */,
+				21627EC2724923ACBFBD976C /* ISVerveRewardedDelegate.h */,
+				3623C643A734EA49246EA6FD /* ISVerveRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
 		7C976DA830CBD20E2AE9C9C1 /* ISVerveAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +104,7 @@
 				BE21FAA6D205FADC1C190359 /* ISVerveConstants.h */,
 				3CB41FBBAAD688A53A0DB2A6 /* Banner */,
 				54E3DC67FE4A8E028F80F968 /* Interstitial */,
-				1CB255679B130E7AD80FE7D9 /* RewardedVideo */,
+				700E0F0DFD1CC1E69BBE8509 /* Rewarded */,
 			);
 			path = ISVerveAdapter;
 			sourceTree = "<group>";
@@ -123,8 +123,8 @@
 				0D6D82CA9F2411951B60E358 /* ISVerveConstants.h in Headers */,
 				CCDA6971C53009EE7EFDDBAB /* ISVerveInterstitialAdapter.h in Headers */,
 				0933BBCF4441C2EF7FE60FD5 /* ISVerveInterstitialDelegate.h in Headers */,
-				FC948D9F3AC1643A2C079DE5 /* ISVerveRewardedVideoAdapter.h in Headers */,
-				03BF413FD795E5A9C64946A8 /* ISVerveRewardedVideoDelegate.h in Headers */,
+				D4C6986299700605E7B4732A /* ISVerveRewardedAdapter.h in Headers */,
+				02ECE18F4F85BDB4F68E50E0 /* ISVerveRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,8 +215,8 @@
 				CCEF75DBF3218DE3041464F4 /* ISVerveBannerDelegate.m in Sources */,
 				F44E335FA569B9B48B83A60F /* ISVerveInterstitialAdapter.m in Sources */,
 				7130D01F2FBB1B565FC53D64 /* ISVerveInterstitialDelegate.m in Sources */,
-				9F7D2674CBDCDA699C6B9491 /* ISVerveRewardedVideoAdapter.m in Sources */,
-				55B8B42C14DB138D0CBDC229 /* ISVerveRewardedVideoDelegate.m in Sources */,
+				9CA17D07687D105EBB1A2FCA /* ISVerveRewardedAdapter.m in Sources */,
+				B515C71990369D9D8ECB4A76 /* ISVerveRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

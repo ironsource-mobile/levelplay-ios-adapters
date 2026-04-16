@@ -1,5 +1,5 @@
 //
-//  ISVerveInterstitialAdapter.m
+//  ISVerveRewardedAdapter.m
 //  ISVerveAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -7,23 +7,23 @@
 
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISVerveInterstitialAdapter.h"
-#import "ISVerveInterstitialDelegate.h"
+#import "ISVerveRewardedAdapter.h"
+#import "ISVerveRewardedDelegate.h"
 #import "ISVerveAdapter+Internal.h"
 
-@interface ISVerveInterstitialAdapter ()
+@interface ISVerveRewardedAdapter ()
 
-@property (nonatomic, strong) HyBidInterstitialAd *ad;
-@property (nonatomic, strong) ISVerveInterstitialDelegate *adDelegate;
+@property (nonatomic, strong) HyBidRewardedAd *ad;
+@property (nonatomic, strong) ISVerveRewardedDelegate *adDelegate;
 
 @end
 
-@implementation ISVerveInterstitialAdapter
+@implementation ISVerveRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *zoneId = [adData getString:zoneIdKey];
     LogAdapterApi_Internal(logZoneId, zoneId);
 
@@ -38,15 +38,15 @@
         return;
     }
 
-    ISVerveInterstitialDelegate *adDelegate = [[ISVerveInterstitialDelegate alloc] initWithDelegate:delegate];
+    ISVerveRewardedDelegate *adDelegate = [[ISVerveRewardedDelegate alloc] initWithDelegate:delegate];
     self.adDelegate = adDelegate;
-    self.ad = [[HyBidInterstitialAd alloc] initWithDelegate:adDelegate];
+    self.ad = [[HyBidRewardedAd alloc] initWithDelegate:adDelegate];
     [self.ad prepareAdWithContent:adData.serverData];
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -64,7 +64,7 @@
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.ad != nil && self.ad.isReady;
+    return self.ad != nil && [self.ad isReady];
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {

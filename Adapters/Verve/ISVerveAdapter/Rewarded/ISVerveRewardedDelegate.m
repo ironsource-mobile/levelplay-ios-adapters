@@ -1,19 +1,19 @@
 //
-//  ISVerveBannerDelegate.m
+//  ISVerveRewardedDelegate.m
 //  ISVerveAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISVerveBannerDelegate.h"
+#import "ISVerveRewardedDelegate.h"
 #import "ISVerveConstants.h"
-#import <IronSource/ISBaseBanner.h>
+#import <IronSource/ISBaseRewardedVideo.h>
 #import <IronSource/ISAdapterErrorType.h>
 #import <IronSource/ISLog.h>
 
-@implementation ISVerveBannerDelegate
+@implementation ISVerveRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -22,16 +22,14 @@
 }
 
 /// calls this method when ad successfully loaded and ready to be displayed.
-/// @param adView adView object that was loaded
-- (void)adViewDidLoad:(HyBidAdView *)adView {
+- (void)rewardedDidLoad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
-    [self.delegate adDidLoadWithView:adView];
+    [self.delegate adDidLoad];
 }
 
 /// calls this method when ad was not loaded for some reasons
-/// @param adView adView object that was loaded
 /// @param error the reason of failing loading
-- (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
+- (void)rewardedDidFailWithError:(NSError * _Null_unspecified)error {
     LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
     ISAdapterErrorType errorType = (error.code == HyBidErrorCodeNoFill) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
     [self.delegate adDidFailToLoadWithErrorType:errorType
@@ -39,17 +37,28 @@
                                    errorMessage:error.localizedDescription];
 }
 
+/// calls this method when ad has been presented to the user
+- (void)rewardedDidTrackImpression {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
+}
+
 /// calls this method when user clicked on the ad
-/// @param adView adView object that was clicked
-- (void)adViewDidTrackClick:(HyBidAdView *)adView {
+- (void)rewardedDidTrackClick {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClick];
 }
 
-/// calls this method when ad was displayed and is viewable by the user
-- (void)adViewDidTrackImpression:(HyBidAdView *)adView {
+/// calls this method when the user has finished watching the video and endcards if they exist
+- (void)onReward {
     LogAdapterDelegate_Internal(logCallbackEmpty);
-    [self.delegate adDidOpen];
+    [self.delegate adRewarded];
+}
+
+/// calls this method when ad was dismissed by user action using the close button
+- (void)rewardedDidDismiss {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClose];
 }
 
 @end

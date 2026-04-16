@@ -6,13 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const VerveAdapterVersion = @"5.3.0";
+static NSString * const VerveAdapterVersion = @"5.4.0";
 static NSString * Githash = @"";
 
-//System Frameworks For VerveAdapter
+// System Frameworks For Verve Adapter
 
-@interface ISVerveAdapter : ISBaseAdapter
+@interface ISVerveAdapter : LevelPlayBaseAdapter
 
 @end
