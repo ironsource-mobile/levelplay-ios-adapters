@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.4.0
+* Supporting SDK version 5.2.2
+
 ## Version 5.3.0
 * Supporting SDK version 5.2.1
 * Removed main thread dispatch workaround introduced in 5.2.0 — resolved by Ogury SDK 5.2.1
