@@ -14,6 +14,11 @@ static NSString * const kAppId                  = @"AppID";
 static NSString * const kPlacementId            = @"PlacementId";
 static NSString * const kCreativeId             = @"creativeId";
 
+// Adapter ad format identifiers
+static NSString * const kAdapterFormatRewarded      = @"ISVungleRewardedVideo";
+static NSString * const kAdapterFormatInterstitial   = @"ISVungleInterstitial";
+static NSString * const kAdapterFormatBanner         = @"ISVungleBanner";
+
 // Meta data flags
 static NSString * const kMetaDataCOPPAKey       = @"Vungle_COPPA";
 

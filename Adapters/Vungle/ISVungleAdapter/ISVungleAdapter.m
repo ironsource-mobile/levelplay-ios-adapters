@@ -355,6 +355,7 @@ static InitState initState = INIT_STATE_NONE;
 
     VungleRewarded *rewardedVideoAd = [[VungleRewarded alloc] initWithPlacementId:placementId];
     rewardedVideoAd.delegate = rewardedVideoAdDelegate;
+    rewardedVideoAd.adapterAdFormat = kAdapterFormatRewarded;
 
     // Add rewarded video ad to dictionary
     [self.rewardedVideoPlacementIdToAd setObject:rewardedVideoAd
@@ -501,6 +502,7 @@ static InitState initState = INIT_STATE_NONE;
 
     VungleInterstitial *interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:placementId];
     interstitialAd.delegate = interstitialAdDelegate;
+    interstitialAd.adapterAdFormat = kAdapterFormatInterstitial;
 
     // Add interstitial ad to dictionary
     [self.interstitialPlacementIdToAd setObject:interstitialAd
@@ -664,10 +666,20 @@ static InitState initState = INIT_STATE_NONE;
         
         // set delegate
         vungleBannerView.delegate = bannerAdDelegate;
-        
+        vungleBannerView.adapterAdFormat = kAdapterFormatBanner;
+
+        // log custom banner size mismatch for non-inline placements
+        if (![VungleAds isInLine:placementId] &&
+            [size.sizeDescription isEqualToString:kSizeCustom]) {
+            vungleBannerView.adapterAdFormat = [kAdapterFormatBanner stringByAppendingFormat:@"-%@", size.sizeDescription];
+            NSString *message = [NSString stringWithFormat:@"CustomBannerSizeMismatch:w-%ld|h-%ld",
+                                 (long)size.width, (long)size.height];
+            [VungleMediationLogger logErrorForAd:vungleBannerView message:message];
+        }
+
         [self.bannerPlacementIdToAd setObject:vungleBannerView
                                        forKey:placementId];
-        
+
         // load banner
         [vungleBannerView load:serverData];
     });
