@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.13.0
+* Supporting SDK version 8.1.3
+
 ## Version 5.12.0
 * Supporting SDK version 8.1.2
 
