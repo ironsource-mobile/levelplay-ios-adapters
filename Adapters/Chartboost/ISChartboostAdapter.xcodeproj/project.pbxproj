@@ -113,7 +113,6 @@
 				};
 			};
 			buildConfigurationList = E1718F402E1E56F91635BD4B /* Build configuration list for PBXProject "ISChartboostAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -123,6 +122,7 @@
 			mainGroup = 494F359874EA4333872F851F;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 990EB5F4492313B0C2A3FA61 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
