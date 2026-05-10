@@ -13,6 +13,7 @@
 #import <ISUADSInterstitialShowDelegate.h>
 #import <ISUADSBannerAdDelegate.h>
 #import <UnityAds/UnityAds.h>
+#import <objc/runtime.h>
 
 // UnityAds Mediation MetaData
 static NSString * const kMediationName          = @"ironSource";
@@ -35,6 +36,9 @@ static NSString * const kCOPPAUnityAdsFlag      = @"user.nonBehavioral";
 
 // Handle init callback for all adapter instances
 static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+
+// Event sender for missing callback detection
+static ISUnityAdsEventSenderBlock eventSender = nil;
 
 // Feature flag key to disable the network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
 static NSString * const kIsLWSSupported         = @"isSupportedLWS";
@@ -179,22 +183,22 @@ static int const kUnityAdsNoFillError           = 52100;
 
 - (void)initializationComplete {
     LogAdapterDelegate_Internal(@"UnityAds init success");
-    
+
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
+
     // call init callback delegate success
     for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
         [initDelegate onNetworkInitCallbackSuccess];
     }
-    
+
     [initCallbackDelegates removeAllObjects];
 }
 
 - (void)initializationFailed:(UnityAdsInitializationError)error
                  withMessage:(NSString *)message {
-    
+
     NSString *errorMsg = @"UnityAds SDK init failed";
-    
+
     if (message) {
         errorMsg = [NSString stringWithFormat:@"UnityAds SDK init failed with error code: %@, error message: %@", [self unityAdsInitErrorToString:error], message];
     }
@@ -205,14 +209,14 @@ static int const kUnityAdsNoFillError           = 52100;
 - (void)initializationFailedWithMessage:(NSString *)errorMsg {
     
     LogAdapterDelegate_Internal(@"error - %@", errorMsg);
-    
+
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
+
     // call init callback delegate fail
     for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
         [initDelegate onNetworkInitCallbackFailed:errorMsg];
     }
-    
+
     [initCallbackDelegates removeAllObjects];
 }
 
@@ -299,16 +303,18 @@ static int const kUnityAdsNoFillError           = 52100;
     }
     
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
+
     // Register Delegate for placement
     [_rewardedVideoPlacementIdToSmashDelegate setObject:delegate
                                                  forKey:placementId];
-    
+
+    [self extractEventSender:adapterConfig];
+
     if (!UnityAds.isInitialized) {
         [self initSDKWithGameId:gameId
                   adapterConfig:adapterConfig];
     }
-    
+
     [delegate adapterRewardedVideoInitSuccess];
 }
 
@@ -335,8 +341,10 @@ static int const kUnityAdsNoFillError           = 52100;
     
     // Create rewarded video delegate
     ISUnityAdsRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISUnityAdsRewardedVideoDelegate alloc]
-                                                                initWithPlacementId:placementId
-                                                                delegate:self];
+                                                                   initWithPlacementId:placementId
+                                                                              delegate:self
+                                                                           eventSender:eventSender];
+    
     [_rewardedVideoPlacementIdToDelegate setObject:rewardedVideoAdDelegate
                                             forKey:placementId];
     
@@ -546,7 +554,9 @@ static int const kUnityAdsNoFillError           = 52100;
     // Register Delegate for placement
     [_interstitialPlacementIdToSmashDelegate setObject:delegate
                                                 forKey:placementId];
-    
+
+    [self extractEventSender:adapterConfig];
+
     if (!UnityAds.isInitialized) {
         [self initSDKWithGameId:gameId
                   adapterConfig:adapterConfig];
@@ -580,7 +590,8 @@ static int const kUnityAdsNoFillError           = 52100;
     
     // Create interstitial Delegate
     ISUnityAdsInterstitialDelegate *interstitialAdDelegate = [[ISUnityAdsInterstitialDelegate alloc] initWithPlacementId:placementId
-                                                                                                             andDelegate:self];
+                                                                                                             andDelegate:self
+                                                                                                             eventSender:eventSender];
     [_interstitialPlacementIdToDelegate setObject:interstitialAdDelegate
                                            forKey:placementId];
     
@@ -783,11 +794,13 @@ static int const kUnityAdsNoFillError           = 52100;
     // add to banner delegate dictionary
     [_bannerPlacementIdToSmashDelegate setObject:delegate
                                           forKey:placementId];
-    
+
+    [self extractEventSender:adapterConfig];
+
     if (!UnityAds.isInitialized) {
         [self initSDKWithGameId:gameId adapterConfig:adapterConfig];
     }
-    
+
     [delegate adapterBannerInitSuccess];
 }
 
@@ -837,7 +850,8 @@ static int const kUnityAdsNoFillError           = 52100;
                                            forKey:placementId];
             
             // Create banner Delegate
-            ISUnityAdsBannerDelegate *bannerAdDelegate = [[ISUnityAdsBannerDelegate alloc] initWithDelegate:self];
+            ISUnityAdsBannerDelegate *bannerAdDelegate = [[ISUnityAdsBannerDelegate alloc] initWithDelegate:self
+                                                                                             eventSender:eventSender];
             [self.bannerPlacementIdToDelegate setObject:bannerAdDelegate
                                                  forKey:placementId];
             
@@ -1012,6 +1026,20 @@ static int const kUnityAdsNoFillError           = 52100;
 }
 
 #pragma mark - Private Methods
+
+- (void)extractEventSender:(ISAdapterConfig *)adapterConfig {
+    if (eventSender != nil) {
+        return;
+    }
+
+    ISUnityAdsEventSenderBlock sender = objc_getAssociatedObject(adapterConfig, @selector(eventSenderBlock));
+
+    if (!sender) {
+        return;
+    }
+
+    eventSender = sender;
+}
 
 - (void)getBiddingDataFor:(UnityAdsAdFormat)format withDelegate:(id<ISBiddingDataDelegate>)delegate {
     UnityAdsTokenConfiguration *config = [UnityAdsTokenConfiguration newWithAdFormat:format];
@@ -1196,11 +1224,17 @@ static int const kUnityAdsNoFillError           = 52100;
               completion:^(UADSRewardedAd* _Nullable rewardedAd, id<UnityAdsError> _Nullable error) {
         if (rewardedAd != nil) {
             LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+            if (delegate == nil && eventSender != nil) {
+                eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_newApi_onAdLoaded");
+            }
             self.rewardedAd = rewardedAd;
             self.rewardedPlacementId = placementId;
             [delegate adapterRewardedVideoHasChangedAvailability:YES];
         } else {
             LogAdapterDelegate_Internal(@"placementId = %@ reason - %ld %@", placementId, error.code, error.message);
+            if (delegate == nil && eventSender != nil) {
+                eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_newApi_onAdFailedToLoad");
+            }
             NSInteger errorCode = (error.code == kUnityAdsNoFillError) ? ERROR_RV_LOAD_NO_FILL : error.code;
             NSError *smashError = [NSError errorWithDomain:kAdapterName
                                                       code:errorCode
@@ -1233,7 +1267,7 @@ static int const kUnityAdsNoFillError           = 52100;
     UIViewController *vc = viewController == nil ? [self topMostController] : viewController;
     builder = [builder withViewController:vc];
     
-    _rewardedShowDelegate = [[ISUADSRewardedShowDelegate alloc] initWithPlacementId:placementId delegate:delegate];
+    _rewardedShowDelegate = [[ISUADSRewardedShowDelegate alloc] initWithPlacementId:placementId delegate:delegate eventSender:eventSender];
     [_rewardedAd show:[builder build] delegate:_rewardedShowDelegate];
 }
 
@@ -1267,11 +1301,17 @@ static int const kUnityAdsNoFillError           = 52100;
                   completion:^(UADSInterstitialAd* _Nullable interstitialAd, id<UnityAdsError> _Nullable error) {
         if (interstitialAd != nil) {
             LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+            if (delegate == nil && eventSender != nil) {
+                eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_newApi_onAdLoaded");
+            }
             self.interstitialAd = interstitialAd;
             self.interstitialPlacementId = placementId;
             [delegate adapterInterstitialDidLoad];
         } else {
             LogAdapterDelegate_Internal(@"placementId = %@ reason - %ld %@", placementId, error.code, error.message);
+            if (delegate == nil && eventSender != nil) {
+                eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_newApi_onAdFailedToLoad");
+            }
             NSInteger errorCode = (error.code == kUnityAdsNoFillError) ? ERROR_IS_LOAD_NO_FILL : error.code;
             NSError *smashError = [NSError errorWithDomain:kAdapterName
                                                       code:errorCode
@@ -1302,7 +1342,7 @@ static int const kUnityAdsNoFillError           = 52100;
     UIViewController *vc = viewController == nil ? [self topMostController] : viewController;
     builder = [builder withViewController:vc];
     
-    _interstitialShowDelegate = [[ISUADSInterstitialShowDelegate alloc] initWithPlacementId:placementId delegate:delegate];
+    _interstitialShowDelegate = [[ISUADSInterstitialShowDelegate alloc] initWithPlacementId:placementId delegate:delegate eventSender:eventSender];
     [_interstitialAd show:[builder build] delegate:_interstitialShowDelegate];
 }
 
@@ -1327,7 +1367,7 @@ static int const kUnityAdsNoFillError           = 52100;
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
  
-    _bannerAdDelegate = [[ISUADSBannerAdDelegate alloc] initWithPlacementId:placementId delegate:delegate];
+    _bannerAdDelegate = [[ISUADSBannerAdDelegate alloc] initWithPlacementId:placementId delegate:delegate eventSender:eventSender];
     UADSBannerLoadConfigurationBuilder *builder = [[UADSBannerLoadConfigurationBuilder alloc]
                                                    initWithPlacementId:placementId
                                                    bannerSize:[self getBannerSize:size]
@@ -1342,12 +1382,17 @@ static int const kUnityAdsNoFillError           = 52100;
             completion:^(UADSBannerAd * _Nullable bannerAd, id<UnityAdsError> _Nullable error) {
         if (bannerAd != nil) {
             LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+            if (delegate == nil && eventSender != nil) {
+                eventSender(LEVEL_PLAY_BANNER, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"banner_newApi_onAdLoaded");
+            }
             self.bannerAd = bannerAd;
             self.bannerPlacementId = placementId;
             [delegate adapterBannerDidLoad:bannerAd.view];
         } else {
             LogAdapterDelegate_Internal(@"placementId = %@ reason - %ld %@", placementId, error.code, error.message);
-            
+            if (delegate == nil && eventSender != nil) {
+                eventSender(LEVEL_PLAY_BANNER, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"banner_newApi_onAdFailedToLoad");
+            }
             NSInteger errorCode = (error.code == kUnityAdsNoFillError)? ERROR_BN_LOAD_NO_FILL : error.code;
             NSError *smashError = [NSError errorWithDomain:kAdapterName
                                                       code:errorCode
@@ -1453,3 +1498,17 @@ static int const kUnityAdsNoFillError           = 52100;
 }
 
 @end
+
+#if DEBUG
+@implementation ISUnityAdsAdapter (Testing)
+
++ (ISUnityAdsEventSenderBlock)eventSender {
+    return eventSender;
+}
+
++ (void)resetEventSender {
+    eventSender = nil;
+}
+
+@end
+#endif

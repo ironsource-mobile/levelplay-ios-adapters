@@ -9,9 +9,12 @@
 /* Begin PBXBuildFile section */
 		10D3174065333D935E764587 /* ISUnityAdsRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 52E14DD6D394841ADA50D7D8 /* ISUnityAdsRewardedVideoDelegate.h */; };
 		2DD4AAE6E9D7DAECB77C3EE0 /* ISUnityAdsAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */; };
+		315983F18FBBE248C59B8011 /* ISUADSNewApiDelegates+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5EB8010EF8C4DB215E8E9B /* ISUADSNewApiDelegates+Testing.m */; };
 		34FDE6AA04813B36D8AB77DE /* ISUnityAdsAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */; };
 		387A8CEB0DC730C0321BF68E /* ISUnityAdsInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8DD70EB26F129324F79B5D /* ISUnityAdsInterstitialDelegate.m */; };
 		4AC06E6625669F6E0C871026 /* ISUnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */; };
+		6B1C66A72F79B477AB8352EB /* ISUnityAdsAdapterEventSenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EBE09D4D46CC600CAEE070 /* ISUnityAdsAdapterEventSenderTests.swift */; };
+		7577534946B5EA7ED08781EA /* ISUADSNewApiDelegateEventSenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39901527908737D3C53E96F3 /* ISUADSNewApiDelegateEventSenderTests.swift */; };
 		83839799F7415465FE6E46A6 /* ISUnityAdsInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 22617755AA68F3AFF779C7FD /* ISUnityAdsInterstitialDelegate.h */; };
 		859B4BD265C1D7DB053F9D0D /* ISUADSBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */; };
 		8F0AC21305321B6D67946A5D /* ISUADSInterstitialShowDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */; };
@@ -38,17 +41,23 @@
 /* Begin PBXFileReference section */
 		07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22617755AA68F3AFF779C7FD /* ISUnityAdsInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialDelegate.h; sourceTree = "<group>"; };
+		39901527908737D3C53E96F3 /* ISUADSNewApiDelegateEventSenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISUADSNewApiDelegateEventSenderTests.swift; sourceTree = "<group>"; };
 		3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSBannerAdDelegate.h; sourceTree = "<group>"; };
+		3D5EB8010EF8C4DB215E8E9B /* ISUADSNewApiDelegates+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ISUADSNewApiDelegates+Testing.m"; sourceTree = "<group>"; };
+		3F65F786A9BD89DE93CBAF6A /* ISUnityAdsAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUnityAdsAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		52E14DD6D394841ADA50D7D8 /* ISUnityAdsRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedVideoDelegate.h; sourceTree = "<group>"; };
 		5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
 		63298F4B17D4C428DCCF0383 /* ISUADSRewardedShowDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSRewardedShowDelegate.m; sourceTree = "<group>"; };
 		663702694922B45979D26011 /* ISUnityAdsAdapterTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ISUnityAdsAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		665A7F0A1733DC5AD471B6D9 /* ISUADSRewardedShowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSRewardedShowDelegate.h; sourceTree = "<group>"; };
+		67EBE09D4D46CC600CAEE070 /* ISUnityAdsAdapterEventSenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISUnityAdsAdapterEventSenderTests.swift; sourceTree = "<group>"; };
+		78FEE22209D231AA96DECDAC /* ISUADSNewApiDelegates+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUADSNewApiDelegates+Testing.h"; sourceTree = "<group>"; };
 		7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSInterstitialShowDelegate.h; sourceTree = "<group>"; };
 		8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
 		9B8DD70EB26F129324F79B5D /* ISUnityAdsInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialDelegate.m; sourceTree = "<group>"; };
 		9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapterTests.m; sourceTree = "<group>"; };
 		B5075417CE46ACEC11CB93DB /* ISUADSInterstitialShowDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSInterstitialShowDelegate.m; sourceTree = "<group>"; };
+		B6CE58252D5BCFE7D5AEF9A4 /* ISUnityAdsAdapter+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUnityAdsAdapter+Testing.h"; sourceTree = "<group>"; };
 		C04C5802B3DDB428D2B677C4 /* ISUADSBannerAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSBannerAdDelegate.m; sourceTree = "<group>"; };
 		CBB3C3219077B3440EE0BDB4 /* ISUnityAdsBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerDelegate.h; sourceTree = "<group>"; };
 		CDAB2E3A886BC5148860EA3B /* ISUnityAdsRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedVideoDelegate.m; sourceTree = "<group>"; };
@@ -70,6 +79,12 @@
 		10AA9F2A6DF6289BFB252A0E /* ISUnityAdsAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				39901527908737D3C53E96F3 /* ISUADSNewApiDelegateEventSenderTests.swift */,
+				78FEE22209D231AA96DECDAC /* ISUADSNewApiDelegates+Testing.h */,
+				3D5EB8010EF8C4DB215E8E9B /* ISUADSNewApiDelegates+Testing.m */,
+				B6CE58252D5BCFE7D5AEF9A4 /* ISUnityAdsAdapter+Testing.h */,
+				67EBE09D4D46CC600CAEE070 /* ISUnityAdsAdapterEventSenderTests.swift */,
+				3F65F786A9BD89DE93CBAF6A /* ISUnityAdsAdapterTests-Bridging-Header.h */,
 				9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */,
 			);
 			name = ISUnityAdsAdapterTests;
@@ -193,7 +208,6 @@
 				};
 			};
 			buildConfigurationList = 7207DDECE6176AB8AA654419 /* Build configuration list for PBXProject "ISUnityAdsAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -203,6 +217,7 @@
 			mainGroup = C32222B8FE985DE52DDB3E9D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 96E20E81004F0A882BA2CF80 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -252,6 +267,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7577534946B5EA7ED08781EA /* ISUADSNewApiDelegateEventSenderTests.swift in Sources */,
+				315983F18FBBE248C59B8011 /* ISUADSNewApiDelegates+Testing.m in Sources */,
+				6B1C66A72F79B477AB8352EB /* ISUnityAdsAdapterEventSenderTests.swift in Sources */,
 				34FDE6AA04813B36D8AB77DE /* ISUnityAdsAdapterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +337,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapterTests;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "ISUnityAdsAdapterTests/ISUnityAdsAdapterTests-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -492,6 +511,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapterTests;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "ISUnityAdsAdapterTests/ISUnityAdsAdapterTests-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

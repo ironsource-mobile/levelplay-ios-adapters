@@ -9,17 +9,20 @@
 @interface ISUADSRewardedShowDelegate()
 @property (nonatomic, weak) id<ISRewardedVideoAdapterDelegate> _Nullable delegate;
 @property (nonatomic, strong) NSString * _Nonnull placementId;
+@property (nonatomic, copy) ISUnityAdsEventSenderBlock _Nullable eventSender;
 @end
 
 @implementation ISUADSRewardedShowDelegate
 
 -(instancetype)initWithPlacementId:(NSString *)placementId
-                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate {
+                          delegate:(id<ISRewardedVideoAdapterDelegate>)delegate
+                       eventSender:(ISUnityAdsEventSenderBlock)eventSender {
     self = [super init];
     
     if (self) {
         self.placementId = placementId;
         self.delegate = delegate;
+        self.eventSender = eventSender;
     }
     
     return self;
@@ -27,26 +30,34 @@
 
 - (void)showDidStart:(UnityAd * _Nonnull)unityAd {
     LogAdapterDelegate_Internal(@"placementId = %@", _placementId);
-    
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_newApi_showDidStart");
+    }
     [_delegate adapterRewardedVideoDidOpen];
     [_delegate adapterRewardedVideoDidStart];
 }
 
 - (void)showDidClick:(UnityAd * _Nonnull)unityAd {
     LogAdapterDelegate_Internal(@"placementId = %@", _placementId);
-    
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_newApi_showDidClick");
+    }
     [_delegate adapterRewardedVideoDidClick];
 }
 
 - (void)showDidReceiveReward:(UnityAd * _Nonnull)unityAd {
     LogAdapterDelegate_Internal(@"placementId = %@", _placementId);
-    
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_newApi_showDidReceiveReward");
+    }
     [_delegate adapterRewardedVideoDidReceiveReward];
 }
 
 - (void)showDidComplete:(UnityAd * _Nonnull)unityAd with:(enum UADSShowFinishState)finishState {
     LogAdapterDelegate_Internal(@"placementId = %@ and completion state = %d", _placementId, (int)finishState);
-    
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_newApi_showDidComplete");
+    }
     if (finishState == UADSShowFinishStateCompleted) {
         [_delegate adapterRewardedVideoDidEnd];
     }
@@ -55,7 +66,9 @@
 
 - (void)showDidFail:(UnityAd * _Nonnull)unityAd error:(id<UnityAdsError> _Nonnull)error {
     LogAdapterDelegate_Internal(@"placementId = %@ reason = %ld %@", _placementId, error.code, error.message);
-  
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_newApi_showDidFail");
+    }
     NSError *smashError = [NSError errorWithDomain:UnityAdsAdapterName
                                               code:error.code
                                           userInfo:@{NSLocalizedDescriptionKey:error.message}];

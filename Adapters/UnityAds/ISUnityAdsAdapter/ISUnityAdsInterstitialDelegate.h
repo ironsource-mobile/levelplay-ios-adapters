@@ -30,7 +30,8 @@
 @property (nonatomic, strong) NSString * _Nonnull placementId;
 
 - (instancetype _Nonnull) initWithPlacementId:(NSString * _Nonnull)placementId
-                                  andDelegate:(id<ISUnityAdsInterstitialDelegateWrapper> _Nonnull)delegate;
+                                  andDelegate:(id<ISUnityAdsInterstitialDelegateWrapper> _Nonnull)delegate
+                                  eventSender:(ISUnityAdsEventSenderBlock _Nullable)eventSender;
 
 @end
 
