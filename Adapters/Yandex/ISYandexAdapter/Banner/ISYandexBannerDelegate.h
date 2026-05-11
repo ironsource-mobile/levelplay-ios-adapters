@@ -6,16 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <YandexMobileAds/YandexMobileAds.h>
+@import YandexMobileAds;
 
 @protocol ISBannerAdDelegate;
 
-@interface ISYandexBannerDelegate : NSObject <YMAAdViewDelegate>
+@interface ISYandexBannerDelegate : NSObject <YMABannerAdViewDelegate>
 
-@property (nonatomic, strong) NSString *adUnitId;
 @property (nonatomic, weak) id<ISBannerAdDelegate> delegate;
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                     andDelegate:(id<ISBannerAdDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate;
 
 @end

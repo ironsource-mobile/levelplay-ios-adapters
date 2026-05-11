@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 5.8.0
+* Supporting SDK version 8.0.0
+* Updated adapter implementation to support SDK 8.0.0 breaking changes
+* Updated minimum Xcode version to 26.2
+
 ## Version 5.7.0
 * General improvements and performance enhancements
 

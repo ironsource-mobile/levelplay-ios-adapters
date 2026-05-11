@@ -8,11 +8,6 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@class YMAInterstitialAd;
-
 @interface ISYandexInterstitialAdapter : LevelPlayBaseInterstitialAdapter
-
-- (void)setAdAvailability:(BOOL)availability
-        withInterstitialAd:(YMAInterstitialAd *)interstitialAd;
 
 @end

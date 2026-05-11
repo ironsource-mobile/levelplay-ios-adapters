@@ -6,19 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <YandexMobileAds/YandexMobileAds.h>
+@import YandexMobileAds;
 
 @protocol ISInterstitialAdDelegate;
-@class ISYandexInterstitialAdapter;
 
-@interface ISYandexInterstitialDelegate : NSObject <YMAInterstitialAdLoaderDelegate, YMAInterstitialAdDelegate>
+@interface ISYandexInterstitialDelegate : NSObject <YMAInterstitialAdDelegate>
 
-@property (nonatomic, weak) ISYandexInterstitialAdapter *adapter;
-@property (nonatomic, strong) NSString *adUnitId;
 @property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithAdapter:(ISYandexInterstitialAdapter *)adapter
-                       adUnitId:(NSString *)adUnitId
-                    andDelegate:(id<ISInterstitialAdDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

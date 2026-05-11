@@ -166,7 +166,6 @@
 				};
 			};
 			buildConfigurationList = 77B8791C245569AA3AEB782A /* Build configuration list for PBXProject "ISYandexAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,6 +175,7 @@
 			mainGroup = 63825EF1D55AB0B374C090C3;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = A67C7E3C3ECF9F1138836675 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
