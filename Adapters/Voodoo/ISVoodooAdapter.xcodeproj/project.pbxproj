@@ -144,7 +144,6 @@
 				};
 			};
 			buildConfigurationList = A8852AAB0C336C6884CDB466 /* Build configuration list for PBXProject "ISVoodooAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -154,6 +153,7 @@
 			mainGroup = AA24D59B9885760223A693D8;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = B03D3BC86CD6A85875FD5529 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
