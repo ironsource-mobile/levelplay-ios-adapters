@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const VerveAdapterVersion = @"5.4.0";
+static NSString * const VerveAdapterVersion = @"5.5.0";
 static NSString * Githash = @"";
 
 // System Frameworks For Verve Adapter
