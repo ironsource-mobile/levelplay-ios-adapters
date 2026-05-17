@@ -8,7 +8,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const BidMachineAdapterVersion = @"5.5.0";
+static NSString * const BidMachineAdapterVersion = @"5.6.0";
 static NSString * Githash = @"";
 
 // No System Frameworks For BidMachine Adapter are required
