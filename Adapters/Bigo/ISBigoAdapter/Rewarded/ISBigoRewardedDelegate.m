@@ -1,20 +1,20 @@
 //
-//  ISBigoInterstitialDelegate.m
+//  ISBigoRewardedDelegate.m
 //  ISBigoAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <IronSource/ISLog.h>
-#import <IronSource/ISBaseInterstitial.h>
-#import "ISBigoInterstitialDelegate.h"
-#import "ISBigoInterstitialAdapter.h"
+#import <IronSource/ISBaseRewardedVideo.h>
+#import "ISBigoRewardedDelegate.h"
+#import "ISBigoRewardedAdapter.h"
 #import "ISBigoConstants.h"
 
-@implementation ISBigoInterstitialDelegate
+@implementation ISBigoRewardedDelegate
 
-- (instancetype)initWithAdapter:(ISBigoInterstitialAdapter *)adapter
-                       delegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithAdapter:(ISBigoRewardedAdapter *)adapter
+                       delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _adapter = adapter;
@@ -23,16 +23,16 @@
     return self;
 }
 
-#pragma mark - BigoInterstitialAdLoaderDelegate
+#pragma mark - BigoRewardVideoAdLoaderDelegate
 
-- (void)onInterstitialAdLoaded:(nonnull BigoInterstitialAd *)ad {
+- (void)onRewardVideoAdLoaded:(nonnull BigoRewardVideoAd *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
-    [self.adapter storeInterstitialAd:ad];
+    [self.adapter storeRewardedAd:ad];
     [self.delegate adDidLoad];
 }
 
-- (void)onInterstitialAdLoadError:(BigoAdError *)error {
+- (void)onRewardVideoAdLoadError:(BigoAdError *)error {
     LogAdapterDelegate_Internal(logError, error);
 
     [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
@@ -40,7 +40,7 @@
                                    errorMessage:error.errorMsg];
 }
 
-#pragma mark - BigoAdInteractionDelegate
+#pragma mark - BigoRewardVideoAdInteractionDelegate
 
 - (void)onAd:(BigoAd *)ad error:(BigoAdError *)error {
     LogAdapterDelegate_Internal(logError, error);
@@ -66,6 +66,11 @@
 - (void)onAdClosed:(BigoAd *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClose];
+}
+
+- (void)onAdRewarded:(BigoRewardVideoAd *)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
 }
 
 @end

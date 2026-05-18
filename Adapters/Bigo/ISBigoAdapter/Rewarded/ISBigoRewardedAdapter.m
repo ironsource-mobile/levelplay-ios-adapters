@@ -1,5 +1,5 @@
 //
-//  ISBigoInterstitialAdapter.m
+//  ISBigoRewardedAdapter.m
 //  ISBigoAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -8,26 +8,26 @@
 #import <BigoADS/BigoAdSdk.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISBigoInterstitialAdapter.h"
-#import "ISBigoInterstitialDelegate.h"
+#import "ISBigoRewardedAdapter.h"
+#import "ISBigoRewardedDelegate.h"
 #import "ISBigoAdapter+Internal.h"
 #import "ISBigoAdapter.h"
 #import "ISBigoConstants.h"
 
-@interface ISBigoInterstitialAdapter ()
+@interface ISBigoRewardedAdapter ()
 
-@property (nonatomic, strong) BigoInterstitialAd           *interstitialAd;
-@property (nonatomic, strong) BigoInterstitialAdLoader     *interstitialAdLoader;
-@property (nonatomic, strong) ISBigoInterstitialDelegate   *interstitialAdDelegate;
+@property (nonatomic, strong) BigoRewardVideoAd          *rewardedAd;
+@property (nonatomic, strong) BigoRewardVideoAdLoader    *rewardedAdLoader;
+@property (nonatomic, strong) ISBigoRewardedDelegate     *rewardedAdDelegate;
 
 @end
 
-@implementation ISBigoInterstitialAdapter
+@implementation ISBigoRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *slotId = [adData getString:slotIdKey];
     LogAdapterApi_Internal(logSlotId, slotId);
 
@@ -51,20 +51,20 @@
         return;
     }
 
-    self.interstitialAdDelegate = [[ISBigoInterstitialDelegate alloc] initWithAdapter:self
-                                                                             delegate:delegate];
+    self.rewardedAdDelegate = [[ISBigoRewardedDelegate alloc] initWithAdapter:self
+                                                                     delegate:delegate];
 
-    BigoInterstitialAdRequest *request = [[BigoInterstitialAdRequest alloc] initWithSlotId:slotId];
+    BigoRewardVideoAdRequest *request = [[BigoRewardVideoAdRequest alloc] initWithSlotId:slotId];
     [request setServerBidPayload:adData.serverData];
 
-    self.interstitialAdLoader = [[BigoInterstitialAdLoader alloc] initWithInterstitialAdLoaderDelegate:self.interstitialAdDelegate];
-    self.interstitialAdLoader.ext = [adapter getMediationInfo];
-    [self.interstitialAdLoader loadAd:request];
+    self.rewardedAdLoader = [[BigoRewardVideoAdLoader alloc] initWithRewardVideoAdLoaderDelegate:self.rewardedAdDelegate];
+    self.rewardedAdLoader.ext = [adapter getMediationInfo];
+    [self.rewardedAdLoader loadAd:request];
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -78,30 +78,30 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.interstitialAd show:viewController];
+        [self.rewardedAd show:viewController];
     });
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && ![self.interstitialAd isExpired];
+    return self.rewardedAd != nil && ![self.rewardedAd isExpired];
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.interstitialAd destroy];
-        self.interstitialAd = nil;
+        [self.rewardedAd destroy];
+        self.rewardedAd = nil;
     });
-    self.interstitialAdDelegate = nil;
-    self.interstitialAdLoader = nil;
+    self.rewardedAdDelegate = nil;
+    self.rewardedAdLoader = nil;
 }
 
 #pragma mark - Helper Methods
 
-- (void)storeInterstitialAd:(BigoInterstitialAd *)ad {
-    self.interstitialAd = ad;
-    [self.interstitialAd setAdInteractionDelegate:self.interstitialAdDelegate];
+- (void)storeRewardedAd:(BigoRewardVideoAd *)ad {
+    self.rewardedAd = ad;
+    [self.rewardedAd setRewardVideoAdInteractionDelegate:self.rewardedAdDelegate];
 }
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {

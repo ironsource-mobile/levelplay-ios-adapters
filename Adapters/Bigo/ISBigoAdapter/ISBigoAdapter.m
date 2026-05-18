@@ -4,91 +4,89 @@
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
+
+#import <Foundation/Foundation.h>
+#import <BigoADS/BigoAdSdk.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISMetaDataUtils.h>
+#import <IronSource/ISConfigurations.h>
+#import <IronSource/ISAdapterErrors.h>
 #import "ISBigoAdapter.h"
 #import "ISBigoConstants.h"
-#import "ISBigoRewardedVideoAdapter.h"
-#import "ISBigoInterstitialAdapter.h"
-#import "ISBigoBannerAdapter.h"
-#import <BigoADS/BigoAdSdk.h>
 
-// Handle init callback for all adapter instances
+typedef NS_ENUM(NSInteger, InitState) {
+    INIT_STATE_NONE,
+    INIT_STATE_IN_PROGRESS,
+    INIT_STATE_SUCCESS,
+    INIT_STATE_FAILED
+};
+
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
-@interface ISBigoAdapter() <ISNetworkInitCallbackProtocol>
+@interface ISBigoAdapter ()
 
 @end
 
 @implementation ISBigoAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return BigoAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return BigoAdSdk.sharedInstance.getSDKVersionName;
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISBigoRewardedVideoAdapter *rewardedVideoAdapter = [[ISBigoRewardedVideoAdapter alloc] initWithBigoAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISBigoInterstitialAdapter *interstitialAdapter = [[ISBigoInterstitialAdapter alloc] initWithBigoAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        //Banner
-        ISBigoBannerAdapter *bannerAdapter = [[ISBigoBannerAdapter alloc] initWithBigoAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
-
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }
-    
     return self;
 }
 
-- (NSString *)getMediationInfo {
-    NSDictionary *mediationInfoDict = @{@"mediationName" : @"LevelPlay",
-                                        @"mediationVersion" : [LevelPlay sdkVersion],
-                                        @"adapterVersion" : BigoAdapterVersion};
-    
-    NSError *error = nil;
-    NSData *mediationInfoJSONData = [NSJSONSerialization dataWithJSONObject:mediationInfoDict options:0 error:&error];
-    
-    if (!error) {
-        return [[NSString alloc] initWithData:mediationInfoJSONData encoding:NSUTF8StringEncoding];
-    }
-    return nil;
-}
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *appId = [adData getString:appIdKey];
+    NSString *slotId = [adData getString:slotIdKey];
 
-- (void)initSDKWithAppKey:(NSString *)appKey {
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+    if (!appId || appId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, appIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
     }
-    
-    static dispatch_once_t initSdkOnceToken;
-    dispatch_once(&initSdkOnceToken, ^{
-        LogAdapterApi_Internal(@"appKey = %@", appKey);
-        
+
+    if (!slotId || slotId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, slotIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initializationDelegates addObject:delegate];
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
-        BigoAdConfig *adConfig = [[BigoAdConfig alloc] initWithAppId:appKey];
+
+        LogAdapterDelegate_Internal(logAppIdAndSlotId, appId, slotId);
+
+        BigoAdConfig *adConfig = [[BigoAdConfig alloc] initWithAppId:appId];
         [[BigoAdSdk sharedInstance] initializeSdkWithAdConfig:adConfig completion:^{
             [self initializationSuccess];
         }];
@@ -96,31 +94,17 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
-    initState = INIT_STATE_SUCCESS;
-    
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
-    }
-    
-    [initCallbackDelegates removeAllObjects];
-}
+    LogAdapterDelegate_Internal(logInitSuccess);
 
-- (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
-    
-    initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"Bigo SDK init failed"];
+    initState = INIT_STATE_SUCCESS;
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> delegate in initDelegatesList) {
+        [delegate onInitDidSucceed];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 #pragma mark - Legal Methods
@@ -130,60 +114,78 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     if (values.count == 0) {
         return;
     }
-    
-    // This is an array of 1 value
+
     NSString *value = values[0];
-    LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
-    
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-        
+
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                         forType:(META_DATA_VALUE_BOOL)];
-        
+
         if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                               flag:kMetaDataCOPPAKey
+                                               flag:metaDataCOPPAKey
                                            andValue:formattedValue]) {
             [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
 }
 
-
 - (void)setConsent:(BOOL)consent {
-    LogAdapterApi_Internal(@"consent = %@", consent? @"YES" : @"NO");
-    [BigoAdSdk setUserConsentWithOption: BigoConsentOptionsGDPR consent: consent];
+    LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
+    [BigoAdSdk setUserConsentWithOption:BigoConsentOptionsGDPR consent:consent];
 }
 
-
-- (void)setCCPAValue:(BOOL)do_not_sell {
-    LogAdapterApi_Internal(@"value = %@", do_not_sell ? @"YES" : @"NO");
-    [BigoAdSdk setUserConsentWithOption: BigoConsentOptionsCCPA consent: !do_not_sell];
+- (void)setCCPAValue:(BOOL)doNotSell {
+    LogAdapterApi_Internal(logCCPA, doNotSell ? @"YES" : @"NO");
+    [BigoAdSdk setUserConsentWithOption:BigoConsentOptionsCCPA consent:!doNotSell];
 }
 
-- (void)setCOPPAValue:(BOOL)child_restricted {
-    LogAdapterApi_Internal(@"value = %@", child_restricted ? @"YES" : @"NO");
-    [BigoAdSdk setUserConsentWithOption: BigoConsentOptionsCOPPA consent: !child_restricted];
+- (void)setCOPPAValue:(BOOL)childRestricted {
+    LogAdapterApi_Internal(logCOPPA, childRestricted ? @"YES" : @"NO");
+    [BigoAdSdk setUserConsentWithOption:BigoConsentOptionsCOPPA consent:!childRestricted];
 }
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
-}
-
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
-    // After bigo ads sdk initialized.
-    NSString *bidderToken = [[BigoAdSdk sharedInstance] getBidderToken];
-    if (bidderToken == nil || [bidderToken isEqual: @""]) {
-        [delegate failureWithError:@"Failed to get bidder token"];
+    if (initState != INIT_STATE_SUCCESS) {
+        LogAdapterApi_Internal(logTokenError);
+        [delegate failureWithError:logTokenError];
+        return;
     }
-    NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: bidderToken, @"token", nil];
+
+    NSString *bidderToken = [[BigoAdSdk sharedInstance] getBidderToken];
+    if (!bidderToken || bidderToken.length == 0) {
+        LogAdapterApi_Internal(logTokenFailed);
+        [delegate failureWithError:logTokenFailed];
+        return;
+    }
+
+    LogAdapterApi_Internal(logToken, bidderToken);
+    NSDictionary *biddingDataDictionary = @{tokenKey: bidderToken};
     [delegate successWithBiddingData:biddingDataDictionary];
 }
 
+- (NSString *)getMediationInfo {
+    NSDictionary *mediationInfoDict = @{
+        mediationNameKey: mediationName,
+        mediationVersionKey: [LevelPlay sdkVersion],
+        adapterVersionKey: BigoAdapterVersion
+    };
 
+    NSError *error = nil;
+    NSData *mediationInfoJSONData = [NSJSONSerialization dataWithJSONObject:mediationInfoDict
+                                                                    options:0
+                                                                      error:&error];
+
+    if (!error) {
+        return [[NSString alloc] initWithData:mediationInfoJSONData encoding:NSUTF8StringEncoding];
+    }
+    return nil;
+}
 
 @end

@@ -1,175 +1,131 @@
+//
+//  ISBigoBannerAdapter.m
+//  ISBigoAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
+#import <BigoADS/BigoAdSdk.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISBigoBannerAdapter.h"
 #import "ISBigoBannerDelegate.h"
+#import "ISBigoAdapter+Internal.h"
+#import "ISBigoAdapter.h"
+#import "ISBigoConstants.h"
 
 @interface ISBigoBannerAdapter ()
 
-@property (nonatomic, weak) ISBigoAdapter *adapter;
-@property (nonatomic, strong) BigoBannerAd *ad;
-@property (nonatomic, strong) BigoBannerAdLoader *adLoader;
-@property (nonatomic, strong) ISBigoBannerDelegate *bigoAdDelegate;
-@property (nonatomic, weak) id<ISBannerAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) BigoBannerAd           *bannerAd;
+@property (nonatomic, strong) BigoBannerAdLoader     *bannerAdLoader;
+@property (nonatomic, strong) ISBigoBannerDelegate   *bannerAdDelegate;
 
 @end
 
 @implementation ISBigoBannerAdapter
 
-- (instancetype)initWithBigoAdapter:(ISBigoAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _smashDelegate = nil;
-        _ad = nil;
-        _bigoAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Banner Methods
 
-- (void)initBannerForBiddingWithUserId:(NSString *)userId
-                         adapterConfig:(ISAdapterConfig *)adapterConfig
-                              delegate:(id<ISBannerAdapterDelegate>)delegate {
-    NSString *appId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                      forKey:kAppId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:appId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAppId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerInitFailedWithError:error];
+- (void)loadAdWithAdData:(ISAdData *)adData
+          viewController:(UIViewController *)viewController
+                    size:(ISBannerSize *)size
+                delegate:(id<ISBannerAdDelegate>)delegate {
+    NSString *slotId = [adData getString:slotIdKey];
+    LogAdapterApi_Internal(logSlotId, slotId);
+
+    if (!slotId || slotId.length == 0) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:logMissingSlotId}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kSlotId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:slotId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kSlotId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerInitFailedWithError:error];
-        return;
-    }
-    
-    self.smashDelegate = delegate;
-    
-    LogAdapterApi_Internal(@"appKey = %@, slotId = %@", appId, slotId);
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithAppKey:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterBannerInitSuccess];
-            break;
-        case INIT_STATE_FAILED:
-            LogAdapterApi_Internal(@"init failed - slotId = %@", slotId);
-            [delegate adapterBannerInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                withMessage:@"Bigo SDK init failed"]];
-            break;
-    }
-}
 
-- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                       adData:(NSDictionary *)adData
-                                   serverData:(NSString *)serverData
-                               viewController:(UIViewController *)viewController
-                                         size:(ISBannerSize *)size
-                                     delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
-    NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kSlotId];
-    LogAdapterApi_Internal(@"slotId = %@", slotId);
-    
-    // get size
-    
-    // create banner ad delegate
-    ISBigoBannerDelegate *bannerAdDelegate = [[ISBigoBannerDelegate alloc] initWithSlotId:slotId
-                                                                         andBannerAdapter:self
-                                                                              andDelegate:delegate];
-    self.bigoAdDelegate = bannerAdDelegate;
-    
     BigoAdSize *adSize = [self getBannerSize:size];
-    
-    if(adSize == nil) {
-        NSError *error = [NSError errorWithDomain:kAdapterName
+
+    if (adSize == nil) {
+        NSError *error = [NSError errorWithDomain:networkName
                                              code:ERROR_BN_UNSUPPORTED_SIZE
-                                         userInfo:@{NSLocalizedDescriptionKey:@"Bigo unsupported banner size"}];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerDidFailToLoadWithError:error];
+                                         userInfo:@{NSLocalizedDescriptionKey:logUnsupportedBannerSize}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    // create banner view
+
+    ISBigoAdapter *adapter = (ISBigoAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorMissingParams
+                                  errorMessage:logAdapterNil];
+        return;
+    }
+
+    self.bannerAdDelegate = [[ISBigoBannerDelegate alloc] initWithAdapter:self
+                                                                delegate:delegate];
+
     dispatch_async(dispatch_get_main_queue(), ^{
         BigoBannerAdRequest *request = [[BigoBannerAdRequest alloc] initWithSlotId:slotId
                                                                            adSizes:@[adSize]];
-        
-        [request setServerBidPayload:serverData];
-        
-        ISBigoAdapter *bigoAdapter = [[ISBigoAdapter alloc] init];
-        NSString *mediationInfo = [bigoAdapter getMediationInfo];
-        
-        self.adLoader = [[BigoBannerAdLoader alloc] initWithBannerAdLoaderDelegate:bannerAdDelegate];
-        self.adLoader.ext = mediationInfo;
-        [self.adLoader loadAd:request];
+        [request setServerBidPayload:adData.serverData];
+
+        self.bannerAdLoader = [[BigoBannerAdLoader alloc] initWithBannerAdLoaderDelegate:self.bannerAdDelegate];
+        self.bannerAdLoader.ext = [adapter getMediationInfo];
+        [self.bannerAdLoader loadAd:request];
     });
 }
 
-- (void)setBannerAd:(BigoBannerAd *)ad {
-    self.ad = ad;
-    [ad setAdInteractionDelegate:self.bigoAdDelegate];
-}
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
 
-- (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kSlotId];
-    
-    LogAdapterDelegate_Internal(@"slotId = %@", slotId);
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad destroy];
-        self.ad = nil;
+        [self.bannerAd destroy];
+        self.bannerAd = nil;
     });
-    self.smashDelegate = nil;
-    self.bigoAdDelegate = nil;
+    self.bannerAdDelegate = nil;
+    self.bannerAdLoader = nil;
 }
 
-- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                           adData:(NSDictionary *)adData
-                                         delegate:(id<ISBiddingDataDelegate>)delegate {
-    
-    [self.adapter collectBiddingDataWithDelegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterBannerInitSuccess];
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    [self.smashDelegate adapterBannerInitFailedWithError:error];
+- (void)storeBannerAd:(BigoBannerAd *)ad {
+    self.bannerAd = ad;
+    [self.bannerAd setAdInteractionDelegate:self.bannerAdDelegate];
 }
 
 #pragma mark - Helper Methods
 
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    ISBigoAdapter *adapter = (ISBigoAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
+
+    [adapter collectBiddingDataWithDelegate:delegate];
+}
+
 - (BigoAdSize *)getBannerSize:(ISBannerSize *)size {
-    
-    if ([size.sizeDescription isEqualToString:@"BANNER"]) {
+    if ([size.sizeDescription isEqualToString:sizeBanner]) {
         return BigoAdSize.BANNER;
     }
-    if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
+    if ([size.sizeDescription isEqualToString:sizeRectangle]) {
         return BigoAdSize.MEDIUM_RECTANGLE;
     }
-    if([size.sizeDescription isEqualToString:@"SMART"]){
+    if ([size.sizeDescription isEqualToString:sizeSmart]) {
         if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
             return BigoAdSize.LARGE_BANNER;
         } else {
             return BigoAdSize.BANNER;
         }
     }
-    
+
     return nil;
 }
 

@@ -1,12 +1,17 @@
+//
+//  ISBigoInterstitialAdapter.h
+//  ISBigoAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
-#import "ISBigoAdapter+Internal.h"
-#import <BigoADS/BigoInterstitialAd.h>
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISBigoInterstitialAdapter : ISBaseInterstitialAdapter
+@class BigoInterstitialAd;
 
-- (instancetype)initWithBigoAdapter:(ISBigoAdapter *)adapter;
+@interface ISBigoInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
-- (void)setInterstitialAd:(BigoInterstitialAd *)ad;
+- (void)storeInterstitialAd:(BigoInterstitialAd *)ad;
 
 @end
-
