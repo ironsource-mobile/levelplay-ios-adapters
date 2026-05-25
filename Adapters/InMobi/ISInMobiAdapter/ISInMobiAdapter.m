@@ -170,11 +170,6 @@ static InitState initState = INIT_STATE_NONE;
 }
 
 - (void)onNetworkInitCallbackSuccess {
-    if (consentCollectingUserData != nil) {
-        BOOL isConsent = [consentCollectingUserData  intValue] == 1 ? YES : NO;
-        [self setConsent:isConsent];
-    }
-    
     if(ageRestrictionCollectingUserData != nil) {
         BOOL isAgeRestricted = [ageRestrictionCollectingUserData  intValue] == 1 ? YES : NO;
         [self setAgeRestricted:isAgeRestricted];
@@ -296,6 +291,16 @@ static InitState initState = INIT_STATE_NONE;
     
     [self.placementIdToRewardedVideoSmashDelegate setObject:delegate
                                                      forKey:placementId];
+
+    if (serverData == nil) {
+        NSError *error = [NSError errorWithDomain:kAdapterName
+                                             code:ERROR_CODE_GENERIC
+                                         userInfo:@{NSLocalizedDescriptionKey:@"serverData is nil"}];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterRewardedVideoHasChangedAvailability:NO];
+        return;
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
 
         ISInMobiRewardedVideoDelegate *rewardedVideoAdDelegate = [[ISInMobiRewardedVideoDelegate alloc] initWithPlacementId:placementId
@@ -309,13 +314,8 @@ static InitState initState = INIT_STATE_NONE;
             [self.placementIdToRewardedVideoAd setObject:rewardedAd
                                                   forKey:placementId];
             
-            if (serverData == nil) {
-                rewardedAd.extras = [self extras];
-                [rewardedAd load];
-            } else {
-                NSData* data = [serverData dataUsingEncoding:NSUTF8StringEncoding];
-                [rewardedAd load:data];
-            }
+            NSData* data = [serverData dataUsingEncoding:NSUTF8StringEncoding];
+            [rewardedAd load:data];
         } else {
             NSError *error = [NSError errorWithDomain:kAdapterName
                                                  code:ERROR_CODE_GENERIC
@@ -511,7 +511,16 @@ static InitState initState = INIT_STATE_NONE;
     
     [self.placementIdToInterstitialSmashDelegate setObject:delegate
                                                     forKey:placementId];
-    
+
+    if (serverData == nil) {
+        NSError *error = [NSError errorWithDomain:kAdapterName
+                                             code:ERROR_CODE_GENERIC
+                                         userInfo:@{NSLocalizedDescriptionKey:@"serverData is nil"}];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterInterstitialDidFailToLoadWithError:error];
+        return;
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
         LogAdapterApi_Internal(@"interstitial create ad");
         
@@ -530,13 +539,8 @@ static InitState initState = INIT_STATE_NONE;
                                                  forKey:placementId];
             
             // Load ad
-            if (serverData == nil) {
-                inMobiInterstitial.extras = [self extras];
-                [inMobiInterstitial load];
-            } else {
-                NSData* data = [serverData dataUsingEncoding:NSUTF8StringEncoding];
-                [inMobiInterstitial load:data];
-            }
+            NSData* data = [serverData dataUsingEncoding:NSUTF8StringEncoding];
+            [inMobiInterstitial load:data];
         } else {
             NSError *error = [NSError errorWithDomain:kAdapterName
                                                  code:ERROR_CODE_GENERIC
@@ -724,7 +728,16 @@ static InitState initState = INIT_STATE_NONE;
     
     [self.placementIdToBannerSmashDelegate setObject:delegate
                                               forKey:placementId];
-    
+
+    if (serverData == nil) {
+        NSError *error = [NSError errorWithDomain:kAdapterName
+                                             code:ERROR_CODE_GENERIC
+                                         userInfo:@{NSLocalizedDescriptionKey:@"serverData is nil"}];
+        LogAdapterApi_Internal(@"error = %@", error);
+        [delegate adapterBannerDidFailToLoadWithError:error];
+        return;
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
         // Verify banner
         if ([self isBannerSizeSupported:size]) {
@@ -744,13 +757,8 @@ static InitState initState = INIT_STATE_NONE;
                                            forKey:placementId];
             
             // Load ad
-            if (serverData == nil) {
-                inMobiBanner.extras = [self extras];
-                [inMobiBanner load];
-            } else {
-                NSData* data = [serverData dataUsingEncoding:NSUTF8StringEncoding];
-                [inMobiBanner load:data];
-            }
+            NSData* data = [serverData dataUsingEncoding:NSUTF8StringEncoding];
+            [inMobiBanner load:data];
         } else {
             // banner size not supported
             NSError *error = [NSError errorWithDomain:kAdapterName
