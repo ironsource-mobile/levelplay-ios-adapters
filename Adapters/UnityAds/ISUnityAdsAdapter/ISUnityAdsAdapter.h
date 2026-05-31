@@ -9,7 +9,7 @@
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const UnityAdsAdapterVersion = @"5.7.0";
+static NSString * const UnityAdsAdapterVersion = @"5.8.0";
 static NSString * Githash = @"";
 static NSString * const UnityAdsAdapterName = @"UnityAds";
 

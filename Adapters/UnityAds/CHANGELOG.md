@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.8.0
+* Supporting SDK version 4.18.1
+
 ## Version 5.7.0
 * Supporting SDK version 4.18.0
 * Updated minimum Xcode version to 26.0.1
