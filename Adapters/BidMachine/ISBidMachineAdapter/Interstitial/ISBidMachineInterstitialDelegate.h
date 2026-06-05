@@ -5,14 +5,15 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <BidMachine/BidMachine-Swift.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import <ISBidMachineAdapter.h>
+
+@protocol ISInterstitialAdDelegate;
 
 @interface ISBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 
-@property (nonatomic, weak) id<ISInterstitialAdapterDelegate> delegate;
+@property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

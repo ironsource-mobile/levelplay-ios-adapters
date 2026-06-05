@@ -5,7 +5,7 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <YandexMobileAds/YandexMobileAds.h>
+@import YandexMobileAds;
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
 #import "ISYandexRewardedAdapter.h"
@@ -16,9 +16,9 @@
 
 @interface ISYandexRewardedAdapter ()
 
-@property (nonatomic, strong) YMARewardedAd *ad;
-@property (nonatomic, strong) YMARewardedAdLoader *adLoader;
-@property (nonatomic, strong) ISYandexRewardedDelegate *yandexAdDelegate;
+@property (nonatomic, strong) YMARewardedAd *rewardedAd;
+@property (nonatomic, strong) YMARewardedAdLoader *rewardedAdLoader;
+@property (nonatomic, strong) ISYandexRewardedDelegate *rewardedAdDelegate;
 @property (nonatomic, assign) BOOL adAvailability;
 
 @end
@@ -33,9 +33,10 @@
 
     // validate adUnitId
     if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
         NSError *error = [NSError errorWithDomain:networkName
                                              code:ISAdapterErrorMissingParams
-                                         userInfo:@{NSLocalizedDescriptionKey:logMissingAdUnitId}];
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
         LogAdapterApi_Internal(logError, error);
         [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
                                      errorCode:error.code
@@ -45,16 +46,11 @@
 
     self.adAvailability = NO;
 
-    // create delegate
-    ISYandexRewardedDelegate *adDelegate = [[ISYandexRewardedDelegate alloc] initWithAdapter:self
-                                                                                     adUnitId:adUnitId
-                                                                                  andDelegate:delegate];
-    self.yandexAdDelegate = adDelegate;
+    // create delegate for showing ads
+    self.rewardedAdDelegate = [[ISYandexRewardedDelegate alloc] initWithDelegate:delegate];
 
     // create adLoader
-    YMARewardedAdLoader *adLoader = [[YMARewardedAdLoader alloc] init];
-    adLoader.delegate = adDelegate;
-    self.adLoader = adLoader;
+    self.rewardedAdLoader = [[YMARewardedAdLoader alloc] init];
 
     // get ad request parameters from adapter
     ISYandexAdapter *adapter = (ISYandexAdapter *)[self getNetworkAdapter];
@@ -68,11 +64,45 @@
                                   errorMessage:error.localizedDescription];
         return;
     }
-    YMAAdRequestConfiguration *adRequest = [adapter createAdRequestWithBidResponse:adData.serverData
-                                                                           adUnitId:adUnitId];
+    YMAAdRequest *adRequest = [adapter createAdRequestWithBidResponse:adData.serverData
+                                                              adUnitId:adUnitId];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.adLoader loadAdWithRequestConfiguration:adRequest];
+        __weak typeof(self) weakSelf = self;
+        [self.rewardedAdLoader loadAdWith:adRequest completionHandler:^(YMARewardedAd * _Nullable rewardedAd, NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf) {
+                return;
+            }
+
+            if (error) {
+                LogAdapterDelegate_Internal(logCallbackFailed, adUnitId, error.localizedDescription);
+                ISAdapterErrorType errorType = (error.code == yandexNoFillErrorCode) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+                strongSelf.rewardedAd = nil;
+                strongSelf.adAvailability = NO;
+                [delegate adDidFailToLoadWithErrorType:errorType
+                                             errorCode:error.code
+                                          errorMessage:error.localizedDescription];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Store ad object first to retain it
+                    strongSelf.rewardedAd = rewardedAd;
+                    strongSelf.rewardedAd.delegate = strongSelf.rewardedAdDelegate;
+                    strongSelf.adAvailability = YES;
+
+                    // Extract creative IDs and pass as extra data if available
+                    NSString *creativeId = [ISYandexAdapter buildCreativeIdStringFromCreatives:strongSelf.rewardedAd.adInfo.creatives];
+                    LogAdapterDelegate_Internal(logCreativeId, creativeId);
+
+                    if (creativeId.length) {
+                        NSDictionary<NSString *, id> *extraData = @{creativeIdKey: creativeId};
+                        [delegate adDidLoadWithExtraData:extraData];
+                    } else {
+                        [delegate adDidLoad];
+                    }
+                });
+            }
+        }];
     });
 }
 
@@ -82,7 +112,6 @@
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
-        self.adAvailability = NO;
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                   withMessage:[NSString stringWithFormat:logShowFailed, networkName]];
         LogAdapterApi_Internal(logError, error);
@@ -92,22 +121,23 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad showFromViewController:viewController];
+        [self.rewardedAd showFromViewController:viewController];
     });
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
-    self.ad.delegate = nil;
-    self.ad = nil;
-    self.adLoader.delegate = nil;
-    self.adLoader = nil;
-    self.yandexAdDelegate = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.rewardedAd.delegate = nil;
+        self.rewardedAd = nil;
+        self.rewardedAdLoader = nil;
+        self.rewardedAdDelegate = nil;
+    });
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.ad != nil && self.adAvailability;
+    return self.rewardedAd != nil && self.adAvailability;
 }
 
 #pragma mark - Helper Methods
@@ -115,25 +145,18 @@
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
-    YMABidderTokenRequestConfiguration *requestConfiguration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType:YMAAdTypeRewarded];
-
     ISYandexAdapter *adapter = (ISYandexAdapter *)[self getNetworkAdapter];
     if (!adapter) {
         LogAdapterApi_Internal(logError, logAdapterNil);
         [delegate failureWithError:logAdapterNil];
         return;
     }
-    requestConfiguration.parameters = [adapter getConfigParams];
+
+    YMABidderTokenRequest *requestConfiguration = [YMABidderTokenRequest rewardedWithTargeting:nil
+                                                                                    parameters:[adapter getConfigParams]];
 
     [adapter collectBiddingDataWithRequestConfiguration:requestConfiguration
                                                 delegate:delegate];
-}
-
-- (void)setAdAvailability:(BOOL)availability
-           withRewardedAd:(YMARewardedAd *)rewardedAd {
-    self.ad = rewardedAd;
-    self.ad.delegate = self.yandexAdDelegate;
-    self.adAvailability = availability;
 }
 
 @end

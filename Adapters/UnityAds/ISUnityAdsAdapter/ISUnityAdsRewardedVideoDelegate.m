@@ -7,17 +7,23 @@
 
 #import <ISUnityAdsRewardedVideoDelegate.h>
 
+@interface ISUnityAdsRewardedVideoDelegate()
+@property (nonatomic, copy) ISUnityAdsEventSenderBlock _Nullable eventSender;
+@end
+
 @implementation ISUnityAdsRewardedVideoDelegate
 
 - (instancetype)initWithPlacementId:(NSString *)placementId
-                           delegate:(id<ISUnityAdsRewardedVideoDelegateWrapper>)delegate {
+                           delegate:(id<ISUnityAdsRewardedVideoDelegateWrapper>)delegate
+                        eventSender:(ISUnityAdsEventSenderBlock)eventSender {
     self = [super init];
-    
+
     if (self) {
         self.placementId = placementId;
         self.delegate = delegate;
+        self.eventSender = eventSender;
     }
-    
+
     return self;
 }
 
@@ -28,6 +34,9 @@
  *  @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void)unityAdsAdLoaded:(nonnull NSString *)placementId {
+    if (self.delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_onUnityAdsAdLoaded");
+    }
     [self.delegate onRewardedVideoDidLoad:self.placementId];
 }
 
@@ -40,6 +49,9 @@
 - (void)unityAdsAdFailedToLoad:(nonnull NSString *)placementId
                      withError:(UnityAdsLoadError)error
                    withMessage:(nonnull NSString *)message {
+    if (self.delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_onUnityAdsFailedToLoad");
+    }
     [self.delegate onRewardedVideoDidFailToLoad:self.placementId
                                       withError:error];
 }
@@ -51,6 +63,9 @@
  * @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void)unityAdsShowStart:(nonnull NSString *)placementId {
+    if (self.delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_onUnityAdsShowStart");
+    }
     [self.delegate onRewardedVideoDidOpen:self.placementId];
 }
 
@@ -70,6 +85,9 @@
 - (void)unityAdsShowFailed:(nonnull NSString *)placementId
                  withError:(UnityAdsShowError)error
                withMessage:(nonnull NSString *)message {
+    if (self.delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_onUnityAdsShowFailure");
+    }
     [self.delegate onRewardedVideoShowFail:self.placementId
                                  withError:error
                                 andMessage:message];
@@ -80,6 +98,9 @@
  * @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void)unityAdsShowClick:(nonnull NSString *)placementId {
+    if (self.delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_onUnityAdsShowClick");
+    }
     [self.delegate onRewardedVideoDidClick:self.placementId];
 }
 
@@ -90,6 +111,9 @@
  */
 - (void)unityAdsShowComplete:(nonnull NSString *)placementId
              withFinishState:(UnityAdsShowCompletionState)state {
+    if (self.delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_REWARDED, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"rewarded_onUnityAdsShowComplete");
+    }
     [self.delegate onRewardedVideoDidShowComplete:self.placementId
                                   withFinishState:state];
 }

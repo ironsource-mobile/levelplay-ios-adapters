@@ -8,11 +8,6 @@
 #import <Foundation/Foundation.h>
 #import <IronSource/LevelPlayBaseRewardedAdapter.h>
 
-@class YMARewardedAd;
-
 @interface ISYandexRewardedAdapter : LevelPlayBaseRewardedAdapter
-
-- (void)setAdAvailability:(BOOL)availability
-           withRewardedAd:(YMARewardedAd *)rewardedAd;
 
 @end

@@ -166,7 +166,6 @@
 				};
 			};
 			buildConfigurationList = 6E222381A4F872F7BE94089D /* Build configuration list for PBXProject "ISOguryAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -176,6 +175,7 @@
 			mainGroup = B236D21BDB28DDED369ACD95;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = A4BB667ADED726E5774B7B72 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ISUADSBannerAdDelegate : NSObject <UADSBannerAdDelegate>
 
 - (instancetype _Nonnull)initWithPlacementId:(NSString * _Nonnull)placementId
-                                    delegate:(id<ISBannerAdapterDelegate> _Nonnull)delegate;
+                                    delegate:(id<ISBannerAdapterDelegate> _Nonnull)delegate
+                                 eventSender:(ISUnityAdsEventSenderBlock _Nullable)eventSender;
 @end
 
 NS_ASSUME_NONNULL_END

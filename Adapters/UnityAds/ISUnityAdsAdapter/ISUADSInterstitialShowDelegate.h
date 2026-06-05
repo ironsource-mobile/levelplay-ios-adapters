@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ISUADSInterstitialShowDelegate : NSObject <UADSInterstitialShowDelegate>
 
 - (instancetype _Nonnull)initWithPlacementId:(NSString * _Nonnull)placementId
-                                    delegate:(id<ISInterstitialAdapterDelegate> _Nonnull)delegate;
+                                    delegate:(id<ISInterstitialAdapterDelegate> _Nonnull)delegate
+                                 eventSender:(ISUnityAdsEventSenderBlock _Nullable)eventSender;
 @end
 
 NS_ASSUME_NONNULL_END

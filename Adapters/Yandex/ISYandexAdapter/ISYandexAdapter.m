@@ -10,7 +10,7 @@
 #import "ISYandexRewardedAdapter.h"
 #import "ISYandexInterstitialAdapter.h"
 #import "ISYandexBannerAdapter.h"
-#import <YandexMobileAds/YandexMobileAds.h>
+@import YandexMobileAds;
 
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
@@ -30,7 +30,7 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 }
 
 - (NSString *)networkSDKVersion {
-    return [YMAMobileAds sdkVersion];
+    return [YMAYandexAds sdkVersion].stringValue;
 }
 
 #pragma mark - Initialization Methods And Callbacks
@@ -46,7 +46,7 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
         // The Yandex token loader object needs to be saved so that we can retrieve
         // the completion handler callback for async token handling.
         if (bidderTokenLoader == nil) {
-            bidderTokenLoader = [[YMABidderTokenLoader alloc] initWithMediationNetworkName:mediationName];
+            bidderTokenLoader = [[YMABidderTokenLoader alloc] init];
         }
     }
 
@@ -55,7 +55,25 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 
 - (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
 
-    if(initState == INIT_STATE_SUCCESS && delegate) {
+    NSString *appId = [adData getString:appIdKey];
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+
+    // Configuration Validation
+    if (!appId || appId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, appIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if(initState == INIT_STATE_SUCCESS) {
         [delegate onInitDidSucceed];
         return;
     }
@@ -69,15 +87,20 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
     dispatch_once(&initSdkOnceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
 
-        NSString *appId = [adData getString:appIdKey];
-        LogAdapterApi_Internal(logAppId, appId);
+        LogAdapterApi_Internal(logAppIdAndAdUnitId, appId, adUnitId);
 
         if ([ISConfigurations getConfigurations].adaptersDebug) {
-            [YMAMobileAds enableLogging];
+            [YMAYandexAds enableLogging];
         }
 
+        // Set adapter identity before initializing SDK
+        YMAAdapterIdentity *adapterIdentity = [[YMAAdapterIdentity alloc] initWithAdapterNetworkName:mediationName
+                                                                                      adapterVersion:[self adapterVersion]
+                                                                               adapterNetworkVersion:[LevelPlay sdkVersion]];
+        [YMAYandexAds setAdapterIdentity:adapterIdentity];
+
         ISYandexAdapter * __weak weakSelf = self;
-        [YMAMobileAds initializeSDKWithCompletionHandler:^{
+        [YMAYandexAds initializeSDKWithCompletionHandler:^{
             __typeof__(self) strongSelf = weakSelf;
             [strongSelf initializationSuccess];
         }];
@@ -102,12 +125,12 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 
 - (void)setConsent:(BOOL)consent {
     LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
-    [YMAMobileAds setUserConsent:consent];
+    [YMAYandexAds setUserConsent:consent];
 }
 
 #pragma mark - Helper Methods
 
-- (void)collectBiddingDataWithRequestConfiguration:(YMABidderTokenRequestConfiguration *)requestConfiguration
+- (void)collectBiddingDataWithRequestConfiguration:(YMABidderTokenRequest *)requestConfiguration
                                           delegate:(id<ISBiddingDataDelegate>)delegate {
 
     if (initState != INIT_STATE_SUCCESS) {
@@ -116,8 +139,8 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
         return;
     }
 
-    [bidderTokenLoader loadBidderTokenWithRequestConfiguration:requestConfiguration
-                                             completionHandler:^(NSString *bidderToken) {
+    [bidderTokenLoader loadBidderTokenWithRequest:requestConfiguration
+                                 completionHandler:^(NSString *bidderToken) {
         NSString *returnedToken = bidderToken ? bidderToken : @"";
         LogAdapterApi_Internal(logToken, returnedToken);
         NSDictionary *biddingDataDictionary = @{tokenKey: returnedToken};
@@ -127,7 +150,7 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 
 - (NSDictionary *)getConfigParams {
     NSDictionary *configParams = @{
-        adapterVersionKey: YandexAdapterVersion,
+        adapterVersionKey: [self adapterVersion],
         adapterNetworkNameKey: mediationName,
         adapterNetworkSDKVersionKey: [LevelPlay sdkVersion]
     };
@@ -135,20 +158,15 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
     return configParams;
 }
 
-- (YMAMutableAdRequest *)createAdRequestWithBidResponse:(NSString *)bidResponse {
+- (YMAAdRequest *)createAdRequestWithBidResponse:(NSString *)bidResponse
+                                        adUnitId:(NSString *)adUnitId {
     NSDictionary *adRequestParameters = [self getConfigParams];
-    YMAMutableAdRequest *adRequest = [[YMAMutableAdRequest alloc] init];
-    adRequest.parameters = adRequestParameters;
-    adRequest.biddingData = bidResponse;
-    return adRequest;
-}
-
-- (YMAMutableAdRequestConfiguration *)createAdRequestWithBidResponse:(NSString *)bidResponse
-                                                            adUnitId:(NSString *)adUnitId {
-    NSDictionary *adRequestParameters = [self getConfigParams];
-    YMAMutableAdRequestConfiguration *adRequest = [[YMAMutableAdRequestConfiguration alloc] initWithAdUnitID:adUnitId];
-    adRequest.parameters = adRequestParameters;
-    adRequest.biddingData = bidResponse;
+    YMAAdRequest *adRequest = [[YMAAdRequest alloc] initWithAdUnitID:adUnitId
+                                                            targeting:nil
+                                                              adTheme:YMAAdThemeUnspecified
+                                                          biddingData:bidResponse
+                                                    headerBiddingData:nil
+                                                           parameters:adRequestParameters];
     return adRequest;
 }
 

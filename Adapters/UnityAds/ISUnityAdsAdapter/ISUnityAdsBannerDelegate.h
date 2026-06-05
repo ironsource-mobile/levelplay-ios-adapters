@@ -24,7 +24,8 @@
 
 @property (nonatomic, weak) id<ISUnityAdsBannerDelegateWrapper> _Nullable delegate;
 
-- (instancetype _Nonnull) initWithDelegate:(id<ISUnityAdsBannerDelegateWrapper> _Nonnull)delegate;
+- (instancetype _Nonnull) initWithDelegate:(id<ISUnityAdsBannerDelegateWrapper> _Nonnull)delegate
+                               eventSender:(ISUnityAdsEventSenderBlock _Nullable)eventSender;
 
 @end
 

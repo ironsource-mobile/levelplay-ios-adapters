@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 5.15.0
+* Fixed interstitial load failures in multi-ad-unit and load-while-show flows.
+
+## Version 5.14.0
+* Supporting SDK version 8.1.4
+
+## Version 5.13.0
+* Supporting SDK version 8.1.3
+
+## Version 5.12.0
+* Supporting SDK version 8.1.2
+
 ## Version 5.11.0
 * Supporting SDK version 8.1.1
 

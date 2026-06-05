@@ -7,26 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08B2F91DCC8286764483AB45 /* ISPangleBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D92528BF8D261F2383FD14 /* ISPangleBannerDelegate.m */; };
 		1AE9D79DB890D943D1C384A7 /* ISPangleAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5355B0A4C32B4A8BE76B330E /* ISPangleAdapter.m */; };
-		C730AE37DE7F87D992E03FCD /* ISPangleBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 372D3E2F31D094B035F4FE24 /* ISPangleBannerDelegate.h */; };
-		D2CF59FF7BE425A375ED3B14 /* ISPangleRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B8E8971C41B9F2DE180A7A73 /* ISPangleRewardedVideoDelegate.h */; };
-		D90574B77B8A8A6854E264A7 /* ISPangleRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D26467394C49E74E0F8B674 /* ISPangleRewardedVideoDelegate.m */; };
+		1CEC9ECF87750D451111A23F /* ISPangleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FC734752FF08A5883E2D31C0 /* ISPangleConstants.h */; };
+		3115C22F4E8F6B38917CEDEF /* ISPangleBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B8FEF596F7B20B67D1515FF /* ISPangleBannerDelegate.h */; };
+		36D97CA1997D9A286B1B47EA /* ISPangleRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EFF4998F7D039455445C7F7 /* ISPangleRewardedAdapter.m */; };
+		483E2FE1DF9B4DAFB2E5616F /* ISPangleBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9476C9C5D8AC630EE48DAF5E /* ISPangleBannerDelegate.m */; };
+		7B66C172E8CE2221CFAB94AA /* ISPangleBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 15FF4C151A0B55FEAA07AF8B /* ISPangleBannerAdapter.h */; };
+		8AC24D76ACB45EF35DA480D1 /* ISPangleInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 54ECB73E8474D5833284A9CE /* ISPangleInterstitialAdapter.m */; };
+		95F0C082C65FF47E8B36AC6C /* ISPangleRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3505DC7CCE4DA369DF76B894 /* ISPangleRewardedDelegate.h */; };
+		B1D5CFA884178BD0A6C8ADEE /* ISPangleInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B317F119200BA89490ED224 /* ISPangleInterstitialAdapter.h */; };
+		E14E049213456D60AE76E170 /* ISPangleInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EE6FEBF103ED0B9CFD2A11 /* ISPangleInterstitialDelegate.m */; };
 		E1CC69E13683FEBA1E9813C2 /* ISPangleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 92FF1F7F3FCE6E3D2F118083 /* ISPangleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA76C5462AAD73EFBFC508C4 /* ISPangleInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A0C5828FD8D60581CF15F1 /* ISPangleInterstitialDelegate.m */; };
-		FB8F05FBA1E18678E9FA4173 /* ISPangleInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EF6E49310D1848CA7EECF03B /* ISPangleInterstitialDelegate.h */; };
+		E74A3A183E7671F32C7E3B00 /* ISPangleRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9F24662CDB5E836CACFCF8 /* ISPangleRewardedAdapter.h */; };
+		F1426D034D15DBADDB0BC1EF /* ISPangleRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DEEED51225CE3327D1DE24A /* ISPangleRewardedDelegate.m */; };
+		F31D13021F06613B8BC5883E /* ISPangleBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8034C744941170BBA292E3DC /* ISPangleBannerAdapter.m */; };
+		F780FB66133E9B911BD1C542 /* ISPangleInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 09C4273EB15CB1A36CA30979 /* ISPangleInterstitialDelegate.h */; };
+		FB72EADCC542DEFAD135780A /* ISPangleAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A67D02A571E5E162D1906EF /* ISPangleAdapter+Internal.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0D26467394C49E74E0F8B674 /* ISPangleRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		372D3E2F31D094B035F4FE24 /* ISPangleBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleBannerDelegate.h; sourceTree = "<group>"; };
+		09C4273EB15CB1A36CA30979 /* ISPangleInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleInterstitialDelegate.h; sourceTree = "<group>"; };
+		15FF4C151A0B55FEAA07AF8B /* ISPangleBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleBannerAdapter.h; sourceTree = "<group>"; };
+		3505DC7CCE4DA369DF76B894 /* ISPangleRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleRewardedDelegate.h; sourceTree = "<group>"; };
+		4B317F119200BA89490ED224 /* ISPangleInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleInterstitialAdapter.h; sourceTree = "<group>"; };
 		5355B0A4C32B4A8BE76B330E /* ISPangleAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleAdapter.m; sourceTree = "<group>"; };
+		54ECB73E8474D5833284A9CE /* ISPangleInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleInterstitialAdapter.m; sourceTree = "<group>"; };
+		5EFF4998F7D039455445C7F7 /* ISPangleRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleRewardedAdapter.m; sourceTree = "<group>"; };
+		7B8FEF596F7B20B67D1515FF /* ISPangleBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleBannerDelegate.h; sourceTree = "<group>"; };
+		8034C744941170BBA292E3DC /* ISPangleBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleBannerAdapter.m; sourceTree = "<group>"; };
+		81EE6FEBF103ED0B9CFD2A11 /* ISPangleInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleInterstitialDelegate.m; sourceTree = "<group>"; };
+		8A67D02A571E5E162D1906EF /* ISPangleAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISPangleAdapter+Internal.h"; sourceTree = "<group>"; };
+		8DEEED51225CE3327D1DE24A /* ISPangleRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleRewardedDelegate.m; sourceTree = "<group>"; };
 		92FF1F7F3FCE6E3D2F118083 /* ISPangleAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleAdapter.h; sourceTree = "<group>"; };
-		B8E8971C41B9F2DE180A7A73 /* ISPangleRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		C3A0C5828FD8D60581CF15F1 /* ISPangleInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleInterstitialDelegate.m; sourceTree = "<group>"; };
+		9476C9C5D8AC630EE48DAF5E /* ISPangleBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleBannerDelegate.m; sourceTree = "<group>"; };
+		AA9F24662CDB5E836CACFCF8 /* ISPangleRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleRewardedAdapter.h; sourceTree = "<group>"; };
 		CBEF0ACDE11677039BC5DE55 /* ISPangleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISPangleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E0D92528BF8D261F2383FD14 /* ISPangleBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPangleBannerDelegate.m; sourceTree = "<group>"; };
-		EF6E49310D1848CA7EECF03B /* ISPangleInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleInterstitialDelegate.h; sourceTree = "<group>"; };
+		FC734752FF08A5883E2D31C0 /* ISPangleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPangleConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -38,17 +54,49 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		440318CD0333812A933FB837 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				15FF4C151A0B55FEAA07AF8B /* ISPangleBannerAdapter.h */,
+				8034C744941170BBA292E3DC /* ISPangleBannerAdapter.m */,
+				7B8FEF596F7B20B67D1515FF /* ISPangleBannerDelegate.h */,
+				9476C9C5D8AC630EE48DAF5E /* ISPangleBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		7F4461D78F24F827A31DAD92 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				AA9F24662CDB5E836CACFCF8 /* ISPangleRewardedAdapter.h */,
+				5EFF4998F7D039455445C7F7 /* ISPangleRewardedAdapter.m */,
+				3505DC7CCE4DA369DF76B894 /* ISPangleRewardedDelegate.h */,
+				8DEEED51225CE3327D1DE24A /* ISPangleRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
+		A75B06D2950B8D5ED66BA840 /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				4B317F119200BA89490ED224 /* ISPangleInterstitialAdapter.h */,
+				54ECB73E8474D5833284A9CE /* ISPangleInterstitialAdapter.m */,
+				09C4273EB15CB1A36CA30979 /* ISPangleInterstitialDelegate.h */,
+				81EE6FEBF103ED0B9CFD2A11 /* ISPangleInterstitialDelegate.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
 		E7C6E8B9987266FBBEDA9A48 /* ISPangleAdapter */ = {
 			isa = PBXGroup;
 			children = (
 				92FF1F7F3FCE6E3D2F118083 /* ISPangleAdapter.h */,
 				5355B0A4C32B4A8BE76B330E /* ISPangleAdapter.m */,
-				372D3E2F31D094B035F4FE24 /* ISPangleBannerDelegate.h */,
-				E0D92528BF8D261F2383FD14 /* ISPangleBannerDelegate.m */,
-				EF6E49310D1848CA7EECF03B /* ISPangleInterstitialDelegate.h */,
-				C3A0C5828FD8D60581CF15F1 /* ISPangleInterstitialDelegate.m */,
-				B8E8971C41B9F2DE180A7A73 /* ISPangleRewardedVideoDelegate.h */,
-				0D26467394C49E74E0F8B674 /* ISPangleRewardedVideoDelegate.m */,
+				8A67D02A571E5E162D1906EF /* ISPangleAdapter+Internal.h */,
+				FC734752FF08A5883E2D31C0 /* ISPangleConstants.h */,
+				440318CD0333812A933FB837 /* Banner */,
+				A75B06D2950B8D5ED66BA840 /* Interstitial */,
+				7F4461D78F24F827A31DAD92 /* Rewarded */,
 			);
 			path = ISPangleAdapter;
 			sourceTree = "<group>";
@@ -68,10 +116,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB72EADCC542DEFAD135780A /* ISPangleAdapter+Internal.h in Headers */,
 				E1CC69E13683FEBA1E9813C2 /* ISPangleAdapter.h in Headers */,
-				C730AE37DE7F87D992E03FCD /* ISPangleBannerDelegate.h in Headers */,
-				FB8F05FBA1E18678E9FA4173 /* ISPangleInterstitialDelegate.h in Headers */,
-				D2CF59FF7BE425A375ED3B14 /* ISPangleRewardedVideoDelegate.h in Headers */,
+				7B66C172E8CE2221CFAB94AA /* ISPangleBannerAdapter.h in Headers */,
+				3115C22F4E8F6B38917CEDEF /* ISPangleBannerDelegate.h in Headers */,
+				1CEC9ECF87750D451111A23F /* ISPangleConstants.h in Headers */,
+				B1D5CFA884178BD0A6C8ADEE /* ISPangleInterstitialAdapter.h in Headers */,
+				F780FB66133E9B911BD1C542 /* ISPangleInterstitialDelegate.h in Headers */,
+				E74A3A183E7671F32C7E3B00 /* ISPangleRewardedAdapter.h in Headers */,
+				95F0C082C65FF47E8B36AC6C /* ISPangleRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,9 +211,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AE9D79DB890D943D1C384A7 /* ISPangleAdapter.m in Sources */,
-				08B2F91DCC8286764483AB45 /* ISPangleBannerDelegate.m in Sources */,
-				FA76C5462AAD73EFBFC508C4 /* ISPangleInterstitialDelegate.m in Sources */,
-				D90574B77B8A8A6854E264A7 /* ISPangleRewardedVideoDelegate.m in Sources */,
+				F31D13021F06613B8BC5883E /* ISPangleBannerAdapter.m in Sources */,
+				483E2FE1DF9B4DAFB2E5616F /* ISPangleBannerDelegate.m in Sources */,
+				8AC24D76ACB45EF35DA480D1 /* ISPangleInterstitialAdapter.m in Sources */,
+				E14E049213456D60AE76E170 /* ISPangleInterstitialDelegate.m in Sources */,
+				36D97CA1997D9A286B1B47EA /* ISPangleRewardedAdapter.m in Sources */,
+				F1426D034D15DBADDB0BC1EF /* ISPangleRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

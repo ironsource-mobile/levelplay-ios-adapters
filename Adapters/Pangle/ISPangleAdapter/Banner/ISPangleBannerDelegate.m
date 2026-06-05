@@ -5,20 +5,19 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <ISPangleBannerDelegate.h>
+#import <PAGAdSDK/PAGAdSDK.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISBaseBanner.h>
+#import "ISPangleBannerDelegate.h"
+#import "ISPangleConstants.h"
 
 @implementation ISPangleBannerDelegate
 
-- (instancetype)initWithSlotId:(NSString *)slotId
-                   andDelegate:(id<ISPangleBannerDelegateWrapper>)delegate {
-    
-    self = [self init];
-    
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate {
+    self = [super init];
     if (self) {
-        _slotId = slotId;
         _delegate = delegate;
     }
-    
     return self;
 }
 
@@ -26,12 +25,14 @@
 
 /// This method is invoked when the ad is displayed, covering the device's screen.
 - (void)adDidShow:(id<PAGAdProtocol>)ad {
-    [_delegate onBannerDidShow:_slotId];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
 /// This method is invoked when the ad is clicked by the user.
 - (void)adDidClick:(id<PAGAdProtocol>)ad {
-    [_delegate onBannerDidClick:_slotId];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
 
 @end

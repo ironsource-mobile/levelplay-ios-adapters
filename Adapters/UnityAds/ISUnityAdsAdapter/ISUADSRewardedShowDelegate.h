@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ISUADSRewardedShowDelegate : NSObject <UADSRewardedShowDelegate>
 
 - (instancetype _Nonnull)initWithPlacementId:(NSString * _Nonnull)placementId
-                                    delegate:(id<ISRewardedVideoAdapterDelegate> _Nonnull)delegate;
+                                    delegate:(id<ISRewardedVideoAdapterDelegate> _Nonnull)delegate
+                                 eventSender:(ISUnityAdsEventSenderBlock _Nullable)eventSender;
 @end
 
 NS_ASSUME_NONNULL_END

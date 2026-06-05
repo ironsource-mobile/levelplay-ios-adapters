@@ -8,7 +8,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const YandexAdapterVersion = @"5.7.0";
+static NSString * const YandexAdapterVersion = @"5.9.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Yandex Adapter

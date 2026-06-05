@@ -7,15 +7,21 @@
 
 #import <ISUnityAdsBannerDelegate.h>
 
+@interface ISUnityAdsBannerDelegate()
+@property (nonatomic, copy) ISUnityAdsEventSenderBlock _Nullable eventSender;
+@end
+
 @implementation ISUnityAdsBannerDelegate
 
-- (instancetype) initWithDelegate:(id<ISUnityAdsBannerDelegateWrapper>)delegate {
+- (instancetype) initWithDelegate:(id<ISUnityAdsBannerDelegateWrapper>)delegate
+                      eventSender:(ISUnityAdsEventSenderBlock)eventSender {
     self = [super init];
-    
+
     if (self) {
         _delegate = delegate;
+        self.eventSender = eventSender;
     }
-    
+
     return self;
 }
 
@@ -26,6 +32,9 @@
  * @param bannerView View that was loaded
  */
 - (void) bannerViewDidLoad:(UADSBannerView * _Nonnull)bannerView {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_BANNER, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"banner_onBannerLoaded");
+    }
     [_delegate onBannerDidLoad:bannerView];
 }
 
@@ -34,6 +43,9 @@
  * @param bannerView View that was showed
  */
 - (void) bannerViewDidShow:(UADSBannerView * _Nonnull)bannerView {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_BANNER, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"banner_onBannerShown");
+    }
     [_delegate onBannerDidShow:bannerView];
 }
 
@@ -44,6 +56,9 @@
  */
 - (void) bannerViewDidError:(UADSBannerView * _Nonnull)bannerView
                       error:(UADSBannerError * _Nullable)error {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_BANNER, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"banner_onBannerFailedToLoad");
+    }
     [_delegate onBannerDidFailToLoad:bannerView
                            withError:error];
 }
@@ -53,6 +68,9 @@
  * @param bannerView View that the click occurred on.
  */
 - (void) bannerViewDidClick:(UADSBannerView * _Nonnull)bannerView {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_BANNER, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"banner_onBannerClick");
+    }
     [_delegate onBannerDidClick:bannerView];
 }
 
@@ -61,6 +79,9 @@
  * @param bannerView View that triggered leaving application
  */
 - (void) bannerViewDidLeaveApplication:(UADSBannerView * _Nonnull)bannerView {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_BANNER, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"banner_onBannerLeftApplication");
+    }
     [_delegate onBannerWillLeaveApplication:bannerView];
 }
 

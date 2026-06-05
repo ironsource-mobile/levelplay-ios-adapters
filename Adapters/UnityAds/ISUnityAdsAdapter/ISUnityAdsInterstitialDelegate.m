@@ -7,17 +7,23 @@
 
 #import <ISUnityAdsInterstitialDelegate.h>
 
+@interface ISUnityAdsInterstitialDelegate()
+@property (nonatomic, copy) ISUnityAdsEventSenderBlock _Nullable eventSender;
+@end
+
 @implementation ISUnityAdsInterstitialDelegate
 
 - (instancetype) initWithPlacementId:(NSString *)placementId
-                         andDelegate:(id<ISUnityAdsInterstitialDelegateWrapper>)delegate {
+                         andDelegate:(id<ISUnityAdsInterstitialDelegateWrapper>)delegate
+                         eventSender:(ISUnityAdsEventSenderBlock)eventSender {
     self = [super init];
-    
+
     if (self) {
         _placementId = placementId;
         _delegate = delegate;
+        self.eventSender = eventSender;
     }
-    
+
     return self;
 }
 
@@ -28,6 +34,9 @@
  *  @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsAdLoaded:(nonnull NSString *)placementId {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_onUnityAdsAdLoaded");
+    }
     [_delegate onInterstitialDidLoad:_placementId];
 }
 
@@ -40,6 +49,9 @@
 - (void) unityAdsAdFailedToLoad:(nonnull NSString *)placementId
                       withError:(UnityAdsLoadError)error
                     withMessage:(nonnull NSString *)message {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_onUnityAdsFailedToLoad");
+    }
     [_delegate onInterstitialDidFailToLoad:_placementId
                                  withError:error];
 }
@@ -51,6 +63,9 @@
  * @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsShowStart:(nonnull NSString *)placementId {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_onUnityAdsShowStart");
+    }
     [_delegate onInterstitialDidOpen:_placementId];
 }
 
@@ -70,6 +85,9 @@
 - (void) unityAdsShowFailed:(nonnull NSString *)placementId
                   withError:(UnityAdsShowError)error
                 withMessage:(nonnull NSString *)message {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_onUnityAdsShowFailure");
+    }
     [_delegate onInterstitialShowFail:_placementId
                             withError:error
                            andMessage:message];
@@ -80,6 +98,9 @@
  * @param placementId The ID of the placement as defined in Unity Ads admin tools.
  */
 - (void) unityAdsShowClick:(nonnull NSString *)placementId {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_onUnityAdsShowClick");
+    }
     [_delegate onInterstitialDidClick:_placementId];
 }
 
@@ -90,6 +111,9 @@
  */
 - (void) unityAdsShowComplete:(nonnull NSString *)placementId
               withFinishState:(UnityAdsShowCompletionState)state {
+    if (_delegate == nil && self.eventSender != nil) {
+        self.eventSender(LEVEL_PLAY_INTERSTITIAL, TROUBLESHOOTING_UADS_MISSING_CALLBACK, @"interstitial_onUnityAdsShowComplete");
+    }
     [_delegate onInterstitialDidShowComplete:_placementId
                              withFinishState:state];
 }

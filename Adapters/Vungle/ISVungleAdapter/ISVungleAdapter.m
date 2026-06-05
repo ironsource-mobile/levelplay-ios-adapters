@@ -677,11 +677,9 @@ static InitState initState = INIT_STATE_NONE;
         vungleBannerView.adapterAdFormat = kAdapterFormatBanner;
 
         // log custom banner size mismatch for non-inline placements
-        if (![VungleAds isInLine:placementId] &&
-            [size.sizeDescription isEqualToString:kSizeCustom]) {
-            vungleBannerView.adapterAdFormat = [kAdapterFormatBanner stringByAppendingFormat:@"-%@", size.sizeDescription];
-            NSString *message = [NSString stringWithFormat:@"CustomBannerSizeMismatch:w-%ld|h-%ld",
-                                 (long)size.width, (long)size.height];
+        if (![VungleAds isInLine:placementId] && [size.sizeDescription isEqualToString:kSizeCustom]) {
+            vungleBannerView.adapterAdFormat = [kAdapterFormatBanner stringByAppendingFormat:@"-%@", size.sizeDescription.lowercaseString];
+            NSString *message = [NSString stringWithFormat:@"CustomBannerSizeMismatch:w-%ld|h-%ld", (long)size.width, (long)size.height];
             [VungleMediationLogger logErrorForAd:vungleBannerView message:message];
         }
 

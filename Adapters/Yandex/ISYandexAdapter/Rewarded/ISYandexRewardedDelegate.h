@@ -6,19 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <YandexMobileAds/YandexMobileAds.h>
+@import YandexMobileAds;
 
 @protocol ISRewardedVideoAdDelegate;
-@class ISYandexRewardedAdapter;
 
-@interface ISYandexRewardedDelegate : NSObject <YMARewardedAdLoaderDelegate, YMARewardedAdDelegate>
+@interface ISYandexRewardedDelegate : NSObject <YMARewardedAdDelegate>
 
-@property (nonatomic, weak) ISYandexRewardedAdapter *adapter;
-@property (nonatomic, strong) NSString *adUnitId;
 @property (nonatomic, weak) id<ISRewardedVideoAdDelegate> delegate;
 
-- (instancetype)initWithAdapter:(ISYandexRewardedAdapter *)adapter
-                       adUnitId:(NSString *)adUnitId
-                    andDelegate:(id<ISRewardedVideoAdDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate;
 
 @end

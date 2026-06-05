@@ -28,7 +28,7 @@ static NSInteger yandexNoFillErrorCode              = 7; // YMAAdErrorCodeNoFill
 
 // Logging Messages
 static NSString * const logAdUnitId                 = @"adUnitId = %@";
-static NSString * const logAppId                    = @"appId = %@";
+static NSString * const logAppIdAndAdUnitId         = @"appId = %@, adUnitId = %@";
 static NSString * const logError                    = @"error = %@";
 static NSString * const logCreativeId               = @"creativeId = %@";
 static NSString * const logCallbackFailed           = @"adUnitId = %@ with error = %@";
@@ -46,7 +46,7 @@ static NSString * const logShowFailed               = @"%@ show failed";
 
 // Adapter internal error
 static NSString * const logAdapterNil               = @"Network adapter is nil";
-static NSString * const logMissingAdUnitId          = @"Missing adUnitId";
+static NSString * const logMissingParam             = @"Missing or invalid %@";
 
 // Banner sizes
 static NSString * const sizeBanner                  = @"BANNER";
@@ -54,6 +54,16 @@ static NSString * const sizeLarge                   = @"LARGE";
 static NSString * const sizeRectangle               = @"RECTANGLE";
 static NSString * const sizeSmart                   = @"SMART";
 static NSString * const sizeCustom                  = @"CUSTOM";
+
+// Banner size dimensions
+static const CGFloat bannerWidth                    = 320;
+static const CGFloat bannerHeight                   = 50;
+static const CGFloat largeBannerWidth               = 320;
+static const CGFloat largeBannerHeight              = 90;
+static const CGFloat rectangleWidth                 = 300;
+static const CGFloat rectangleHeight                = 250;
+static const CGFloat leaderboardWidth               = 728;
+static const CGFloat leaderboardHeight              = 90;
 
 // init state possible values
 typedef NS_ENUM(NSInteger, InitState) {

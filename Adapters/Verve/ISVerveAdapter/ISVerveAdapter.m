@@ -5,124 +5,126 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISVerveAdapter.h"
-#import "ISVerveConstants.h"
-#import "ISVerveRewardedVideoAdapter.h"
-#import "ISVerveInterstitialAdapter.h"
-#import "ISVerveBannerAdapter.h"
-
-#import <HyBid/HyBid.h>
-#if __has_include(<HyBid/HyBid-Swift.h>)
-    #import <HyBid/HyBid-Swift.h>
-#else
-    #import "HyBid-Swift.h"
-#endif
+#import <IronSource/ISLog.h>
+#import <IronSource/ISMetaDataUtils.h>
+#import <IronSource/ISConfigurations.h>
+#import <IronSource/ISConcurrentMutableSet.h>
+#import "ISVerveAdapter+Internal.h"
 
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDelegates = nil;
 
-@interface ISVerveAdapter() <ISNetworkInitCallbackProtocol>
+@interface ISVerveAdapter ()
 
 @end
 
 @implementation ISVerveAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return VerveAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return HyBid.sdkVersion;
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISVerveRewardedVideoAdapter *rewardedVideoAdapter = [[ISVerveRewardedVideoAdapter alloc] initWithVerveAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISVerveInterstitialAdapter *interstitialAdapter = [[ISVerveInterstitialAdapter alloc] initWithVerveAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        //Banner
-        ISVerveBannerAdapter *bannerAdapter = [[ISVerveBannerAdapter alloc] initWithVerveAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
     }
-    
     return self;
 }
 
-- (void)initSDKWithAppToken:(NSString *)appToken {
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *appToken = [adData getString:appTokenKey];
+    NSString *zoneId = [adData getString:zoneIdKey];
+
+    // Configuration Validation
+    if (!appToken || appToken.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, appTokenKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
     }
-    
-    static dispatch_once_t initSdkOnceToken;
-    dispatch_once(&initSdkOnceToken, ^{
-        LogAdapterApi_Internal(@"appToken = %@", appToken);
-        
-        if ([ISConfigurations getConfigurations].adaptersDebug) {
+
+    if (!zoneId || zoneId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, zoneIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logInitFailedMessage];
+        return;
+    }
+
+    // Add delegate to the init delegates only in case the initialization has not finished yet
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initCallbackDelegates addObject:delegate];
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        initState = INIT_STATE_IN_PROGRESS;
+
+        LogAdapterDelegate_Internal(logAppTokenAndZoneId, appToken, zoneId);
+
+        BOOL enableLogs = [ISConfigurations getConfigurations].adaptersDebug;
+        if (enableLogs) {
             [HyBidLogger setLogLevel:HyBidLogLevelDebug];
         }
-        
-        initState = INIT_STATE_IN_PROGRESS;
-        [HyBid initWithAppToken:appToken 
-                     completion: ^(BOOL initSuccess){
-            if(initSuccess) {
+
+        [HyBid initWithAppToken:appToken
+                     completion:^(BOOL initSuccess) {
+            if (initSuccess) {
                 [self initializationSuccess];
-            }
-            else {
+            } else {
                 [self initializationFailure];
             }
         }];
-            
     });
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitSuccess);
+
     initState = INIT_STATE_SUCCESS;
-    
+
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
     }
-    
+
     [initCallbackDelegates removeAllObjects];
 }
 
 - (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitFailedMessage);
+
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"Verve SDK init failed"];
+
+    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED
+                                     errorMessage:logInitFailedMessage];
     }
-    
+
     [initCallbackDelegates removeAllObjects];
 }
 
@@ -133,56 +135,53 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     if (values.count == 0) {
         return;
     }
-    
-    // This is an array of 1 value
+
     NSString *value = values[0];
-    LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
-    
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-        
+
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                         forType:(META_DATA_VALUE_BOOL)];
-        
+
         if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                               flag:kMetaDataCOPPAKey
+                                               flag:metaDataCOPPAKey
                                            andValue:formattedValue]) {
             [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
     }
 }
 
-- (void)setCCPAValue:(BOOL)value {
-      LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
-    
-      NSString *ccpaConsentString = value ? kMetaDataCCPAConsentValue : kMetaDataCCPANoConsentValue;
-      [[HyBidUserDataManager sharedInstance] setIABUSPrivacyString:ccpaConsentString];
-    
+- (void)setCCPAValue:(BOOL)ccpa {
+    NSString *ccpaConsentString = ccpa ? metaDataCCPAConsentValue : metaDataCCPANoConsentValue;
+    LogAdapterApi_Internal(logCCPA, ccpaConsentString);
+    [[HyBidUserDataManager sharedInstance] setIABUSPrivacyString:ccpaConsentString];
 }
 
 - (void)setCOPPAValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
+    LogAdapterApi_Internal(logCOPPA, value ? @"YES" : @"NO");
     [HyBid setCoppa:value];
 }
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
-}
-
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
-    NSString *signal = [HyBid getCustomRequestSignalData:kMediation];
-    if (signal && signal.length >= 0) {
-        NSDictionary *biddingDataDictionary = @{kMediationTokenKey: signal};
-        NSString *returnedToken = signal ?: @"";
-        LogAdapterApi_Internal(@"%@ = %@", kMediationTokenKey, returnedToken);
-        [delegate successWithBiddingData:biddingDataDictionary];
+    if (initState != INIT_STATE_SUCCESS) {
+        LogAdapterApi_Internal(logTokenError);
+        [delegate failureWithError:logTokenError];
+        return;
     }
-    else{
-        [delegate failureWithError:@"Token is nil or empty - Verve"];
+
+    NSString *signal = [HyBid getCustomRequestSignalData:mediationName];
+    if (signal.length) {
+        LogAdapterApi_Internal(logToken, signal);
+        [delegate successWithBiddingData:@{tokenKey: signal}];
+    } else {
+        LogAdapterApi_Internal(logTokenFailed);
+        [delegate failureWithError:logTokenFailed];
     }
 }
 
