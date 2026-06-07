@@ -1,5 +1,5 @@
 //
-//  ISMolocoInterstitialAdapter.m
+//  ISMolocoRewardedAdapter.m
 //  ISMolocoAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -8,25 +8,25 @@
 #import <MolocoSDK/MolocoSDK-Swift.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISMolocoInterstitialAdapter.h"
-#import "ISMolocoInterstitialDelegate.h"
+#import "ISMolocoRewardedAdapter.h"
+#import "ISMolocoRewardedDelegate.h"
 #import "ISMolocoAdapter+Internal.h"
 #import "ISMolocoAdapter.h"
 #import "ISMolocoConstants.h"
 
-@interface ISMolocoInterstitialAdapter ()
+@interface ISMolocoRewardedAdapter ()
 
-@property (nonatomic, strong) id<MolocoInterstitial>              interstitialAd;
-@property (nonatomic, strong) ISMolocoInterstitialDelegate        *interstitialAdDelegate;
+@property (nonatomic, strong) id<MolocoRewardedInterstitial>      rewardedAd;
+@property (nonatomic, strong) ISMolocoRewardedDelegate            *rewardedAdDelegate;
 
 @end
 
-@implementation ISMolocoInterstitialAdapter
+@implementation ISMolocoRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *adUnitId = [adData getString:adUnitIdKey];
     LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
@@ -51,52 +51,52 @@
         return;
     }
 
-    // Create interstitial ad
+    // Create rewarded ad
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Create interstitial ad delegate
-        self.interstitialAdDelegate = [[ISMolocoInterstitialDelegate alloc] initWithDelegate:delegate];
+        // Create rewarded ad delegate
+        self.rewardedAdDelegate = [[ISMolocoRewardedDelegate alloc] initWithDelegate:delegate];
 
         MolocoCreateAdParams *params = [[MolocoCreateAdParams alloc] initWithAdUnit:adUnitId
                                                                            mediation:mediationName];
 
-        self.interstitialAd = [[Moloco shared] createInterstitialWithParams:params];
-        self.interstitialAd.interstitialDelegate = self.interstitialAdDelegate;
+        self.rewardedAd = [[Moloco shared] createRewardedWithParams:params];
+        self.rewardedAd.rewardedDelegate = self.rewardedAdDelegate;
 
         // Load ad
-        [self.interstitialAd loadWithBidResponse:serverData];
+        [self.rewardedAd loadWithBidResponse:serverData];
     });
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
-        LogAdapterApi_Internal(logError, errorInterstitialNotAvailable);
+        LogAdapterApi_Internal(logError, errorRewardedNotAvailable);
         [delegate adDidFailToShowWithErrorCode:ERROR_CODE_NO_ADS_TO_SHOW
-                                  errorMessage:errorInterstitialNotAvailable];
+                                  errorMessage:errorRewardedNotAvailable];
         return;
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.interstitialAd showFrom:viewController];
+        [self.rewardedAd showFrom:viewController];
     });
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && self.interstitialAd.isReady;
+    return self.rewardedAd != nil && self.rewardedAd.isReady;
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
-    [self.interstitialAd destroy];
-    self.interstitialAd.interstitialDelegate = nil;
+    [self.rewardedAd destroy];
+    self.rewardedAd.rewardedDelegate = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.interstitialAd = nil;
+        self.rewardedAd = nil;
     });
-    self.interstitialAdDelegate = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {

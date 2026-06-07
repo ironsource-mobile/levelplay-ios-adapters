@@ -5,147 +5,99 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <MolocoSDK/MolocoSDK-Swift.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISMolocoBannerAdapter.h"
 #import "ISMolocoBannerDelegate.h"
+#import "ISMolocoAdapter+Internal.h"
+#import "ISMolocoAdapter.h"
+#import "ISMolocoConstants.h"
 
 @interface ISMolocoBannerAdapter ()
 
-@property (nonatomic, weak) ISMolocoAdapter *adapter;
-@property (nonatomic, strong) MolocoBannerAdView *ad;
-@property (nonatomic, strong) ISMolocoBannerDelegate *molocoAdDelegate;
-@property (nonatomic, weak) id<ISBannerAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) MolocoBannerAdView           *bannerAdView;
+@property (nonatomic, strong) ISMolocoBannerDelegate       *bannerAdDelegate;
 
 @end
 
 @implementation ISMolocoBannerAdapter
 
-- (instancetype)initWithMolocoAdapter:(ISMolocoAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _smashDelegate = nil;
-        _ad = nil;
-        _molocoAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Banner Methods
 
-- (void)initBannerForBiddingWithUserId:(NSString *)userId
-                         adapterConfig:(ISAdapterConfig *)adapterConfig
-                              delegate:(id<ISBannerAdapterDelegate>)delegate {
-    NSString *appKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                      forKey:kAppKey];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:appKey]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAppKey];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerInitFailedWithError:error];
+- (void)loadAdWithAdData:(ISAdData *)adData
+          viewController:(UIViewController *)viewController
+                    size:(ISBannerSize *)size
+                delegate:(id<ISBannerAdDelegate>)delegate {
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+    LogAdapterApi_Internal(logAdUnitId, adUnitId);
+
+    // Validate adUnitId
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorMissingParams
+                                  errorMessage:errorMessage];
         return;
     }
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:adUnitId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAdUnitId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerInitFailedWithError:error];
+
+    // Validate serverData
+    NSString *serverData = adData.serverData;
+    if (!serverData) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, serverDataKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorMissingParams
+                                  errorMessage:errorMessage];
         return;
     }
-    
-    self.smashDelegate = delegate;
-    
-    LogAdapterApi_Internal(@"appKey = %@, adUnitId = %@", appKey, adUnitId);
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithAppKey:appKey];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterBannerInitSuccess];
-            break;
-        case INIT_STATE_FAILED:
-            LogAdapterApi_Internal(@"init failed - adUnitId = %@", adUnitId);
-            [delegate adapterBannerInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                withMessage:@"Moloco SDK init failed"]];
-            break;
-    }
-}
 
-- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                       adData:(NSDictionary *)adData
-                                   serverData:(NSString *)serverData
-                               viewController:(UIViewController *)viewController
-                                         size:(ISBannerSize *)size
-                                     delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-    
-    // get size
+    // Get banner size
     MolocoBannerType adSize = [self getBannerSize:size];
-    
-    // create banner ad delegate
-    ISMolocoBannerDelegate *bannerAdDelegate = [[ISMolocoBannerDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                       andDelegate:delegate];
-    self.molocoAdDelegate = bannerAdDelegate;
-    
-    // create banner view
-    dispatch_async(dispatch_get_main_queue(), ^{
-        MolocoBannerAdView *bannerAdView = [self createBannerWithAdSize:adSize
-                                                               adUnitId:adUnitId
-                                                         viewController:viewController];
-    bannerAdView.delegate = bannerAdDelegate;
 
-    // add banner ad to local variable
-    self.ad = bannerAdView;
-    
-    // load ad
-        [self.ad loadWithBidResponse:serverData];
+    // Create banner view
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Create banner ad delegate
+        self.bannerAdDelegate = [[ISMolocoBannerDelegate alloc] initWithDelegate:delegate];
+
+        self.bannerAdView = [self createBannerWithAdSize:adSize
+                                                 adUnitId:adUnitId
+                                           viewController:viewController];
+        self.bannerAdView.delegate = self.bannerAdDelegate;
+
+        // Load ad
+        [self.bannerAdView loadWithBidResponse:serverData];
     });
 }
 
-- (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    [self.ad destroy];
-    self.ad.delegate = nil;
-    self.ad = nil;
-    self.smashDelegate = nil;
-    self.molocoAdDelegate = nil;
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+
+    [self.bannerAdView destroy];
+    self.bannerAdView.delegate = nil;
+    self.bannerAdView = nil;
+    self.bannerAdDelegate = nil;
 }
 
-- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                           adData:(NSDictionary *)adData
-                                         delegate:(id<ISBiddingDataDelegate>)delegate {
-    
-    [self.adapter collectBiddingDataWithDelegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterBannerInitSuccess];
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    [self.smashDelegate adapterBannerInitFailedWithError:error];
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISMolocoAdapter *adapter = (ISMolocoAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorInternal
+                                         userInfo:@{NSLocalizedDescriptionKey:logAdapterNil}];
+        [delegate failureWithError:error.localizedDescription];
+        return;
+    }
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
 
 #pragma mark - Helper Methods
 
 - (MolocoBannerType)getBannerSize:(ISBannerSize *)size {
-    if ([size.sizeDescription isEqualToString:@"BANNER"]) {
+    if ([size.sizeDescription isEqualToString:sizeBanner]) {
         return MolocoBannerTypeRegular;
-    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
+    } else if ([size.sizeDescription isEqualToString:sizeRectangle]) {
         return MolocoBannerTypeMrec;
     }
     return MolocoBannerTypeRegular;
@@ -153,15 +105,15 @@
 
 - (MolocoBannerAdView *)createBannerWithAdSize:(MolocoBannerType)adSize
                                       adUnitId:(NSString *)adUnitId
-                                 viewController:(UIViewController *)viewController {
+                                viewController:(UIViewController *)viewController {
+    MolocoCreateAdParams *params = [[MolocoCreateAdParams alloc] initWithAdUnit:adUnitId
+                                                                       mediation:mediationName];
+
     MolocoBannerAdView *bannerAdView = nil;
-    
-    // Create MolocoCreateAdParams with the required parameters
-    MolocoCreateAdParams *params = [self.adapter createMolocoAdParamsWithAdUnitId:adUnitId];
-    
+
     if (adSize == MolocoBannerTypeMrec) {
         bannerAdView = [[Moloco shared] createMRECWithParams:params viewController:viewController];
-    } else if (adSize == MolocoBannerTypeRegular){
+    } else if (adSize == MolocoBannerTypeRegular) {
         bannerAdView = [[Moloco shared] createBannerWithParams:params viewController:viewController];
     }
     return bannerAdView;

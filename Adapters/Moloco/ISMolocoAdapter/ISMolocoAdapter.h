@@ -5,13 +5,13 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const MolocoAdapterVersion = @"5.11.0";
+static NSString * const MolocoAdapterVersion = @"5.12.0";
 static NSString * Githash = @"";
 
-//System Frameworks For Moloco Adapter
+// System Frameworks For Moloco Adapter
 @import AdSupport;
 @import AVFoundation;
 @import CoreGraphics;
@@ -21,7 +21,6 @@ static NSString * Githash = @"";
 @import StoreKit;
 @import SystemConfiguration;
 
-
-@interface ISMolocoAdapter : ISBaseAdapter
+@interface ISMolocoAdapter : LevelPlayBaseAdapter
 
 @end

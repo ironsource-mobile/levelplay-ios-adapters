@@ -6,11 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISMolocoAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISMolocoInterstitialAdapter : ISBaseInterstitialAdapter
-
-- (instancetype)initWithMolocoAdapter:(ISMolocoAdapter *)adapter;
+@interface ISMolocoInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end
-

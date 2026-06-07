@@ -5,83 +5,85 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISMolocoAdapter.h"
-#import "ISMolocoConstants.h"
-#import "ISMolocoRewardedVideoAdapter.h"
-#import "ISMolocoInterstitialAdapter.h"
-#import "ISMolocoBannerAdapter.h"
+#import <IronSource/ISLog.h>
+#import <IronSource/ISMetaDataUtils.h>
+#import <IronSource/ISConfigurations.h>
+#import <IronSource/ISConcurrentMutableSet.h>
 #import <MolocoSDK/MolocoSDK-Swift.h>
+#import "ISMolocoAdapter+Internal.h"
 
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
-
-@interface ISMolocoAdapter() <ISNetworkInitCallbackProtocol>
-
-@end
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDelegates = nil;
 
 @implementation ISMolocoAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return MolocoAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
-    return Moloco.shared.sdkVersion ;
+- (NSString *)networkSDKVersion {
+    return Moloco.shared.sdkVersion;
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
     if (self) {
         if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISMolocoRewardedVideoAdapter *rewardedVideoAdapter = [[ISMolocoRewardedVideoAdapter alloc] initWithMolocoAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISMolocoInterstitialAdapter *interstitialAdapter = [[ISMolocoInterstitialAdapter alloc] initWithMolocoAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        //Banner
-        ISMolocoBannerAdapter *bannerAdapter = [[ISMolocoBannerAdapter alloc] initWithMolocoAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }
-    
     return self;
 }
 
-- (void)initSDKWithAppKey:(NSString *)appKey {
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *appKey = [adData getString:appKeyKey];
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+
+    if (!appKey || appKey.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, appKeyKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
     }
-    
-    static dispatch_once_t initSdkOnceToken;
-    dispatch_once(&initSdkOnceToken, ^{
-        LogAdapterApi_Internal(@"appKey = %@", appKey);
-        
+
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ISAdapterErrorInternal errorMessage:logInitFailed];
+        return;
+    }
+
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initCallbackDelegates addObject:delegate];
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        LogAdapterApi_Internal(logAppKeyAndAdUnitId, appKey, adUnitId);
+
         initState = INIT_STATE_IN_PROGRESS;
-        
+
         MolocoInitParams *initParams = [[MolocoInitParams alloc] initWithAppKey:appKey
-                                                                       mediation:kMediationInfo];
-        ISMolocoAdapter * __weak weakSelf = self;
-        [[Moloco shared] initializeWithParams:initParams 
-                                   completion:^(BOOL success, NSError * _Nullable error){
-            typeof(self) strongSelf = weakSelf;
+                                                                       mediation:mediationName];
+        __weak typeof(self) weakSelf = self;
+        [[Moloco shared] initializeWithParams:initParams
+                                   completion:^(BOOL success, NSError * _Nullable error) {
+            __typeof__(self) strongSelf = weakSelf;
             if (success) {
                 [strongSelf initializationSuccess];
             } else {
@@ -92,30 +94,31 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitSuccess);
+
     initState = INIT_STATE_SUCCESS;
-    
+
     NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
     }
-    
+
     [initCallbackDelegates removeAllObjects];
 }
 
 - (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitFailed);
+
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"Moloco SDK init failed"];
+
+    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidFailWithErrorCode:ISAdapterErrorInternal
+                                     errorMessage:logInitFailed];
     }
-    
+
     [initCallbackDelegates removeAllObjects];
 }
 
@@ -126,21 +129,20 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     if (values.count == 0) {
         return;
     }
-    
-    // This is an array of 1 value
+
     NSString *value = values[0];
-    LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
-    
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
     if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
                                            andValue:value]) {
         [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-        
+
     } else {
         NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                         forType:(META_DATA_VALUE_BOOL)];
-        
+
         if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                               flag:kMetaDataCOPPAKey
+                                               flag:metaDataCOPPAKey
                                            andValue:formattedValue]) {
             [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
         }
@@ -148,56 +150,43 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)setConsent:(BOOL)consent {
-    LogAdapterApi_Internal(@"consent = %@", consent? @"YES" : @"NO");
+    LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
     MolocoPrivacySettings.hasUserConsent = consent;
 }
 
-
 - (void)setCCPAValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
+    LogAdapterApi_Internal(logCCPA, value ? @"YES" : @"NO");
     MolocoPrivacySettings.isDoNotSell = value;
-    
 }
 
 - (void)setCOPPAValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
+    LogAdapterApi_Internal(logCOPPA, value ? @"YES" : @"NO");
     MolocoPrivacySettings.isAgeRestrictedUser = value;
 }
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
-}
-
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
-
+    // Token Fetch Time: "After Init Success" - check initState == INIT_STATE_SUCCESS
     if (initState != INIT_STATE_SUCCESS) {
-        NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
-        LogAdapterApi_Internal(@"%@", error);
-        [delegate failureWithError:error];
+        LogAdapterApi_Internal(logTokenError);
+        [delegate failureWithError:logTokenError];
         return;
     }
-    
-    MolocoParams *params = [[MolocoParams alloc] initWithMediation:kMediationInfo];
+
+    MolocoParams *params = [[MolocoParams alloc] initWithMediation:mediationName];
     [Moloco.shared getBidTokenWithParams:params completion:^(NSString *token, NSError *error) {
-        
         if (error) {
-            LogAdapterApi_Internal(@"%@", error.localizedDescription);
+            LogAdapterApi_Internal(logError, error.localizedDescription);
             [delegate failureWithError:error.localizedDescription];
             return;
         }
-        
-        NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: token, @"token", nil];
-        NSString *returnedToken = token? token : @"";
-        LogAdapterApi_Internal(@"token = %@", returnedToken);
+
+        NSString *returnedToken = token ? token : @"";
+        LogAdapterApi_Internal(logToken, returnedToken);
+        NSDictionary *biddingDataDictionary = @{tokenKey: returnedToken};
         [delegate successWithBiddingData:biddingDataDictionary];
     }];
-}
-
-- (MolocoCreateAdParams *)createMolocoAdParamsWithAdUnitId:(NSString *)adUnitId {
-    return [[MolocoCreateAdParams alloc] initWithAdUnit:adUnitId
-                                              mediation:kMediationInfo];
 }
 
 @end

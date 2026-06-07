@@ -1,5 +1,5 @@
 //
-//  ISMolocoInterstitialDelegate.m
+//  ISMolocoRewardedDelegate.m
 //  ISMolocoAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -7,13 +7,13 @@
 
 #import <IronSource/ISLog.h>
 #import <IronSource/ISAdapterErrors.h>
-#import <IronSource/ISBaseInterstitial.h>
-#import "ISMolocoInterstitialDelegate.h"
+#import <IronSource/ISBaseRewardedVideo.h>
+#import "ISMolocoRewardedDelegate.h"
 #import "ISMolocoConstants.h"
 
-@implementation ISMolocoInterstitialDelegate
+@implementation ISMolocoRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -48,6 +48,13 @@
     [self.delegate adDidOpen];
 }
 
+/// Calls this method when video starts. Optional, it can be not invoked.
+/// @param ad object that starts video.
+- (void)rewardedVideoStartedWithAd:(id<MolocoAd> _Nonnull)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidStart];
+}
+
 /// Calls this method when ad fails to show for some reasons
 /// @param ad ad object that was not shown
 /// @param error the reason of failing loading
@@ -64,8 +71,22 @@
     [self.delegate adDidClick];
 }
 
-/// Calls this method when ad was closed
+/// Calls this method when the user gets a reward.
+/// @param ad ad object that produce reward
+- (void)userRewardedWithAd:(id<MolocoAd> _Nonnull)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
+}
+
+/// Calls this method when the video has completed video playback
 /// @param ad ad object that was closed
+- (void)rewardedVideoCompletedWithAd:(id<MolocoAd> _Nonnull)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidEnd];
+}
+
+/// Calls this method when ad was closed
+/// @param ad ad object that video reached the end.
 - (void)didHideWithAd:(id<MolocoAd> _Nonnull)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClose];
