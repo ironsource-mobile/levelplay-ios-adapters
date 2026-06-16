@@ -1,0 +1,8 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '14.0'
+use_frameworks!
+
+target 'ISMyTargetAdapter' do
+  pod 'IronSourceSDK', '9.4.1.0'
+  pod 'myTargetSDK', '5.44.1'
+end
