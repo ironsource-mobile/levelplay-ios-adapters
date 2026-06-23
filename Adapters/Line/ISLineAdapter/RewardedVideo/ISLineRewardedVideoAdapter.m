@@ -118,6 +118,7 @@
             return;
         }
         self.ad = ad;
+        [self.ad setEventListener:self.lineAdDelegate];
         [self onAdUnitAvailabilityChangeWithAdSlotId:slotId
                                                 availability:YES
                                              rewardedVideoAd:ad];
@@ -143,7 +144,6 @@
         return;
     }
     if (self.ad) {
-        [self.ad setEventListener: self.lineAdDelegate];
         [self.ad showWithViewController:viewController];
     } else {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW

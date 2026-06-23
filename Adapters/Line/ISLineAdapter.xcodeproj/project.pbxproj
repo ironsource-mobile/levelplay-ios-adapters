@@ -144,7 +144,6 @@
 				};
 			};
 			buildConfigurationList = 9A44A215168CA7913D30867E /* Build configuration list for PBXProject "ISLineAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -154,6 +153,7 @@
 			mainGroup = 5B0FDBA31E8381AEC2D7879B;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = B01EBC82422E61EB18AB7A19 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

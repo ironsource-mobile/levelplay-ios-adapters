@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.5.0
+* Fixed missing Interstitial and Rewarded Video ad callbacks
+
 ## Version 5.4.0
 * Supporting SDK version 3.0.1
 

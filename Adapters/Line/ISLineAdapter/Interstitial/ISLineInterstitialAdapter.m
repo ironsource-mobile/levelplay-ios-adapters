@@ -114,6 +114,7 @@
             return;
         }
         self.ad = ad;
+        [self.ad setEventListener:self.lineAdDelegate];
         [delegate adapterInterstitialDidLoad];
     };
     [self.adLoader loadInterstitialAdWithBidData:bidData
@@ -135,7 +136,6 @@
         return;
     }
     if (self.ad) {
-        [self.ad setEventListener: self.lineAdDelegate];
         [self.ad showWithViewController:viewController];
     } else {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
