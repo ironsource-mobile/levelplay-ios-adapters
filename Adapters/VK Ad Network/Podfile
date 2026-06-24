@@ -4,5 +4,5 @@ use_frameworks!
 
 target 'ISMyTargetAdapter' do
   pod 'IronSourceSDK', '9.4.1.0'
-  pod 'myTargetSDK', '5.44.1'
+  pod 'myTargetSDK', '5.45.0'
 end
