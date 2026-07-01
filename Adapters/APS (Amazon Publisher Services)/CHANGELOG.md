@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 5.7.0
+* Supporting SDK version 5.6.3
+
+## Version 5.6.0
+* Added support for U.S. Privacy (CCPA)
+
 ## Version 5.5.0
 * Supporting SDK version 5.6.2
 
