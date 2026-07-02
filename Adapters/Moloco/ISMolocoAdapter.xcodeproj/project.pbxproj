@@ -9,38 +9,38 @@
 /* Begin PBXBuildFile section */
 		05A06B528211AE4D302A35F5 /* ISMolocoAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C5EDA31AFAD925BDC0BBD181 /* ISMolocoAdapter+Internal.h */; };
 		09E70C446996578E6FA63AF5 /* ISMolocoInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 054F5AB31D365F118C40B070 /* ISMolocoInterstitialAdapter.m */; };
-		10B66C6629D7196E28B45112 /* ISMolocoRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BB533510F1D2D60A0CA255C9 /* ISMolocoRewardedVideoAdapter.h */; };
 		1674146C43FAA175D1BA8E48 /* ISMolocoInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 456BE58F598D3C638FF4C5CC /* ISMolocoInterstitialAdapter.h */; };
 		170A0E6D4D14ED62EDD39626 /* ISMolocoConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = BC3CCBAF2BBCD533C0A833D8 /* ISMolocoConstants.h */; };
 		1B7F364E5E8EE8978974111B /* ISMolocoInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 402453B2D612045AD99967C4 /* ISMolocoInterstitialDelegate.h */; };
 		220F1FCD60ACDEF3584CDECC /* ISMolocoBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1961FDC2CBE14C4E45202294 /* ISMolocoBannerAdapter.m */; };
-		2F0243CB5FD76D5D838679CE /* ISMolocoRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D10B4CCEDC3D2E7BBC44A5C0 /* ISMolocoRewardedVideoDelegate.h */; };
 		41921AFD388652CE09DF18B0 /* ISMolocoBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B49D8B677916E5EBCDB2F8FC /* ISMolocoBannerAdapter.h */; };
 		43FACE7D5CA3C6F2583C86EC /* ISMolocoBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 51EE71F6C791FD759892C480 /* ISMolocoBannerDelegate.h */; };
 		4E57ABF7C2DBADFCDB6D0D59 /* ISMolocoBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF737030E3ACB60FEA95004B /* ISMolocoBannerDelegate.m */; };
 		56B833F29E566B05F01CAB21 /* ISMolocoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = BBCBC9B2E6CC39C1A7E53363 /* ISMolocoAdapter.m */; };
+		6AF90CE566A65BFE7A3B078D /* ISMolocoRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B1120E8E729018197051B1 /* ISMolocoRewardedAdapter.m */; };
 		86A2F681C2B80568CA1E6917 /* ISMolocoInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FEA514AC149D82BAC629E /* ISMolocoInterstitialDelegate.m */; };
 		8BFA0A4A93E6CD159A464528 /* ISMolocoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8180972C8A34C2FC11B6FC8A /* ISMolocoAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9BE31AE835380E8E58AC7C5C /* ISMolocoRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = D858915C8F5F3652D2813430 /* ISMolocoRewardedVideoAdapter.m */; };
-		D3B537A269C6D5610AC3D662 /* ISMolocoRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE2CFB2B7674CEE2A6C523A /* ISMolocoRewardedVideoDelegate.m */; };
+		C49601A7AA44849BDE430E72 /* ISMolocoRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0751D199C26EB12FC46BB5 /* ISMolocoRewardedDelegate.m */; };
+		DBB2EC484110952B9B9AD2E1 /* ISMolocoRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 92F8BAF4D63A953EE00A908B /* ISMolocoRewardedAdapter.h */; };
+		F93A5B349C2C6382EA82515A /* ISMolocoRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 50A727E068885F20FFBCED09 /* ISMolocoRewardedDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		054F5AB31D365F118C40B070 /* ISMolocoInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoInterstitialAdapter.m; sourceTree = "<group>"; };
-		0FE2CFB2B7674CEE2A6C523A /* ISMolocoRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoRewardedVideoDelegate.m; sourceTree = "<group>"; };
 		1961FDC2CBE14C4E45202294 /* ISMolocoBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoBannerAdapter.m; sourceTree = "<group>"; };
 		402453B2D612045AD99967C4 /* ISMolocoInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoInterstitialDelegate.h; sourceTree = "<group>"; };
 		456BE58F598D3C638FF4C5CC /* ISMolocoInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoInterstitialAdapter.h; sourceTree = "<group>"; };
+		50A727E068885F20FFBCED09 /* ISMolocoRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoRewardedDelegate.h; sourceTree = "<group>"; };
 		51EE71F6C791FD759892C480 /* ISMolocoBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoBannerDelegate.h; sourceTree = "<group>"; };
 		5E4FEA514AC149D82BAC629E /* ISMolocoInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoInterstitialDelegate.m; sourceTree = "<group>"; };
 		8180972C8A34C2FC11B6FC8A /* ISMolocoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoAdapter.h; sourceTree = "<group>"; };
+		92F8BAF4D63A953EE00A908B /* ISMolocoRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoRewardedAdapter.h; sourceTree = "<group>"; };
 		B49D8B677916E5EBCDB2F8FC /* ISMolocoBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoBannerAdapter.h; sourceTree = "<group>"; };
-		BB533510F1D2D60A0CA255C9 /* ISMolocoRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		BA0751D199C26EB12FC46BB5 /* ISMolocoRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoRewardedDelegate.m; sourceTree = "<group>"; };
 		BBCBC9B2E6CC39C1A7E53363 /* ISMolocoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoAdapter.m; sourceTree = "<group>"; };
 		BC3CCBAF2BBCD533C0A833D8 /* ISMolocoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoConstants.h; sourceTree = "<group>"; };
+		C0B1120E8E729018197051B1 /* ISMolocoRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoRewardedAdapter.m; sourceTree = "<group>"; };
 		C5EDA31AFAD925BDC0BBD181 /* ISMolocoAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISMolocoAdapter+Internal.h"; sourceTree = "<group>"; };
-		D10B4CCEDC3D2E7BBC44A5C0 /* ISMolocoRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISMolocoRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		D858915C8F5F3652D2813430 /* ISMolocoRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoRewardedVideoAdapter.m; sourceTree = "<group>"; };
 		DA9DE395DB6EC290EAA25C42 /* ISMolocoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISMolocoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF737030E3ACB60FEA95004B /* ISMolocoBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISMolocoBannerDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,15 +76,15 @@
 			);
 			sourceTree = "<group>";
 		};
-		7CBCAADD9700F95E446F91DF /* RewardedVideo */ = {
+		5CB768744F0BAFE5E086EA2A /* Rewarded */ = {
 			isa = PBXGroup;
 			children = (
-				BB533510F1D2D60A0CA255C9 /* ISMolocoRewardedVideoAdapter.h */,
-				D858915C8F5F3652D2813430 /* ISMolocoRewardedVideoAdapter.m */,
-				D10B4CCEDC3D2E7BBC44A5C0 /* ISMolocoRewardedVideoDelegate.h */,
-				0FE2CFB2B7674CEE2A6C523A /* ISMolocoRewardedVideoDelegate.m */,
+				92F8BAF4D63A953EE00A908B /* ISMolocoRewardedAdapter.h */,
+				C0B1120E8E729018197051B1 /* ISMolocoRewardedAdapter.m */,
+				50A727E068885F20FFBCED09 /* ISMolocoRewardedDelegate.h */,
+				BA0751D199C26EB12FC46BB5 /* ISMolocoRewardedDelegate.m */,
 			);
-			path = RewardedVideo;
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 		887E01702C2F34F4F2307468 /* ISMolocoAdapter */ = {
@@ -96,7 +96,7 @@
 				BC3CCBAF2BBCD533C0A833D8 /* ISMolocoConstants.h */,
 				26FA99F5DDC313E34AFD7AC7 /* Banner */,
 				2ECABF3DD51B6F32758857BB /* Interstitial */,
-				7CBCAADD9700F95E446F91DF /* RewardedVideo */,
+				5CB768744F0BAFE5E086EA2A /* Rewarded */,
 			);
 			path = ISMolocoAdapter;
 			sourceTree = "<group>";
@@ -123,8 +123,8 @@
 				170A0E6D4D14ED62EDD39626 /* ISMolocoConstants.h in Headers */,
 				1674146C43FAA175D1BA8E48 /* ISMolocoInterstitialAdapter.h in Headers */,
 				1B7F364E5E8EE8978974111B /* ISMolocoInterstitialDelegate.h in Headers */,
-				10B66C6629D7196E28B45112 /* ISMolocoRewardedVideoAdapter.h in Headers */,
-				2F0243CB5FD76D5D838679CE /* ISMolocoRewardedVideoDelegate.h in Headers */,
+				DBB2EC484110952B9B9AD2E1 /* ISMolocoRewardedAdapter.h in Headers */,
+				F93A5B349C2C6382EA82515A /* ISMolocoRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,8 +215,8 @@
 				4E57ABF7C2DBADFCDB6D0D59 /* ISMolocoBannerDelegate.m in Sources */,
 				09E70C446996578E6FA63AF5 /* ISMolocoInterstitialAdapter.m in Sources */,
 				86A2F681C2B80568CA1E6917 /* ISMolocoInterstitialDelegate.m in Sources */,
-				9BE31AE835380E8E58AC7C5C /* ISMolocoRewardedVideoAdapter.m in Sources */,
-				D3B537A269C6D5610AC3D662 /* ISMolocoRewardedVideoDelegate.m in Sources */,
+				6AF90CE566A65BFE7A3B078D /* ISMolocoRewardedAdapter.m in Sources */,
+				C49601A7AA44849BDE430E72 /* ISMolocoRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

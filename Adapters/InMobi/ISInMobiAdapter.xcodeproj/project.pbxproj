@@ -7,40 +7,66 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0329364EBA4E6EA9FE41EBFF /* ISInMobiBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F27F8A5F2B160F17FAB4C4B /* ISInMobiBannerDelegate.m */; };
+		0579BE8F178A52669E1CCC03 /* ISInMobiBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 491BCFE714C795F64E72A45F /* ISInMobiBannerAdapter.m */; };
+		059162A44CF2827CA79FCED9 /* ISInMobiBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 332225C6BDDA1CC5FEF00267 /* ISInMobiBannerDelegate.h */; };
 		0B8F7521D06939FB54F27F7D /* ISInMobiAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 12BD94CFB27F40917D52121E /* ISInMobiAdapter.m */; };
-		180410DB74C3F77FFD297618 /* ISInMobiRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2984AD08B4A42C801DE58298 /* ISInMobiRewardedVideoDelegate.m */; };
-		716643F1A9019FF4006E5C05 /* ISInMobiRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B0CE60B3202258D16AF009 /* ISInMobiRewardedVideoDelegate.h */; };
-		9E705EECAFDBD3912B3CE3A0 /* ISInMobiInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0F063833DF4F324F8C9D88 /* ISInMobiInterstitialDelegate.h */; };
-		B85CB07E96A98C6C0635BF32 /* ISInMobiBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FF716CF5BB45E63D9F58B8C2 /* ISInMobiBannerDelegate.h */; };
+		0D5EB39507DE36670EB6FBCD /* ISInMobiRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D29D441D35B7580C836DC2F /* ISInMobiRewardedAdapter.m */; };
+		0FD7F977A029E155E178CC8C /* ISInMobiInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = CFC87DA48C1189A80A9556EB /* ISInMobiInterstitialDelegate.h */; };
+		19588774B417C90AF4652C29 /* ISInMobiRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 268E86FDA7018DA5E003D583 /* ISInMobiRewardedDelegate.m */; };
+		78D68E4CC0724038A7BB5EBE /* ISInMobiAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DF864F9DC33B7055B84D920 /* ISInMobiAdapter+Internal.h */; };
+		98B5CA2255E214A46B502BA1 /* ISInMobiInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 746E36F00CFAF56BABD68D3C /* ISInMobiInterstitialAdapter.m */; };
+		9947ACE9FDEB4FF5CCC80F05 /* ISInMobiConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D7C36883C7D82DAE6B46B57 /* ISInMobiConstants.h */; };
+		9B60BC62E5BAA63179A90BE7 /* ISInMobiRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D9CE0B1CCF688C690C030778 /* ISInMobiRewardedDelegate.h */; };
+		B04088A21D3A98846F31D0AE /* ISInMobiInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A57D9ECE940043E935888F1B /* ISInMobiInterstitialAdapter.h */; };
 		CF1F22D02291F0072B6FC554 /* ISInMobiAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B8E768B9B1A4F9D2CF5D024F /* ISInMobiAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D4361A7AAFC6B232FF091038 /* ISInMobiBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F96B05467BED55946CA3EA /* ISInMobiBannerDelegate.m */; };
-		D470DD97C32AB66C3CF4FCAC /* ISInMobiInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3E4D7878DF3AD06AC019C6B /* ISInMobiInterstitialDelegate.m */; };
+		E91A6D5EECD1DC3E64D53F69 /* ISInMobiBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3886A715D5E497E05A250609 /* ISInMobiBannerAdapter.h */; };
+		EC4EBB82F074632C64F50C73 /* ISInMobiRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 468BB2A50EC6D629D175A23C /* ISInMobiRewardedAdapter.h */; };
+		EEE53D4F0F8AD1F46F86AB32 /* ISInMobiInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE4CB12144F4A2D55D7659F /* ISInMobiInterstitialDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1293275B6B2032849722760A /* ISInMobiAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISInMobiAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		12BD94CFB27F40917D52121E /* ISInMobiAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiAdapter.m; sourceTree = "<group>"; };
-		2984AD08B4A42C801DE58298 /* ISInMobiRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		268E86FDA7018DA5E003D583 /* ISInMobiRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiRewardedDelegate.m; sourceTree = "<group>"; };
+		2D7C36883C7D82DAE6B46B57 /* ISInMobiConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiConstants.h; sourceTree = "<group>"; };
+		2F27F8A5F2B160F17FAB4C4B /* ISInMobiBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiBannerDelegate.m; sourceTree = "<group>"; };
+		332225C6BDDA1CC5FEF00267 /* ISInMobiBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiBannerDelegate.h; sourceTree = "<group>"; };
+		3886A715D5E497E05A250609 /* ISInMobiBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiBannerAdapter.h; sourceTree = "<group>"; };
+		468BB2A50EC6D629D175A23C /* ISInMobiRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiRewardedAdapter.h; sourceTree = "<group>"; };
+		491BCFE714C795F64E72A45F /* ISInMobiBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiBannerAdapter.m; sourceTree = "<group>"; };
+		5D29D441D35B7580C836DC2F /* ISInMobiRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiRewardedAdapter.m; sourceTree = "<group>"; };
+		5FE4CB12144F4A2D55D7659F /* ISInMobiInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiInterstitialDelegate.m; sourceTree = "<group>"; };
+		6DF864F9DC33B7055B84D920 /* ISInMobiAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISInMobiAdapter+Internal.h"; sourceTree = "<group>"; };
+		746E36F00CFAF56BABD68D3C /* ISInMobiInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiInterstitialAdapter.m; sourceTree = "<group>"; };
+		A57D9ECE940043E935888F1B /* ISInMobiInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiInterstitialAdapter.h; sourceTree = "<group>"; };
 		B8E768B9B1A4F9D2CF5D024F /* ISInMobiAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiAdapter.h; sourceTree = "<group>"; };
-		C9F96B05467BED55946CA3EA /* ISInMobiBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiBannerDelegate.m; sourceTree = "<group>"; };
-		D3E4D7878DF3AD06AC019C6B /* ISInMobiInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISInMobiInterstitialDelegate.m; sourceTree = "<group>"; };
-		EC0F063833DF4F324F8C9D88 /* ISInMobiInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiInterstitialDelegate.h; sourceTree = "<group>"; };
-		F9B0CE60B3202258D16AF009 /* ISInMobiRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		FF716CF5BB45E63D9F58B8C2 /* ISInMobiBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiBannerDelegate.h; sourceTree = "<group>"; };
+		CFC87DA48C1189A80A9556EB /* ISInMobiInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiInterstitialDelegate.h; sourceTree = "<group>"; };
+		D9CE0B1CCF688C690C030778 /* ISInMobiRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISInMobiRewardedDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		11689ED8964A7C5B3B2CAF5E /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				468BB2A50EC6D629D175A23C /* ISInMobiRewardedAdapter.h */,
+				5D29D441D35B7580C836DC2F /* ISInMobiRewardedAdapter.m */,
+				D9CE0B1CCF688C690C030778 /* ISInMobiRewardedDelegate.h */,
+				268E86FDA7018DA5E003D583 /* ISInMobiRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
 		1EEA773AB482835C8E4EA8D6 /* ISInMobiAdapter */ = {
 			isa = PBXGroup;
 			children = (
 				B8E768B9B1A4F9D2CF5D024F /* ISInMobiAdapter.h */,
 				12BD94CFB27F40917D52121E /* ISInMobiAdapter.m */,
-				FF716CF5BB45E63D9F58B8C2 /* ISInMobiBannerDelegate.h */,
-				C9F96B05467BED55946CA3EA /* ISInMobiBannerDelegate.m */,
-				EC0F063833DF4F324F8C9D88 /* ISInMobiInterstitialDelegate.h */,
-				D3E4D7878DF3AD06AC019C6B /* ISInMobiInterstitialDelegate.m */,
-				F9B0CE60B3202258D16AF009 /* ISInMobiRewardedVideoDelegate.h */,
-				2984AD08B4A42C801DE58298 /* ISInMobiRewardedVideoDelegate.m */,
+				6DF864F9DC33B7055B84D920 /* ISInMobiAdapter+Internal.h */,
+				2D7C36883C7D82DAE6B46B57 /* ISInMobiConstants.h */,
+				37CD2FC8369DA78EF2C9A545 /* Banner */,
+				75216C764CBE6F6C6DDAA466 /* Interstitial */,
+				11689ED8964A7C5B3B2CAF5E /* Rewarded */,
 			);
 			path = ISInMobiAdapter;
 			sourceTree = "<group>";
@@ -53,12 +79,34 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		37CD2FC8369DA78EF2C9A545 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				3886A715D5E497E05A250609 /* ISInMobiBannerAdapter.h */,
+				491BCFE714C795F64E72A45F /* ISInMobiBannerAdapter.m */,
+				332225C6BDDA1CC5FEF00267 /* ISInMobiBannerDelegate.h */,
+				2F27F8A5F2B160F17FAB4C4B /* ISInMobiBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
 		5860FA0B38D99FDC34DD98BC = {
 			isa = PBXGroup;
 			children = (
 				1EEA773AB482835C8E4EA8D6 /* ISInMobiAdapter */,
 				2A4CCB7FA38318E6B8A8082C /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		75216C764CBE6F6C6DDAA466 /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				A57D9ECE940043E935888F1B /* ISInMobiInterstitialAdapter.h */,
+				746E36F00CFAF56BABD68D3C /* ISInMobiInterstitialAdapter.m */,
+				CFC87DA48C1189A80A9556EB /* ISInMobiInterstitialDelegate.h */,
+				5FE4CB12144F4A2D55D7659F /* ISInMobiInterstitialDelegate.m */,
+			);
+			path = Interstitial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,10 +116,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78D68E4CC0724038A7BB5EBE /* ISInMobiAdapter+Internal.h in Headers */,
 				CF1F22D02291F0072B6FC554 /* ISInMobiAdapter.h in Headers */,
-				B85CB07E96A98C6C0635BF32 /* ISInMobiBannerDelegate.h in Headers */,
-				9E705EECAFDBD3912B3CE3A0 /* ISInMobiInterstitialDelegate.h in Headers */,
-				716643F1A9019FF4006E5C05 /* ISInMobiRewardedVideoDelegate.h in Headers */,
+				E91A6D5EECD1DC3E64D53F69 /* ISInMobiBannerAdapter.h in Headers */,
+				059162A44CF2827CA79FCED9 /* ISInMobiBannerDelegate.h in Headers */,
+				9947ACE9FDEB4FF5CCC80F05 /* ISInMobiConstants.h in Headers */,
+				B04088A21D3A98846F31D0AE /* ISInMobiInterstitialAdapter.h in Headers */,
+				0FD7F977A029E155E178CC8C /* ISInMobiInterstitialDelegate.h in Headers */,
+				EC4EBB82F074632C64F50C73 /* ISInMobiRewardedAdapter.h in Headers */,
+				9B60BC62E5BAA63179A90BE7 /* ISInMobiRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,9 +211,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B8F7521D06939FB54F27F7D /* ISInMobiAdapter.m in Sources */,
-				D4361A7AAFC6B232FF091038 /* ISInMobiBannerDelegate.m in Sources */,
-				D470DD97C32AB66C3CF4FCAC /* ISInMobiInterstitialDelegate.m in Sources */,
-				180410DB74C3F77FFD297618 /* ISInMobiRewardedVideoDelegate.m in Sources */,
+				0579BE8F178A52669E1CCC03 /* ISInMobiBannerAdapter.m in Sources */,
+				0329364EBA4E6EA9FE41EBFF /* ISInMobiBannerDelegate.m in Sources */,
+				98B5CA2255E214A46B502BA1 /* ISInMobiInterstitialAdapter.m in Sources */,
+				EEE53D4F0F8AD1F46F86AB32 /* ISInMobiInterstitialDelegate.m in Sources */,
+				0D5EB39507DE36670EB6FBCD /* ISInMobiRewardedAdapter.m in Sources */,
+				19588774B417C90AF4652C29 /* ISInMobiRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

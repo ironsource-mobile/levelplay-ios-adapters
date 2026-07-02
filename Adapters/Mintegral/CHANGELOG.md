@@ -1,7 +1,16 @@
 # Changelog
 
+## Version 5.18.0
+* General improvements and performance enhancements
+
+## Version 5.17.0
+* Supporting SDK version 8.1.5
+
+## Version 5.16.0
+* Replaced the deprecated init method with the new async API
+
 ## Version 5.15.0
-* Fixed interstitial load failures in multi-ad-unit and load-while-show flows.
+* Fixed fullscreen ad load failures in multi-ad-unit and load-while-show flows
 
 ## Version 5.14.0
 * Supporting SDK version 8.1.4

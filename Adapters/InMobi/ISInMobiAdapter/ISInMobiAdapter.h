@@ -6,15 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const InMobiAdapterVersion = @"5.6.0";
+static NSString * const InMobiAdapterVersion = @"5.7.0";
 static NSString * Githash = @"";
- 
-//System Frameworks For InMobi Adapter
 
+// System Frameworks For InMobi Adapter
 @import WebKit;
 
-@interface ISInMobiAdapter : ISBaseAdapter
+@interface ISInMobiAdapter : LevelPlayBaseAdapter
 
 @end

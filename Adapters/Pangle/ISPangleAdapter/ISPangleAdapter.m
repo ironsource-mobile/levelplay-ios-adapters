@@ -35,6 +35,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
     return [PAGSdk SDKVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return PangleAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {

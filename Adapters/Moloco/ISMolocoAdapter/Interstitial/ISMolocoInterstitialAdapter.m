@@ -5,163 +5,110 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <MolocoSDK/MolocoSDK-Swift.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISMolocoInterstitialAdapter.h"
 #import "ISMolocoInterstitialDelegate.h"
+#import "ISMolocoAdapter+Internal.h"
+#import "ISMolocoAdapter.h"
+#import "ISMolocoConstants.h"
 
 @interface ISMolocoInterstitialAdapter ()
 
-@property (nonatomic, weak)   ISMolocoAdapter *adapter;
-@property (nonatomic, strong) id<MolocoInterstitial> ad;
-@property (nonatomic, strong) ISMolocoInterstitialDelegate *molocoAdDelegate;
-@property (nonatomic, weak) id<ISInterstitialAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) id<MolocoInterstitial>              interstitialAd;
+@property (nonatomic, strong) ISMolocoInterstitialDelegate        *interstitialAdDelegate;
 
 @end
 
 @implementation ISMolocoInterstitialAdapter
 
-- (instancetype)initWithMolocoAdapter:(ISMolocoAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _ad = nil;
-        _smashDelegate = nil;
-        _molocoAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Interstitial Methods
 
-#pragma mark - Interstitial API
+- (void)loadAdWithAdData:(ISAdData *)adData
+                delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+    LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *appKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                     forKey:kAppKey];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:appKey]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAppKey];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    // Validate adUnitId
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorMissingParams
+                                  errorMessage:errorMessage];
         return;
     }
 
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:adUnitId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAdUnitId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    // Validate serverData
+    NSString *serverData = adData.serverData;
+    if (!serverData) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, serverDataKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorMissingParams
+                                  errorMessage:errorMessage];
         return;
     }
 
-    self.smashDelegate = delegate;
-
-    LogAdapterApi_Internal(@"appId = %@, adUnitId = %@", appKey, adUnitId);
-
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithAppKey:appKey];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-        case INIT_STATE_FAILED:
-            LogAdapterApi_Internal(@"init failed - adUnitId = %@", adUnitId);
-            [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                      withMessage:@"Moloco SDK init failed"]];
-            break;
-    }
-}
-
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-
-    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-    
+    // Create interstitial ad
     dispatch_async(dispatch_get_main_queue(), ^{
-        // create interstitial ad delegate
-        ISMolocoInterstitialDelegate *adDelegate = [[ISMolocoInterstitialDelegate alloc] initWithAdUnitId:adUnitId
-                                                                andDelegate:delegate];
-        self.molocoAdDelegate = adDelegate;
-        
-        // Create MolocoCreateAdParams with the required parameters
-        MolocoCreateAdParams *params = [self.adapter createMolocoAdParamsWithAdUnitId:adUnitId];
-        
-        self.ad = [[Moloco shared] createInterstitialWithParams:params];
-        self.ad.interstitialDelegate = adDelegate;
+        // Create interstitial ad delegate
+        self.interstitialAdDelegate = [[ISMolocoInterstitialDelegate alloc] initWithDelegate:delegate];
 
-        // load ad
-        [self.ad loadWithBidResponse:serverData];
+        MolocoCreateAdParams *params = [[MolocoCreateAdParams alloc] initWithAdUnit:adUnitId
+                                                                           mediation:mediationName];
+
+        self.interstitialAd = [[Moloco shared] createInterstitialWithParams:params];
+        self.interstitialAd.interstitialDelegate = self.interstitialAdDelegate;
+
+        // Load ad
+        [self.interstitialAd loadWithBidResponse:serverData];
     });
 }
 
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
-        
-        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialDidFailToShowWithError:error];
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+
+    if (![self isAdAvailableWithAdData:adData]) {
+        LogAdapterApi_Internal(logError, errorInterstitialNotAvailable);
+        [delegate adDidFailToShowWithErrorCode:ERROR_CODE_NO_ADS_TO_SHOW
+                                  errorMessage:errorInterstitialNotAvailable];
         return;
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        // show ad
-        [self.ad showFrom:viewController];
+        [self.interstitialAd showFrom:viewController];
     });
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    return self.ad != nil && self.ad.isReady;
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return self.interstitialAd != nil && self.interstitialAd.isReady;
 }
 
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
 
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    [self.adapter collectBiddingDataWithDelegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterInterstitialInitSuccess];
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    [self.smashDelegate adapterInterstitialInitFailedWithError:error];
-}
-
-#pragma mark - Memory Handling
-
-- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-
-    [self.ad destroy];
-    self.ad.interstitialDelegate = nil;
+    [self.interstitialAd destroy];
+    self.interstitialAd.interstitialDelegate = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad = nil;
+        self.interstitialAd = nil;
     });
-    self.smashDelegate = nil;
-    self.molocoAdDelegate = nil;
+    self.interstitialAdDelegate = nil;
+}
+
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISMolocoAdapter *adapter = (ISMolocoAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorInternal
+                                         userInfo:@{NSLocalizedDescriptionKey:logAdapterNil}];
+        [delegate failureWithError:error.localizedDescription];
+        return;
+    }
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
 
 @end
