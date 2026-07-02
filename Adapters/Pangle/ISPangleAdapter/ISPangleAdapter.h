@@ -8,7 +8,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const PangleAdapterVersion = @"5.30.0";
+static NSString * const PangleAdapterVersion = @"5.31.0";
 static NSString * Githash = @"";
 
 // System Frameworks For Pangle Adapter
