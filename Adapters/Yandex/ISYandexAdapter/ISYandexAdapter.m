@@ -33,6 +33,10 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
     return [YMAYandexAds sdkVersion].stringValue;
 }
 
++ (NSString *)networkAdapterVersion {
+    return YandexAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
