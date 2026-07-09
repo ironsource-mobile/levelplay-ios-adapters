@@ -8,7 +8,7 @@
 #import <IronSource/ISBaseAdapter+Internal.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const YSOAdapterVersion = @"5.0.0";
+static NSString * const YSOAdapterVersion = @"5.1.0";
 static NSString * Githash = @"";
 
 //System Frameworks For YSO Adapter

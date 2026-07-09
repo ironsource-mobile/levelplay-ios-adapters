@@ -34,6 +34,10 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     return [YsoNetwork getSdkVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return YSOAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
@@ -71,7 +75,7 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
         
         dispatch_async(dispatch_get_main_queue(), ^{
             @try{
-                [YsoNetwork initializeWithViewController: self.topMostController];
+                [YsoNetwork initializeSdk];
                 
                 if ([YsoNetwork isInitialized])
                 {
