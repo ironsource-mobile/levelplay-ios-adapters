@@ -76,6 +76,10 @@ static NSNumber *setCOPPA = nil;
     return [Chartboost getSDKVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return ChartboostAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
