@@ -51,6 +51,10 @@ static InitState initState = INIT_STATE_NONE;
     return [VungleAds sdkVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return VungleAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {

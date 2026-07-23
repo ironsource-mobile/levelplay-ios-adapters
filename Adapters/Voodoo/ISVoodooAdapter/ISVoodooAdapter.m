@@ -33,6 +33,10 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     return [AdnSdkBridge sdkVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return VoodooAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 - (instancetype)initAdapter:(NSString *)name {
     self = [super initAdapter:name];

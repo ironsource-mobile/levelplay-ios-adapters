@@ -43,6 +43,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
     return [IMSdk getVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return InMobiAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {

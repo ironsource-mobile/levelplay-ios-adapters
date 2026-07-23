@@ -34,6 +34,10 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     return [OpenWrapSDK version];
 }
 
++ (NSString *)networkAdapterVersion {
+    return PubMaticAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {

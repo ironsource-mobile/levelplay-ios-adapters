@@ -41,6 +41,10 @@ static NSArray *neighboringContentMappingURLValue = nil;
     return GADGetStringFromVersionNumber(GADMobileAds.sharedInstance.versionNumber);
 }
 
++ (NSString *)networkAdapterVersion {
+    return AdMobAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {

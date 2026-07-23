@@ -144,7 +144,6 @@
 				};
 			};
 			buildConfigurationList = BD7F1A4A1B505246041EACA4 /* Build configuration list for PBXProject "ISYSOAdapter" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -154,6 +153,7 @@
 			mainGroup = 0CFF4811A1DD38903E9D840C;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 2FCBAB951DE2D4FD2DA55DC7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (

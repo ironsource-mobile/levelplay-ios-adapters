@@ -28,6 +28,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDele
     return Moloco.shared.sdkVersion;
 }
 
++ (NSString *)networkAdapterVersion {
+    return MolocoAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
