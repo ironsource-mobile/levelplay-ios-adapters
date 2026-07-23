@@ -66,21 +66,21 @@ static InitState initState = INIT_STATE_NONE;
         }
         
         // Rewarded video
-        _rewardedVideoPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToVungleAdDelegate      = [ISConcurrentMutableDictionary dictionary];
-        _rewardedVideoPlacementIdToAd                    = [ISConcurrentMutableDictionary dictionary];
+        _rewardedVideoPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary lpmDictionary];
+        _rewardedVideoPlacementIdToVungleAdDelegate      = [ISConcurrentMutableDictionary lpmDictionary];
+        _rewardedVideoPlacementIdToAd                    = [ISConcurrentMutableDictionary lpmDictionary];
         _rewardedVideoPlacementIdsForInitCallbacks       = [ISConcurrentMutableSet set];
         
         // Interstitial
-        _interstitialPlacementIdToSmashDelegate          = [ISConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToVungleAdDelegate       = [ISConcurrentMutableDictionary dictionary];
-        _interstitialPlacementIdToAd                     = [ISConcurrentMutableDictionary dictionary];
+        _interstitialPlacementIdToSmashDelegate          = [ISConcurrentMutableDictionary lpmDictionary];
+        _interstitialPlacementIdToVungleAdDelegate       = [ISConcurrentMutableDictionary lpmDictionary];
+        _interstitialPlacementIdToAd                     = [ISConcurrentMutableDictionary lpmDictionary];
         
         // Banner
-        _bannerPlacementIdToSmashDelegate                = [ISConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToVungleAdDelegate             = [ISConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToAd                           = [ISConcurrentMutableDictionary dictionary];
-        _bannerPlacementIdToAdSize                       = [ISConcurrentMutableDictionary dictionary];
+        _bannerPlacementIdToSmashDelegate                = [ISConcurrentMutableDictionary lpmDictionary];
+        _bannerPlacementIdToVungleAdDelegate             = [ISConcurrentMutableDictionary lpmDictionary];
+        _bannerPlacementIdToAd                           = [ISConcurrentMutableDictionary lpmDictionary];
+        _bannerPlacementIdToAdSize                       = [ISConcurrentMutableDictionary lpmDictionary];
         
         // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
         LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
@@ -237,7 +237,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
         LogAdapterApi_Internal(@"error = %@", error.description);
-        
+        [VungleMediationLogger logErrorForAd:nil message:@"NoAppId:RewardedWithInit"];
         [delegate adapterRewardedVideoInitFailed:error];
         return;
     }
@@ -245,7 +245,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
-        
+        [VungleMediationLogger logErrorForAd:nil message:@"NoPlacementId:RewardedWithInit"];
         [delegate adapterRewardedVideoInitFailed:error];
         return;
     }
@@ -288,6 +288,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
         LogAdapterApi_Internal(@"error = %@", error.description);
+        [VungleMediationLogger logErrorForAd:nil message:@"NoAppId:Rewarded"];
         [delegate adapterRewardedVideoHasChangedAvailability:NO];
         return;
     }
@@ -295,6 +296,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
+        [VungleMediationLogger logErrorForAd:nil message:@"NoPlacementId:Rewarded"];
         [delegate adapterRewardedVideoHasChangedAvailability:NO];
         return;
     }
@@ -374,17 +376,18 @@ static InitState initState = INIT_STATE_NONE;
     
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
+
+    VungleRewarded *rewardedVideoAd = [self.rewardedVideoPlacementIdToAd objectForKey:placementId];
+
     if (![self hasRewardedVideoWithAdapterConfig:adapterConfig]) {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                   withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
         LogAdapterApi_Internal(@"error = %@", error);
+        [VungleMediationLogger logErrorForAd:rewardedVideoAd message:@"NoAdsToShow:Rewarded"];
         [delegate adapterRewardedVideoDidFailToShowWithError:error];
         return;
     }
-    
-    VungleRewarded *rewardedVideoAd = [self.rewardedVideoPlacementIdToAd objectForKey:placementId];
-    
+
     //set dynamic user Id
     if ([self dynamicUserId]) {
         LogAdapterApi_Internal(@"set userID to %@", [self dynamicUserId]);
@@ -430,6 +433,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
         LogAdapterApi_Internal(@"error = %@", error.description);
+        [VungleMediationLogger logErrorForAd:nil message:@"NoAppId:Interstitial"];
         [delegate adapterInterstitialInitFailedWithError:error];
         return;
     }
@@ -437,7 +441,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
-        
+        [VungleMediationLogger logErrorForAd:nil message:@"NoPlacementId:Interstitial"];
         [delegate adapterInterstitialInitFailedWithError:error];
         return;
     }
@@ -521,16 +525,18 @@ static InitState initState = INIT_STATE_NONE;
     
     NSString *placementId = adapterConfig.settings[kPlacementId];
     LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
+
+    VungleInterstitial *interstitialAd = [self.interstitialPlacementIdToAd objectForKey:placementId];
+
     if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
                                   withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
         LogAdapterApi_Internal(@"error = %@", error);
+        [VungleMediationLogger logErrorForAd:interstitialAd message:@"NoAdsToShow:Interstitial"];
         [delegate adapterInterstitialDidFailToShowWithError:error];
         return;
     }
-    
-    VungleInterstitial *interstitialAd = [self.interstitialPlacementIdToAd objectForKey:placementId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [interstitialAd presentWith:viewController];
     });
@@ -570,6 +576,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:appId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kAppId];
         LogAdapterApi_Internal(@"error = %@", error.description);
+        [VungleMediationLogger logErrorForAd:nil message:@"NoAppId:Banner"];
         [delegate adapterBannerInitFailedWithError:error];
         return;
     }
@@ -577,6 +584,7 @@ static InitState initState = INIT_STATE_NONE;
     if (![self isConfigValueValid:placementId]) {
         NSError *error = [self errorForMissingCredentialFieldWithName:kPlacementId];
         LogAdapterApi_Internal(@"error = %@", error.description);
+        [VungleMediationLogger logErrorForAd:nil message:@"NoPlacementId:Banner"];
         [delegate adapterBannerInitFailedWithError:error];
         return;
     }
