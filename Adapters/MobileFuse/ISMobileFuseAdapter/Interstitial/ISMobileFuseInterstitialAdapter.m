@@ -15,8 +15,8 @@
 
 @interface ISMobileFuseInterstitialAdapter ()
 
-@property (nonatomic, strong) MFInterstitialAd *ad;
-@property (nonatomic, strong) ISMobileFuseInterstitialDelegate *mobileFuseAdDelegate;
+@property (nonatomic, strong) MFInterstitialAd *interstitialAd;
+@property (nonatomic, strong) ISMobileFuseInterstitialDelegate *interstitialAdDelegate;
 
 @end
 
@@ -41,14 +41,13 @@
     }
 
     // create interstitial ad delegate
-    ISMobileFuseInterstitialDelegate *adDelegate = [[ISMobileFuseInterstitialDelegate alloc] initWithDelegate:delegate];
-    self.mobileFuseAdDelegate = adDelegate;
+    self.interstitialAdDelegate = [[ISMobileFuseInterstitialDelegate alloc] initWithDelegate:delegate];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad = [[MFInterstitialAd alloc] initWithPlacementId:placementId];
-        [self.ad registerAdCallbackReceiver:adDelegate];
+        self.interstitialAd = [[MFInterstitialAd alloc] initWithPlacementId:placementId];
+        [self.interstitialAd registerAdCallbackReceiver:self.interstitialAdDelegate];
         // load ad
-        [self.ad loadAdWithBiddingResponseToken:adData.serverData];
+        [self.interstitialAd loadAdWithBiddingResponseToken:adData.serverData];
     });
 }
 
@@ -68,8 +67,8 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // show ad
-        [viewController.view addSubview:self.ad];
-        [self.ad showAd];
+        [viewController.view addSubview:self.interstitialAd];
+        [self.interstitialAd showAd];
     });
 }
 
@@ -77,14 +76,14 @@
     LogAdapterApi_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad destroy];
-        self.ad = nil;
+        [self.interstitialAd destroy];
+        self.interstitialAd = nil;
     });
-    self.mobileFuseAdDelegate = nil;
+    self.interstitialAdDelegate = nil;
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.ad != nil && self.ad.isLoaded;
+    return self.interstitialAd != nil && self.interstitialAd.isLoaded;
 }
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {

@@ -39,6 +39,10 @@ static NSString *doNotSellValue = metaDataCCPADefaultValue;
     return [MobileFuse version];
 }
 
++ (NSString *)networkAdapterVersion {
+    return mobileFuseAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
@@ -52,25 +56,28 @@ static NSString *doNotSellValue = metaDataCCPADefaultValue;
 }
 
 - (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
-    if (initState == INIT_STATE_SUCCESS && delegate) {
+    NSString *placementId = [adData getString:placementIdKey];
+
+    // Configuration Validation
+    if (!placementId || placementId.length == 0) {
+        LogAdapterApi_Internal(logError, logMissingPlacementId);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logMissingPlacementId];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
         [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ISAdapterErrorInternal errorMessage:logInitFailed];
         return;
     }
 
     // Add delegate to the init delegates only in case the initialization has not finished yet
     if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
         [initializationDelegates addObject:delegate];
-    }
-
-    NSString *placementId = [adData getString:placementIdKey];
-
-    // Configuration Validation
-    if (!placementId || placementId.length == 0) {
-        LogAdapterApi_Internal(logError, logMissingPlacementId);
-        if (delegate) {
-            [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logMissingPlacementId];
-        }
-        return;
     }
 
     static dispatch_once_t onceToken;

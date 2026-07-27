@@ -33,6 +33,7 @@ static NSString * const logConsent = @"consent = %@";
 static NSString * const logCCPA = @"CCPA = %@";
 static NSString * const logCOPPA = @"COPPA = %@";
 static NSString * const logInitSuccess = @"Init success";
+static NSString * const logInitFailed = @"Init failed";
 static NSString * const logLoadFailed = @"Failed to load %@ ad with error: %@";
 static NSString * const logToken = @"token = %@";
 static NSString * const logTokenFailed = @"Failed to collect token";

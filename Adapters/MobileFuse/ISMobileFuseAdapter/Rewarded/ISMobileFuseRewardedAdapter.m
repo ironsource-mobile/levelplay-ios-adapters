@@ -15,8 +15,8 @@
 
 @interface ISMobileFuseRewardedAdapter ()
 
-@property (nonatomic, strong) MFAd *ad;
-@property (nonatomic, strong) ISMobileFuseRewardedDelegate *mobileFuseAdDelegate;
+@property (nonatomic, strong) MFAd *rewardedAd;
+@property (nonatomic, strong) ISMobileFuseRewardedDelegate *rewardedAdDelegate;
 
 @end
 
@@ -41,14 +41,13 @@
     }
 
     // create rewarded ad delegate
-    ISMobileFuseRewardedDelegate *adDelegate = [[ISMobileFuseRewardedDelegate alloc] initWithDelegate:delegate];
-    self.mobileFuseAdDelegate = adDelegate;
+    self.rewardedAdDelegate = [[ISMobileFuseRewardedDelegate alloc] initWithDelegate:delegate];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad = [[MFRewardedAd alloc] initWithPlacementId:placementId];
-        [self.ad registerAdCallbackReceiver:self.mobileFuseAdDelegate];
+        self.rewardedAd = [[MFRewardedAd alloc] initWithPlacementId:placementId];
+        [self.rewardedAd registerAdCallbackReceiver:self.rewardedAdDelegate];
         // load ad
-        [self.ad loadAdWithBiddingResponseToken:adData.serverData];
+        [self.rewardedAd loadAdWithBiddingResponseToken:adData.serverData];
     });
 }
 
@@ -68,8 +67,8 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // show ad
-        [viewController.view addSubview:self.ad];
-        [self.ad showAd];
+        [viewController.view addSubview:self.rewardedAd];
+        [self.rewardedAd showAd];
     });
 }
 
@@ -77,14 +76,14 @@
     LogAdapterApi_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad destroy];
-        self.ad = nil;
+        [self.rewardedAd destroy];
+        self.rewardedAd = nil;
     });
-    self.mobileFuseAdDelegate = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.ad != nil && self.ad.isLoaded;
+    return self.rewardedAd != nil && self.rewardedAd.isLoaded;
 }
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {

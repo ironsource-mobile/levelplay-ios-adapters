@@ -15,8 +15,8 @@
 
 @interface ISMobileFuseBannerAdapter ()
 
-@property (nonatomic, strong) MFAd *ad;
-@property (nonatomic, strong) ISMobileFuseBannerDelegate *mobileFuseAdDelegate;
+@property (nonatomic, strong) MFAd *bannerAdView;
+@property (nonatomic, strong) ISMobileFuseBannerDelegate *bannerAdDelegate;
 
 @end
 
@@ -58,18 +58,17 @@
     }
 
     // create banner ad delegate
-    ISMobileFuseBannerDelegate *bannerAdDelegate = [[ISMobileFuseBannerDelegate alloc] initWithDelegate:delegate];
-    self.mobileFuseAdDelegate = bannerAdDelegate;
+    self.bannerAdDelegate = [[ISMobileFuseBannerDelegate alloc] initWithDelegate:delegate];
 
     // create banner view
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad = [[MFBannerAd alloc] initWithPlacementId:placementId
-                                                 withSize:bannerSize];
+        self.bannerAdView = [[MFBannerAd alloc] initWithPlacementId:placementId
+                                                            withSize:bannerSize];
 
-        [self.ad registerAdCallbackReceiver:self.mobileFuseAdDelegate];
-        [self.ad setMuted:YES]; // banner ads should be muted
+        [self.bannerAdView registerAdCallbackReceiver:self.bannerAdDelegate];
+        [self.bannerAdView setMuted:YES]; // banner ads should be muted
 
-        [self.ad loadAdWithBiddingResponseToken:adData.serverData];
+        [self.bannerAdView loadAdWithBiddingResponseToken:adData.serverData];
     });
 }
 
@@ -77,10 +76,10 @@
     LogAdapterApi_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad destroy];
-        self.ad = nil;
+        [self.bannerAdView destroy];
+        self.bannerAdView = nil;
     });
-    self.mobileFuseAdDelegate = nil;
+    self.bannerAdDelegate = nil;
 }
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
