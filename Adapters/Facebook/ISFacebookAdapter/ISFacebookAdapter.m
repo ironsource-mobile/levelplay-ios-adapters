@@ -36,6 +36,10 @@ static NSString* _mediationService = nil;
     return FB_AD_SDK_VERSION;
 }
 
++ (NSString *)networkAdapterVersion {
+    return FacebookAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name

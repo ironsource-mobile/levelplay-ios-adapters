@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.4.0
+* Supporting SDK version 6.22.0
+
 ## Version 5.3.0
 * Added test mode support
 
@@ -24,6 +27,9 @@
 Adapter releases listed **below this section** continue to support earlier LevelPlay SDK versions.
 
 ---
+
+## Version 4.3.53
+* Supporting Meta Audience Network SDK version 6.21.1
 
 ## Version 4.3.52
 * Improved handling of Interstitial show failures
