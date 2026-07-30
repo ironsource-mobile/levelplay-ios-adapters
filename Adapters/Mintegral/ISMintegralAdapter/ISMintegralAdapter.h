@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const MintegralAdapterVersion = @"5.18.0";
+static NSString * const MintegralAdapterVersion = @"5.19.0";
 static NSString * Githash = @"";
 
 // System Frameworks For Mintegral Adapter

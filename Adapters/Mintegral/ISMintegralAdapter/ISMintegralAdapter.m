@@ -40,6 +40,10 @@ static BOOL coppaCollectingUserData = NO;
     return [MTGSDK sdkVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return MintegralAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
