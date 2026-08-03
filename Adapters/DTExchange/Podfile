@@ -1,0 +1,8 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '15.0'
+use_frameworks!
+
+target 'ISFyberAdapter' do
+  pod 'IronSourceSDK', '9.5.0.0'
+  pod 'Fyber_Marketplace_SDK', '8.4.9'
+end
