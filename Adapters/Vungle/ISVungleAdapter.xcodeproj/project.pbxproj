@@ -7,28 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		16A1EACD1B04F2CB86DF13AB /* ISVungleBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EFE6A789BFABB6C6E1E8A5D /* ISVungleBannerDelegate.h */; };
-		2ADC6C2140B1A3CC6B8C691C /* ISVungleInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 24FAF9A00F9156430F42B280 /* ISVungleInterstitialDelegate.m */; };
-		2E80B070A20DF17C2D3480CA /* ISVungleRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F13DBA4F0FC72A02D26FC3 /* ISVungleRewardedVideoDelegate.m */; };
+		0596252F1630954B19ECBBAB /* ISVungleRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 31CFBA72EBCF6037CD959346 /* ISVungleRewardedDelegate.h */; };
+		22BEDB471E4CDA0F0721DE2F /* ISVungleInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6022317B51F5CCF5D2FB1BEC /* ISVungleInterstitialAdapter.m */; };
 		31060C668D3EF49A41DD8C7C /* ISVungleAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2693D857B84893996EA2D7DB /* ISVungleAdapter.m */; };
-		5E804B63E2D5228DE445211C /* ISVungleInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 01562E3BFD729582E50B331E /* ISVungleInterstitialDelegate.h */; };
-		6DE86E82A91F9BF549C1D7D4 /* ISVungleRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D145F077C6B623EA756A314B /* ISVungleRewardedVideoDelegate.h */; };
+		3731E7B24C9619B891891D8E /* ISVungleBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05E0D86537B019E5959E07A0 /* ISVungleBannerAdapter.m */; };
+		38DCDB800FE4D0A3788FB3C5 /* ISVungleConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = EB226621C628BBFC6A5F8ADB /* ISVungleConstants.h */; };
+		3D4819F52C5F43F304A66AAB /* ISVungleBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EA5E26E1D76F62DD43481F2 /* ISVungleBannerAdapter.h */; };
+		492C33E152D287FCE0070E39 /* ISVungleInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2209AED721E12E2E42776831 /* ISVungleInterstitialAdapter.h */; };
+		67672E12A4CD0430E6FAC7E0 /* ISVungleRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4566E6BF7C46AAC7B9B42A86 /* ISVungleRewardedAdapter.m */; };
 		876EEA1B96E3BE16F6E3975A /* ISVungleAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BC0DA254A79B92184F3ADF5 /* ISVungleAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9A3C4C2C2B9705CBC487B5A7 /* ISVungleConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = D7CBD4ACDD6D5CD743D6BB59 /* ISVungleConstant.h */; };
-		D37B3EA7D676704E26FEE3E2 /* ISVungleBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB16DD3F7AC37743D728010 /* ISVungleBannerDelegate.m */; };
+		8C021B68310FBD7E007D777B /* ISVungleInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A9B4AA9DB2D5F2AD3491BB2 /* ISVungleInterstitialDelegate.h */; };
+		A30E2BBCEDA4042D1E05B8E8 /* ISVungleBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 41F58FE5785EF786AAD74CCB /* ISVungleBannerDelegate.h */; };
+		AD43E68A969479E3A609A2B8 /* ISVungleRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C562AF7906B0BE72C8350B78 /* ISVungleRewardedAdapter.h */; };
+		BAECCD2A1CD93C79BF92FB38 /* ISVungleAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B7B596FB87C3375083ABD693 /* ISVungleAdapter+Internal.h */; };
+		E055774C80AFA6C77AEF7C3E /* ISVungleInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BB25198D74C9603170FD434E /* ISVungleInterstitialDelegate.m */; };
+		EE90B49914C1EE73A16A9D24 /* ISVungleRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF8883690BBA936D66A73E9B /* ISVungleRewardedDelegate.m */; };
+		F6DF8031D304AFED2DEBD997 /* ISVungleBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA6710A131A68877A7F4F142 /* ISVungleBannerDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		01562E3BFD729582E50B331E /* ISVungleInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleInterstitialDelegate.h; sourceTree = "<group>"; };
-		24FAF9A00F9156430F42B280 /* ISVungleInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleInterstitialDelegate.m; sourceTree = "<group>"; };
+		05E0D86537B019E5959E07A0 /* ISVungleBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleBannerAdapter.m; sourceTree = "<group>"; };
+		1EA5E26E1D76F62DD43481F2 /* ISVungleBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleBannerAdapter.h; sourceTree = "<group>"; };
+		2209AED721E12E2E42776831 /* ISVungleInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleInterstitialAdapter.h; sourceTree = "<group>"; };
 		2693D857B84893996EA2D7DB /* ISVungleAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleAdapter.m; sourceTree = "<group>"; };
+		31CFBA72EBCF6037CD959346 /* ISVungleRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleRewardedDelegate.h; sourceTree = "<group>"; };
+		41F58FE5785EF786AAD74CCB /* ISVungleBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleBannerDelegate.h; sourceTree = "<group>"; };
+		4566E6BF7C46AAC7B9B42A86 /* ISVungleRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleRewardedAdapter.m; sourceTree = "<group>"; };
+		6022317B51F5CCF5D2FB1BEC /* ISVungleInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleInterstitialAdapter.m; sourceTree = "<group>"; };
 		7BC0DA254A79B92184F3ADF5 /* ISVungleAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleAdapter.h; sourceTree = "<group>"; };
-		9EFE6A789BFABB6C6E1E8A5D /* ISVungleBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleBannerDelegate.h; sourceTree = "<group>"; };
-		A6F13DBA4F0FC72A02D26FC3 /* ISVungleRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		D145F077C6B623EA756A314B /* ISVungleRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		D7CBD4ACDD6D5CD743D6BB59 /* ISVungleConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleConstant.h; sourceTree = "<group>"; };
+		8A9B4AA9DB2D5F2AD3491BB2 /* ISVungleInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleInterstitialDelegate.h; sourceTree = "<group>"; };
+		B7B596FB87C3375083ABD693 /* ISVungleAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISVungleAdapter+Internal.h"; sourceTree = "<group>"; };
+		BB25198D74C9603170FD434E /* ISVungleInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleInterstitialDelegate.m; sourceTree = "<group>"; };
+		BF8883690BBA936D66A73E9B /* ISVungleRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleRewardedDelegate.m; sourceTree = "<group>"; };
+		C562AF7906B0BE72C8350B78 /* ISVungleRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleRewardedAdapter.h; sourceTree = "<group>"; };
 		E1ACD9A9C37B9201D75E2B0E /* ISVungleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISVungleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBB16DD3F7AC37743D728010 /* ISVungleBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleBannerDelegate.m; sourceTree = "<group>"; };
+		EA6710A131A68877A7F4F142 /* ISVungleBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVungleBannerDelegate.m; sourceTree = "<group>"; };
+		EB226621C628BBFC6A5F8ADB /* ISVungleConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVungleConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -37,15 +51,35 @@
 			children = (
 				7BC0DA254A79B92184F3ADF5 /* ISVungleAdapter.h */,
 				2693D857B84893996EA2D7DB /* ISVungleAdapter.m */,
-				9EFE6A789BFABB6C6E1E8A5D /* ISVungleBannerDelegate.h */,
-				FBB16DD3F7AC37743D728010 /* ISVungleBannerDelegate.m */,
-				D7CBD4ACDD6D5CD743D6BB59 /* ISVungleConstant.h */,
-				01562E3BFD729582E50B331E /* ISVungleInterstitialDelegate.h */,
-				24FAF9A00F9156430F42B280 /* ISVungleInterstitialDelegate.m */,
-				D145F077C6B623EA756A314B /* ISVungleRewardedVideoDelegate.h */,
-				A6F13DBA4F0FC72A02D26FC3 /* ISVungleRewardedVideoDelegate.m */,
+				B7B596FB87C3375083ABD693 /* ISVungleAdapter+Internal.h */,
+				EB226621C628BBFC6A5F8ADB /* ISVungleConstants.h */,
+				34198179824B1AC18EDE3B7C /* Banner */,
+				50FF43D20041E6B8F2A89AF3 /* Interstitial */,
+				D9E1E7CA73DADF38D8756C2B /* Rewarded */,
 			);
 			path = ISVungleAdapter;
+			sourceTree = "<group>";
+		};
+		34198179824B1AC18EDE3B7C /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				1EA5E26E1D76F62DD43481F2 /* ISVungleBannerAdapter.h */,
+				05E0D86537B019E5959E07A0 /* ISVungleBannerAdapter.m */,
+				41F58FE5785EF786AAD74CCB /* ISVungleBannerDelegate.h */,
+				EA6710A131A68877A7F4F142 /* ISVungleBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		50FF43D20041E6B8F2A89AF3 /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				2209AED721E12E2E42776831 /* ISVungleInterstitialAdapter.h */,
+				6022317B51F5CCF5D2FB1BEC /* ISVungleInterstitialAdapter.m */,
+				8A9B4AA9DB2D5F2AD3491BB2 /* ISVungleInterstitialDelegate.h */,
+				BB25198D74C9603170FD434E /* ISVungleInterstitialDelegate.m */,
+			);
+			path = Interstitial;
 			sourceTree = "<group>";
 		};
 		B9E079CE5AF175281F87B1C1 = {
@@ -64,6 +98,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D9E1E7CA73DADF38D8756C2B /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				C562AF7906B0BE72C8350B78 /* ISVungleRewardedAdapter.h */,
+				4566E6BF7C46AAC7B9B42A86 /* ISVungleRewardedAdapter.m */,
+				31CFBA72EBCF6037CD959346 /* ISVungleRewardedDelegate.h */,
+				BF8883690BBA936D66A73E9B /* ISVungleRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -71,11 +116,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAECCD2A1CD93C79BF92FB38 /* ISVungleAdapter+Internal.h in Headers */,
 				876EEA1B96E3BE16F6E3975A /* ISVungleAdapter.h in Headers */,
-				16A1EACD1B04F2CB86DF13AB /* ISVungleBannerDelegate.h in Headers */,
-				9A3C4C2C2B9705CBC487B5A7 /* ISVungleConstant.h in Headers */,
-				5E804B63E2D5228DE445211C /* ISVungleInterstitialDelegate.h in Headers */,
-				6DE86E82A91F9BF549C1D7D4 /* ISVungleRewardedVideoDelegate.h in Headers */,
+				3D4819F52C5F43F304A66AAB /* ISVungleBannerAdapter.h in Headers */,
+				A30E2BBCEDA4042D1E05B8E8 /* ISVungleBannerDelegate.h in Headers */,
+				38DCDB800FE4D0A3788FB3C5 /* ISVungleConstants.h in Headers */,
+				492C33E152D287FCE0070E39 /* ISVungleInterstitialAdapter.h in Headers */,
+				8C021B68310FBD7E007D777B /* ISVungleInterstitialDelegate.h in Headers */,
+				AD43E68A969479E3A609A2B8 /* ISVungleRewardedAdapter.h in Headers */,
+				0596252F1630954B19ECBBAB /* ISVungleRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +135,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6CA7EA0852A2979FF88F757C /* Build configuration list for PBXNativeTarget "ISVungleAdapter" */;
 			buildPhases = (
+				A4150A4DA243AD2AF97E1336 /* Create XCFramework */,
 				D9FD1EFE4769316B6D5B72DC /* Headers */,
 				90E1E942B7FA3A9E3C6431D1 /* Sources */,
 			);
@@ -134,15 +184,39 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A4150A4DA243AD2AF97E1336 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		90E1E942B7FA3A9E3C6431D1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				31060C668D3EF49A41DD8C7C /* ISVungleAdapter.m in Sources */,
-				D37B3EA7D676704E26FEE3E2 /* ISVungleBannerDelegate.m in Sources */,
-				2ADC6C2140B1A3CC6B8C691C /* ISVungleInterstitialDelegate.m in Sources */,
-				2E80B070A20DF17C2D3480CA /* ISVungleRewardedVideoDelegate.m in Sources */,
+				3731E7B24C9619B891891D8E /* ISVungleBannerAdapter.m in Sources */,
+				F6DF8031D304AFED2DEBD997 /* ISVungleBannerDelegate.m in Sources */,
+				22BEDB471E4CDA0F0721DE2F /* ISVungleInterstitialAdapter.m in Sources */,
+				E055774C80AFA6C77AEF7C3E /* ISVungleInterstitialDelegate.m in Sources */,
+				67672E12A4CD0430E6FAC7E0 /* ISVungleRewardedAdapter.m in Sources */,
+				EE90B49914C1EE73A16A9D24 /* ISVungleRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

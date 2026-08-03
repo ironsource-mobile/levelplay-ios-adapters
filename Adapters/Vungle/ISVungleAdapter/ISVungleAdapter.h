@@ -6,20 +6,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const VungleAdapterVersion = @"5.12.0";
+static NSString * const VungleAdapterVersion = @"5.13.0";
 static NSString * Githash = @"";
 
-//System Frameworks For Vungle Adapter
-
+// System Frameworks For Vungle Adapter
 @import AdSupport;
 @import AudioToolbox;
 @import AVFoundation;
 @import CFNetwork;
 @import CoreGraphics;
 @import CoreMedia;
-@import Foundation;
 @import MediaPlayer;
 @import QuartzCore;
 @import StoreKit;
@@ -27,6 +26,6 @@ static NSString * Githash = @"";
 @import UIKit;
 @import WebKit;
 
-@interface ISVungleAdapter : ISBaseAdapter
+@interface ISVungleAdapter : LevelPlayBaseAdapter
 
 @end
