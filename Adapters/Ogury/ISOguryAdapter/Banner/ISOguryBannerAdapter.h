@@ -1,13 +1,13 @@
+//
+//  ISOguryBannerAdapter.h
+//  ISOguryAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
-#import "ISOguryAdapter+Internal.h"
-#import <OgurySdk/Ogury.h>
-#import <IronSource/IronSource.h>
+#import <IronSource/LevelPlayBaseBannerAdapter.h>
 
-@interface ISOguryBannerAdapter : ISBaseBannerAdapter
-
-- (instancetype)initWithOguryAdapter:(ISOguryAdapter *)adapter;
-
-- (void)removeBannerAd;
+@interface ISOguryBannerAdapter : LevelPlayBaseBannerAdapter
 
 @end
-

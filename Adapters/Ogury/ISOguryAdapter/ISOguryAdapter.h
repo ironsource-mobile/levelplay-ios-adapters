@@ -6,11 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const oguryAdapterVersion = @"5.5.0";
+static NSString * const OguryAdapterVersion = @"5.6.0";
 static NSString * Githash = @"";
 
-@interface ISOguryAdapter : ISBaseAdapter
+@interface ISOguryAdapter : LevelPlayBaseAdapter
 
 @end

@@ -7,56 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05D70936BF73D961E85D0226 /* ISOguryRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A40F0F1410C7F67418131D74 /* ISOguryRewardedVideoDelegate.h */; };
+		16561967B87C54A6472875D7 /* ISOguryRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 73C37831673318308A8575AF /* ISOguryRewardedDelegate.m */; };
 		36ECCBC84C00761D5707265D /* ISOguryInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BD77046E96343AE624E2777E /* ISOguryInterstitialDelegate.h */; };
 		3C02F98CB21B52EE1DD7B15F /* ISOguryInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB2433B09F20091456F3A4 /* ISOguryInterstitialAdapter.m */; };
 		3C12DDBAAC86DE9664ADCCA2 /* ISOguryInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6690970DD443861FD38AABC5 /* ISOguryInterstitialAdapter.h */; };
 		4134C303F2AC3EF9EBFE1BD6 /* ISOguryBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5787449B11F83D233485932 /* ISOguryBannerDelegate.m */; };
-		51910A9AA6451470FF4C8C41 /* ISOguryRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5266C068CBF4C90DDD515861 /* ISOguryRewardedVideoDelegate.m */; };
+		48F0CB154B3FE472C0CF56D3 /* ISOguryRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C142FBE7C06C76AA55694BBF /* ISOguryRewardedAdapter.h */; };
+		4D867F5C66DAE9013F99112A /* ISOguryRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F1929377BD66A53A7D8E23A /* ISOguryRewardedDelegate.h */; };
 		5640CE42FBEAC3DE85E691A9 /* ISOguryBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 787E5186CB472E4EA04F8339 /* ISOguryBannerAdapter.h */; };
 		59B729D35DE01BD2286DB4EC /* ISOguryBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E5E10D0266D2BF3AD25DAA18 /* ISOguryBannerDelegate.h */; };
 		8A7A4B608A9EADF00BA26F9F /* ISOguryConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 85959893E8231FC5EEB15653 /* ISOguryConstants.h */; };
-		B176D911833D294AC6739A73 /* ISOguryRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = FCDA22A3F731D83F35E48DF0 /* ISOguryRewardedVideoAdapter.m */; };
+		A532ED486B712D6FD9CF7C70 /* ISOguryRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0ECF246F9FAA64FA7DD9CF /* ISOguryRewardedAdapter.m */; };
 		B2CB39D8D1A8121022DA04B6 /* ISOguryBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 642456989D6B1B3B2DBE80E9 /* ISOguryBannerAdapter.m */; };
 		B2FE29450DE553A937BAB5B5 /* ISOguryAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B4308B3E8C47084C2C0B89 /* ISOguryAdapter.m */; };
 		E1793D15E229024937B09E14 /* ISOguryInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 798B6FEF4BB01724113E64C8 /* ISOguryInterstitialDelegate.m */; };
-		EC09EAC3179EEA866FBC75C8 /* ISOguryRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 60FCC9D95E3CB054D271EACE /* ISOguryRewardedVideoAdapter.h */; };
 		ECDEA1FFBE4B3CDB62CF8554 /* ISOguryAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E6F4CC1176EA16CD6767510D /* ISOguryAdapter+Internal.h */; };
 		FFC5F39C3318200A51EF35D9 /* ISOguryAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 093AF11F13C2575FE2757372 /* ISOguryAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		093AF11F13C2575FE2757372 /* ISOguryAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryAdapter.h; sourceTree = "<group>"; };
-		5266C068CBF4C90DDD515861 /* ISOguryRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		60FCC9D95E3CB054D271EACE /* ISOguryRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryRewardedVideoAdapter.h; sourceTree = "<group>"; };
+		1F0ECF246F9FAA64FA7DD9CF /* ISOguryRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryRewardedAdapter.m; sourceTree = "<group>"; };
 		642456989D6B1B3B2DBE80E9 /* ISOguryBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryBannerAdapter.m; sourceTree = "<group>"; };
 		6690970DD443861FD38AABC5 /* ISOguryInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryInterstitialAdapter.h; sourceTree = "<group>"; };
+		73C37831673318308A8575AF /* ISOguryRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryRewardedDelegate.m; sourceTree = "<group>"; };
 		787E5186CB472E4EA04F8339 /* ISOguryBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryBannerAdapter.h; sourceTree = "<group>"; };
 		798B6FEF4BB01724113E64C8 /* ISOguryInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryInterstitialDelegate.m; sourceTree = "<group>"; };
 		7CCB2433B09F20091456F3A4 /* ISOguryInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryInterstitialAdapter.m; sourceTree = "<group>"; };
 		84C3E29F6F787FD89023F5DD /* ISOguryAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISOguryAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85959893E8231FC5EEB15653 /* ISOguryConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryConstants.h; sourceTree = "<group>"; };
-		A40F0F1410C7F67418131D74 /* ISOguryRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		9F1929377BD66A53A7D8E23A /* ISOguryRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryRewardedDelegate.h; sourceTree = "<group>"; };
 		A5787449B11F83D233485932 /* ISOguryBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryBannerDelegate.m; sourceTree = "<group>"; };
 		BD77046E96343AE624E2777E /* ISOguryInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryInterstitialDelegate.h; sourceTree = "<group>"; };
+		C142FBE7C06C76AA55694BBF /* ISOguryRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryRewardedAdapter.h; sourceTree = "<group>"; };
 		E5E10D0266D2BF3AD25DAA18 /* ISOguryBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISOguryBannerDelegate.h; sourceTree = "<group>"; };
 		E6F4CC1176EA16CD6767510D /* ISOguryAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISOguryAdapter+Internal.h"; sourceTree = "<group>"; };
 		F3B4308B3E8C47084C2C0B89 /* ISOguryAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryAdapter.m; sourceTree = "<group>"; };
-		FCDA22A3F731D83F35E48DF0 /* ISOguryRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISOguryRewardedVideoAdapter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		10C2EE4E072F9B899223423F /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				60FCC9D95E3CB054D271EACE /* ISOguryRewardedVideoAdapter.h */,
-				FCDA22A3F731D83F35E48DF0 /* ISOguryRewardedVideoAdapter.m */,
-				A40F0F1410C7F67418131D74 /* ISOguryRewardedVideoDelegate.h */,
-				5266C068CBF4C90DDD515861 /* ISOguryRewardedVideoDelegate.m */,
-			);
-			path = RewardedVideo;
-			sourceTree = "<group>";
-		};
 		9FFC7A9D4E50C47E05D5182A /* Interstitial */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +84,17 @@
 			path = Banner;
 			sourceTree = "<group>";
 		};
+		D019E79ADA87380E4997A05E /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				C142FBE7C06C76AA55694BBF /* ISOguryRewardedAdapter.h */,
+				1F0ECF246F9FAA64FA7DD9CF /* ISOguryRewardedAdapter.m */,
+				9F1929377BD66A53A7D8E23A /* ISOguryRewardedDelegate.h */,
+				73C37831673318308A8575AF /* ISOguryRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
 		FE3147FB920A2074BEB9CD05 /* ISOguryAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +104,7 @@
 				85959893E8231FC5EEB15653 /* ISOguryConstants.h */,
 				C1F80B73B7262261238C0145 /* Banner */,
 				9FFC7A9D4E50C47E05D5182A /* Interstitial */,
-				10C2EE4E072F9B899223423F /* RewardedVideo */,
+				D019E79ADA87380E4997A05E /* Rewarded */,
 			);
 			path = ISOguryAdapter;
 			sourceTree = "<group>";
@@ -123,8 +123,8 @@
 				8A7A4B608A9EADF00BA26F9F /* ISOguryConstants.h in Headers */,
 				3C12DDBAAC86DE9664ADCCA2 /* ISOguryInterstitialAdapter.h in Headers */,
 				36ECCBC84C00761D5707265D /* ISOguryInterstitialDelegate.h in Headers */,
-				EC09EAC3179EEA866FBC75C8 /* ISOguryRewardedVideoAdapter.h in Headers */,
-				05D70936BF73D961E85D0226 /* ISOguryRewardedVideoDelegate.h in Headers */,
+				48F0CB154B3FE472C0CF56D3 /* ISOguryRewardedAdapter.h in Headers */,
+				4D867F5C66DAE9013F99112A /* ISOguryRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,8 +215,8 @@
 				4134C303F2AC3EF9EBFE1BD6 /* ISOguryBannerDelegate.m in Sources */,
 				3C02F98CB21B52EE1DD7B15F /* ISOguryInterstitialAdapter.m in Sources */,
 				E1793D15E229024937B09E14 /* ISOguryInterstitialDelegate.m in Sources */,
-				B176D911833D294AC6739A73 /* ISOguryRewardedVideoAdapter.m in Sources */,
-				51910A9AA6451470FF4C8C41 /* ISOguryRewardedVideoDelegate.m in Sources */,
+				A532ED486B712D6FD9CF7C70 /* ISOguryRewardedAdapter.m in Sources */,
+				16561967B87C54A6472875D7 /* ISOguryRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

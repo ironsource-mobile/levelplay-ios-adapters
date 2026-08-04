@@ -1,5 +1,5 @@
 //
-//  ISOguryInterstitialAdapter.m
+//  ISOguryRewardedAdapter.m
 //  ISOguryAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -9,42 +9,42 @@
 #import <OguryAds/OguryAds.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISOguryInterstitialAdapter.h"
-#import "ISOguryInterstitialDelegate.h"
+#import "ISOguryRewardedAdapter.h"
+#import "ISOguryRewardedDelegate.h"
 #import "ISOguryAdapter+Internal.h"
 #import "ISOguryAdapter.h"
 #import "ISOguryConstants.h"
 
-@interface ISOguryInterstitialAdapter ()
+@interface ISOguryRewardedAdapter ()
 
-@property (nonatomic, strong) OguryInterstitialAd          *interstitialAd;
-@property (nonatomic, strong) ISOguryInterstitialDelegate  *interstitialAdDelegate;
+@property (nonatomic, strong) OguryRewardedAd          *rewardedAd;
+@property (nonatomic, strong) ISOguryRewardedDelegate  *rewardedAdDelegate;
 
 @end
 
-@implementation ISOguryInterstitialAdapter
+@implementation ISOguryRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *adUnitId = [adData getString:adUnitIdKey];
     LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
-    self.interstitialAdDelegate = [[ISOguryInterstitialDelegate alloc] initWithDelegate:delegate];
+    self.rewardedAdDelegate = [[ISOguryRewardedDelegate alloc] initWithDelegate:delegate];
 
     OguryMediation *mediation = [[OguryMediation alloc] initWithName:mediationName
                                                             version:[LevelPlay sdkVersion]
                                                      adapterVersion:OguryAdapterVersion];
-    self.interstitialAd = [[OguryInterstitialAd alloc] initWithAdUnitId:adUnitId
-                                                              mediation:mediation];
-    self.interstitialAd.delegate = self.interstitialAdDelegate;
-    [self.interstitialAd loadWithAdMarkup:adData.serverData];
+    self.rewardedAd = [[OguryRewardedAd alloc] initWithAdUnitId:adUnitId
+                                                      mediation:mediation];
+    self.rewardedAd.delegate = self.rewardedAdDelegate;
+    [self.rewardedAd loadWithAdMarkup:adData.serverData];
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -57,18 +57,18 @@
         return;
     }
 
-    [self.interstitialAd showAdInViewController:viewController];
+    [self.rewardedAd showAdInViewController:viewController];
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && [self.interstitialAd isLoaded];
+    return self.rewardedAd != nil && [self.rewardedAd isLoaded];
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
-    self.interstitialAd.delegate = nil;
-    self.interstitialAd = nil;
-    self.interstitialAdDelegate = nil;
+    self.rewardedAd.delegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 #pragma mark - Helper Methods

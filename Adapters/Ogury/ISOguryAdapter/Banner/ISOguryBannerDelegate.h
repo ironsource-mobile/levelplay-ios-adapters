@@ -1,17 +1,19 @@
+//
+//  ISOguryBannerDelegate.h
+//  ISOguryAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
 
-#import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
-#import "ISOguryBannerAdapter.h"
+
+@protocol ISBannerAdDelegate;
 
 @interface ISOguryBannerDelegate : NSObject <OguryBannerAdViewDelegate>
 
-@property (nonatomic, strong) NSString* adUnitId;
-@property (nonatomic, strong) ISOguryBannerAdapter* adapter;
-@property (nonatomic, weak) id<ISBannerAdapterDelegate> delegate;
+@property (nonatomic, weak) id<ISBannerAdDelegate> delegate;
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                andBannerAdapter:(ISOguryBannerAdapter *)adapter
-                     andDelegate:(id<ISBannerAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate;
+
 @end

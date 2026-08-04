@@ -1,5 +1,5 @@
 //
-//  ISOguryInterstitialDelegate.m
+//  ISOguryRewardedDelegate.m
 //  ISOguryAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -7,14 +7,14 @@
 
 #import <OguryAds/OguryAds.h>
 #import <IronSource/ISLog.h>
-#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISBaseRewardedVideo.h>
 #import <IronSource/ISAdapterErrorType.h>
-#import "ISOguryInterstitialDelegate.h"
+#import "ISOguryRewardedDelegate.h"
 #import "ISOguryConstants.h"
 
-@implementation ISOguryInterstitialDelegate
+@implementation ISOguryRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -22,14 +22,14 @@
     return self;
 }
 
-#pragma mark - OguryInterstitialAdDelegate
+#pragma mark - OguryRewardedAdDelegate
 
-- (void)interstitialAdDidLoad:(OguryInterstitialAd *)interstitialAd {
+- (void)rewardedAdDidLoad:(OguryRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidLoad];
 }
 
-- (void)interstitialAd:(OguryInterstitialAd *)interstitialAd didFailWithError:(OguryAdError *)error {
+- (void)rewardedAd:(OguryRewardedAd *)rewardedAd didFailWithError:(OguryAdError *)error {
     LogAdapterDelegate_Internal(logError, error);
 
     if (error.type == OguryAdErrorTypeLoad) {
@@ -43,19 +43,24 @@
     }
 }
 
-- (void)interstitialAdDidTriggerImpression:(OguryInterstitialAd *)interstitialAd {
+- (void)rewardedAdDidTriggerImpression:(OguryRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidOpen];
 }
 
-- (void)interstitialAdDidClick:(OguryInterstitialAd *)interstitialAd {
+- (void)rewardedAdDidClick:(OguryRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClick];
 }
 
-- (void)interstitialAdDidClose:(OguryInterstitialAd *)interstitialAd {
+- (void)rewardedAdDidClose:(OguryRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClose];
+}
+
+- (void)rewardedAd:(OguryRewardedAd *)rewardedAd didReceiveReward:(OguryReward *)reward {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
 }
 
 @end

@@ -1,18 +1,16 @@
+//
+//  ISOguryAdapter+Internal.h
+//  ISOguryAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
+#import <IronSource/ISBiddingDataProtocol.h>
 #import "ISOguryAdapter.h"
 #import "ISOguryConstants.h"
-#import <OgurySdk/Ogury.h>
 
-@interface ISOguryAdapter()
-
-- (void)initSDKWithAssetKey:(NSString *)appKey;
+@interface ISOguryAdapter ()
 
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate;
 
-- (InitState)getInitState;
-
-typedef NS_ENUM(NSInteger, AdState) {
-    AD_STATE_NONE,
-    AD_STATE_LOAD,
-    AD_STATE_SHOW
-};
 @end

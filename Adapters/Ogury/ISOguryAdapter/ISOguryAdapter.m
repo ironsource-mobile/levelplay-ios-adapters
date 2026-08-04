@@ -4,76 +4,90 @@
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
-#import "ISOguryAdapter.h"
-#import "ISOguryConstants.h"
-#import "ISOguryRewardedVideoAdapter.h"
-#import "ISOguryInterstitialAdapter.h"
-#import "ISOguryBannerAdapter.h"
+
+#import <Foundation/Foundation.h>
 #import <OgurySdk/Ogury.h>
 #import <OguryAds/OguryAds.h>
 #import <OguryCore/OguryLogLevel.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISConcurrentMutableSet.h>
+#import <IronSource/ISConfigurations.h>
+#import <IronSource/ISAdapterErrors.h>
+#import "ISOguryAdapter.h"
+#import "ISOguryAdapter+Internal.h"
+#import "ISOguryConstants.h"
 
-
-// Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
-@interface ISOguryAdapter() <ISNetworkInitCallbackProtocol>
+@interface ISOguryAdapter ()
 
 @end
 
 @implementation ISOguryAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
-    return oguryAdapterVersion;
+- (NSString *)adapterVersion {
+    return OguryAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return [Ogury sdkVersion];
 }
 
-#pragma mark - Initializations Methods And Callbacks
++ (NSString *)networkAdapterVersion {
+    return OguryAdapterVersion;
+}
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+#pragma mark - Initialization Methods And Callbacks
+
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISOguryRewardedVideoAdapter *rewardedVideoAdapter = [[ISOguryRewardedVideoAdapter alloc] initWithOguryAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISOguryInterstitialAdapter *interstitialAdapter = [[ISOguryInterstitialAdapter alloc] initWithOguryAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        //Banner
-        ISOguryBannerAdapter *bannerAdapter = [[ISOguryBannerAdapter alloc] initWithOguryAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }
-    
-    
     return self;
 }
 
-- (void)initSDKWithAssetKey:(NSString *)assetKey {
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *assetKey = [adData getString:assetKeyKey];
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+
+    if (!assetKey || assetKey.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, assetKeyKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
     }
-    static dispatch_once_t initSdkOnceToken;
-    dispatch_once(&initSdkOnceToken, ^{
-        LogAdapterApi_Internal(@"assetKey = %@", assetKey);
+
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logInitFailed];
+        return;
+    }
+
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initializationDelegates addObject:delegate];
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        LogAdapterApi_Internal(logAssetKeyAndAdUnitId, assetKey, adUnitId);
 
         initState = INIT_STATE_IN_PROGRESS;
 
@@ -81,63 +95,57 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
             [Ogury setLogLevel:OguryLogLevelAll];
         }
 
-            [Ogury startWith: assetKey completionHandler:^(BOOL success, OguryError *_Nullable error) {
-                if (success) {
-                    // call init callback delegate success
-                    [self initializationSuccess];
-                } else {
-                    // call init callback delegate failed
-                    [self initializationFailure];
-                }
-            }];
+        [Ogury startWith:assetKey completionHandler:^(BOOL success, OguryError *_Nullable error) {
+            if (success) {
+                [self initializationSuccess];
+            } else {
+                [self initializationFailure];
+            }
+        }];
     });
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitSuccess);
+
     initState = INIT_STATE_SUCCESS;
-    
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> delegate in initDelegatesList) {
+        [delegate onInitDidSucceed];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 - (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitFailed);
+
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"Ogury SDK init failed"];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> delegate in initDelegatesList) {
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logInitFailed];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
-}
-
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
     [OguryBidTokenService bidToken:^(NSString *_Nullable signal, OguryError *_Nullable error) {
-        
-        if ( error )
-        {
-            [delegate failureWithError:@"Failed to receive token - Ogury"];
+        if (error) {
+            LogAdapterApi_Internal(logTokenFailed);
+            [delegate failureWithError:logTokenFailed];
             return;
         }
+
         NSString *returnedToken = signal ? signal : @"";
-        LogAdapterApi_Internal(@"token = %@", returnedToken);
-        NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", nil];
+        LogAdapterApi_Internal(logToken, returnedToken);
+        NSDictionary *biddingDataDictionary = @{tokenKey: returnedToken};
         [delegate successWithBiddingData:biddingDataDictionary];
     }];
 }
