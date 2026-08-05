@@ -3,5 +3,5 @@
 
 target 'ISInMobiAdapter' do
   pod 'IronSourceSDK', '9.5.0.0'
-  pod 'InMobiSDK', '11.4.0'
+  pod 'InMobiSDK', '11.4.1'
 end
