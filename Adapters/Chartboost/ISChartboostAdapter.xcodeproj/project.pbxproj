@@ -7,29 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17C276D68323E095413023FE /* ISChartboostBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2055EDF3CC766D6B6B22E501 /* ISChartboostBannerDelegate.m */; };
-		44348FAE715A605D539F2194 /* ISChartboostInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F7311E113A9A89D69A3B65C4 /* ISChartboostInterstitialDelegate.h */; };
-		6422E9FD6DAF0D9481D55F62 /* ISChartboostRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A169733B76E7D8404CDB3A /* ISChartboostRewardedVideoDelegate.m */; };
-		98252D5E8148A902D6B8E6A5 /* ISChartboostBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A62A4BC346583EF691BDE74C /* ISChartboostBannerDelegate.h */; };
+		2947B3FE2EFA6DBB49B39E8B /* ISChartboostRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A989F5316020957F9978956D /* ISChartboostRewardedDelegate.m */; };
+		2EF7CEF17992F2E75107F2CA /* ISChartboostInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FDB0465949B2DD4CF2608F7 /* ISChartboostInterstitialDelegate.h */; };
+		3286AB3B0FEEAC309E298F08 /* ISChartboostRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 49AC98F67314174FB95BDF6B /* ISChartboostRewardedAdapter.h */; };
+		40A0C980BC16F16192695126 /* ISChartboostBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B0465F3437966CB4EE7CF896 /* ISChartboostBannerAdapter.h */; };
+		4449BC29830381D2F89F1F7F /* ISChartboostRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 15011C34B87C0FB3F484DF6B /* ISChartboostRewardedAdapter.m */; };
+		4ED7B621C4D648707A06F423 /* ISChartboostInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD81ACAB234E72F806DFA0D5 /* ISChartboostInterstitialDelegate.m */; };
+		79C603BC3E1099102902BC63 /* ISChartboostInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E247F58FE86263641007859 /* ISChartboostInterstitialAdapter.m */; };
+		7DF204B779DEC9F2C38BE255 /* ISChartboostRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE94818BEF13FAB0EF64481A /* ISChartboostRewardedDelegate.h */; };
+		95FFC1FC9326CF0D131091DE /* ISChartboostInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AF87F0E866DADF3540BEE74 /* ISChartboostInterstitialAdapter.h */; };
+		9EFD681B5F3EF04C49397654 /* ISChartboostConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 870587B35758CFCBCCA57CF1 /* ISChartboostConstants.h */; };
 		A0910D874A7D68CCF31F8326 /* ISChartboostAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 792D9B605E4163613C366D21 /* ISChartboostAdapter.m */; };
-		BEFED6AD98FAD14CE26CDAC8 /* ISChartboostInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36014907B9C57C54BBA26772 /* ISChartboostInterstitialDelegate.m */; };
+		AA9DDCC993371716EDCBC3D9 /* ISChartboostAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D823EDC77EC724836D1E8BE0 /* ISChartboostAdapter+Internal.h */; };
+		B3E8039057050048999EC2E1 /* ISChartboostBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF142A77AEB3BE6CC1A1FFAC /* ISChartboostBannerDelegate.m */; };
 		D4244DD1B8A950641FD12817 /* ISChartboostAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C73477B29C4B28926CDCCB21 /* ISChartboostAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8AD9044C9B6E187D438A79E /* ISChartboostRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E9EAE60E7B3C8F80D3BD6E7F /* ISChartboostRewardedVideoDelegate.h */; };
+		DEC1048CA7F74D7B48834B6B /* ISChartboostBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FCB05CCCC167EB8A6234DA3 /* ISChartboostBannerDelegate.h */; };
+		EEE55CEBC3E41CC6A69C9AF5 /* ISChartboostBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 400D3BC29C6724A1918E17A5 /* ISChartboostBannerAdapter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2055EDF3CC766D6B6B22E501 /* ISChartboostBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostBannerDelegate.m; sourceTree = "<group>"; };
-		36014907B9C57C54BBA26772 /* ISChartboostInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostInterstitialDelegate.m; sourceTree = "<group>"; };
+		15011C34B87C0FB3F484DF6B /* ISChartboostRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostRewardedAdapter.m; sourceTree = "<group>"; };
+		1FCB05CCCC167EB8A6234DA3 /* ISChartboostBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostBannerDelegate.h; sourceTree = "<group>"; };
+		3E247F58FE86263641007859 /* ISChartboostInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostInterstitialAdapter.m; sourceTree = "<group>"; };
+		400D3BC29C6724A1918E17A5 /* ISChartboostBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostBannerAdapter.m; sourceTree = "<group>"; };
+		49AC98F67314174FB95BDF6B /* ISChartboostRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostRewardedAdapter.h; sourceTree = "<group>"; };
 		5C1CAC4EBCF067BC8216B0C0 /* ISChartboostAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISChartboostAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FDB0465949B2DD4CF2608F7 /* ISChartboostInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostInterstitialDelegate.h; sourceTree = "<group>"; };
 		792D9B605E4163613C366D21 /* ISChartboostAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostAdapter.m; sourceTree = "<group>"; };
-		97A169733B76E7D8404CDB3A /* ISChartboostRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostRewardedVideoDelegate.m; sourceTree = "<group>"; };
-		A62A4BC346583EF691BDE74C /* ISChartboostBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostBannerDelegate.h; sourceTree = "<group>"; };
+		7AF87F0E866DADF3540BEE74 /* ISChartboostInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostInterstitialAdapter.h; sourceTree = "<group>"; };
+		870587B35758CFCBCCA57CF1 /* ISChartboostConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostConstants.h; sourceTree = "<group>"; };
+		A989F5316020957F9978956D /* ISChartboostRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostRewardedDelegate.m; sourceTree = "<group>"; };
+		B0465F3437966CB4EE7CF896 /* ISChartboostBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostBannerAdapter.h; sourceTree = "<group>"; };
 		C73477B29C4B28926CDCCB21 /* ISChartboostAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostAdapter.h; sourceTree = "<group>"; };
-		E9EAE60E7B3C8F80D3BD6E7F /* ISChartboostRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		F7311E113A9A89D69A3B65C4 /* ISChartboostInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostInterstitialDelegate.h; sourceTree = "<group>"; };
+		CD81ACAB234E72F806DFA0D5 /* ISChartboostInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostInterstitialDelegate.m; sourceTree = "<group>"; };
+		D823EDC77EC724836D1E8BE0 /* ISChartboostAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISChartboostAdapter+Internal.h"; sourceTree = "<group>"; };
+		DF142A77AEB3BE6CC1A1FFAC /* ISChartboostBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISChartboostBannerDelegate.m; sourceTree = "<group>"; };
+		EE94818BEF13FAB0EF64481A /* ISChartboostRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISChartboostRewardedDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		2BFF891D931C5810F5DAEB84 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				B0465F3437966CB4EE7CF896 /* ISChartboostBannerAdapter.h */,
+				400D3BC29C6724A1918E17A5 /* ISChartboostBannerAdapter.m */,
+				1FCB05CCCC167EB8A6234DA3 /* ISChartboostBannerDelegate.h */,
+				DF142A77AEB3BE6CC1A1FFAC /* ISChartboostBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
 		494F359874EA4333872F851F = {
 			isa = PBXGroup;
 			children = (
@@ -46,19 +73,40 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9C491339F00346D00E1FFC72 /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				7AF87F0E866DADF3540BEE74 /* ISChartboostInterstitialAdapter.h */,
+				3E247F58FE86263641007859 /* ISChartboostInterstitialAdapter.m */,
+				6FDB0465949B2DD4CF2608F7 /* ISChartboostInterstitialDelegate.h */,
+				CD81ACAB234E72F806DFA0D5 /* ISChartboostInterstitialDelegate.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
 		CFCBF57463255BE873DB6663 /* ISChartboostAdapter */ = {
 			isa = PBXGroup;
 			children = (
 				C73477B29C4B28926CDCCB21 /* ISChartboostAdapter.h */,
 				792D9B605E4163613C366D21 /* ISChartboostAdapter.m */,
-				A62A4BC346583EF691BDE74C /* ISChartboostBannerDelegate.h */,
-				2055EDF3CC766D6B6B22E501 /* ISChartboostBannerDelegate.m */,
-				F7311E113A9A89D69A3B65C4 /* ISChartboostInterstitialDelegate.h */,
-				36014907B9C57C54BBA26772 /* ISChartboostInterstitialDelegate.m */,
-				E9EAE60E7B3C8F80D3BD6E7F /* ISChartboostRewardedVideoDelegate.h */,
-				97A169733B76E7D8404CDB3A /* ISChartboostRewardedVideoDelegate.m */,
+				D823EDC77EC724836D1E8BE0 /* ISChartboostAdapter+Internal.h */,
+				870587B35758CFCBCCA57CF1 /* ISChartboostConstants.h */,
+				2BFF891D931C5810F5DAEB84 /* Banner */,
+				9C491339F00346D00E1FFC72 /* Interstitial */,
+				F8A3156E7C0ED321CFA7254C /* Rewarded */,
 			);
 			path = ISChartboostAdapter;
+			sourceTree = "<group>";
+		};
+		F8A3156E7C0ED321CFA7254C /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				49AC98F67314174FB95BDF6B /* ISChartboostRewardedAdapter.h */,
+				15011C34B87C0FB3F484DF6B /* ISChartboostRewardedAdapter.m */,
+				EE94818BEF13FAB0EF64481A /* ISChartboostRewardedDelegate.h */,
+				A989F5316020957F9978956D /* ISChartboostRewardedDelegate.m */,
+			);
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,10 +116,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA9DDCC993371716EDCBC3D9 /* ISChartboostAdapter+Internal.h in Headers */,
 				D4244DD1B8A950641FD12817 /* ISChartboostAdapter.h in Headers */,
-				98252D5E8148A902D6B8E6A5 /* ISChartboostBannerDelegate.h in Headers */,
-				44348FAE715A605D539F2194 /* ISChartboostInterstitialDelegate.h in Headers */,
-				E8AD9044C9B6E187D438A79E /* ISChartboostRewardedVideoDelegate.h in Headers */,
+				40A0C980BC16F16192695126 /* ISChartboostBannerAdapter.h in Headers */,
+				DEC1048CA7F74D7B48834B6B /* ISChartboostBannerDelegate.h in Headers */,
+				9EFD681B5F3EF04C49397654 /* ISChartboostConstants.h in Headers */,
+				95FFC1FC9326CF0D131091DE /* ISChartboostInterstitialAdapter.h in Headers */,
+				2EF7CEF17992F2E75107F2CA /* ISChartboostInterstitialDelegate.h in Headers */,
+				3286AB3B0FEEAC309E298F08 /* ISChartboostRewardedAdapter.h in Headers */,
+				7DF204B779DEC9F2C38BE255 /* ISChartboostRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,9 +211,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0910D874A7D68CCF31F8326 /* ISChartboostAdapter.m in Sources */,
-				17C276D68323E095413023FE /* ISChartboostBannerDelegate.m in Sources */,
-				BEFED6AD98FAD14CE26CDAC8 /* ISChartboostInterstitialDelegate.m in Sources */,
-				6422E9FD6DAF0D9481D55F62 /* ISChartboostRewardedVideoDelegate.m in Sources */,
+				EEE55CEBC3E41CC6A69C9AF5 /* ISChartboostBannerAdapter.m in Sources */,
+				B3E8039057050048999EC2E1 /* ISChartboostBannerDelegate.m in Sources */,
+				79C603BC3E1099102902BC63 /* ISChartboostInterstitialAdapter.m in Sources */,
+				4ED7B621C4D648707A06F423 /* ISChartboostInterstitialDelegate.m in Sources */,
+				4449BC29830381D2F89F1F7F /* ISChartboostRewardedAdapter.m in Sources */,
+				2947B3FE2EFA6DBB49B39E8B /* ISChartboostRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

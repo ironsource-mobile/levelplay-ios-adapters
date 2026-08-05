@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const ChartboostAdapterVersion = @"5.5.0";
+static NSString * const ChartboostAdapterVersion = @"5.6.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Chartboost Adapter
@@ -22,6 +22,6 @@ static NSString * Githash = @"";
 @import UIKit;
 @import WebKit;
 
-@interface ISChartboostAdapter : ISBaseAdapter
+@interface ISChartboostAdapter : LevelPlayBaseAdapter
 
 @end
