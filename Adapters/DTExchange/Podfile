@@ -4,5 +4,5 @@ use_frameworks!
 
 target 'ISFyberAdapter' do
   pod 'IronSourceSDK', '9.5.0.0'
-  pod 'Fyber_Marketplace_SDK', '8.4.9'
+  pod 'Fyber_Marketplace_SDK', '8.4.10'
 end
