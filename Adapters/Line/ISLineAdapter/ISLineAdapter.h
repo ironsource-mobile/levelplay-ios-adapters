@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import <FiveAd/FiveAd.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const LineAdapterVersion = @"5.5.0";
+static NSString * const LineAdapterVersion = @"5.6.0";
 static NSString * Githash = @"";
 
 //System Frameworks For LineAdapter
@@ -23,8 +23,6 @@ static NSString * Githash = @"";
 @import StoreKit;
 @import WebKit;
 
-@interface ISLineAdapter : ISBaseAdapter
-
-- (FADAdLoader *)getAdLoader:(NSString *)appId;
+@interface ISLineAdapter : LevelPlayBaseAdapter
 
 @end

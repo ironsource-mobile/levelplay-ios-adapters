@@ -2,22 +2,18 @@
 //  ISLineInterstitialDelegate.h
 //  ISLineAdapter
 //
-//  Copyright © 2025 ironSource Mobile Ltd. All rights reserved.
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
 #import <FiveAd/FiveAd.h>
-#import "ISLineInterstitialAdapter.h"
+
+@protocol ISInterstitialAdDelegate;
 
 @interface ISLineInterstitialDelegate : NSObject <FADInterstitialEventListener>
 
-@property (nonatomic, strong) NSString                            *slotId;
-@property (nonatomic, weak)   ISLineInterstitialAdapter           *adapter;
-@property (nonatomic, weak)   id<ISInterstitialAdapterDelegate>   delegate;
+@property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithSlotId:(NSString *)slotId
-                       adapter:(ISLineInterstitialAdapter *)adapter
-                    andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

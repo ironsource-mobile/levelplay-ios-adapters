@@ -6,12 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISLineAdapter+Internal.h"
-#import <FiveAd/FiveAd.h>
-#import "ISLineAdapter.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISLineInterstitialAdapter : ISBaseInterstitialAdapter
-
-- (instancetype)initWithLineAdapter:(ISLineAdapter *)adapter;
+@interface ISLineInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end

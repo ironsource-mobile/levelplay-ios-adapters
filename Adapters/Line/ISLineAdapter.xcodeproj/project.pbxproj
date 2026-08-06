@@ -10,26 +10,26 @@
 		04DC49A5193A32BACEF282DC /* ISLineConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3BF1CA1CA88CE4DE0B3B84 /* ISLineConstants.h */; };
 		07C6B23AE6F0EA0146F226D5 /* ISLineAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 79D31002A661499DF1B92874 /* ISLineAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1DB9A71D5092DEA63AF07A63 /* ISLineAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AD602C583458305FCF30EF96 /* ISLineAdapter+Internal.h */; };
-		23B70C2E841EFDC64EE210BD /* ISLineRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 59CEBE3476070B649E3F6F6B /* ISLineRewardedVideoAdapter.m */; };
 		255339EEDD2918CAB6FD7442 /* ISLineInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12E50CF472BC110594AC0F5B /* ISLineInterstitialDelegate.m */; };
+		3621CF5E018A5C952DC2481D /* ISLineRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D074C9554D4F3C707C18D2 /* ISLineRewardedDelegate.m */; };
 		3819EEDDBC364CD78DD21658 /* ISLineInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AF2E52C06825C479B055D033 /* ISLineInterstitialDelegate.h */; };
 		434CBF6C733E12EBB50C0862 /* ISLineInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 581BB995DDB3019C5E87C3FE /* ISLineInterstitialAdapter.m */; };
 		4F30582CE95C3F424679BDC3 /* ISLineAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C42FC0C11C870B79BC53E3A /* ISLineAdapter.m */; };
-		A1CDA7B7154B4F20CDDF5815 /* ISLineRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C45B1F14DFDEA5945C95AF8 /* ISLineRewardedVideoDelegate.h */; };
-		B035804E5CB0D10891E762BC /* ISLineRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 496CF1A8C6E69641331EFB96 /* ISLineRewardedVideoAdapter.h */; };
-		E000EDE3280A97F8DE3308DA /* ISLineRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A5BDEDBDD44917C7CF6E681 /* ISLineRewardedVideoDelegate.m */; };
+		A0D600C117B3D473104B7E75 /* ISLineRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 983F5F4C37F3343A229BD499 /* ISLineRewardedAdapter.h */; };
+		ADEF787CA29934B29558B3F3 /* ISLineRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A91DD69FE88D5FC33FDE0F9 /* ISLineRewardedDelegate.h */; };
+		BB4D9125518BF4DE2506884C /* ISLineRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CF45B09140BE3D4AC71E8F /* ISLineRewardedAdapter.m */; };
 		FF4A88C524732F206B78655E /* ISLineInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A59EC27B798C52D44A92229B /* ISLineInterstitialAdapter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C45B1F14DFDEA5945C95AF8 /* ISLineRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		00D074C9554D4F3C707C18D2 /* ISLineRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineRewardedDelegate.m; sourceTree = "<group>"; };
 		12E50CF472BC110594AC0F5B /* ISLineInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineInterstitialDelegate.m; sourceTree = "<group>"; };
-		496CF1A8C6E69641331EFB96 /* ISLineRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineRewardedVideoAdapter.h; sourceTree = "<group>"; };
 		581BB995DDB3019C5E87C3FE /* ISLineInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineInterstitialAdapter.m; sourceTree = "<group>"; };
-		59CEBE3476070B649E3F6F6B /* ISLineRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineRewardedVideoAdapter.m; sourceTree = "<group>"; };
 		79D31002A661499DF1B92874 /* ISLineAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineAdapter.h; sourceTree = "<group>"; };
+		7A91DD69FE88D5FC33FDE0F9 /* ISLineRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineRewardedDelegate.h; sourceTree = "<group>"; };
 		8C42FC0C11C870B79BC53E3A /* ISLineAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineAdapter.m; sourceTree = "<group>"; };
-		9A5BDEDBDD44917C7CF6E681 /* ISLineRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		93CF45B09140BE3D4AC71E8F /* ISLineRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISLineRewardedAdapter.m; sourceTree = "<group>"; };
+		983F5F4C37F3343A229BD499 /* ISLineRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineRewardedAdapter.h; sourceTree = "<group>"; };
 		A59EC27B798C52D44A92229B /* ISLineInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineInterstitialAdapter.h; sourceTree = "<group>"; };
 		AD602C583458305FCF30EF96 /* ISLineAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISLineAdapter+Internal.h"; sourceTree = "<group>"; };
 		AF2E52C06825C479B055D033 /* ISLineInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISLineInterstitialDelegate.h; sourceTree = "<group>"; };
@@ -38,17 +38,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		304F9E6029A02AA28C3ED4EF /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				496CF1A8C6E69641331EFB96 /* ISLineRewardedVideoAdapter.h */,
-				59CEBE3476070B649E3F6F6B /* ISLineRewardedVideoAdapter.m */,
-				0C45B1F14DFDEA5945C95AF8 /* ISLineRewardedVideoDelegate.h */,
-				9A5BDEDBDD44917C7CF6E681 /* ISLineRewardedVideoDelegate.m */,
-			);
-			path = RewardedVideo;
-			sourceTree = "<group>";
-		};
 		4D5F7E3B7387A31A5BF4FB55 /* ISLineAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -57,7 +46,7 @@
 				AD602C583458305FCF30EF96 /* ISLineAdapter+Internal.h */,
 				FD3BF1CA1CA88CE4DE0B3B84 /* ISLineConstants.h */,
 				97E799A28E3946ADDA7EDA92 /* Interstitial */,
-				304F9E6029A02AA28C3ED4EF /* RewardedVideo */,
+				8E7F944C86F3FFA496CCC5D1 /* Rewarded */,
 			);
 			path = ISLineAdapter;
 			sourceTree = "<group>";
@@ -68,6 +57,17 @@
 				4D5F7E3B7387A31A5BF4FB55 /* ISLineAdapter */,
 				B01EBC82422E61EB18AB7A19 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		8E7F944C86F3FFA496CCC5D1 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				983F5F4C37F3343A229BD499 /* ISLineRewardedAdapter.h */,
+				93CF45B09140BE3D4AC71E8F /* ISLineRewardedAdapter.m */,
+				7A91DD69FE88D5FC33FDE0F9 /* ISLineRewardedDelegate.h */,
+				00D074C9554D4F3C707C18D2 /* ISLineRewardedDelegate.m */,
+			);
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 		97E799A28E3946ADDA7EDA92 /* Interstitial */ = {
@@ -101,8 +101,8 @@
 				04DC49A5193A32BACEF282DC /* ISLineConstants.h in Headers */,
 				FF4A88C524732F206B78655E /* ISLineInterstitialAdapter.h in Headers */,
 				3819EEDDBC364CD78DD21658 /* ISLineInterstitialDelegate.h in Headers */,
-				B035804E5CB0D10891E762BC /* ISLineRewardedVideoAdapter.h in Headers */,
-				A1CDA7B7154B4F20CDDF5815 /* ISLineRewardedVideoDelegate.h in Headers */,
+				A0D600C117B3D473104B7E75 /* ISLineRewardedAdapter.h in Headers */,
+				ADEF787CA29934B29558B3F3 /* ISLineRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,8 +191,8 @@
 				4F30582CE95C3F424679BDC3 /* ISLineAdapter.m in Sources */,
 				434CBF6C733E12EBB50C0862 /* ISLineInterstitialAdapter.m in Sources */,
 				255339EEDD2918CAB6FD7442 /* ISLineInterstitialDelegate.m in Sources */,
-				23B70C2E841EFDC64EE210BD /* ISLineRewardedVideoAdapter.m in Sources */,
-				E000EDE3280A97F8DE3308DA /* ISLineRewardedVideoDelegate.m in Sources */,
+				BB4D9125518BF4DE2506884C /* ISLineRewardedAdapter.m in Sources */,
+				3621CF5E018A5C952DC2481D /* ISLineRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

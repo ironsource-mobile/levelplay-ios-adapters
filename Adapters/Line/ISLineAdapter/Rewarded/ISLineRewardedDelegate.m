@@ -1,20 +1,20 @@
 //
-//  ISLineInterstitialDelegate.m
+//  ISLineRewardedDelegate.m
 //  ISLineAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISBaseRewardedVideo.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISAdapterErrorType.h>
 #import <IronSource/ISLog.h>
-#import "ISLineInterstitialDelegate.h"
+#import "ISLineRewardedDelegate.h"
 #import "ISLineConstants.h"
 
-@implementation ISLineInterstitialDelegate
+@implementation ISLineRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -22,41 +22,46 @@
     return self;
 }
 
-- (void)fiveInterstitialAd:(nonnull FADInterstitial *)ad
+- (void)fiveVideoRewardAd:(nonnull FADVideoReward *)ad
 didFailedToShowAdWithError:(FADErrorCode)errorCode {
     LogAdapterDelegate_Internal(logError, @(errorCode));
     [self.delegate adDidFailToShowWithErrorCode:ERROR_CODE_NO_ADS_TO_SHOW
                                    errorMessage:logNoAdsToShow];
 }
 
-- (void)fiveInterstitialAdDidImpression:(nonnull FADInterstitial *)ad {
+- (void)fiveVideoRewardAdDidImpression:(nonnull FADVideoReward *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidOpen];
 }
 
-- (void)fiveInterstitialAdDidClick:(nonnull FADInterstitial *)ad {
+- (void)fiveVideoRewardAdDidPlay:(nonnull FADVideoReward *)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+}
+
+- (void)fiveVideoRewardAdDidViewThrough:(nonnull FADVideoReward *)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+}
+
+- (void)fiveVideoRewardAdDidClick:(nonnull FADVideoReward *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClick];
 }
 
-- (void)fiveInterstitialAdFullScreenDidClose:(nonnull FADInterstitial *)ad {
+- (void)fiveVideoRewardAdDidReward:(nonnull FADVideoReward *)ad {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
+}
+
+- (void)fiveVideoRewardAdFullScreenDidClose:(nonnull FADVideoReward *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClose];
 }
 
-- (void)fiveInterstitialAdFullScreenDidOpen:(nonnull FADInterstitial *)ad {
+- (void)fiveVideoRewardAdFullScreenDidOpen:(nonnull FADVideoReward *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 
-- (void)fiveInterstitialAdDidPlay:(nonnull FADInterstitial *)ad {
-    LogAdapterDelegate_Internal(logCallbackEmpty);
-}
-
-- (void)fiveInterstitialAdDidPause:(nonnull FADInterstitial *)ad {
-    LogAdapterDelegate_Internal(logCallbackEmpty);
-}
-
-- (void)fiveInterstitialAdDidViewThrough:(nonnull FADInterstitial *)ad {
+- (void)fiveVideoRewardAdDidPause:(nonnull FADVideoReward *)ad {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 

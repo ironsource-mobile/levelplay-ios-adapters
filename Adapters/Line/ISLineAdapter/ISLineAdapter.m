@@ -5,161 +5,171 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISLineAdapter.h"
-#import "ISLineConstants.h"
-#import "ISLineRewardedVideoAdapter.h"
-#import "ISLineInterstitialAdapter.h"
+#import <IronSource/ISLog.h>
+#import <IronSource/ISConcurrentMutableSet.h>
+#import "ISLineAdapter+Internal.h"
 
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
 static FADAdLoader *lineAdLoader = nil;
 
-@interface ISLineAdapter() <ISNetworkInitCallbackProtocol>
-
-@end
-
 @implementation ISLineAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return LineAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
-    return [FADSettings semanticVersion];
+- (NSString *)networkSDKVersion {
+    return [FADAdLoader semanticVersion];
 }
 
-#pragma mark - Initializations Methods And Callbacks
++ (NSString *)networkAdapterVersion {
+    return LineAdapterVersion;
+}
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+#pragma mark - Initialization Methods And Callbacks
+
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISLineRewardedVideoAdapter *rewardedVideoAdapter = [[ISLineRewardedVideoAdapter alloc] initWithLineAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISLineInterstitialAdapter *interstitialAdapter = [[ISLineInterstitialAdapter alloc] initWithLineAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_NETWORK;
     }
-    
     return self;
 }
 
-- (void)initSDKWithAppId:(NSString *)appId {
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE) {
-        [initCallbackDelegates addObject:self];
-    }
-    
-    if(appId == nil){
-        [self initializationFailure];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *appId = [adData getString:appIdKey];
+    NSString *slotId = [adData getString:slotIdKey];
+
+    // Configuration Validation
+    if (!appId || appId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, appIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
         return;
+    }
+
+    if (!slotId || slotId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, slotIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logInitFailedMessage];
+        return;
+    }
+
+    // Add delegate to the init delegates only in case the initialization has not finished yet
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initializationDelegates addObject:delegate];
     }
 
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
-        LogAdapterApi_Internal(@"appId = %@", appId);
-        FADConfig *config = [self getConfig:appId];
-        [FADSettings registerConfig:config];
-        
-        [self initializationSuccess];
+        initState = INIT_STATE_IN_PROGRESS;
+
+        LogAdapterApi_Internal(logAppIdAndSlotId, appId, slotId);
+
+        if ([self getAdLoader:appId]) {
+            [self initializationSuccess];
+        } else {
+            [self initializationFailure];
+        }
     });
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitSuccess);
+
     initState = INIT_STATE_SUCCESS;
-    
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 - (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitFailedMessage);
+
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"Line SDK init failed"];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED
+                                    errorMessage:logInitFailedMessage];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
-}
-
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate
                                  appId:(NSString *)appId
-                                 slotId:(NSString *)slotId{
+                                slotId:(NSString *)slotId {
     if (initState != INIT_STATE_SUCCESS) {
-        NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't started"];
-        LogAdapterApi_Internal(@"%@", error);
-        [delegate failureWithError:error];
+        LogAdapterApi_Internal(logError, logTokenError);
+        [delegate failureWithError:logTokenError];
         return;
     }
+
     FADAdLoader *adLoader = [self getAdLoader:appId];
-    if (adLoader == nil){
-        [delegate failureWithError:@"adLoader is nil - Line"];
+
+    if (adLoader == nil) {
+        LogAdapterApi_Internal(logError, logAdLoaderNil);
+        [delegate failureWithError:logAdLoaderNil];
         return;
     }
-    [adLoader collectSignalWithSlotId:slotId withSignalCallback:^(NSString *_Nullable signal, NSError *_Nullable error) {
-        if (error != nil){
-            LogAdapterApi_Internal(@"%@", error.localizedDescription);
+
+    [adLoader collectSignalWithSlotId:slotId
+                   withSignalCallback:^(NSString *_Nullable signal, NSError *_Nullable error) {
+        if (error != nil) {
+            LogAdapterApi_Internal(logError, error.localizedDescription);
             [delegate failureWithError:error.localizedDescription];
             return;
         }
-        if (signal.length == 0){
-            [delegate failureWithError:@"Token is nil or empty - Line"];
+
+        if (signal.length == 0) {
+            LogAdapterApi_Internal(logError, logTokenFailed);
+            [delegate failureWithError:logTokenFailed];
             return;
         }
-        NSDictionary *biddingDataDictionary = @{kMediationTokenKey: signal};
-        LogAdapterApi_Internal(@"%@ = %@", kMediationTokenKey, signal);
-        [delegate successWithBiddingData:biddingDataDictionary];
-      }];
-}
 
-- (FADConfig *)getConfig:(NSString *)appId {
-    FADConfig *config = [[FADConfig alloc] initWithAppId:appId];
-    return config;
+        LogAdapterApi_Internal(logToken, signal);
+        [delegate successWithBiddingData:@{tokenKey: signal}];
+    }];
 }
 
 - (FADAdLoader *)getAdLoader:(NSString *)appId {
     if (!lineAdLoader) {
         NSError *error = nil;
-        FADConfig *config = [self getConfig:appId];
+        FADConfig *config = [[FADConfig alloc] initWithAppId:appId];
         lineAdLoader = [FADAdLoader adLoaderForConfig:config outError:&error];
+
         if (error) {
-            LogAdapterApi_Internal(@"Error creating line adLoader: %@", error.localizedDescription);
+            LogAdapterApi_Internal(logError, error.localizedDescription);
             lineAdLoader = nil;
         }
     }
+
     return lineAdLoader;
 }
 

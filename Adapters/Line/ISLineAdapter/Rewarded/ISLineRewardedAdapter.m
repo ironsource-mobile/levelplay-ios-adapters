@@ -1,5 +1,5 @@
 //
-//  ISLineInterstitialAdapter.m
+//  ISLineRewardedAdapter.m
 //  ISLineAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -7,25 +7,25 @@
 
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISLineInterstitialAdapter.h"
-#import "ISLineInterstitialDelegate.h"
+#import "ISLineRewardedAdapter.h"
+#import "ISLineRewardedDelegate.h"
 #import "ISLineAdapter+Internal.h"
 
-@interface ISLineInterstitialAdapter ()
+@interface ISLineRewardedAdapter ()
 
-@property (nonatomic, strong) FADInterstitial *interstitialAd;
-@property (nonatomic, strong) FADAdLoader *interstitialAdLoader;
-@property (nonatomic, strong) ISLineInterstitialDelegate *interstitialAdDelegate;
+@property (nonatomic, strong) FADVideoReward *rewardedAd;
+@property (nonatomic, strong) FADAdLoader *rewardedAdLoader;
+@property (nonatomic, strong) ISLineRewardedDelegate *rewardedAdDelegate;
 @property (nonatomic, assign) BOOL adAvailability;
 
 @end
 
-@implementation ISLineInterstitialAdapter
+@implementation ISLineRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *appId = [adData getString:appIdKey];
     NSString *slotId = [adData getString:slotIdKey];
     LogAdapterApi_Internal(logAppIdAndSlotId, appId, slotId);
@@ -42,10 +42,10 @@
         return;
     }
 
-    self.interstitialAdDelegate = [[ISLineInterstitialDelegate alloc] initWithDelegate:delegate];
-    self.interstitialAdLoader = [adapter getAdLoader:appId];
+    self.rewardedAdDelegate = [[ISLineRewardedDelegate alloc] initWithDelegate:delegate];
+    self.rewardedAdLoader = [adapter getAdLoader:appId];
 
-    if (self.interstitialAdLoader == nil) {
+    if (self.rewardedAdLoader == nil) {
         LogAdapterApi_Internal(logError, logAdLoaderNil);
         [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
                                      errorCode:ERROR_CODE_GENERIC
@@ -56,9 +56,9 @@
     FADBidData *bidData = [[FADBidData alloc] initWithBidResponse:adData.serverData
                                                     withWatermark:nil];
 
-    __weak ISLineInterstitialAdapter *weakSelf = self;
-    [self.interstitialAdLoader loadInterstitialAdWithBidData:bidData
-                                           withLoadCallback:^(FADInterstitial *_Nullable ad, NSError *_Nullable error) {
+    __weak ISLineRewardedAdapter *weakSelf = self;
+    [self.rewardedAdLoader loadRewardAdWithBidData:bidData
+                                  withLoadCallback:^(FADVideoReward *_Nullable ad, NSError *_Nullable error) {
         __typeof__(self) strongSelf = weakSelf;
 
         if (error) {
@@ -78,8 +78,8 @@
             return;
         }
 
-        strongSelf.interstitialAd = ad;
-        [strongSelf.interstitialAd setEventListener:strongSelf.interstitialAdDelegate];
+        strongSelf.rewardedAd = ad;
+        [strongSelf.rewardedAd setEventListener:strongSelf.rewardedAdDelegate];
         strongSelf.adAvailability = YES;
         [delegate adDidLoad];
     }];
@@ -87,7 +87,7 @@
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -100,20 +100,20 @@
         return;
     }
 
-    [self.interstitialAd showWithViewController:viewController];
+    [self.rewardedAd showWithViewController:viewController];
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && self.adAvailability;
+    return self.rewardedAd != nil && self.adAvailability;
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
 
-    [self.interstitialAd setEventListener:nil];
-    self.interstitialAd = nil;
-    self.interstitialAdDelegate = nil;
-    self.interstitialAdLoader = nil;
+    [self.rewardedAd setEventListener:nil];
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
+    self.rewardedAdLoader = nil;
     self.adAvailability = NO;
 }
 
