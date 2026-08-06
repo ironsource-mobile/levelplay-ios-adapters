@@ -1,5 +1,5 @@
 //
-//  ISVoodooInterstitialAdapter.m
+//  ISVoodooRewardedAdapter.m
 //  ISVoodooAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -8,36 +8,36 @@
 #import <IronSource/ISError.h>
 #import <IronSource/ISAdapterErrorType.h>
 #import <IronSource/ISLog.h>
-#import "ISVoodooInterstitialAdapter.h"
-#import "ISVoodooInterstitialDelegate.h"
+#import "ISVoodooRewardedAdapter.h"
+#import "ISVoodooRewardedDelegate.h"
 #import "ISVoodooAdapter+Internal.h"
 
-@interface ISVoodooInterstitialAdapter ()
+@interface ISVoodooRewardedAdapter ()
 
-@property (nonatomic, strong) AdnFullscreenAdController *interstitialAd;
-@property (nonatomic, strong) ISVoodooInterstitialDelegate *interstitialAdDelegate;
+@property (nonatomic, strong) AdnFullscreenAdController *rewardedAd;
+@property (nonatomic, strong) ISVoodooRewardedDelegate *rewardedAdDelegate;
 
 @end
 
-@implementation ISVoodooInterstitialAdapter
+@implementation ISVoodooRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *placementId = [adData getString:placementIdKey];
     LogAdapterApi_Internal(logPlacementId, placementId);
 
-    self.interstitialAdDelegate = [[ISVoodooInterstitialDelegate alloc] initWithDelegate:delegate];
+    self.rewardedAdDelegate = [[ISVoodooRewardedDelegate alloc] initWithDelegate:delegate];
 
-    self.interstitialAd = [[AdnFullscreenAdController alloc] init];
-    self.interstitialAd.fullscreenAdDelegate = self.interstitialAdDelegate;
+    self.rewardedAd = [[AdnFullscreenAdController alloc] init];
+    self.rewardedAd.fullscreenAdDelegate = self.rewardedAdDelegate;
 
-    AdnFullscreenAdOptions *options = [[AdnFullscreenAdOptions alloc] initWithPlacement:AdnPlacementTypeInterstitial
+    AdnFullscreenAdOptions *options = [[AdnFullscreenAdOptions alloc] initWithPlacement:AdnPlacementTypeRewarded
                                                                                adMarkup:adData.serverData];
 
-    [self.interstitialAd loadAdWithOptions:options
-                                completion:^(NSError *_Nullable error) {
+    [self.rewardedAd loadAdWithOptions:options
+                            completion:^(NSError *_Nullable error) {
         if (error) {
             LogAdapterDelegate_Internal(logError, error.description);
             ISAdapterErrorType errorType = (error.code == voodooNoFillErrorCode) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
@@ -53,7 +53,7 @@
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -65,20 +65,20 @@
         return;
     }
 
-    [self.interstitialAd presentAdFrom:viewController];
+    [self.rewardedAd presentAdFrom:viewController];
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && [self.interstitialAd canShow];
+    return self.rewardedAd != nil && [self.rewardedAd canShow];
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
 
-    [self.interstitialAd cleanUp];
-    self.interstitialAd.fullscreenAdDelegate = nil;
-    self.interstitialAd = nil;
-    self.interstitialAdDelegate = nil;
+    [self.rewardedAd cleanUp];
+    self.rewardedAd.fullscreenAdDelegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 #pragma mark - Helper Methods
@@ -94,7 +94,7 @@
     }
 
     [adapter collectBiddingDataWithDelegate:delegate
-                              placementType:AdnPlacementTypeInterstitial];
+                              placementType:AdnPlacementTypeRewarded];
 }
 
 @end

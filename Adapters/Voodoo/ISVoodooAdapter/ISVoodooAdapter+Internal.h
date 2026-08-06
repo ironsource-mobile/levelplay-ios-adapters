@@ -7,17 +7,13 @@
 
 #import "ISVoodooAdapter.h"
 #import "ISVoodooConstants.h"
+#import <IronSource/ISAdapterErrors.h>
+#import <IronSource/ISBiddingDataProtocol.h>
 #import <VoodooAdn/VoodooAdn.h>
 
-@interface ISVoodooAdapter()
-
-- (void)initSDKWithConfig:(ISAdapterConfig *)adapterConfig;
+@interface ISVoodooAdapter ()
 
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate
-                         placementType:(AdnPlacementType)placementType
-                         adapterConfig:(ISAdapterConfig *)adapterConfig;
-
-- (InitState)getInitState;
+                         placementType:(AdnPlacementType)placementType;
 
 @end
-

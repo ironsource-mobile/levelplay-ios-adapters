@@ -1,18 +1,18 @@
 //
-//  ISVoodooInterstitialDelegate.m
+//  ISVoodooRewardedDelegate.m
 //  ISVoodooAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISBaseRewardedVideo.h>
 #import <IronSource/ISLog.h>
-#import "ISVoodooInterstitialDelegate.h"
+#import "ISVoodooRewardedDelegate.h"
 #import "ISVoodooConstants.h"
 
-@implementation ISVoodooInterstitialDelegate
+@implementation ISVoodooRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -20,7 +20,7 @@
     return self;
 }
 
-#pragma mark - Interstitial Delegate
+#pragma mark - Rewarded Delegate
 
 - (void)didRecordAdImpression {
     LogAdapterDelegate_Internal(logCallbackEmpty);
@@ -30,6 +30,11 @@
 - (void)didRecordAdClick {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClick];
+}
+
+- (void)onAdRewarded {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
 }
 
 - (void)didFailToPresentFullscreenAdWithError:(NSError *_Nullable)error {
@@ -44,10 +49,6 @@
 }
 
 - (void)didPresentFullscreenAd {
-    LogAdapterDelegate_Internal(logCallbackEmpty);
-}
-
-- (void)onAdRewarded {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 

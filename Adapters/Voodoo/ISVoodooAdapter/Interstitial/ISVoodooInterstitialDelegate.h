@@ -7,16 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <VoodooAdn/VoodooAdn.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
 
-@interface ISVoodooInterstitialDelegate : NSObject<AdnFullscreenAdDelegate>
+@protocol ISInterstitialAdDelegate;
 
-@property (nonatomic, strong) NSString                        *placementId;
-@property (nonatomic, weak) id<ISInterstitialAdapterDelegate> delegate;
+@interface ISVoodooInterstitialDelegate : NSObject <AdnFullscreenAdDelegate>
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                        andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+@property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (void)handleOnLoad:(NSError *)error;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

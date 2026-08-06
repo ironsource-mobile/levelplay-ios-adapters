@@ -6,9 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const VoodooAdapterVersion = @"5.3.0";
+static NSString * const VoodooAdapterVersion = @"5.4.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Voodoo Adapter
@@ -16,7 +17,6 @@ static NSString * Githash = @"";
 @import AppTrackingTransparency;
 @import AVFoundation;
 @import CoreTelephony;
-@import Foundation;
 @import Network;
 @import QuartzCore;
 @import StoreKit;
@@ -24,6 +24,6 @@ static NSString * Githash = @"";
 @import UIKit;
 @import WebKit;
 
-@interface ISVoodooAdapter : ISBaseAdapter
+@interface ISVoodooAdapter : LevelPlayBaseAdapter
 
 @end

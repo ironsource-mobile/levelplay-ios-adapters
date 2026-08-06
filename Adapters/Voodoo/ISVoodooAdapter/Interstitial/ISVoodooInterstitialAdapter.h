@@ -6,11 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISVoodooAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISVoodooInterstitialAdapter : ISBaseInterstitialAdapter
-
-- (instancetype)initWithVoodooAdapter:(ISVoodooAdapter *)adapter;
+@interface ISVoodooInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end
-

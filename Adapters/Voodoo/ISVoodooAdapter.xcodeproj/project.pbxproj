@@ -10,29 +10,29 @@
 		080B84575DD9628EBDBB5EE7 /* ISVoodooInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BA8D72CDF8657E46B4C0E6E /* ISVoodooInterstitialDelegate.h */; };
 		09209E9F7BDA63A271EC1C3D /* ISVoodooAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 76D69143348F6F797AE8C1C3 /* ISVoodooAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C747BD610A7DD51E296E970 /* ISVoodooInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F84805F9ABDF248F14E0167B /* ISVoodooInterstitialDelegate.m */; };
-		4A2936F408FAEB0A2BCE4860 /* ISVoodooRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F5DD0818B54FABDBB3028204 /* ISVoodooRewardedVideoDelegate.h */; };
 		57115AFBB7B2241164AD2429 /* ISVoodooConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD75FF7B3743ACAAFC1C7251 /* ISVoodooConstants.h */; };
 		7960BDA679785E7ADB7F6205 /* ISVoodooAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8561FD60E2224385ABFE52D /* ISVoodooAdapter.m */; };
-		8521AB7DB18481C48CFA4BE6 /* ISVoodooRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = E17C2CFC02EAF70D662BEB64 /* ISVoodooRewardedVideoAdapter.h */; };
+		904FE334F9E4D7A258E6803E /* ISVoodooRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 55F69EBC48BECC90A74FBE4E /* ISVoodooRewardedDelegate.h */; };
 		B715CC5C18195C78B951BF31 /* ISVoodooInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 64D751C30DF4A2779EA84E2A /* ISVoodooInterstitialAdapter.h */; };
+		C2C59CCC69298C5F08CD3B24 /* ISVoodooRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B8F8EF1A411232E46FB0E6 /* ISVoodooRewardedDelegate.m */; };
 		D65E49BDEA4F400146E7C256 /* ISVoodooInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A19C3D25EAC5CD664C80FF /* ISVoodooInterstitialAdapter.m */; };
-		D692496E4383E18314743996 /* ISVoodooRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A77FF39E760D8B8B7CDA193 /* ISVoodooRewardedVideoDelegate.m */; };
+		E5762456E8BE7C3C2052693B /* ISVoodooRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C0401A4ADC9A8BC64B7FF6D /* ISVoodooRewardedAdapter.m */; };
 		E62F98B7731818E2709829DF /* ISVoodooAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 50251ECD9FD539BD38FEF432 /* ISVoodooAdapter+Internal.h */; };
-		FF293E85A554D9FA4F609947 /* ISVoodooRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 111D66D91BBA57E9EBD70ED0 /* ISVoodooRewardedVideoAdapter.m */; };
+		EF034E3D77A8B77EFC04CD60 /* ISVoodooRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B536E2C9312F9E7648467730 /* ISVoodooRewardedAdapter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		111D66D91BBA57E9EBD70ED0 /* ISVoodooRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooRewardedVideoAdapter.m; sourceTree = "<group>"; };
 		50251ECD9FD539BD38FEF432 /* ISVoodooAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISVoodooAdapter+Internal.h"; sourceTree = "<group>"; };
+		55F69EBC48BECC90A74FBE4E /* ISVoodooRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooRewardedDelegate.h; sourceTree = "<group>"; };
 		64D751C30DF4A2779EA84E2A /* ISVoodooInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooInterstitialAdapter.h; sourceTree = "<group>"; };
 		76D69143348F6F797AE8C1C3 /* ISVoodooAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooAdapter.h; sourceTree = "<group>"; };
 		7BA8D72CDF8657E46B4C0E6E /* ISVoodooInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooInterstitialDelegate.h; sourceTree = "<group>"; };
-		8A77FF39E760D8B8B7CDA193 /* ISVoodooRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		7C0401A4ADC9A8BC64B7FF6D /* ISVoodooRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooRewardedAdapter.m; sourceTree = "<group>"; };
 		98A19C3D25EAC5CD664C80FF /* ISVoodooInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooInterstitialAdapter.m; sourceTree = "<group>"; };
+		A0B8F8EF1A411232E46FB0E6 /* ISVoodooRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooRewardedDelegate.m; sourceTree = "<group>"; };
+		B536E2C9312F9E7648467730 /* ISVoodooRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooRewardedAdapter.h; sourceTree = "<group>"; };
 		C8561FD60E2224385ABFE52D /* ISVoodooAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooAdapter.m; sourceTree = "<group>"; };
 		D16734C42BAE53119E800EA7 /* ISVoodooAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISVoodooAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E17C2CFC02EAF70D662BEB64 /* ISVoodooRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooRewardedVideoAdapter.h; sourceTree = "<group>"; };
-		F5DD0818B54FABDBB3028204 /* ISVoodooRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooRewardedVideoDelegate.h; sourceTree = "<group>"; };
 		F84805F9ABDF248F14E0167B /* ISVoodooInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISVoodooInterstitialDelegate.m; sourceTree = "<group>"; };
 		FD75FF7B3743ACAAFC1C7251 /* ISVoodooConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISVoodooConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -49,6 +49,17 @@
 			path = Interstitial;
 			sourceTree = "<group>";
 		};
+		3532E2DB665F1B48FF153546 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				B536E2C9312F9E7648467730 /* ISVoodooRewardedAdapter.h */,
+				7C0401A4ADC9A8BC64B7FF6D /* ISVoodooRewardedAdapter.m */,
+				55F69EBC48BECC90A74FBE4E /* ISVoodooRewardedDelegate.h */,
+				A0B8F8EF1A411232E46FB0E6 /* ISVoodooRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
 		A5405B36F20B2BF915E11F88 /* ISVoodooAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -57,7 +68,7 @@
 				50251ECD9FD539BD38FEF432 /* ISVoodooAdapter+Internal.h */,
 				FD75FF7B3743ACAAFC1C7251 /* ISVoodooConstants.h */,
 				11CA17669EBF88A41509ADDA /* Interstitial */,
-				E3020CC50B8F66B5A7980AE7 /* RewardedVideo */,
+				3532E2DB665F1B48FF153546 /* Rewarded */,
 			);
 			path = ISVoodooAdapter;
 			sourceTree = "<group>";
@@ -78,17 +89,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E3020CC50B8F66B5A7980AE7 /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				E17C2CFC02EAF70D662BEB64 /* ISVoodooRewardedVideoAdapter.h */,
-				111D66D91BBA57E9EBD70ED0 /* ISVoodooRewardedVideoAdapter.m */,
-				F5DD0818B54FABDBB3028204 /* ISVoodooRewardedVideoDelegate.h */,
-				8A77FF39E760D8B8B7CDA193 /* ISVoodooRewardedVideoDelegate.m */,
-			);
-			path = RewardedVideo;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -101,8 +101,8 @@
 				57115AFBB7B2241164AD2429 /* ISVoodooConstants.h in Headers */,
 				B715CC5C18195C78B951BF31 /* ISVoodooInterstitialAdapter.h in Headers */,
 				080B84575DD9628EBDBB5EE7 /* ISVoodooInterstitialDelegate.h in Headers */,
-				8521AB7DB18481C48CFA4BE6 /* ISVoodooRewardedVideoAdapter.h in Headers */,
-				4A2936F408FAEB0A2BCE4860 /* ISVoodooRewardedVideoDelegate.h in Headers */,
+				EF034E3D77A8B77EFC04CD60 /* ISVoodooRewardedAdapter.h in Headers */,
+				904FE334F9E4D7A258E6803E /* ISVoodooRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,8 +191,8 @@
 				7960BDA679785E7ADB7F6205 /* ISVoodooAdapter.m in Sources */,
 				D65E49BDEA4F400146E7C256 /* ISVoodooInterstitialAdapter.m in Sources */,
 				1C747BD610A7DD51E296E970 /* ISVoodooInterstitialDelegate.m in Sources */,
-				FF293E85A554D9FA4F609947 /* ISVoodooRewardedVideoAdapter.m in Sources */,
-				D692496E4383E18314743996 /* ISVoodooRewardedVideoDelegate.m in Sources */,
+				E5762456E8BE7C3C2052693B /* ISVoodooRewardedAdapter.m in Sources */,
+				C2C59CCC69298C5F08CD3B24 /* ISVoodooRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
