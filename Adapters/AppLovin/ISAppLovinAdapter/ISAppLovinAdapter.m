@@ -75,6 +75,10 @@ static ALSdkInitializationConfigurationBuilder* appLovinSettingsBuilder = nil;
     return [ALSdk version];
 }
 
++ (NSString *)networkAdapterVersion {
+    return AppLovinAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {
