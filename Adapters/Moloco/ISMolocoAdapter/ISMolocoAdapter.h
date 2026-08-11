@@ -8,7 +8,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const MolocoAdapterVersion = @"5.16.0";
+static NSString * const MolocoAdapterVersion = @"5.17.0";
 static NSString * Githash = @"";
 
 // System Frameworks For Moloco Adapter
