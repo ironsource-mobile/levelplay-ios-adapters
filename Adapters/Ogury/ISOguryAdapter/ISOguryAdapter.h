@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const OguryAdapterVersion = @"5.6.0";
+static NSString * const OguryAdapterVersion = @"5.7.0";
 static NSString * Githash = @"";
 
 @interface ISOguryAdapter : LevelPlayBaseAdapter
