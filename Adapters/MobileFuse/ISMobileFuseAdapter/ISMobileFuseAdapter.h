@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const mobileFuseAdapterVersion = @"5.4.0";
+static NSString * const mobileFuseAdapterVersion = @"5.5.0";
 static NSString * Githash = @"";
 
 //No System Frameworks For MobileFuse Adapter are required
