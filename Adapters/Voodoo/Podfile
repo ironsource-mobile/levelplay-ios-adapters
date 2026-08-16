@@ -5,7 +5,7 @@ platform :ios, '14.0'
 use_frameworks!
 
 target 'ISVoodooAdapter' do
-  pod 'IronSourceSDK', '9.5.0.0'
-  pod 'VoodooAdn', '3.17.0'
+  pod 'IronSourceSDK', '9.6.0.0'
+  pod 'VoodooAdn', '3.17.1'
 
 end
