@@ -86,6 +86,10 @@ static int const kUnityAdsNoFillError           = 52100;
     return [UnityAds getVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return UnityAdsAdapterVersion;
+}
+
 #pragma mark - Initializations Methods And Callbacks
 
 - (instancetype)initAdapter:(NSString *)name {

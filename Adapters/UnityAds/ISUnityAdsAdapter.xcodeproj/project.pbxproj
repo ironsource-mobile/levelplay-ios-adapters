@@ -11,6 +11,7 @@
 		315983F18FBBE248C59B8011 /* ISUADSNewApiDelegates+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5EB8010EF8C4DB215E8E9B /* ISUADSNewApiDelegates+Testing.m */; };
 		34FDE6AA04813B36D8AB77DE /* ISUnityAdsAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */; };
 		4AC06E6625669F6E0C871026 /* ISUnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */; };
+		54F3A01C3FAC5A91055F8540 /* ISUnityAdsAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6B1C66A72F79B477AB8352EB /* ISUnityAdsAdapterEventSenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EBE09D4D46CC600CAEE070 /* ISUnityAdsAdapterEventSenderTests.swift */; };
 		7577534946B5EA7ED08781EA /* ISUADSNewApiDelegateEventSenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39901527908737D3C53E96F3 /* ISUADSNewApiDelegateEventSenderTests.swift */; };
 		859B4BD265C1D7DB053F9D0D /* ISUADSBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */; };
@@ -31,6 +32,20 @@
 			remoteInfo = ISUnityAdsAdapter;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		54B9C72A631D2ED01BA594C3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				54F3A01C3FAC5A91055F8540 /* ISUnityAdsAdapter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +150,7 @@
 			buildPhases = (
 				F3405347762FE4E728927076 /* Sources */,
 				B85E8BB8D17B6FFEA951E31A /* Frameworks */,
+				54B9C72A631D2ED01BA594C3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
