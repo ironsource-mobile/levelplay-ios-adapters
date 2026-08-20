@@ -1,5 +1,5 @@
 //
-//  ISYSOInterstitialAdapter.m
+//  ISYSORewardedAdapter.m
 //  ISYSOAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -7,22 +7,22 @@
 
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISYSOInterstitialAdapter.h"
-#import "ISYSOInterstitialDelegate.h"
+#import "ISYSORewardedAdapter.h"
+#import "ISYSORewardedDelegate.h"
 #import "ISYSOAdapter+Internal.h"
 
-@interface ISYSOInterstitialAdapter ()
+@interface ISYSORewardedAdapter ()
 
-@property (nonatomic, strong) ISYSOInterstitialDelegate *interstitialAdDelegate;
+@property (nonatomic, strong) ISYSORewardedDelegate *rewardedAdDelegate;
 
 @end
 
-@implementation ISYSOInterstitialAdapter
+@implementation ISYSORewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *placementKey = [adData getString:placementKeyKey];
     LogAdapterApi_Internal(logPlacementKey, placementKey);
 
@@ -35,18 +35,18 @@
         return;
     }
 
-    self.interstitialAdDelegate = [[ISYSOInterstitialDelegate alloc] initWithDelegate:delegate];
+    self.rewardedAdDelegate = [[ISYSORewardedDelegate alloc] initWithDelegate:delegate];
 
-    [YsoNetwork interstitialLoadWithKey:placementKey
+    [YsoNetwork rewardedLoadWithKey:placementKey
                              json:adData.serverData
                            onLoad:^(e_ActionError error) {
-        [self.interstitialAdDelegate handleOnLoad:error];
+        [self.rewardedAdDelegate handleOnLoad:error];
     }];
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *placementKey = [adData getString:placementKeyKey];
     LogAdapterApi_Internal(logPlacementKey, placementKey);
 
@@ -60,28 +60,28 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [YsoNetwork interstitialShowWithKey:placementKey
+        [YsoNetwork rewardedShowWithKey:placementKey
                        viewController:viewController
                             onDisplay:^(YNWebView *_Nullable view) {
-            [self.interstitialAdDelegate handleOnDisplay:view];
+            [self.rewardedAdDelegate handleOnDisplay:view];
         }
                               onClick:^{
-            [self.interstitialAdDelegate handleOnClick];
+            [self.rewardedAdDelegate handleOnClick];
         }
                               onClose:^(BOOL display, BOOL complete) {
-            [self.interstitialAdDelegate handleOnClose:display complete:complete];
+            [self.rewardedAdDelegate handleOnClose:display complete:complete];
         }];
     });
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return [YsoNetwork interstitialIsReadyWithKey:[adData getString:placementKeyKey]];
+    return [YsoNetwork rewardedIsReadyWithKey:[adData getString:placementKeyKey]];
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
 
-    self.interstitialAdDelegate = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 #pragma mark - Helper Methods

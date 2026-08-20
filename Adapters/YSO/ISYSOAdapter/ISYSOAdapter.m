@@ -5,32 +5,23 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISYSOAdapter.h"
-#import "ISYSOConstants.h"
-#import "ISYSORewardedVideoAdapter.h"
-#import "ISYSOInterstitialAdapter.h"
-#import <YsoNetwork/YsoNetwork.h>
-#import <YsoNetwork/YsoNetwork-Swift.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISConcurrentMutableSet.h>
+#import "ISYSOAdapter+Internal.h"
 
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
-
-@interface ISYSOAdapter() <ISNetworkInitCallbackProtocol>
-
-@end
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
 @implementation ISYSOAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return YSOAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return [YsoNetwork getSdkVersion];
 }
 
@@ -38,56 +29,62 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     return YSOAdapterVersion;
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISYSORewardedVideoAdapter *rewardedVideoAdapter = [[ISYSORewardedVideoAdapter alloc] initWithYSOAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISYSOInterstitialAdapter *interstitialAdapter = [[ISYSOInterstitialAdapter alloc] initWithYSOAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
     }
-    
     return self;
 }
 
-- (void)initSDKWithPlacementKey:(NSString *)placementKey{
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *placementKey = [adData getString:placementKeyKey];
+
+    // Configuration Validation
+    if (!placementKey || placementKey.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementKeyKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
     }
-    
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logInitFailedMessage];
+        return;
+    }
+
+    // Add delegate to the init delegates only in case the initialization has not finished yet
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initializationDelegates addObject:delegate];
+    }
+
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
         initState = INIT_STATE_IN_PROGRESS;
-        
-        LogAdapterApi_Internal(@"placementKey = %@", placementKey);
-        
+
+        LogAdapterApi_Internal(logPlacementKey, placementKey);
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            @try{
+            @try {
                 [YsoNetwork initializeSdk];
-                
-                if ([YsoNetwork isInitialized])
-                {
+
+                if ([YsoNetwork isInitialized]) {
                     [self initializationSuccess];
-                }
-                else
-                {
+                } else {
                     [self initializationFailure];
                 }
             }
             @catch (NSException *exception) {
-                LogAdapterApi_Internal(@"YSO initialization exception: %@", exception.reason);
+                LogAdapterApi_Internal(logInitException, exception.reason);
                 [self initializationFailure];
             }
         });
@@ -95,79 +92,75 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitSuccess);
+
     initState = INIT_STATE_SUCCESS;
-    
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
     }
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 - (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitFailedMessage);
+
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"YSO SDK init failed"];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED
+                                    errorMessage:logInitFailedMessage];
     }
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
++ (NSString *)loadErrorToString:(e_ActionError)error {
+    switch (error) {
+        case e_ActionErrorSdkNotInitialized:
+            return errorSdkNotInitialized;
+        case e_ActionErrorInvalidRequest:
+            return errorInvalidRequest;
+        case e_ActionErrorInvalidConfig:
+            return errorInvalidConfig;
+        case e_ActionErrorLoad:
+            return errorLoad;
+        case e_ActionErrorTimeout:
+            return errorTimeout;
+        case e_ActionErrorServer:
+            return errorServer;
+        case e_ActionErrorInternal:
+            return errorInternal;
+        default:
+            return errorUnknown;
+    }
 }
 
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
-    
     if (initState != INIT_STATE_SUCCESS) {
-        NSString *error = [NSString stringWithFormat:@"returning nil as token since init hasn't finished successfully"];
-        LogAdapterApi_Internal(@"%@", error);
-        [delegate failureWithError:error];
+        LogAdapterApi_Internal(logError, logTokenError);
+        [delegate failureWithError:logTokenError];
         return;
     }
-    
-    NSString *token = [YsoNetwork getSignal];
-    if (!token.length) {
-        [delegate failureWithError:@"Failed to receive token - YSO"];
-        return;
-    }
-    NSString *sdkVersion = [self sdkVersion];
-    NSString *returnedToken = token ? token : @"";
-    LogAdapterApi_Internal(@"token = %@, sdkVersion = %@", returnedToken, sdkVersion);
-    NSDictionary *biddingDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: returnedToken, @"token", sdkVersion, @"sdkVersion", nil];
-    [delegate successWithBiddingData:biddingDataDictionary];
-}
 
-- (NSString *)ysoLoadErrorToString:(e_ActionError)error {
-    NSString *result = nil;
-    switch (error) {
-        case e_ActionErrorSdkNotInitialized:
-            result = @"sdk not initialized";
-        case e_ActionErrorInvalidRequest:
-            result = @"bad request data sent to SDK";
-        case e_ActionErrorInvalidConfig:
-            result = @" invalid ad configuration";
-        case e_ActionErrorLoad:
-            result = @"ad load error";
-        case e_ActionErrorTimeout:
-            result = @"timeout loading the ad";
-        case e_ActionErrorServer:
-            result = @"error in the server response";
-        case e_ActionErrorInternal:
-            result = @"other error";
-        default:
-            result = @"unknown error";
+    NSString *token = [YsoNetwork getSignal];
+
+    if (!token.length) {
+        LogAdapterApi_Internal(logError, logTokenFailed);
+        [delegate failureWithError:logTokenFailed];
+        return;
     }
-    return result;
+
+    NSString *sdkVersion = [YsoNetwork getSdkVersion];
+    LogAdapterApi_Internal(logToken, token, sdkVersion);
+    [delegate successWithBiddingData:@{tokenKey: token, sdkVersionKey: sdkVersion}];
 }
 
 @end
