@@ -1,5 +1,5 @@
 //
-//  ISPubMaticInterstitialAdapter.m
+//  ISPubMaticRewardedAdapter.m
 //  ISPubMaticAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -7,23 +7,23 @@
 
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISPubMaticInterstitialAdapter.h"
-#import "ISPubMaticInterstitialDelegate.h"
+#import "ISPubMaticRewardedAdapter.h"
+#import "ISPubMaticRewardedDelegate.h"
 #import "ISPubMaticAdapter+Internal.h"
 
-@interface ISPubMaticInterstitialAdapter ()
+@interface ISPubMaticRewardedAdapter ()
 
-@property (nonatomic, strong) POBInterstitial *interstitialAd;
-@property (nonatomic, strong) ISPubMaticInterstitialDelegate *interstitialAdDelegate;
+@property (nonatomic, strong) POBRewardedAd *rewardedAd;
+@property (nonatomic, strong) ISPubMaticRewardedDelegate *rewardedAdDelegate;
 
 @end
 
-@implementation ISPubMaticInterstitialAdapter
+@implementation ISPubMaticRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *adUnitId = [adData getString:adUnitIdKey];
     LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
@@ -36,15 +36,15 @@
         return;
     }
 
-    self.interstitialAdDelegate = [[ISPubMaticInterstitialDelegate alloc] initWithDelegate:delegate];
-    self.interstitialAd = [[POBInterstitial alloc] init];
-    self.interstitialAd.delegate = self.interstitialAdDelegate;
-    [self.interstitialAd loadAdWithResponse:adData.serverData forBiddingHost:POBSDKBiddingHostUnityLevelPlay];
+    self.rewardedAdDelegate = [[ISPubMaticRewardedDelegate alloc] initWithDelegate:delegate];
+    self.rewardedAd = [[POBRewardedAd alloc] init];
+    self.rewardedAd.delegate = self.rewardedAdDelegate;
+    [self.rewardedAd loadAdWithResponse:adData.serverData forBiddingHost:POBSDKBiddingHostUnityLevelPlay];
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -56,19 +56,19 @@
         return;
     }
 
-    [self.interstitialAd showFromViewController:viewController];
+    [self.rewardedAd showFromViewController:viewController];
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return [self.interstitialAd isReady];
+    return [self.rewardedAd isReady];
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
 
-    self.interstitialAd.delegate = nil;
-    self.interstitialAd = nil;
-    self.interstitialAdDelegate = nil;
+    self.rewardedAd.delegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 #pragma mark - Helper Methods
@@ -85,7 +85,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [adapter collectBiddingDataWithDelegate:delegate
-                                       adFormat:POBAdFormatInterstitial];
+                                       adFormat:POBAdFormatRewarded];
     });
 }
 

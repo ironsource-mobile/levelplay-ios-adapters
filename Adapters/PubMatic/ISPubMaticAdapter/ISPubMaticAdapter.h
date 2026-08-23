@@ -6,9 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const PubMaticAdapterVersion = @"5.8.0";
+static NSString * const PubMaticAdapterVersion = @"5.9.0";
 static NSString * Githash = @"";
 
 //System Frameworks For PubMatic Adapter
@@ -33,6 +34,6 @@ static NSString * Githash = @"";
 @import UIKit;
 @import WebKit;
 
-@interface ISPubMaticAdapter : ISBaseAdapter
+@interface ISPubMaticAdapter : LevelPlayBaseAdapter
 
 @end

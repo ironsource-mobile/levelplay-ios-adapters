@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0017B45402347167BEA97D1A /* ISPubMaticRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C6948019157EC68353F6976 /* ISPubMaticRewardedVideoAdapter.h */; };
 		08F04E2300F87BD0BE9B19E5 /* ISPubMaticAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 498C352E3666ACC568E54725 /* ISPubMaticAdapter+Internal.h */; };
+		0B9594F26592203CFB0DBB74 /* ISPubMaticRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 333B938754F09DB6625CACD1 /* ISPubMaticRewardedDelegate.h */; };
 		10AC5C2F364D627E2583F7C2 /* ISPubMaticInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FB81415920BAE6D1219B09D1 /* ISPubMaticInterstitialDelegate.h */; };
 		17D59A961DFBAFE51D905156 /* ISPubMaticBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 66F90E2A3F9A80A7094EC1BF /* ISPubMaticBannerAdapter.h */; };
 		186CB52CA1D3989C028C145D /* ISPubMaticAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C1FC612AD2A7D1DDA6895D /* ISPubMaticAdapter.m */; };
+		85033C30E4B75951B1999BDC /* ISPubMaticRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = E36ACCA4B5B2126254718275 /* ISPubMaticRewardedAdapter.m */; };
 		91D553E406F65923313AFCCC /* ISPubMaticBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E23DE7F135ECB3C8CCED70B5 /* ISPubMaticBannerDelegate.m */; };
 		94FC41F7BAAE6165C1903DC9 /* ISPubMaticBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A145579992D97B9692560F /* ISPubMaticBannerAdapter.m */; };
-		9973D7A579C3F7AEF070E3CC /* ISPubMaticRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 395581CD06F5A3830DB6F343 /* ISPubMaticRewardedVideoDelegate.h */; };
 		A827D1A89D765F2BD3A25C5E /* ISPubMaticBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F11653CD472C7DE51741373 /* ISPubMaticBannerDelegate.h */; };
-		AC8CDD07BD31A4E155B6BBA4 /* ISPubMaticRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 259407C273235981EF19435C /* ISPubMaticRewardedVideoAdapter.m */; };
 		B6C0E8B8AF656702F0A5079A /* ISPubMaticConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 582CBCC6A00D23A02EB41584 /* ISPubMaticConstants.h */; };
+		B6EAC7CAB1A5EC60AE5DAF02 /* ISPubMaticRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 635B028089F65B38DFD2E4C3 /* ISPubMaticRewardedDelegate.m */; };
+		B960B8FC6FD3A87ED8B3763D /* ISPubMaticRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = CB9101653FAB25AF34E98916 /* ISPubMaticRewardedAdapter.h */; };
 		B995FD908F60F8326C48620F /* ISPubMaticInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EDC5B7CFB8D716CE9990A27 /* ISPubMaticInterstitialAdapter.h */; };
-		BD1E98DD0C5BEC528992B66D /* ISPubMaticRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E918B2FFD83A6183EBFED078 /* ISPubMaticRewardedVideoDelegate.m */; };
 		CE9AD3DCBB66E505B1A142C2 /* ISPubMaticInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D05DFA531B231EA67B7DEE60 /* ISPubMaticInterstitialDelegate.m */; };
 		CFFF956278A9641EBD8FB3FB /* ISPubMaticInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5C31DFA57AB368F280510C /* ISPubMaticInterstitialAdapter.m */; };
 		FD6D291B54A53C977A4DC6C9 /* ISPubMaticAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DA686DE7551069A3CA2418 /* ISPubMaticAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,34 +27,34 @@
 
 /* Begin PBXFileReference section */
 		24DA686DE7551069A3CA2418 /* ISPubMaticAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticAdapter.h; sourceTree = "<group>"; };
-		259407C273235981EF19435C /* ISPubMaticRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticRewardedVideoAdapter.m; sourceTree = "<group>"; };
-		2C6948019157EC68353F6976 /* ISPubMaticRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticRewardedVideoAdapter.h; sourceTree = "<group>"; };
-		395581CD06F5A3830DB6F343 /* ISPubMaticRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		333B938754F09DB6625CACD1 /* ISPubMaticRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticRewardedDelegate.h; sourceTree = "<group>"; };
 		3F11653CD472C7DE51741373 /* ISPubMaticBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticBannerDelegate.h; sourceTree = "<group>"; };
 		498C352E3666ACC568E54725 /* ISPubMaticAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISPubMaticAdapter+Internal.h"; sourceTree = "<group>"; };
 		582CBCC6A00D23A02EB41584 /* ISPubMaticConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticConstants.h; sourceTree = "<group>"; };
+		635B028089F65B38DFD2E4C3 /* ISPubMaticRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticRewardedDelegate.m; sourceTree = "<group>"; };
 		63C1FC612AD2A7D1DDA6895D /* ISPubMaticAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticAdapter.m; sourceTree = "<group>"; };
 		66F90E2A3F9A80A7094EC1BF /* ISPubMaticBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticBannerAdapter.h; sourceTree = "<group>"; };
 		7EDC5B7CFB8D716CE9990A27 /* ISPubMaticInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticInterstitialAdapter.h; sourceTree = "<group>"; };
 		AB99D6DF2C4962C408AE17DE /* ISPubMaticAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISPubMaticAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE5C31DFA57AB368F280510C /* ISPubMaticInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticInterstitialAdapter.m; sourceTree = "<group>"; };
+		CB9101653FAB25AF34E98916 /* ISPubMaticRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticRewardedAdapter.h; sourceTree = "<group>"; };
 		D05DFA531B231EA67B7DEE60 /* ISPubMaticInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticInterstitialDelegate.m; sourceTree = "<group>"; };
 		E23DE7F135ECB3C8CCED70B5 /* ISPubMaticBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticBannerDelegate.m; sourceTree = "<group>"; };
-		E918B2FFD83A6183EBFED078 /* ISPubMaticRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		E36ACCA4B5B2126254718275 /* ISPubMaticRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticRewardedAdapter.m; sourceTree = "<group>"; };
 		F2A145579992D97B9692560F /* ISPubMaticBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISPubMaticBannerAdapter.m; sourceTree = "<group>"; };
 		FB81415920BAE6D1219B09D1 /* ISPubMaticInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISPubMaticInterstitialDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		2B8958F16A3713391572927B /* RewardedVideo */ = {
+		411735E7E58B63F73287A92C /* Rewarded */ = {
 			isa = PBXGroup;
 			children = (
-				2C6948019157EC68353F6976 /* ISPubMaticRewardedVideoAdapter.h */,
-				259407C273235981EF19435C /* ISPubMaticRewardedVideoAdapter.m */,
-				395581CD06F5A3830DB6F343 /* ISPubMaticRewardedVideoDelegate.h */,
-				E918B2FFD83A6183EBFED078 /* ISPubMaticRewardedVideoDelegate.m */,
+				CB9101653FAB25AF34E98916 /* ISPubMaticRewardedAdapter.h */,
+				E36ACCA4B5B2126254718275 /* ISPubMaticRewardedAdapter.m */,
+				333B938754F09DB6625CACD1 /* ISPubMaticRewardedDelegate.h */,
+				635B028089F65B38DFD2E4C3 /* ISPubMaticRewardedDelegate.m */,
 			);
-			path = RewardedVideo;
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 		5204167FEB720638D1722119 /* ISPubMaticAdapter */ = {
@@ -66,7 +66,7 @@
 				582CBCC6A00D23A02EB41584 /* ISPubMaticConstants.h */,
 				65A5C6622D9450B0719C37D0 /* Banner */,
 				76FF87945483CB6F5AD8910D /* Interstitial */,
-				2B8958F16A3713391572927B /* RewardedVideo */,
+				411735E7E58B63F73287A92C /* Rewarded */,
 			);
 			path = ISPubMaticAdapter;
 			sourceTree = "<group>";
@@ -123,8 +123,8 @@
 				B6C0E8B8AF656702F0A5079A /* ISPubMaticConstants.h in Headers */,
 				B995FD908F60F8326C48620F /* ISPubMaticInterstitialAdapter.h in Headers */,
 				10AC5C2F364D627E2583F7C2 /* ISPubMaticInterstitialDelegate.h in Headers */,
-				0017B45402347167BEA97D1A /* ISPubMaticRewardedVideoAdapter.h in Headers */,
-				9973D7A579C3F7AEF070E3CC /* ISPubMaticRewardedVideoDelegate.h in Headers */,
+				B960B8FC6FD3A87ED8B3763D /* ISPubMaticRewardedAdapter.h in Headers */,
+				0B9594F26592203CFB0DBB74 /* ISPubMaticRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,8 +215,8 @@
 				91D553E406F65923313AFCCC /* ISPubMaticBannerDelegate.m in Sources */,
 				CFFF956278A9641EBD8FB3FB /* ISPubMaticInterstitialAdapter.m in Sources */,
 				CE9AD3DCBB66E505B1A142C2 /* ISPubMaticInterstitialDelegate.m in Sources */,
-				AC8CDD07BD31A4E155B6BBA4 /* ISPubMaticRewardedVideoAdapter.m in Sources */,
-				BD1E98DD0C5BEC528992B66D /* ISPubMaticRewardedVideoDelegate.m in Sources */,
+				85033C30E4B75951B1999BDC /* ISPubMaticRewardedAdapter.m in Sources */,
+				B6EAC7CAB1A5EC60AE5DAF02 /* ISPubMaticRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

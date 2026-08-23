@@ -1,19 +1,19 @@
 //
-//  ISPubMaticInterstitialDelegate.m
+//  ISPubMaticRewardedDelegate.m
 //  ISPubMaticAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISBaseRewardedVideo.h>
 #import <IronSource/ISAdapterErrorType.h>
 #import <IronSource/ISLog.h>
-#import "ISPubMaticInterstitialDelegate.h"
+#import "ISPubMaticRewardedDelegate.h"
 #import "ISPubMaticConstants.h"
 
-@implementation ISPubMaticInterstitialDelegate
+@implementation ISPubMaticRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -21,12 +21,12 @@
     return self;
 }
 
-- (void)interstitialDidReceiveAd:(POBInterstitial *)interstitial {
+- (void)rewardedAdDidReceiveAd:(POBRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidLoad];
 }
 
-- (void)interstitial:(POBInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
+- (void)rewardedAd:(POBRewardedAd *)rewardedAd didFailToReceiveAdWithError:(NSError *)error {
     LogAdapterDelegate_Internal(logError, error);
     ISAdapterErrorType errorType = (error.code == POBErrorNoAds) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
     [self.delegate adDidFailToLoadWithErrorType:errorType
@@ -34,36 +34,41 @@
                                    errorMessage:error.description];
 }
 
-- (void)interstitialDidRecordImpression:(POBInterstitial *)interstitial {
+- (void)rewardedAdDidRecordImpression:(POBRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidOpen];
 }
 
-- (void)interstitial:(POBInterstitial *)interstitial didFailToShowAdWithError:(NSError *)error {
+- (void)rewardedAd:(POBRewardedAd *)rewardedAd didFailToShowAdWithError:(NSError *)error {
     LogAdapterDelegate_Internal(logError, error);
     [self.delegate adDidFailToShowWithErrorCode:error.code
                                    errorMessage:error.description];
 }
 
-- (void)interstitialDidClickAd:(POBInterstitial *)interstitial {
+- (void)rewardedAdDidClickAd:(POBRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClick];
 }
 
-- (void)interstitialDidDismissAd:(POBInterstitial *)interstitial {
+- (void)rewardedAd:(POBRewardedAd *)rewardedAd shouldReward:(POBReward *)reward {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
+}
+
+- (void)rewardedAdDidDismissAd:(POBRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClose];
 }
 
-- (void)interstitialWillPresentAd:(POBInterstitial *)interstitial {
+- (void)rewardedAdWillPresentAd:(POBRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 
-- (void)interstitialDidPresentAd:(POBInterstitial *)interstitial {
+- (void)rewardedAdDidPresentAd:(POBRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 
-- (void)interstitialWillLeaveApplication:(POBInterstitial *)interstitial {
+- (void)rewardedAdWillLeaveApplication:(POBRewardedAd *)rewardedAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 

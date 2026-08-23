@@ -5,32 +5,25 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISPubMaticAdapter.h"
-#import "ISPubMaticConstants.h"
-#import "ISPubMaticRewardedVideoAdapter.h"
-#import "ISPubMaticInterstitialAdapter.h"
-#import "ISPubMaticBannerAdapter.h"
-#import <OpenWrapSDK/OpenWrapSDK.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISMetaDataUtils.h>
+#import <IronSource/ISConfigurations.h>
+#import <IronSource/ISConcurrentMutableSet.h>
+#import "ISPubMaticAdapter+Internal.h"
 
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
-
-@interface ISPubMaticAdapter() <ISNetworkInitCallbackProtocol>
-
-@end
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
 @implementation ISPubMaticAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-// Get adapter version
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return PubMaticAdapterVersion;
 }
 
-// Get network sdk version
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return [OpenWrapSDK version];
 }
 
@@ -38,56 +31,68 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     return PubMaticAdapterVersion;
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name {
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISPubMaticRewardedVideoAdapter *rewardedVideoAdapter = [[ISPubMaticRewardedVideoAdapter alloc] initWithPubMaticAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISPubMaticInterstitialAdapter *interstitialAdapter = [[ISPubMaticInterstitialAdapter alloc] initWithPubMaticAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        //Banner
-        ISPubMaticBannerAdapter *bannerAdapter = [[ISPubMaticBannerAdapter alloc] initWithPubMaticAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
     }
-    
     return self;
 }
 
-- (void)initSDKWithConfig:(ISAdapterConfig *)adapterConfig {
-    
-    // Add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *publisherId = [adData getString:publisherIdKey];
+    NSNumber *profileId = [adData getNumber:profileIdKey];
+
+    // Configuration Validation
+    if (!publisherId || publisherId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, publisherIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
     }
-    
-    NSString *publisherId = adapterConfig.settings[kPublisherId];
-    NSNumber *profileId = adapterConfig.settings[kProfileId];
-    
+
+    if (!profileId) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, profileIdKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:logInitFailedMessage];
+        return;
+    }
+
+    // Add delegate to the init delegates only in case the initialization has not finished yet
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initializationDelegates addObject:delegate];
+    }
+
     static dispatch_once_t initSdkOnceToken;
     dispatch_once(&initSdkOnceToken, ^{
-        LogAdapterApi_Internal(@"publisherId = %@, profileId = %@", publisherId, profileId);
-        
+        LogAdapterApi_Internal(logPublisherIdAndProfileId, publisherId, profileId);
+
         if ([ISConfigurations getConfigurations].adaptersDebug) {
             [OpenWrapSDK setLogLevel:POBSDKLogLevelDebug];
         }
-        
+
         initState = INIT_STATE_IN_PROGRESS;
-        
+
         ISPubMaticAdapter * __weak weakSelf = self;
-        OpenWrapSDKConfig *config = [[OpenWrapSDKConfig alloc] initWithPublisherId:publisherId andProfileIds:@[profileId]];
-        [OpenWrapSDK initializeWithConfig:config andCompletionHandler:^(BOOL success, NSError *error) {
-            typeof(self) strongSelf = weakSelf;
+        OpenWrapSDKConfig *config = [[OpenWrapSDKConfig alloc] initWithPublisherId:publisherId
+                                                                    andProfileIds:@[profileId]];
+        [OpenWrapSDK initializeWithConfig:config
+                     andCompletionHandler:^(BOOL success, NSError *error) {
+            __typeof__(self) strongSelf = weakSelf;
             if (success) {
                 [strongSelf initializationSuccess];
             } else {
@@ -98,31 +103,32 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
-    
+    LogAdapterDelegate_Internal(logInitSuccess);
+
     initState = INIT_STATE_SUCCESS;
-    
-    NSArray *initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for (id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList) {
-        [initDelegate onNetworkInitCallbackSuccess];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 - (void)initializationFailure:(NSError *)error {
-    LogAdapterDelegate_Internal(@"error = %@", error);
+    LogAdapterDelegate_Internal(logError, error);
 
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"PubMatic SDK init failed"];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED
+                                    errorMessage:logInitFailedMessage];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 #pragma mark - Legal Methods
@@ -132,48 +138,43 @@ static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelega
     if (values.count == 0) {
         return;
     }
-    
+
     // This is an array of 1 value
     NSString *value = values[0];
-    LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
-    
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
     NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                     forType:(META_DATA_VALUE_BOOL)];
 
     if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                           flag:kMetaDataCOPPAKey
+                                           flag:metaDataCOPPAKey
                                        andValue:formattedValue]) {
         [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
     }
 }
 
-- (void)setCOPPAValue:(BOOL)value {
-    LogAdapterApi_Internal(@"value = %@", value ? @"YES" : @"NO");
-    [OpenWrapSDK setCoppaEnabled:value];
+- (void)setCOPPAValue:(BOOL)coppa {
+    LogAdapterApi_Internal(logCOPPA, coppa ? @"YES" : @"NO");
+    [OpenWrapSDK setCoppaEnabled:coppa];
 }
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
-}
-
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate
-                              adFormat:(POBAdFormat)adFormat
-                         adapterConfig:(ISAdapterConfig *)adapterConfig {
+                              adFormat:(POBAdFormat)adFormat {
     if (initState != INIT_STATE_SUCCESS) {
-        NSString *error = [NSString stringWithFormat:@"Init must be completed successfully before fetching a token. initState = %ld", initState];
-        LogAdapterApi_Internal(@"%@", error);
-        [delegate failureWithError:error];
+        LogAdapterApi_Internal(logError, logTokenError);
+        [delegate failureWithError:logTokenError];
         return;
     }
+
     POBSignalConfig *signalConfig = [[POBSignalConfig alloc] initWithAdFormat:adFormat];
-    
-    NSString *signal = [POBSignalGenerator generateSignalForBiddingHost:POBSDKBiddingHostUnityLevelPlay andConfig:signalConfig];
+    NSString *signal = [POBSignalGenerator generateSignalForBiddingHost:POBSDKBiddingHostUnityLevelPlay
+                                                              andConfig:signalConfig];
     NSString *returnedToken = signal ?: @"";
-    NSDictionary *biddingDataDictionary = @{kMediationTokenKey: returnedToken};
-    LogAdapterApi_Internal(@"%@ = %@", kMediationTokenKey, returnedToken);
-    [delegate successWithBiddingData:biddingDataDictionary];
+
+    LogAdapterApi_Internal(logToken, returnedToken);
+    [delegate successWithBiddingData:@{tokenKey: returnedToken}];
 }
 
 @end
