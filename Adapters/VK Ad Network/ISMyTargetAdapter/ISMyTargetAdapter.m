@@ -35,6 +35,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
     return [MTRGVersion currentVersion];
 }
 
++ (NSString *)networkAdapterVersion {
+    return MyTargetAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
