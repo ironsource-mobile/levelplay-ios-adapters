@@ -6,10 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
-static NSString * const AppLovinAdapterVersion = @"5.8.0";
+static NSString * const AppLovinAdapterVersion = @"5.9.0";
 static NSString * Githash = @"";
 
 //System Frameworks For AppLovin Adapter
@@ -29,8 +30,6 @@ static NSString * Githash = @"";
 @import UIKit;
 @import WebKit;
 
-@interface ISAppLovinAdapter : ISBaseAdapter
-
-- (void)disposeInterstitialAdWithZoneId:(NSString *)zoneId;
+@interface ISAppLovinAdapter : LevelPlayBaseAdapter
 
 @end

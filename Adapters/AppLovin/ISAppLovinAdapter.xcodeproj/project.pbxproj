@@ -7,33 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07C762E84F6C8FD41E1ACFE5 /* ISAppLovinAdHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4737C841DD5DFEB3DA940B9 /* ISAppLovinAdHolder.m */; };
+		1D25BC4C7863F91E89AC6755 /* ISAppLovinInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AA490EBC31F80D92EFBF0EAD /* ISAppLovinInterstitialDelegate.h */; };
+		31A9C185C9249F901B5AD045 /* ISAppLovinConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 8214CD039776FFDBF7F8F454 /* ISAppLovinConstants.h */; };
+		3790C560B27708CDE184951C /* ISAppLovinInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 539DFEA5F4AE1B6D8160CC78 /* ISAppLovinInterstitialDelegate.m */; };
+		40E76A123C1D72C0595A7D55 /* ISAppLovinBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B4A8E8314E5837294AC8FF42 /* ISAppLovinBannerDelegate.h */; };
 		4605774779390E2275AD7D8A /* ISAppLovinAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D6F24BD49760F1015E0A0D1C /* ISAppLovinAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4BD22D382C26A6268F9EDA3D /* ISApplovinInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE588FB717B3B22DDF71C37 /* ISApplovinInterstitialDelegate.m */; };
-		564F5AA32C996A3B5EBD2BE1 /* ISApplovinBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C27688A200DB579DBDFED2B /* ISApplovinBannerDelegate.m */; };
-		718EE55673A946098515342B /* ISApplovinRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E8FFA5AA35C2B954AF3914 /* ISApplovinRewardedVideoDelegate.m */; };
-		BD63B204976E81B925FB8B12 /* ISApplovinInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DB8996EDC412EA23A3243D63 /* ISApplovinInterstitialDelegate.h */; };
-		CD9CE0B92BFED565D25E761A /* ISApplovinBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = D75B08C08201C50FDC9EEC20 /* ISApplovinBannerDelegate.h */; };
+		780925FA8B24861F707833E8 /* ISAppLovinBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E288954AA76966EA388A85E /* ISAppLovinBannerAdapter.h */; };
+		792FD3C8AED81D70926F47EF /* ISAppLovinAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B4F7718C00E99B1CFC5EB0B2 /* ISAppLovinAdapter+Internal.h */; };
+		8799027EFFE46B67892740F6 /* ISAppLovinRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1658179C3F591ADB129D9 /* ISAppLovinRewardedAdapter.m */; };
+		93AA69AE0DFCBB3429A24411 /* ISAppLovinRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 370236EBCC35DD580A4358D8 /* ISAppLovinRewardedAdapter.h */; };
+		952A60CA59FFF120969E1AF6 /* ISAppLovinBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CC72EAAB3A395A9955DE22FA /* ISAppLovinBannerDelegate.m */; };
+		9AB5EE9E03B5BD576FA87202 /* ISAppLovinBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FB5FFAECD072FD9255DD086 /* ISAppLovinBannerAdapter.m */; };
+		A220F3AE9AD870ADB81F0516 /* ISAppLovinRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EAA3EA1C70708C22D99B30 /* ISAppLovinRewardedDelegate.m */; };
+		A84D980421226AB41C747931 /* ISAppLovinRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5831C3BF6465943D421DF74C /* ISAppLovinRewardedDelegate.h */; };
+		AE0C550248910290270618F7 /* ISAppLovinInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B3D148CF9010DAB5897F65CA /* ISAppLovinInterstitialAdapter.h */; };
+		EBF1BF6A380A4BABE7676858 /* ISAppLovinInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A3F3968C998757CBA8DCFC /* ISAppLovinInterstitialAdapter.m */; };
 		F2C7F0104C141D3EC5A35560 /* ISAppLovinAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DD4DB780E10CA54854B7D9 /* ISAppLovinAdapter.m */; };
-		FC98685195FBC04FF31DA944 /* ISAppLovinAdHolder.h in Headers */ = {isa = PBXBuildFile; fileRef = F5DDA91A1B4D4773BAB47BF7 /* ISAppLovinAdHolder.h */; };
-		FD1C587164A213EA9FD8AC39 /* ISApplovinRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C74A6746DAF545A7223559AE /* ISApplovinRewardedVideoDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1C27688A200DB579DBDFED2B /* ISApplovinBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISApplovinBannerDelegate.m; sourceTree = "<group>"; };
-		80E8FFA5AA35C2B954AF3914 /* ISApplovinRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISApplovinRewardedVideoDelegate.m; sourceTree = "<group>"; };
+		2AE1658179C3F591ADB129D9 /* ISAppLovinRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinRewardedAdapter.m; sourceTree = "<group>"; };
+		370236EBCC35DD580A4358D8 /* ISAppLovinRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinRewardedAdapter.h; sourceTree = "<group>"; };
+		37A3F3968C998757CBA8DCFC /* ISAppLovinInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinInterstitialAdapter.m; sourceTree = "<group>"; };
+		539DFEA5F4AE1B6D8160CC78 /* ISAppLovinInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinInterstitialDelegate.m; sourceTree = "<group>"; };
+		5831C3BF6465943D421DF74C /* ISAppLovinRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinRewardedDelegate.h; sourceTree = "<group>"; };
+		8214CD039776FFDBF7F8F454 /* ISAppLovinConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinConstants.h; sourceTree = "<group>"; };
+		8FB5FFAECD072FD9255DD086 /* ISAppLovinBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinBannerAdapter.m; sourceTree = "<group>"; };
 		96DD4DB780E10CA54854B7D9 /* ISAppLovinAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinAdapter.m; sourceTree = "<group>"; };
 		9A51D7CEFFEC0EB965F3172A /* ISAppLovinAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAppLovinAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B4737C841DD5DFEB3DA940B9 /* ISAppLovinAdHolder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinAdHolder.m; sourceTree = "<group>"; };
-		C74A6746DAF545A7223559AE /* ISApplovinRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISApplovinRewardedVideoDelegate.h; sourceTree = "<group>"; };
+		9E288954AA76966EA388A85E /* ISAppLovinBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinBannerAdapter.h; sourceTree = "<group>"; };
+		AA490EBC31F80D92EFBF0EAD /* ISAppLovinInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinInterstitialDelegate.h; sourceTree = "<group>"; };
+		B3D148CF9010DAB5897F65CA /* ISAppLovinInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinInterstitialAdapter.h; sourceTree = "<group>"; };
+		B4A8E8314E5837294AC8FF42 /* ISAppLovinBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinBannerDelegate.h; sourceTree = "<group>"; };
+		B4F7718C00E99B1CFC5EB0B2 /* ISAppLovinAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISAppLovinAdapter+Internal.h"; sourceTree = "<group>"; };
+		CC72EAAB3A395A9955DE22FA /* ISAppLovinBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinBannerDelegate.m; sourceTree = "<group>"; };
+		D1EAA3EA1C70708C22D99B30 /* ISAppLovinRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAppLovinRewardedDelegate.m; sourceTree = "<group>"; };
 		D6F24BD49760F1015E0A0D1C /* ISAppLovinAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinAdapter.h; sourceTree = "<group>"; };
-		D75B08C08201C50FDC9EEC20 /* ISApplovinBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISApplovinBannerDelegate.h; sourceTree = "<group>"; };
-		DB8996EDC412EA23A3243D63 /* ISApplovinInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISApplovinInterstitialDelegate.h; sourceTree = "<group>"; };
-		ECE588FB717B3B22DDF71C37 /* ISApplovinInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISApplovinInterstitialDelegate.m; sourceTree = "<group>"; };
-		F5DDA91A1B4D4773BAB47BF7 /* ISAppLovinAdHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAppLovinAdHolder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		0264C0853A79EE8CA8010ACB /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				9E288954AA76966EA388A85E /* ISAppLovinBannerAdapter.h */,
+				8FB5FFAECD072FD9255DD086 /* ISAppLovinBannerAdapter.m */,
+				B4A8E8314E5837294AC8FF42 /* ISAppLovinBannerDelegate.h */,
+				CC72EAAB3A395A9955DE22FA /* ISAppLovinBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
 		40976E7D3CFAD944D83D85CD = {
 			isa = PBXGroup;
 			children = (
@@ -47,16 +70,24 @@
 			children = (
 				D6F24BD49760F1015E0A0D1C /* ISAppLovinAdapter.h */,
 				96DD4DB780E10CA54854B7D9 /* ISAppLovinAdapter.m */,
-				F5DDA91A1B4D4773BAB47BF7 /* ISAppLovinAdHolder.h */,
-				B4737C841DD5DFEB3DA940B9 /* ISAppLovinAdHolder.m */,
-				D75B08C08201C50FDC9EEC20 /* ISApplovinBannerDelegate.h */,
-				1C27688A200DB579DBDFED2B /* ISApplovinBannerDelegate.m */,
-				DB8996EDC412EA23A3243D63 /* ISApplovinInterstitialDelegate.h */,
-				ECE588FB717B3B22DDF71C37 /* ISApplovinInterstitialDelegate.m */,
-				C74A6746DAF545A7223559AE /* ISApplovinRewardedVideoDelegate.h */,
-				80E8FFA5AA35C2B954AF3914 /* ISApplovinRewardedVideoDelegate.m */,
+				B4F7718C00E99B1CFC5EB0B2 /* ISAppLovinAdapter+Internal.h */,
+				8214CD039776FFDBF7F8F454 /* ISAppLovinConstants.h */,
+				0264C0853A79EE8CA8010ACB /* Banner */,
+				5A9ED6803980F6F920706854 /* Interstitial */,
+				E5563A5D045FB1836E91C35E /* Rewarded */,
 			);
 			path = ISAppLovinAdapter;
+			sourceTree = "<group>";
+		};
+		5A9ED6803980F6F920706854 /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				B3D148CF9010DAB5897F65CA /* ISAppLovinInterstitialAdapter.h */,
+				37A3F3968C998757CBA8DCFC /* ISAppLovinInterstitialAdapter.m */,
+				AA490EBC31F80D92EFBF0EAD /* ISAppLovinInterstitialDelegate.h */,
+				539DFEA5F4AE1B6D8160CC78 /* ISAppLovinInterstitialDelegate.m */,
+			);
+			path = Interstitial;
 			sourceTree = "<group>";
 		};
 		B904E8D5733BB267E754177A /* Products */ = {
@@ -67,6 +98,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E5563A5D045FB1836E91C35E /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				370236EBCC35DD580A4358D8 /* ISAppLovinRewardedAdapter.h */,
+				2AE1658179C3F591ADB129D9 /* ISAppLovinRewardedAdapter.m */,
+				5831C3BF6465943D421DF74C /* ISAppLovinRewardedDelegate.h */,
+				D1EAA3EA1C70708C22D99B30 /* ISAppLovinRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -74,11 +116,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC98685195FBC04FF31DA944 /* ISAppLovinAdHolder.h in Headers */,
+				792FD3C8AED81D70926F47EF /* ISAppLovinAdapter+Internal.h in Headers */,
 				4605774779390E2275AD7D8A /* ISAppLovinAdapter.h in Headers */,
-				CD9CE0B92BFED565D25E761A /* ISApplovinBannerDelegate.h in Headers */,
-				BD63B204976E81B925FB8B12 /* ISApplovinInterstitialDelegate.h in Headers */,
-				FD1C587164A213EA9FD8AC39 /* ISApplovinRewardedVideoDelegate.h in Headers */,
+				780925FA8B24861F707833E8 /* ISAppLovinBannerAdapter.h in Headers */,
+				40E76A123C1D72C0595A7D55 /* ISAppLovinBannerDelegate.h in Headers */,
+				31A9C185C9249F901B5AD045 /* ISAppLovinConstants.h in Headers */,
+				AE0C550248910290270618F7 /* ISAppLovinInterstitialAdapter.h in Headers */,
+				1D25BC4C7863F91E89AC6755 /* ISAppLovinInterstitialDelegate.h in Headers */,
+				93AA69AE0DFCBB3429A24411 /* ISAppLovinRewardedAdapter.h in Headers */,
+				A84D980421226AB41C747931 /* ISAppLovinRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,11 +210,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07C762E84F6C8FD41E1ACFE5 /* ISAppLovinAdHolder.m in Sources */,
 				F2C7F0104C141D3EC5A35560 /* ISAppLovinAdapter.m in Sources */,
-				564F5AA32C996A3B5EBD2BE1 /* ISApplovinBannerDelegate.m in Sources */,
-				4BD22D382C26A6268F9EDA3D /* ISApplovinInterstitialDelegate.m in Sources */,
-				718EE55673A946098515342B /* ISApplovinRewardedVideoDelegate.m in Sources */,
+				9AB5EE9E03B5BD576FA87202 /* ISAppLovinBannerAdapter.m in Sources */,
+				952A60CA59FFF120969E1AF6 /* ISAppLovinBannerDelegate.m in Sources */,
+				EBF1BF6A380A4BABE7676858 /* ISAppLovinInterstitialAdapter.m in Sources */,
+				3790C560B27708CDE184951C /* ISAppLovinInterstitialDelegate.m in Sources */,
+				8799027EFFE46B67892740F6 /* ISAppLovinRewardedAdapter.m in Sources */,
+				A220F3AE9AD870ADB81F0516 /* ISAppLovinRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
