@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.8.0
+* Added COPPA support
+
 ## Version 5.7.0
 * Supporting SDK version 5.3.0
 

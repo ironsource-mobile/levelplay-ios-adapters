@@ -14,6 +14,7 @@
 #import <IronSource/ISConcurrentMutableSet.h>
 #import <IronSource/ISConfigurations.h>
 #import <IronSource/ISAdapterErrors.h>
+#import <IronSource/ISMetaDataUtils.h>
 #import "ISOguryAdapter.h"
 #import "ISOguryAdapter+Internal.h"
 #import "ISOguryConstants.h"
@@ -131,6 +132,33 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
     }
 
     [initializationDelegates removeAllObjects];
+}
+
+#pragma mark - Legal Methods
+
+- (void)setMetaDataWithKey:(NSString *)key
+                 andValues:(NSMutableArray *)values {
+    if (values.count == 0) {
+        return;
+    }
+
+    NSString *value = values[0];
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
+    NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                    forType:(META_DATA_VALUE_BOOL)];
+
+    if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                           flag:metaDataCOPPAKey
+                                       andValue:formattedValue]) {
+        [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
+    }
+}
+
+- (void)setCOPPAValue:(BOOL)value {
+    LogAdapterApi_Internal(logCOPPA, value ? @"YES" : @"NO");
+    [Ogury applyChildPrivacy:value ? OguryChildPrivacyTreatmentUnderCoppaTrue
+                                   : OguryChildPrivacyTreatmentUnderCoppaFalse];
 }
 
 #pragma mark - Helper Methods

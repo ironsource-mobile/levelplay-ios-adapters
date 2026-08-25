@@ -18,6 +18,9 @@ static NSString * const adUnitIdKey = @"adUnitId";
 // Map keys
 static NSString * const tokenKey = @"token";
 
+// Meta data keys
+static NSString * const metaDataCOPPAKey = @"LevelPlay_ChildDirected";
+
 // Log strings - General
 static NSString * const logCallbackEmpty = @"";
 
@@ -31,6 +34,10 @@ static NSString * const logInitFailed = @"Ogury SDK init failed";
 
 // Log strings - Token
 static NSString * const logToken = @"token = %@";
+
+// Log strings - Legal
+static NSString * const logMetaDataSet = @"key = %@, value = %@";
+static NSString * const logCOPPA = @"COPPA = %@";
 
 // Log strings - Load/Show/Error
 static NSString * const logError = @"error = %@";
