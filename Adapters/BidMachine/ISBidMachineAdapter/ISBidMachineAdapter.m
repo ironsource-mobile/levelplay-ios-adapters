@@ -35,6 +35,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDele
     return BidMachineSdk.sdkVersion;
 }
 
++ (NSString *)networkAdapterVersion {
+    return BidMachineAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
