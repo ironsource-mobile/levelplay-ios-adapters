@@ -7,20 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01FD198DF03119CBC4CD9590 /* ISUnityAdsRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C9430C0C9818257ADFFA780 /* ISUnityAdsRewardedAdapter.m */; };
+		1D823EC8F2F326F6C0F550B5 /* ISUnityAdsAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FC4CCC424FA2F6D102B1D73 /* ISUnityAdsAdapter+Internal.h */; };
+		2A96BFA39413963BF8C65A7D /* ISUnityAdsBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 58EBC07D641CF6C523C1244F /* ISUnityAdsBannerAdapter.h */; };
 		2DD4AAE6E9D7DAECB77C3EE0 /* ISUnityAdsAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */; };
-		315983F18FBBE248C59B8011 /* ISUADSNewApiDelegates+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D5EB8010EF8C4DB215E8E9B /* ISUADSNewApiDelegates+Testing.m */; };
 		34FDE6AA04813B36D8AB77DE /* ISUnityAdsAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */; };
+		3C3EC87C3343A3C1BDDB93AB /* ISUnityAdsConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 84B5AE21A3ADBEBDA91B3D3D /* ISUnityAdsConstants.h */; };
+		3F2D6DE1618867EBEABAF0B3 /* ISUnityAdsInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 61FC49A5307568CDB4B42D4B /* ISUnityAdsInterstitialDelegate.h */; };
+		42D39915C6065652C9593619 /* ISUnityAdsRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EB5536953C417F5CE5C32D62 /* ISUnityAdsRewardedDelegate.h */; };
 		4AC06E6625669F6E0C871026 /* ISUnityAdsAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */; };
 		54F3A01C3FAC5A91055F8540 /* ISUnityAdsAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6B1C66A72F79B477AB8352EB /* ISUnityAdsAdapterEventSenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EBE09D4D46CC600CAEE070 /* ISUnityAdsAdapterEventSenderTests.swift */; };
-		7577534946B5EA7ED08781EA /* ISUADSNewApiDelegateEventSenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39901527908737D3C53E96F3 /* ISUADSNewApiDelegateEventSenderTests.swift */; };
-		859B4BD265C1D7DB053F9D0D /* ISUADSBannerAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */; };
-		8F0AC21305321B6D67946A5D /* ISUADSInterstitialShowDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */; };
+		5D764141BFEED151A81F2ED6 /* ISUnityAdsInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = ACDFC6CD8326914CB287BE54 /* ISUnityAdsInterstitialAdapter.m */; };
+		65BB66AFB19842F219DAF417 /* ISUnityAdsInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A026EAC7C212815C7C739F /* ISUnityAdsInterstitialDelegate.m */; };
+		9B24F3F590189FFF83D4CCE9 /* ISUnityAdsBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91DDCD491F8B9C26360014AA /* ISUnityAdsBannerDelegate.h */; };
 		9B2FA8E73590C91E484E3F70 /* ISUnityAdsAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AC95BA1E2BEF866AFBA68384 /* ISUADSRewardedShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63298F4B17D4C428DCCF0383 /* ISUADSRewardedShowDelegate.m */; };
-		D635F074F5109F99E7DD22C9 /* ISUADSBannerAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C04C5802B3DDB428D2B677C4 /* ISUADSBannerAdDelegate.m */; };
-		E3DDE66369DF887DDCFB3A2F /* ISUADSRewardedShowDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 665A7F0A1733DC5AD471B6D9 /* ISUADSRewardedShowDelegate.h */; };
-		EFACA6DE72D2D3A1212F2B88 /* ISUADSInterstitialShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B5075417CE46ACEC11CB93DB /* ISUADSInterstitialShowDelegate.m */; };
+		A62AA51E5AFEA57CA47E289E /* ISUnityAdsRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AA6CC294F39EDC3AEC3E6D /* ISUnityAdsRewardedDelegate.m */; };
+		BD9383E6D2694DE17961B043 /* ISUnityAdsBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0BBB6FCB59811160E6258 /* ISUnityAdsBannerAdapter.m */; };
+		D0B1F14D969E91BB9F4C2DCB /* ISUnityAdsBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3212C7D6873AD7004B2148EC /* ISUnityAdsBannerDelegate.m */; };
+		F3A9B2C94312C71F9BFA3157 /* ISUnityAdsInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4B39A0CFF34F88DD9E8ADE /* ISUnityAdsInterstitialAdapter.h */; };
+		FAD0F040D2ED298012914B6D /* ISUnityAdsRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EBC0DFCAB0749EE207F9FD72 /* ISUnityAdsRewardedAdapter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,22 +54,24 @@
 
 /* Begin PBXFileReference section */
 		07F6DE5E97BF0B6DBFE12160 /* ISUnityAdsAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISUnityAdsAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		39901527908737D3C53E96F3 /* ISUADSNewApiDelegateEventSenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISUADSNewApiDelegateEventSenderTests.swift; sourceTree = "<group>"; };
-		3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSBannerAdDelegate.h; sourceTree = "<group>"; };
-		3D5EB8010EF8C4DB215E8E9B /* ISUADSNewApiDelegates+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ISUADSNewApiDelegates+Testing.m"; sourceTree = "<group>"; };
-		3F65F786A9BD89DE93CBAF6A /* ISUnityAdsAdapterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUnityAdsAdapterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		0C9430C0C9818257ADFFA780 /* ISUnityAdsRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedAdapter.m; sourceTree = "<group>"; };
+		3212C7D6873AD7004B2148EC /* ISUnityAdsBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerDelegate.m; sourceTree = "<group>"; };
+		58EBC07D641CF6C523C1244F /* ISUnityAdsBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerAdapter.h; sourceTree = "<group>"; };
 		5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapter.m; sourceTree = "<group>"; };
-		63298F4B17D4C428DCCF0383 /* ISUADSRewardedShowDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSRewardedShowDelegate.m; sourceTree = "<group>"; };
+		61FC49A5307568CDB4B42D4B /* ISUnityAdsInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialDelegate.h; sourceTree = "<group>"; };
 		663702694922B45979D26011 /* ISUnityAdsAdapterTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ISUnityAdsAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		665A7F0A1733DC5AD471B6D9 /* ISUADSRewardedShowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSRewardedShowDelegate.h; sourceTree = "<group>"; };
-		67EBE09D4D46CC600CAEE070 /* ISUnityAdsAdapterEventSenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISUnityAdsAdapterEventSenderTests.swift; sourceTree = "<group>"; };
-		78FEE22209D231AA96DECDAC /* ISUADSNewApiDelegates+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUADSNewApiDelegates+Testing.h"; sourceTree = "<group>"; };
-		7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUADSInterstitialShowDelegate.h; sourceTree = "<group>"; };
+		6FC4CCC424FA2F6D102B1D73 /* ISUnityAdsAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUnityAdsAdapter+Internal.h"; sourceTree = "<group>"; };
+		77AA6CC294F39EDC3AEC3E6D /* ISUnityAdsRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsRewardedDelegate.m; sourceTree = "<group>"; };
+		84B5AE21A3ADBEBDA91B3D3D /* ISUnityAdsConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsConstants.h; sourceTree = "<group>"; };
 		8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsAdapter.h; sourceTree = "<group>"; };
+		91DDCD491F8B9C26360014AA /* ISUnityAdsBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsBannerDelegate.h; sourceTree = "<group>"; };
+		9BB0BBB6FCB59811160E6258 /* ISUnityAdsBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsBannerAdapter.m; sourceTree = "<group>"; };
 		9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsAdapterTests.m; sourceTree = "<group>"; };
-		B5075417CE46ACEC11CB93DB /* ISUADSInterstitialShowDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSInterstitialShowDelegate.m; sourceTree = "<group>"; };
-		B6CE58252D5BCFE7D5AEF9A4 /* ISUnityAdsAdapter+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISUnityAdsAdapter+Testing.h"; sourceTree = "<group>"; };
-		C04C5802B3DDB428D2B677C4 /* ISUADSBannerAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUADSBannerAdDelegate.m; sourceTree = "<group>"; };
+		AC4B39A0CFF34F88DD9E8ADE /* ISUnityAdsInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsInterstitialAdapter.h; sourceTree = "<group>"; };
+		ACDFC6CD8326914CB287BE54 /* ISUnityAdsInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialAdapter.m; sourceTree = "<group>"; };
+		C5A026EAC7C212815C7C739F /* ISUnityAdsInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISUnityAdsInterstitialDelegate.m; sourceTree = "<group>"; };
+		EB5536953C417F5CE5C32D62 /* ISUnityAdsRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedDelegate.h; sourceTree = "<group>"; };
+		EBC0DFCAB0749EE207F9FD72 /* ISUnityAdsRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISUnityAdsRewardedAdapter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,16 +89,21 @@
 		10AA9F2A6DF6289BFB252A0E /* ISUnityAdsAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
-				39901527908737D3C53E96F3 /* ISUADSNewApiDelegateEventSenderTests.swift */,
-				78FEE22209D231AA96DECDAC /* ISUADSNewApiDelegates+Testing.h */,
-				3D5EB8010EF8C4DB215E8E9B /* ISUADSNewApiDelegates+Testing.m */,
-				B6CE58252D5BCFE7D5AEF9A4 /* ISUnityAdsAdapter+Testing.h */,
-				67EBE09D4D46CC600CAEE070 /* ISUnityAdsAdapterEventSenderTests.swift */,
-				3F65F786A9BD89DE93CBAF6A /* ISUnityAdsAdapterTests-Bridging-Header.h */,
 				9F355D367E2D485B499CB03F /* ISUnityAdsAdapterTests.m */,
 			);
 			name = ISUnityAdsAdapterTests;
 			path = ../ISUnityAdsAdapterTests;
+			sourceTree = "<group>";
+		};
+		63F554506DB9F8AB23DF2A3E /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				58EBC07D641CF6C523C1244F /* ISUnityAdsBannerAdapter.h */,
+				9BB0BBB6FCB59811160E6258 /* ISUnityAdsBannerAdapter.m */,
+				91DDCD491F8B9C26360014AA /* ISUnityAdsBannerDelegate.h */,
+				3212C7D6873AD7004B2148EC /* ISUnityAdsBannerDelegate.m */,
+			);
+			path = Banner;
 			sourceTree = "<group>";
 		};
 		96E20E81004F0A882BA2CF80 /* Products */ = {
@@ -101,6 +113,17 @@
 				663702694922B45979D26011 /* ISUnityAdsAdapterTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9F6EE79846B93AD565E8987A /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				AC4B39A0CFF34F88DD9E8ADE /* ISUnityAdsInterstitialAdapter.h */,
+				ACDFC6CD8326914CB287BE54 /* ISUnityAdsInterstitialAdapter.m */,
+				61FC49A5307568CDB4B42D4B /* ISUnityAdsInterstitialDelegate.h */,
+				C5A026EAC7C212815C7C739F /* ISUnityAdsInterstitialDelegate.m */,
+			);
+			path = Interstitial;
 			sourceTree = "<group>";
 		};
 		C32222B8FE985DE52DDB3E9D = {
@@ -115,16 +138,26 @@
 		D2CDA2276544EA8C65A406DC /* ISUnityAdsAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				3C3B5897FEA6B70837CE3FFE /* ISUADSBannerAdDelegate.h */,
-				C04C5802B3DDB428D2B677C4 /* ISUADSBannerAdDelegate.m */,
-				7C7DFF8A5726DA3A3CED4CC1 /* ISUADSInterstitialShowDelegate.h */,
-				B5075417CE46ACEC11CB93DB /* ISUADSInterstitialShowDelegate.m */,
-				665A7F0A1733DC5AD471B6D9 /* ISUADSRewardedShowDelegate.h */,
-				63298F4B17D4C428DCCF0383 /* ISUADSRewardedShowDelegate.m */,
 				8C9ECB2E1880584016E1D225 /* ISUnityAdsAdapter.h */,
 				5C1BBBE7D9357519DAF6AC1F /* ISUnityAdsAdapter.m */,
+				6FC4CCC424FA2F6D102B1D73 /* ISUnityAdsAdapter+Internal.h */,
+				84B5AE21A3ADBEBDA91B3D3D /* ISUnityAdsConstants.h */,
+				63F554506DB9F8AB23DF2A3E /* Banner */,
+				9F6EE79846B93AD565E8987A /* Interstitial */,
+				EE9D95FFA38EEA6ADEC29CF7 /* Rewarded */,
 			);
 			path = ISUnityAdsAdapter;
+			sourceTree = "<group>";
+		};
+		EE9D95FFA38EEA6ADEC29CF7 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				EBC0DFCAB0749EE207F9FD72 /* ISUnityAdsRewardedAdapter.h */,
+				0C9430C0C9818257ADFFA780 /* ISUnityAdsRewardedAdapter.m */,
+				EB5536953C417F5CE5C32D62 /* ISUnityAdsRewardedDelegate.h */,
+				77AA6CC294F39EDC3AEC3E6D /* ISUnityAdsRewardedDelegate.m */,
+			);
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,10 +167,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				859B4BD265C1D7DB053F9D0D /* ISUADSBannerAdDelegate.h in Headers */,
-				8F0AC21305321B6D67946A5D /* ISUADSInterstitialShowDelegate.h in Headers */,
-				E3DDE66369DF887DDCFB3A2F /* ISUADSRewardedShowDelegate.h in Headers */,
+				1D823EC8F2F326F6C0F550B5 /* ISUnityAdsAdapter+Internal.h in Headers */,
 				9B2FA8E73590C91E484E3F70 /* ISUnityAdsAdapter.h in Headers */,
+				2A96BFA39413963BF8C65A7D /* ISUnityAdsBannerAdapter.h in Headers */,
+				9B24F3F590189FFF83D4CCE9 /* ISUnityAdsBannerDelegate.h in Headers */,
+				3C3EC87C3343A3C1BDDB93AB /* ISUnityAdsConstants.h in Headers */,
+				F3A9B2C94312C71F9BFA3157 /* ISUnityAdsInterstitialAdapter.h in Headers */,
+				3F2D6DE1618867EBEABAF0B3 /* ISUnityAdsInterstitialDelegate.h in Headers */,
+				FAD0F040D2ED298012914B6D /* ISUnityAdsRewardedAdapter.h in Headers */,
+				42D39915C6065652C9593619 /* ISUnityAdsRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,10 +286,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D635F074F5109F99E7DD22C9 /* ISUADSBannerAdDelegate.m in Sources */,
-				EFACA6DE72D2D3A1212F2B88 /* ISUADSInterstitialShowDelegate.m in Sources */,
-				AC95BA1E2BEF866AFBA68384 /* ISUADSRewardedShowDelegate.m in Sources */,
 				2DD4AAE6E9D7DAECB77C3EE0 /* ISUnityAdsAdapter.m in Sources */,
+				BD9383E6D2694DE17961B043 /* ISUnityAdsBannerAdapter.m in Sources */,
+				D0B1F14D969E91BB9F4C2DCB /* ISUnityAdsBannerDelegate.m in Sources */,
+				5D764141BFEED151A81F2ED6 /* ISUnityAdsInterstitialAdapter.m in Sources */,
+				65BB66AFB19842F219DAF417 /* ISUnityAdsInterstitialDelegate.m in Sources */,
+				01FD198DF03119CBC4CD9590 /* ISUnityAdsRewardedAdapter.m in Sources */,
+				A62AA51E5AFEA57CA47E289E /* ISUnityAdsRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,9 +300,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7577534946B5EA7ED08781EA /* ISUADSNewApiDelegateEventSenderTests.swift in Sources */,
-				315983F18FBBE248C59B8011 /* ISUADSNewApiDelegates+Testing.m in Sources */,
-				6B1C66A72F79B477AB8352EB /* ISUnityAdsAdapterEventSenderTests.swift in Sources */,
 				34FDE6AA04813B36D8AB77DE /* ISUnityAdsAdapterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,7 +353,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/ISUnityAdsAdapter/ISUnityAdsAdapter/",
+					"$(SRCROOT)/ISUnityAdsAdapter/ISUnityAdsAdapter/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -329,7 +367,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapterTests;
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "ISUnityAdsAdapterTests/ISUnityAdsAdapterTests-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -489,7 +526,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/ISUnityAdsAdapter/ISUnityAdsAdapter/",
+					"$(SRCROOT)/ISUnityAdsAdapter/ISUnityAdsAdapter/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -503,7 +540,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISUnityAdsAdapterTests;
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "ISUnityAdsAdapterTests/ISUnityAdsAdapterTests-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

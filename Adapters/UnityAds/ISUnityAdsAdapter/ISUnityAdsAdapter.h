@@ -6,23 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const UnityAdsAdapterVersion = @"5.10.0";
+static NSString * const UnityAdsAdapterVersion = @"5.11.0";
 static NSString * Githash = @"";
-static NSString * const UnityAdsAdapterName = @"UnityAds";
-
-static NSInteger const TROUBLESHOOTING_UADS_MISSING_CALLBACK = 80600;
-
-typedef void(^ISUnityAdsEventSenderBlock)(NSString * _Nonnull adFormat, NSInteger eventId, NSString * _Nonnull ext1);
 
 //System Frameworks For UnityAds Adapter
-
 @import AdSupport;
 @import CoreTelephony;
 @import StoreKit;
 
-@interface ISUnityAdsAdapter : ISBaseAdapter
+@interface ISUnityAdsAdapter : LevelPlayBaseAdapter
 
 @end
