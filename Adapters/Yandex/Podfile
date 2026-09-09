@@ -1,9 +1,9 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '13.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target 'ISYandexAdapter' do
   pod 'IronSourceSDK', '9.6.0.0'
-  pod 'YandexMobileAds', '8.4.0'
+  pod 'YandexMobileAds', '8.5.0'
 
 end
