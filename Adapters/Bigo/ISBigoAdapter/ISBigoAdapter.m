@@ -41,6 +41,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
     return BigoAdSdk.sharedInstance.getSDKVersionName;
 }
 
++ (NSString *)networkAdapterVersion {
+    return BigoAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
