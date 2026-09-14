@@ -4,6 +4,6 @@ use_frameworks!
 
 target 'ISAPSAdapter' do
   pod 'IronSourceSDK', '9.6.0.0'
-  pod 'AmazonPublisherServicesSDK', '5.6.4'
+  pod 'AmazonPublisherServicesSDK', '5.6.5'
 
 end

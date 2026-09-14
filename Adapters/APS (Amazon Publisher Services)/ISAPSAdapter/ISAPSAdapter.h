@@ -11,7 +11,7 @@
 #import <IronSource/IronSource.h>
 #import <IronSource/ISSetAPSDataProtocol.h>
 
-static NSString * const APSAdapterVersion = @"5.9.0";
+static NSString * const APSAdapterVersion = @"5.10.0";
 static NSString * Githash = @"";
 
 // System Frameworks For APS Adapter
