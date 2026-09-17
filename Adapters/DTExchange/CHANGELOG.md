@@ -1,13 +1,18 @@
 # Changelog
 
+## Version 5.13.0
+* Supporting SDK version 8.5.0
+
 ## Version 5.12.0
 * Supporting SDK version 8.4.10
 
 ## Version 5.11.0
 * General improvements and performance enhancements
 
-## Version 5.10.0
-* Supporting SDK version 8.4.9
+* ## Version 5.10.0
+* Supporting SDK version 8.4.10
+* ~~Supporting SDK version 8.4.9~~
+* Retracted version 8.4.9 due to critical bugs in the DT Exchange SDK.
 
 ## Version 5.9.0
 * Supporting SDK version 8.4.8
