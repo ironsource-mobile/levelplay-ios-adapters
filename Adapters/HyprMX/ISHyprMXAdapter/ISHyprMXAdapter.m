@@ -36,6 +36,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
     return [HyprMX versionString];
 }
 
++ (NSString *)networkAdapterVersion {
+    return HyprMXAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {
