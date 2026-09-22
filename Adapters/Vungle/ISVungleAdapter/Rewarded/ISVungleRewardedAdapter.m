@@ -34,6 +34,8 @@
     if (!placementId || placementId.length == 0) {
         NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementIdKey];
         LogAdapterApi_Internal(logError, errorMessage);
+        [VungleMediationLogger logErrorForAd:nil
+                                     message:logNoPlacementIdRewarded];
         [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
                                      errorCode:ISAdapterErrorMissingParams
                                   errorMessage:errorMessage];
@@ -59,6 +61,8 @@
                                              code:ERROR_CODE_NO_ADS_TO_SHOW
                                          userInfo:@{NSLocalizedDescriptionKey:logShowFailed}];
         LogAdapterApi_Internal(logError, error);
+        [VungleMediationLogger logErrorForAd:self.rewardedAd
+                                     message:logNoAdsToShowRewarded];
         [delegate adDidFailToShowWithErrorCode:error.code
                                   errorMessage:error.localizedDescription];
         return;

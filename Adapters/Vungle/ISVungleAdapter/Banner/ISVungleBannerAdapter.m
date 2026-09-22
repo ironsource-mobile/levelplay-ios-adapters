@@ -36,6 +36,8 @@
     if (!placementId || placementId.length == 0) {
         NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementIdKey];
         LogAdapterApi_Internal(logError, errorMessage);
+        [VungleMediationLogger logErrorForAd:nil
+                                     message:logNoPlacementIdBanner];
         [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
                                      errorCode:ISAdapterErrorMissingParams
                                   errorMessage:errorMessage];

@@ -55,6 +55,11 @@ static NSString * const logCCPA = @"optIn = %@";
 static NSString * const logCOPPA = @"value = %@";
 static NSString * const logMetaDataSet = @"key = %@, value = %@";
 static NSString * const logCustomBannerSizeMismatch = @"CustomBannerSizeMismatch:w-%ld|h-%ld";
+static NSString * const logNoPlacementIdRewarded = @"NoPlacementId:Rewarded";
+static NSString * const logNoPlacementIdInterstitial = @"NoPlacementId:Interstitial";
+static NSString * const logNoPlacementIdBanner = @"NoPlacementId:Banner";
+static NSString * const logNoAdsToShowRewarded = @"NoAdsToShow:Rewarded";
+static NSString * const logNoAdsToShowInterstitial = @"NoAdsToShow:Interstitial";
 
 // Banner size descriptions
 static NSString * const sizeRectangle = @"RECTANGLE";
