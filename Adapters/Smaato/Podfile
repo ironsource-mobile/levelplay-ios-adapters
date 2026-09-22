@@ -4,7 +4,7 @@ use_frameworks!
 
 target 'ISSmaatoAdapter' do
   pod 'IronSourceSDK', '9.6.0.0'
-  pod 'smaato-ios-sdk', '23.2.1'
-  pod 'smaato-ios-sdk/InApp', '23.2.1'
+  pod 'smaato-ios-sdk', '23.2.2'
+  pod 'smaato-ios-sdk/InApp', '23.2.2'
 
 end
