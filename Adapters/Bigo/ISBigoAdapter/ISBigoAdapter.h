@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const BigoAdapterVersion = @"5.11.0";
+static NSString * const BigoAdapterVersion = @"5.12.0";
 static NSString * Githash = @"";
 
 @interface ISBigoAdapter : LevelPlayBaseAdapter
