@@ -6,6 +6,6 @@ use_frameworks!
 
 target 'ISVoodooAdapter' do
   pod 'IronSourceSDK', '9.6.0.0'
-  pod 'VoodooAdn', '3.17.1'
+  pod 'VoodooAdn', '4.30.0'
 
 end
