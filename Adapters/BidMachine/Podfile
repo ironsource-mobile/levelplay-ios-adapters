@@ -4,6 +4,6 @@
 
 target 'ISBidMachineAdapter' do
   pod 'IronSourceSDK', '9.6.0.0'
-  pod 'BidMachine', '3.8.0'
+  pod 'BidMachine', '3.8.1'
 
 end
