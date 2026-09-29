@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.15.0
+* Add COPPA support
+
 ## Version 5.14.0
 * Supporting SDK version 8.5.0
 * Updated minimum supported iOS version to 15.0

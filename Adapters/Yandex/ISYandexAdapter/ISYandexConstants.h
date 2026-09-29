@@ -36,6 +36,9 @@ static NSString * const logCallbackEmpty            = @"";
 
 // Meta data
 static NSString * const logConsent                  = @"consent = %@";
+static NSString * const metaDataCOPPAKey            = @"Yandex_COPPA";
+static NSString * const logCOPPA                    = @"COPPA = %@";
+static NSString * const logMetaDataSet              = @"key = %@, value = %@";
 
 // Token
 static NSString * const logToken                    = @"token = %@";

@@ -127,6 +127,30 @@ static YMABidderTokenLoader *bidderTokenLoader = nil;
 
 #pragma mark - Legal Methods
 
+- (void)setMetaDataWithKey:(NSString *)key
+                 andValues:(NSMutableArray *)values {
+    if (values.count == 0) {
+        return;
+    }
+
+    NSString *value = values[0];
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
+    NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                    forType:(META_DATA_VALUE_BOOL)];
+
+    if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                           flag:metaDataCOPPAKey
+                                       andValue:formattedValue]) {
+        [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
+    }
+}
+
+- (void)setCOPPAValue:(BOOL)value {
+    LogAdapterApi_Internal(logCOPPA, value ? @"YES" : @"NO");
+    [YMAYandexAds setAgeRestricted:value];
+}
+
 - (void)setConsent:(BOOL)consent {
     LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
     [YMAYandexAds setUserConsent:consent];
