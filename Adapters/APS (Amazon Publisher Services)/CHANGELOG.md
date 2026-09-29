@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.12.0
+* Add support for Creative ID
+
 ## Version 5.11.0
 * Supporting SDK version 5.6.6
 

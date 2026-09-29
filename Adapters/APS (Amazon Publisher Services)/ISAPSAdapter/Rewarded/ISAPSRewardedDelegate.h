@@ -13,7 +13,9 @@
 @interface ISAPSRewardedDelegate : NSObject <DTBAdInterstitialDispatcherDelegate>
 
 @property (nonatomic, weak) id<ISRewardedVideoAdDelegate> delegate;
+@property (nonatomic, copy) NSString *creativeId;
 
-- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate
+                      creativeId:(NSString *)creativeId;
 
 @end

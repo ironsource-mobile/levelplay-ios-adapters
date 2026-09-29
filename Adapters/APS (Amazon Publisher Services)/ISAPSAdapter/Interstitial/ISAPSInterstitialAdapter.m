@@ -35,7 +35,8 @@
 
     LogAdapterApi_Internal(logUuid, self.adResponse.adSize.slotUUID);
 
-    self.interstitialAdDelegate = [[ISAPSInterstitialDelegate alloc] initWithDelegate:delegate];
+    self.interstitialAdDelegate = [[ISAPSInterstitialDelegate alloc] initWithDelegate:delegate
+                                                                           creativeId:self.adResponse.crid];
 
     NSDictionary *mediationHints = self.adResponse.mediationHints;
     dispatch_async(dispatch_get_main_queue(), ^{

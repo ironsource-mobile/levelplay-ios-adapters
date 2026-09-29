@@ -21,6 +21,7 @@ static NSString * const heightDimensionKey = @"h";
 static NSString * const pricePointEncodedKey = @"pricePointEncoded";
 static NSString * const widthKey = @"width";
 static NSString * const heightKey = @"height";
+static NSString * const creativeIdKey = @"creativeId";
 
 // Ad format values
 static NSString * const videoAdType = @"video";
@@ -33,6 +34,7 @@ static NSString * const usPrivacyOptOut = @"1YY-";
 
 // Log format strings
 static NSString * const logUuid = @"uuid = %@";
+static NSString * const logCreativeId = @"creativeId = %@";
 static NSString * const logToken = @"token = %@";
 static NSString * const logError = @"error = %@";
 static NSString * const logCCPA = @"CCPA opt-out = %@";

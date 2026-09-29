@@ -14,17 +14,25 @@
 
 @implementation ISAPSBannerDelegate
 
-- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate
+                      creativeId:(NSString *)creativeId {
     self = [super init];
     if (self) {
         _delegate = delegate;
+        _creativeId = [creativeId copy];
     }
     return self;
 }
 
 - (void)adDidLoad:(UIView *_Nonnull)adView {
-    LogAdapterDelegate_Internal(logCallbackEmpty);
-    [self.delegate adDidLoadWithView:adView];
+    LogAdapterDelegate_Internal(logCreativeId, self.creativeId);
+
+    if (self.creativeId.length) {
+        [self.delegate adDidLoadWithView:adView
+                               extraData:@{creativeIdKey: self.creativeId}];
+    } else {
+        [self.delegate adDidLoadWithView:adView];
+    }
 }
 
 - (void)adFailedToLoad:(UIView *_Nullable)banner errorCode:(NSInteger)errorCode {

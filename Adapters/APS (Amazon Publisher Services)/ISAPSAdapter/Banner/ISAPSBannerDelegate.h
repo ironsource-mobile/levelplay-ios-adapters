@@ -13,7 +13,9 @@
 @interface ISAPSBannerDelegate : NSObject <DTBAdBannerDispatcherDelegate>
 
 @property (nonatomic, weak) id<ISBannerAdDelegate> delegate;
+@property (nonatomic, copy) NSString *creativeId;
 
-- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate
+                      creativeId:(NSString *)creativeId;
 
 @end

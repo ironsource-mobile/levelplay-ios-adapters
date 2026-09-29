@@ -13,7 +13,9 @@
 @interface ISAPSInterstitialDelegate : NSObject <DTBAdInterstitialDispatcherDelegate>
 
 @property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
+@property (nonatomic, copy) NSString *creativeId;
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate
+                      creativeId:(NSString *)creativeId;
 
 @end

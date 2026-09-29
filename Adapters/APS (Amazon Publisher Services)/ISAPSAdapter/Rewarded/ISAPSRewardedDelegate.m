@@ -14,17 +14,24 @@
 
 @implementation ISAPSRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate
+                      creativeId:(NSString *)creativeId {
     self = [super init];
     if (self) {
         _delegate = delegate;
+        _creativeId = [creativeId copy];
     }
     return self;
 }
 
 - (void)interstitialDidLoad:(DTBAdInterstitialDispatcher *_Nullable)interstitial {
-    LogAdapterDelegate_Internal(logCallbackEmpty);
-    [self.delegate adDidLoad];
+    LogAdapterDelegate_Internal(logCreativeId, self.creativeId);
+
+    if (self.creativeId.length) {
+        [self.delegate adDidLoadWithExtraData:@{creativeIdKey: self.creativeId}];
+    } else {
+        [self.delegate adDidLoad];
+    }
 }
 
 - (void)interstitial:(DTBAdInterstitialDispatcher *_Nullable)interstitial
