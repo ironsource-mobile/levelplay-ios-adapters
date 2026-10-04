@@ -8,91 +8,60 @@
 
 /* Begin PBXBuildFile section */
 		03D899EC0794017BAE0EFD56 /* ISAdMobConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 10E72B69A4C3AB3C27D728E3 /* ISAdMobConstants.h */; };
-		0C37348216FB7385DC41ABF1 /* ISAdMobNativeBannerTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 05D058B28B4EAD31C2C45612 /* ISAdMobNativeBannerTemplate.h */; };
 		0CDDA4D0454A151D53AD5524 /* ISAdMobNativeAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0EFA16B456A0C5FBB307D4 /* ISAdMobNativeAdDelegate.m */; };
-		0F5B9E5EECB24DA7BEB2A45B /* ISAdMobNativeBannerTemplateIconTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91974125F26946298F4BC394 /* ISAdMobNativeBannerTemplateIconTextView.xib */; };
-		0F693BA7CD41A4E97D72D5B1 /* ISAdMobNativeBannerTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = E26742B4F8BFBD4C63D7BCE3 /* ISAdMobNativeBannerTemplate.m */; };
-		19B7222F8B4E651F9806FC1F /* ISAdMobNativeBannerTemplateTextCTAView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CE29DD80D3E99C7020549F /* ISAdMobNativeBannerTemplateTextCTAView.xib */; };
 		1A07B5EE69CF90A8A2044528 /* ISAdMobNativeAdData.m in Sources */ = {isa = PBXBuildFile; fileRef = A8C3714077B1A8E4D9E5D4CD /* ISAdMobNativeAdData.m */; };
+		20843DF45D6150A45D66FA50 /* ISAdMobRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = AB25B2DC8E0514734140AAD5 /* ISAdMobRewardedDelegate.h */; };
 		27EECE021E7B44D0D29E69A1 /* ISAdMobBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4B87BBABF84D13E81261E9 /* ISAdMobBannerDelegate.m */; };
-		28BA7BC547C3C283203FEDB9 /* ISAdMobNativeBannerTemplateRectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A0E062774517A064DCDE97C /* ISAdMobNativeBannerTemplateRectView.xib */; };
 		4A15BD3F9A8E86BC90A80419 /* ISAdMobNativeAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3621224CD0753F0F5F2022C6 /* ISAdMobNativeAdDelegate.h */; };
-		57582CC97C09AB27560ED9D5 /* ISAdMobNativeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AEAD64E38CAF8247DBD1357 /* ISAdMobNativeView.h */; };
-		66D6623E60E2ECAECDEFC0D8 /* ISAdMobNativeBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A7BDF6611D5796D69F1ACA3 /* ISAdMobNativeBannerDelegate.h */; };
+		51BD2647663943EB0407DF32 /* ISAdMobRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 129D149960560934A3C9E5FE /* ISAdMobRewardedAdapter.m */; };
 		67A008CE2FF5E0C050E17CFE /* ISAdMobInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 454055933F95842598015DE5 /* ISAdMobInterstitialAdapter.h */; };
 		6E394C7244A7E18ACCD9F483 /* ISAdMobAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 13F67A4C3A4DEE81BD68974A /* ISAdMobAdapter+Internal.h */; };
 		7348F7615000FA13E9DC0F88 /* ISAdMobInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BD40F28EE8D4259E6FDCDD90 /* ISAdMobInterstitialDelegate.m */; };
 		767C638C777892162D6FDED9 /* ISAdMobNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC49E18F689561D23DFEC6F /* ISAdMobNativeAdAdapter.m */; };
 		79A78B5C86B57F2CEFC7FDF8 /* ISAdMobBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBC5EB7FBC42958B19D0766 /* ISAdMobBannerAdapter.m */; };
 		7B3D5822D16613E30A709185 /* ISAdMobNativeAdViewBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = AE06B3F5849127AAC4DE076C /* ISAdMobNativeAdViewBinder.m */; };
-		8B314A0784CF68495170D0A6 /* ISAdMobRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = E39CA430CA1E0968A22C3D69 /* ISAdMobRewardedVideoAdapter.h */; };
 		960F59DAC943D697CF3146E4 /* ISAdMobBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 698F2E7DB26EBFDDA65CBAF9 /* ISAdMobBannerAdapter.h */; };
 		A0E30398C9E5BF15AE1DEDD9 /* ISAdMobNativeAdViewBinder.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD1E446DD4F7C87969539D7 /* ISAdMobNativeAdViewBinder.h */; };
-		A180F7462AD084FA1FDB7B37 /* ISAdMobRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30F768A767A22C698028B10A /* ISAdMobRewardedVideoAdapter.m */; };
-		A4ACD804C7CDF50BDA46CBF7 /* ISAdMobNativeBannerTemplateBasicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 060866088EC9D8624C4A3C18 /* ISAdMobNativeBannerTemplateBasicView.xib */; };
 		AC5E28E2AD3338AB93EE8109 /* ISAdMobBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 46653CD54947BF3AE0395CB0 /* ISAdMobBannerDelegate.h */; };
 		B148D68E4BD29E40DA30E08D /* ISAdMobNativeAdAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 591AC5D38ED227457192DEAE /* ISAdMobNativeAdAdapter.h */; };
 		B6544B70717370F8865EE9B5 /* ISAdMobNativeAdData.h in Headers */ = {isa = PBXBuildFile; fileRef = B253966438872B51D0C6A707 /* ISAdMobNativeAdData.h */; };
-		BA6612628449C6D2842F1CEA /* ISAdMobRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 392078FA21742D02F9F45096 /* ISAdMobRewardedVideoDelegate.m */; };
+		C0DB945BCB1A9A35E2EADBE4 /* ISAdMobRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5030EBBF2DD8D51225E25CD /* ISAdMobRewardedDelegate.m */; };
 		D2E78984A66BD3501432F05B /* ISAdMobInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FBC9C376FED62710B5F7D359 /* ISAdMobInterstitialDelegate.h */; };
 		D4D32AE2D179057760D1321B /* ISAdMobAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A22F29923DDCC06E129A6B6 /* ISAdMobAdapter.m */; };
-		D9A672DC13739309B92478E8 /* ISAdMobNativeBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A768CF8FECA8FC22296317DF /* ISAdMobNativeBannerDelegate.m */; };
-		DBA022AAF6712F87290D1B1B /* ISAdMobNativeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BFD87B9A3C10CE754A65F5A /* ISAdMobNativeView.m */; };
 		E6CB5C658B5BD1A92E01A08F /* ISAdMobAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CFB8DD71B33CF9A901497EF /* ISAdMobAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EEF80246A53C1A50C8C990CB /* ISAdMobInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A53778005C5A70C7B2D6BBE /* ISAdMobInterstitialAdapter.m */; };
-		FF2B60F351C25B97364DA632 /* ISAdMobRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 79A38CA61E600B7BD403C5CE /* ISAdMobRewardedVideoDelegate.h */; };
+		F95CE9E1D78CB999417518ED /* ISAdMobRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0B1D0D31CDAB850D74B1F30 /* ISAdMobRewardedAdapter.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		05D058B28B4EAD31C2C45612 /* ISAdMobNativeBannerTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerTemplate.h; sourceTree = "<group>"; };
-		060866088EC9D8624C4A3C18 /* ISAdMobNativeBannerTemplateBasicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateBasicView.xib; sourceTree = "<group>"; };
 		0A22F29923DDCC06E129A6B6 /* ISAdMobAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobAdapter.m; sourceTree = "<group>"; };
-		0AEAD64E38CAF8247DBD1357 /* ISAdMobNativeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeView.h; sourceTree = "<group>"; };
 		0FC49E18F689561D23DFEC6F /* ISAdMobNativeAdAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeAdAdapter.m; sourceTree = "<group>"; };
 		10E72B69A4C3AB3C27D728E3 /* ISAdMobConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobConstants.h; sourceTree = "<group>"; };
+		129D149960560934A3C9E5FE /* ISAdMobRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedAdapter.m; sourceTree = "<group>"; };
 		13F67A4C3A4DEE81BD68974A /* ISAdMobAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISAdMobAdapter+Internal.h"; sourceTree = "<group>"; };
 		1DD1E446DD4F7C87969539D7 /* ISAdMobNativeAdViewBinder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeAdViewBinder.h; sourceTree = "<group>"; };
 		2A53778005C5A70C7B2D6BBE /* ISAdMobInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobInterstitialAdapter.m; sourceTree = "<group>"; };
-		30F768A767A22C698028B10A /* ISAdMobRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedVideoAdapter.m; sourceTree = "<group>"; };
 		3621224CD0753F0F5F2022C6 /* ISAdMobNativeAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeAdDelegate.h; sourceTree = "<group>"; };
-		392078FA21742D02F9F45096 /* ISAdMobRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedVideoDelegate.m; sourceTree = "<group>"; };
 		454055933F95842598015DE5 /* ISAdMobInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobInterstitialAdapter.h; sourceTree = "<group>"; };
 		46653CD54947BF3AE0395CB0 /* ISAdMobBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobBannerDelegate.h; sourceTree = "<group>"; };
 		4CFB8DD71B33CF9A901497EF /* ISAdMobAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobAdapter.h; sourceTree = "<group>"; };
 		591AC5D38ED227457192DEAE /* ISAdMobNativeAdAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeAdAdapter.h; sourceTree = "<group>"; };
-		5A0E062774517A064DCDE97C /* ISAdMobNativeBannerTemplateRectView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateRectView.xib; sourceTree = "<group>"; };
 		5E0EFA16B456A0C5FBB307D4 /* ISAdMobNativeAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeAdDelegate.m; sourceTree = "<group>"; };
 		698F2E7DB26EBFDDA65CBAF9 /* ISAdMobBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobBannerAdapter.h; sourceTree = "<group>"; };
-		79A38CA61E600B7BD403C5CE /* ISAdMobRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		8BFD87B9A3C10CE754A65F5A /* ISAdMobNativeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeView.m; sourceTree = "<group>"; };
-		91974125F26946298F4BC394 /* ISAdMobNativeBannerTemplateIconTextView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateIconTextView.xib; sourceTree = "<group>"; };
-		9A7BDF6611D5796D69F1ACA3 /* ISAdMobNativeBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeBannerDelegate.h; sourceTree = "<group>"; };
-		A768CF8FECA8FC22296317DF /* ISAdMobNativeBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeBannerDelegate.m; sourceTree = "<group>"; };
+		A5030EBBF2DD8D51225E25CD /* ISAdMobRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobRewardedDelegate.m; sourceTree = "<group>"; };
 		A8C3714077B1A8E4D9E5D4CD /* ISAdMobNativeAdData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeAdData.m; sourceTree = "<group>"; };
+		AB25B2DC8E0514734140AAD5 /* ISAdMobRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedDelegate.h; sourceTree = "<group>"; };
 		AE06B3F5849127AAC4DE076C /* ISAdMobNativeAdViewBinder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeAdViewBinder.m; sourceTree = "<group>"; };
 		B253966438872B51D0C6A707 /* ISAdMobNativeAdData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobNativeAdData.h; sourceTree = "<group>"; };
 		BD40F28EE8D4259E6FDCDD90 /* ISAdMobInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobInterstitialDelegate.m; sourceTree = "<group>"; };
+		C0B1D0D31CDAB850D74B1F30 /* ISAdMobRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedAdapter.h; sourceTree = "<group>"; };
 		DD4B87BBABF84D13E81261E9 /* ISAdMobBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobBannerDelegate.m; sourceTree = "<group>"; };
-		E26742B4F8BFBD4C63D7BCE3 /* ISAdMobNativeBannerTemplate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobNativeBannerTemplate.m; sourceTree = "<group>"; };
-		E2CE29DD80D3E99C7020549F /* ISAdMobNativeBannerTemplateTextCTAView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ISAdMobNativeBannerTemplateTextCTAView.xib; sourceTree = "<group>"; };
-		E39CA430CA1E0968A22C3D69 /* ISAdMobRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobRewardedVideoAdapter.h; sourceTree = "<group>"; };
 		EEBC5EB7FBC42958B19D0766 /* ISAdMobBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISAdMobBannerAdapter.m; sourceTree = "<group>"; };
 		FBC9C376FED62710B5F7D359 /* ISAdMobInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISAdMobInterstitialDelegate.h; sourceTree = "<group>"; };
 		FF18F968690DF39A4ED7F48A /* ISAdMobAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISAdMobAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
-		16AD7C03BD5234CAEFE3180A /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				E39CA430CA1E0968A22C3D69 /* ISAdMobRewardedVideoAdapter.h */,
-				30F768A767A22C698028B10A /* ISAdMobRewardedVideoAdapter.m */,
-				79A38CA61E600B7BD403C5CE /* ISAdMobRewardedVideoDelegate.h */,
-				392078FA21742D02F9F45096 /* ISAdMobRewardedVideoDelegate.m */,
-			);
-			path = RewardedVideo;
-			sourceTree = "<group>";
-		};
 		40F2AF48F7DB8D89693CE51F /* NativeAd */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,7 +87,7 @@
 				82178C67AEE4F178C61F670C /* Banner */,
 				E13D1E50C86F5F31AAC469D5 /* Interstitial */,
 				40F2AF48F7DB8D89693CE51F /* NativeAd */,
-				16AD7C03BD5234CAEFE3180A /* RewardedVideo */,
+				D358DCA33789BAA702A351A7 /* Rewarded */,
 			);
 			path = ISAdMobAdapter;
 			sourceTree = "<group>";
@@ -130,16 +99,6 @@
 				EEBC5EB7FBC42958B19D0766 /* ISAdMobBannerAdapter.m */,
 				46653CD54947BF3AE0395CB0 /* ISAdMobBannerDelegate.h */,
 				DD4B87BBABF84D13E81261E9 /* ISAdMobBannerDelegate.m */,
-				9A7BDF6611D5796D69F1ACA3 /* ISAdMobNativeBannerDelegate.h */,
-				A768CF8FECA8FC22296317DF /* ISAdMobNativeBannerDelegate.m */,
-				05D058B28B4EAD31C2C45612 /* ISAdMobNativeBannerTemplate.h */,
-				E26742B4F8BFBD4C63D7BCE3 /* ISAdMobNativeBannerTemplate.m */,
-				060866088EC9D8624C4A3C18 /* ISAdMobNativeBannerTemplateBasicView.xib */,
-				91974125F26946298F4BC394 /* ISAdMobNativeBannerTemplateIconTextView.xib */,
-				5A0E062774517A064DCDE97C /* ISAdMobNativeBannerTemplateRectView.xib */,
-				E2CE29DD80D3E99C7020549F /* ISAdMobNativeBannerTemplateTextCTAView.xib */,
-				0AEAD64E38CAF8247DBD1357 /* ISAdMobNativeView.h */,
-				8BFD87B9A3C10CE754A65F5A /* ISAdMobNativeView.m */,
 			);
 			path = Banner;
 			sourceTree = "<group>";
@@ -150,6 +109,17 @@
 				FF18F968690DF39A4ED7F48A /* ISAdMobAdapter.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D358DCA33789BAA702A351A7 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				C0B1D0D31CDAB850D74B1F30 /* ISAdMobRewardedAdapter.h */,
+				129D149960560934A3C9E5FE /* ISAdMobRewardedAdapter.m */,
+				AB25B2DC8E0514734140AAD5 /* ISAdMobRewardedDelegate.h */,
+				A5030EBBF2DD8D51225E25CD /* ISAdMobRewardedDelegate.m */,
+			);
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 		E13D1E50C86F5F31AAC469D5 /* Interstitial */ = {
@@ -189,11 +159,8 @@
 				B6544B70717370F8865EE9B5 /* ISAdMobNativeAdData.h in Headers */,
 				4A15BD3F9A8E86BC90A80419 /* ISAdMobNativeAdDelegate.h in Headers */,
 				A0E30398C9E5BF15AE1DEDD9 /* ISAdMobNativeAdViewBinder.h in Headers */,
-				66D6623E60E2ECAECDEFC0D8 /* ISAdMobNativeBannerDelegate.h in Headers */,
-				0C37348216FB7385DC41ABF1 /* ISAdMobNativeBannerTemplate.h in Headers */,
-				57582CC97C09AB27560ED9D5 /* ISAdMobNativeView.h in Headers */,
-				8B314A0784CF68495170D0A6 /* ISAdMobRewardedVideoAdapter.h in Headers */,
-				FF2B60F351C25B97364DA632 /* ISAdMobRewardedVideoDelegate.h in Headers */,
+				F95CE9E1D78CB999417518ED /* ISAdMobRewardedAdapter.h in Headers */,
+				20843DF45D6150A45D66FA50 /* ISAdMobRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +174,6 @@
 				3100EB97A32A820D1420A75E /* Create XCFramework */,
 				62E3268AD4893B1CCC3160B6 /* Headers */,
 				3B4BA51E4AC6A88D0EBAF7C3 /* Sources */,
-				636A9FAC0FB143A7FA84C69D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -254,20 +220,6 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		636A9FAC0FB143A7FA84C69D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A4ACD804C7CDF50BDA46CBF7 /* ISAdMobNativeBannerTemplateBasicView.xib in Resources */,
-				0F5B9E5EECB24DA7BEB2A45B /* ISAdMobNativeBannerTemplateIconTextView.xib in Resources */,
-				28BA7BC547C3C283203FEDB9 /* ISAdMobNativeBannerTemplateRectView.xib in Resources */,
-				19B7222F8B4E651F9806FC1F /* ISAdMobNativeBannerTemplateTextCTAView.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXShellScriptBuildPhase section */
 		3100EB97A32A820D1420A75E /* Create XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -303,11 +255,8 @@
 				1A07B5EE69CF90A8A2044528 /* ISAdMobNativeAdData.m in Sources */,
 				0CDDA4D0454A151D53AD5524 /* ISAdMobNativeAdDelegate.m in Sources */,
 				7B3D5822D16613E30A709185 /* ISAdMobNativeAdViewBinder.m in Sources */,
-				D9A672DC13739309B92478E8 /* ISAdMobNativeBannerDelegate.m in Sources */,
-				0F693BA7CD41A4E97D72D5B1 /* ISAdMobNativeBannerTemplate.m in Sources */,
-				DBA022AAF6712F87290D1B1B /* ISAdMobNativeView.m in Sources */,
-				A180F7462AD084FA1FDB7B37 /* ISAdMobRewardedVideoAdapter.m in Sources */,
-				BA6612628449C6D2842F1CEA /* ISAdMobRewardedVideoDelegate.m in Sources */,
+				51BD2647663943EB0407DF32 /* ISAdMobRewardedAdapter.m in Sources */,
+				C0DB945BCB1A9A35E2EADBE4 /* ISAdMobRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

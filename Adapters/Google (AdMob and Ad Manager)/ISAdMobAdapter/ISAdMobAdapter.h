@@ -6,13 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-static NSString * const AdMobAdapterVersion = @"5.16.0";
+static NSString * const AdMobAdapterVersion = @"5.17.0";
 static NSString * Githash = @"";
 
-//System Frameworks For AdMob Adapter
+// System Frameworks For AdMob Adapter
 
 @import AdSupport;
 @import AudioToolbox;
@@ -33,6 +34,6 @@ static NSString * Githash = @"";
 @import SystemConfiguration;
 @import WebKit;
 
-@interface ISAdMobAdapter : ISBaseAdapter
+@interface ISAdMobAdapter : LevelPlayBaseAdapter
 
 @end

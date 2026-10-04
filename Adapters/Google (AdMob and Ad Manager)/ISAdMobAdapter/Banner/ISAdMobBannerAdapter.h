@@ -6,15 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISAdMobAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseBannerAdapter.h>
 
-@interface ISAdMobBannerAdapter : ISBaseBannerAdapter
-
-- (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
-
-- (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width;
-
-- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
-                                      adapterConfig:(ISAdapterConfig *)adapterConfig;
+@interface ISAdMobBannerAdapter : LevelPlayBaseBannerAdapter
 
 @end

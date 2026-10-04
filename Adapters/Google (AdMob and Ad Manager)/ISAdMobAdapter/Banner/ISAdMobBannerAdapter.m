@@ -5,411 +5,182 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/LPMAdSize.h>
 #import "ISAdMobBannerAdapter.h"
 #import "ISAdMobBannerDelegate.h"
-#import "ISAdMobNativeBannerDelegate.h"
-#import <IronSource/LPMAdSize.h>
+#import "ISAdMobAdapter+Internal.h"
+#import "ISAdMobAdapter.h"
+#import "ISAdMobConstants.h"
 
 @interface ISAdMobBannerAdapter ()
 
-@property (nonatomic, weak) ISAdMobAdapter *adapter;
-
-// Banner & Native banner
-@property (nonatomic, strong) ISConcurrentMutableDictionary *adUnitIdToAds;
-@property (nonatomic, strong) ISConcurrentMutableDictionary *adUnitIdToSmashDelegate;
-@property (nonatomic, strong) ISConcurrentMutableDictionary *adUnitIdToAdDelegate;
-
-// You must keep a strong reference to the GADAdLoader during the ad loading process.
-@property (nonatomic, strong) GADAdLoader *nativeAdLoader;
+@property (nonatomic, strong) GADBannerView                 *bannerAdView;
+@property (nonatomic, strong) ISAdMobBannerDelegate         *bannerAdViewDelegate;
 
 @end
 
 @implementation ISAdMobBannerAdapter
 
-- (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter                     = adapter;
-        _adUnitIdToAds               = [ISConcurrentMutableDictionary dictionary];
-        _adUnitIdToSmashDelegate     = [ISConcurrentMutableDictionary dictionary];
-        _adUnitIdToAdDelegate        = [ISConcurrentMutableDictionary dictionary];
-    }
-    return self;
-}
+#pragma mark - Banner Methods
 
-- (void)initBannerWithUserId:(NSString *)userId
-               adapterConfig:(ISAdapterConfig *)adapterConfig
-                    delegate:(id<ISBannerAdapterDelegate>)delegate {
-    [self initBannersInternalWithAdapterConfig:adapterConfig
-                                      delegate:delegate];
-}
+- (void)loadAdWithAdData:(ISAdData *)adData
+          viewController:(UIViewController *)viewController
+                    size:(ISBannerSize *)size
+                delegate:(id<ISBannerAdDelegate>)delegate {
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+    LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
-- (void)initBannerForBiddingWithUserId:(NSString *)userId
-                         adapterConfig:(ISAdapterConfig *)adapterConfig
-                              delegate:(id<ISBannerAdapterDelegate>)delegate {
-    [self initBannersInternalWithAdapterConfig:adapterConfig
-                                      delegate:delegate];
-}
-
-- (void)initBannersInternalWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:adUnitId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAdUnitId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerInitFailedWithError:error];
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    [self.adUnitIdToSmashDelegate setObject:delegate
-                                     forKey:adUnitId];
-    
-    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initAdMobSDKWithAdapterConfig:adapterConfig];
-            break;
-        case INIT_STATE_FAILED: {
-            LogAdapterApi_Internal(@"init failed - adUnitId = %@", adUnitId);
-            [delegate adapterBannerInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                withMessage:@"AdMob SDK init failed"]];
-            break;
-        }
-        case INIT_STATE_SUCCESS:
-            [delegate adapterBannerInitSuccess];
-            break;
+
+    ISAdMobAdapter *adapter = (ISAdMobAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorInternal
+                                  errorMessage:logAdapterNil];
+        return;
     }
-}
 
-- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                       adData:(NSDictionary *)adData
-                                   serverData:(NSString *)serverData
-                               viewController:(UIViewController *)viewController
-                                         size:(ISBannerSize *)size
-                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
-    [self loadBannerInternalWithViewController:viewController
-                                          size:size
-                                 adapterConfig:adapterConfig
-                                        adData:adData
-                                    serverData:serverData
-                                      delegate:delegate];
-}
-
-- (void)loadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                             adData:(NSDictionary *)adData
-                     viewController:(UIViewController *)viewController
-                               size:(ISBannerSize *)size
-                           delegate:(id <ISBannerAdapterDelegate>)delegate {
-    [self loadBannerInternalWithViewController:viewController
-                                          size:size
-                                 adapterConfig:adapterConfig
-                                        adData:adData
-                                    serverData:nil
-                                      delegate:delegate];
-}
-
-- (void)loadBannerInternalWithViewController:(UIViewController *)viewController
-                                        size:(ISBannerSize *)size
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                      adData:(NSDictionary *)adData
-                                  serverData:(NSString *)serverData
-                                    delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    
-    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-    
-    //add to banner delegate dictionary
-    [self.adUnitIdToSmashDelegate setObject:delegate
-                                     forKey:adUnitId];
-    
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        BOOL isNative = [adapterConfig.settings[kIsNative] boolValue];
-        
-        if (isNative) {
-            [self loadNativeBannerWithViewController:viewController
-                                       adapterConfig:adapterConfig
-                                          serverData:serverData
-                                              adData:adData
-                                                size:size
-                                            delegate:delegate];
+        if (![self isBannerSizeSupported:size]) {
+            NSError *error = [NSError errorWithDomain:networkName
+                                                 code:ERROR_BN_UNSUPPORTED_SIZE
+                                             userInfo:@{NSLocalizedDescriptionKey:logUnsupportedBannerSize}];
+            LogAdapterApi_Internal(logError, error);
+            [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                         errorCode:error.code
+                                      errorMessage:error.localizedDescription];
             return;
         }
-        
-        // validate banner size
-        if([self isBannerSizeSupported:size]){
-            
-            // get size
-            GADAdSize adMobSize = [self getBannerSize:size];
-            
-            // create banner
-            GADBannerView *banner = [[GADBannerView alloc] initWithAdSize:adMobSize];
-            ISAdMobBannerDelegate *bannerDelegate = [[ISAdMobBannerDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                        andDelegate:delegate];
-            //add banner to delegate map
-            [self.adUnitIdToAdDelegate setObject:bannerDelegate
-                                          forKey:adUnitId];
-            
-            banner.delegate = bannerDelegate;
-            banner.adUnitID = adUnitId;
-            banner.rootViewController = viewController;
-            
-            // add to dictionary
-            [self.adUnitIdToAds setObject:banner
-                                   forKey:adUnitId];
-            
-            if (serverData) {
-                // For bidding, use loadWithAdResponseString
-                [banner loadWithAdResponseString:serverData];
-            } else {
-                // For non-bidding, use request
-                GADRequest *request = [self.adapter createGADRequestWithAdData:adData];
-                [banner loadRequest:request];
-            }
-            
-        }else{
-            // size not supported
-            NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE
-                                      withMessage:@"AdMob unsupported banner size"];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterBannerDidFailToLoadWithError:error];
+
+        GADAdSize adMobSize = [self getBannerSize:size];
+        GADBannerView *banner = [[GADBannerView alloc] initWithAdSize:adMobSize];
+        self.bannerAdViewDelegate = [[ISAdMobBannerDelegate alloc] initWithDelegate:delegate];
+        banner.delegate = self.bannerAdViewDelegate;
+        banner.adUnitID = adUnitId;
+        banner.rootViewController = viewController;
+        self.bannerAdView = banner;
+
+        if (adData.serverData) {
+            [banner loadWithAdResponseString:adData.serverData];
+        } else {
+            GADRequest *request = [adapter createGADRequestWithAdData:adData.adUnitData];
+            [banner loadRequest:request];
         }
-        
     });
 }
 
-- (void)loadNativeBannerWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                serverData:(NSString *)serverData
-                                    adData:(NSDictionary *)adData
-                                      size:(ISBannerSize *)size
-                                  delegate:(id<ISBannerAdapterDelegate>)delegate{
-    
-    // validate native banner size
-    if([self isNativeBannerSizeSupported:size]) {
-        
-        NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                            forKey:kAdUnitId];
-        
-        ISAdMobNativeBannerTemplate *template = [[ISAdMobNativeBannerTemplate alloc] initWithAdapterConfig:adapterConfig
-                                                                                           sizeDescription:size.sizeDescription];
-        self.nativeAdLoader = [[GADAdLoader alloc] initWithAdUnitID: adUnitId
-                                                 rootViewController: viewController
-                                                            adTypes: @[GADAdLoaderAdTypeNative]
-                                                            options: [self createNativeAdOptionsWithTemplate:template]];
-        
-        ISAdMobNativeBannerDelegate* nativeBannerDelegate = [[ISAdMobNativeBannerDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                                   nativeTemplate:template
-                                                                                                         delegate:delegate];
-        
-        //add native banner to delegate map
-        [self.adUnitIdToAdDelegate setObject:nativeBannerDelegate
-                                      forKey:adUnitId];
-        
-        self.nativeAdLoader.delegate = nativeBannerDelegate;
-        
-        if (serverData) {
-            // For bidding, use loadWithAdResponseString
-            [self.nativeAdLoader loadWithAdResponseString:serverData];
-        } else {
-            // For non-bidding, use request
-            GADRequest *request = [self.adapter createGADRequestWithAdData:adData];
-            [self.nativeAdLoader loadRequest:request];
-        }
-    } else {
-        // size not supported
-        NSError *error = [ISError createError:ERROR_BN_UNSUPPORTED_SIZE
-                                  withMessage:@"AdMob unsupported banner size"];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerDidFailToLoadWithError:error];
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bannerAdView.delegate = nil;
+        [self.bannerAdView removeFromSuperview];
+        self.bannerAdView = nil;
+        self.bannerAdViewDelegate = nil;
+    });
+}
+
+- (BOOL)isSupportAdaptiveBanner {
+    return YES;
+}
+
+#pragma mark - Bidding Data
+
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISAdMobAdapter *adapter = (ISAdMobAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
     }
-}
 
-- (NSArray<GADAdLoaderOptions *> *)createNativeAdOptionsWithTemplate:(ISAdMobNativeBannerTemplate *)template {
-    GADVideoOptions *videoOptions = [[GADVideoOptions alloc] init];
-    videoOptions.startMuted = true;
-    
-    GADNativeAdViewAdOptions *adViewAdOptions = [[GADNativeAdViewAdOptions alloc] init];
-    adViewAdOptions.preferredAdChoicesPosition = template.adChoicesPosition;
-    
-    GADNativeAdMediaAdLoaderOptions *adMediaAdLoaderOptions = [[GADNativeAdMediaAdLoaderOptions alloc] init];
-    adMediaAdLoaderOptions.mediaAspectRatio = template.mediaAspectRatio;
-    
-    return @[videoOptions, adViewAdOptions, adMediaAdLoaderOptions];
-}
+    GADSignalRequest *request = [self createBannerSignalRequestWithAdData:adData];
 
-
-- (void)reloadBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                             delegate:(id<ISBannerAdapterDelegate>)delegate {
-    LogInternal_Warning(@"Unsupported method");
-}
-
-// destroy banner ad
-- (void) destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    self.nativeAdLoader = nil;
-    
-    // remove from dictionary
-    [self.adUnitIdToAdDelegate removeObjectForKey:adUnitId];
-    [self.adUnitIdToSmashDelegate removeObjectForKey:adUnitId];
-}
-
-
-- (CGFloat)getAdaptiveHeightWithWidth:(CGFloat)width {
-    CGFloat height = [self getAdmobAdaptiveAdSizeWithWidth:width].size.height;
-    LogAdapterApi_Internal(@"%@", [NSString stringWithFormat:@"height - %.2f for width - %.2f", height, width]);
-    
-    return height;
-}
-
-- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                           adData:(NSDictionary *)adData
-                                         delegate:(id<ISBiddingDataDelegate>)delegate {
-    // Check if this is a native banner or regular banner
-    BOOL isNative = [adapterConfig.settings[kIsNative] boolValue];
-    GADAdFormat adFormat = isNative ? GADAdFormatNative : GADAdFormatBanner;
-    
-    [self.adapter collectBiddingDataWithAdFormat:adFormat
-                                    adapterConfig:adapterConfig
-                                           adData:adData
-                                         delegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    NSArray *bannerAdUnitIds = self.adUnitIdToSmashDelegate.allKeys;
-    
-    for (NSString *adUnitId in bannerAdUnitIds) {
-        id<ISBannerAdapterDelegate> delegate = [self.adUnitIdToSmashDelegate objectForKey:adUnitId];
-        [delegate adapterBannerInitSuccess];
-    }
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    
-    NSArray *bannerAdUnitIds = self.adUnitIdToSmashDelegate.allKeys;
-    
-    for (NSString *adUnitId in bannerAdUnitIds) {
-        id<ISBannerAdapterDelegate> delegate = [self.adUnitIdToSmashDelegate objectForKey:adUnitId];
-        [delegate adapterBannerInitFailedWithError:error];
-    }
+    [adapter collectBiddingDataWithSignalRequest:request
+                                          adData:adData
+                                        delegate:delegate];
 }
 
 #pragma mark - Helper Methods
 
-- (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
-    if ([size.sizeDescription isEqualToString:@"BANNER"]     ||
-        [size.sizeDescription isEqualToString:@"LARGE"]      ||
-        [size.sizeDescription isEqualToString:@"RECTANGLE"]  ||
-        [size.sizeDescription isEqualToString:@"SMART"]      ||
-        [size.sizeDescription isEqualToString:@"CUSTOM"]
-        ) {
-        return YES;
+- (GADSignalRequest *)createBannerSignalRequestWithAdData:(ISAdData *)adData {
+    GADBannerSignalRequest *bannerRequest = [[GADBannerSignalRequest alloc] initWithSignalType:requesterType];
+
+    ISBannerSize *size = [adData.adUnitData objectForKey:bannerSizeKey];
+    if (size) {
+        GADAdSize adSize = [self getBannerSize:size];
+        bannerRequest.adSize = adSize;
     }
-    
-    return NO;
+
+    return bannerRequest;
 }
 
-- (bool)isNativeBannerSizeSupported:(ISBannerSize *)size {
-    
-    if ([size.sizeDescription isEqualToString:@"BANNER"]     ||
-        [size.sizeDescription isEqualToString:@"LARGE"]      ||
-        [size.sizeDescription isEqualToString:@"RECTANGLE"]
-        ) {
-        return YES;
-    }
-    
-    //in this case banner size is returned
-    if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        return ![self isLargeScreen];
-    }
-    
-    return NO;
+- (BOOL)isBannerSizeSupported:(ISBannerSize *)size {
+    return ([size.sizeDescription isEqualToString:sizeBanner] ||
+            [size.sizeDescription isEqualToString:sizeLarge] ||
+            [size.sizeDescription isEqualToString:sizeRectangle] ||
+            [size.sizeDescription isEqualToString:sizeSmart] ||
+            [size.sizeDescription isEqualToString:sizeCustom]);
 }
 
 - (GADAdSize)getBannerSize:(ISBannerSize *)size {
     GADAdSize adMobSize = GADAdSizeInvalid;
-    
-    if ([size.sizeDescription isEqualToString:@"BANNER"]) {
+
+    if ([size.sizeDescription isEqualToString:sizeBanner]) {
         adMobSize = GADAdSizeBanner;
-    } else if ([size.sizeDescription isEqualToString:@"LARGE"]) {
+    } else if ([size.sizeDescription isEqualToString:sizeLarge]) {
         adMobSize = GADAdSizeLargeBanner;
-    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
+    } else if ([size.sizeDescription isEqualToString:sizeRectangle]) {
         adMobSize = GADAdSizeMediumRectangle;
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        if ([self isLargeScreen]) {
-            adMobSize = GADAdSizeLeaderboard;
-        } else {
-            adMobSize = GADAdSizeBanner;
-        }
-    } else if ([size.sizeDescription isEqualToString:@"CUSTOM"]) {
+    } else if ([size.sizeDescription isEqualToString:sizeSmart]) {
+        adMobSize = [self isLargeScreen] ? GADAdSizeLeaderboard : GADAdSizeBanner;
+    } else if ([size.sizeDescription isEqualToString:sizeCustom]) {
         adMobSize = GADAdSizeFromCGSize(CGSizeMake(size.width, size.height));
     }
-    
+
     if (size.isAdaptive) {
         LPMAdSize *adaptiveSize = [size toLPMAdSize];
         adMobSize = [self getAdmobAdaptiveAdSizeWithWidth:adaptiveSize.width];
-        LogAdapterApi_Internal(@"default height - %@ adMob height - %@ adaptive height - %@ default width - %@ adaptive width - %@", @(size.height), @(adMobSize.size.height), @(adaptiveSize.height), @(size.width), @(adaptiveSize.width));
     }
-    
+
     return adMobSize;
 }
 
-- (GADAdSize)getAdmobAdaptiveAdSizeWithWidth:(CGFloat) width {
+- (GADAdSize)getAdmobAdaptiveAdSizeWithWidth:(CGFloat)width {
     __block GADAdSize adaptiveSize;
-    
+
     void (^calculateAdaptiveSize)(void) = ^{
         adaptiveSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width);
     };
-    
-    if([NSThread isMainThread]) {
+
+    if ([NSThread isMainThread]) {
         calculateAdaptiveSize();
     } else {
         dispatch_sync(dispatch_get_main_queue(), ^{
             calculateAdaptiveSize();
         });
     }
-    
+
     return adaptiveSize;
 }
 
 - (BOOL)isLargeScreen {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
-}
-
-- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
-                                      adapterConfig:(ISAdapterConfig *)adapterConfig {
-    GADBannerSignalRequest *bannerRequest = [[GADBannerSignalRequest alloc] initWithSignalType:kAdMobRequesterType];
-    
-    // Set ad size for banner requests
-    if (adData) {
-        ISBannerSize *size = [adData objectForKey:@"bannerSize"];
-        if (size) {
-            GADAdSize adSize = [self getBannerSize:size];
-            bannerRequest.adSize = adSize;
-            LogAdapterApi_Internal(@"adSize width = %@, height = %@", @(adSize.size.width), @(adSize.size.height));
-        }
-    }
-    
-    return bannerRequest;
 }
 
 @end

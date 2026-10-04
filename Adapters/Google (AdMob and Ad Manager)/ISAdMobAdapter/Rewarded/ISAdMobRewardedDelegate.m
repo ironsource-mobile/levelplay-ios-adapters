@@ -1,18 +1,18 @@
 //
-//  ISAdMobInterstitialDelegate.m
+//  ISAdMobRewardedDelegate.m
 //  ISAdMobAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISAdMobInterstitialDelegate.h"
+#import "ISAdMobRewardedDelegate.h"
 #import "ISAdMobConstants.h"
-#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISBaseRewardedVideo.h>
 #import <IronSource/ISLog.h>
 
-@implementation ISAdMobInterstitialDelegate
+@implementation ISAdMobRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;

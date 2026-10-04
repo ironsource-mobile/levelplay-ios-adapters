@@ -6,13 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ISAdMobAdapter.h>
+#import <IronSource/LevelPlayBaseNativeAdAdapter.h>
 
-@interface ISAdMobNativeAdAdapter : ISBaseNativeAdAdapter
-
-- (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
-
-- (GADSignalRequest *)createSignalRequestWithAdData:(NSDictionary *)adData
-                                      adapterConfig:(ISAdapterConfig *)adapterConfig;
+@interface ISAdMobNativeAdAdapter : LevelPlayBaseNativeAdAdapter
 
 @end

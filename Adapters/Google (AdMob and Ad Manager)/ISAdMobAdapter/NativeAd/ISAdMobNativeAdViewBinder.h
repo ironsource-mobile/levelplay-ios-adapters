@@ -7,8 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IronSource/ISAdapterNativeAdViewBinder.h>
 
 @interface ISAdMobNativeAdViewBinder : ISAdapterNativeAdViewBinder
 

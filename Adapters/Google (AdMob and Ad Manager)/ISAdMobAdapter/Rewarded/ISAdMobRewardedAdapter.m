@@ -1,5 +1,5 @@
 //
-//  ISAdMobInterstitialAdapter.m
+//  ISAdMobRewardedAdapter.m
 //  ISAdMobAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -8,26 +8,26 @@
 #import <GoogleMobileAds/GoogleMobileAds.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISAdMobInterstitialAdapter.h"
-#import "ISAdMobInterstitialDelegate.h"
+#import "ISAdMobRewardedAdapter.h"
+#import "ISAdMobRewardedDelegate.h"
 #import "ISAdMobAdapter+Internal.h"
 #import "ISAdMobAdapter.h"
 #import "ISAdMobConstants.h"
 
-@interface ISAdMobInterstitialAdapter ()
+@interface ISAdMobRewardedAdapter ()
 
-@property (nonatomic, strong) GADInterstitialAd            *interstitialAd;
-@property (nonatomic, strong) ISAdMobInterstitialDelegate  *interstitialAdDelegate;
-@property (nonatomic, assign) BOOL                          adAvailability;
+@property (nonatomic, strong) GADRewardedAd            *rewardedAd;
+@property (nonatomic, strong) ISAdMobRewardedDelegate  *rewardedAdDelegate;
+@property (nonatomic, assign) BOOL                      adAvailability;
 
 @end
 
-@implementation ISAdMobInterstitialAdapter
+@implementation ISAdMobRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *adUnitId = [adData getString:adUnitIdKey];
     LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
@@ -54,7 +54,7 @@
 
     self.adAvailability = NO;
 
-    GADInterstitialAdLoadCompletionHandler loadHandler = ^(GADInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
+    GADRewardedAdLoadCompletionHandler loadHandler = ^(GADRewardedAd *_Nullable rewardedAd, NSError *_Nullable error) {
         if (error) {
             LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
             ISAdapterErrorType errorType = (error.code == GADErrorNoFill) ?
@@ -65,8 +65,8 @@
             return;
         }
 
-        if (!interstitialAd) {
-            NSString *errorMessage = [NSString stringWithFormat:errorAdIsNil, adFormatInterstitial];
+        if (!rewardedAd) {
+            NSString *errorMessage = [NSString stringWithFormat:errorAdIsNil, adFormatRewarded];
             LogAdapterDelegate_Internal(logError, errorMessage);
             [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
                                          errorCode:ERROR_CODE_GENERIC
@@ -74,10 +74,10 @@
             return;
         }
 
-        self.interstitialAd = interstitialAd;
+        self.rewardedAd = rewardedAd;
         self.adAvailability = YES;
 
-        NSString *creativeId = interstitialAd.responseInfo.responseIdentifier;
+        NSString *creativeId = rewardedAd.responseInfo.responseIdentifier;
         LogAdapterDelegate_Internal(logCreativeId, creativeId);
 
         if (creativeId.length) {
@@ -89,19 +89,19 @@
     };
 
     if (adData.serverData) {
-        [GADInterstitialAd loadWithAdResponseString:adData.serverData
-                                  completionHandler:loadHandler];
+        [GADRewardedAd loadWithAdResponseString:adData.serverData
+                              completionHandler:loadHandler];
     } else {
         GADRequest *request = [adapter createGADRequestWithAdData:adData.adUnitData];
-        [GADInterstitialAd loadWithAdUnitID:adUnitId
-                                    request:request
-                          completionHandler:loadHandler];
+        [GADRewardedAd loadWithAdUnitID:adUnitId
+                                request:request
+                      completionHandler:loadHandler];
     }
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -116,22 +116,28 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.interstitialAdDelegate = [[ISAdMobInterstitialDelegate alloc] initWithDelegate:delegate];
-        self.interstitialAd.fullScreenContentDelegate = self.interstitialAdDelegate;
-        [self.interstitialAd presentFromRootViewController:viewController];
+        self.rewardedAdDelegate = [[ISAdMobRewardedDelegate alloc] initWithDelegate:delegate];
+        self.rewardedAd.fullScreenContentDelegate = self.rewardedAdDelegate;
+
+        [self.rewardedAd presentFromRootViewController:viewController
+                              userDidEarnRewardHandler:^{
+            LogAdapterDelegate_Internal(logAdRewarded);
+            [delegate adRewarded];
+        }];
+
         self.adAvailability = NO;
     });
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && self.adAvailability;
+    return self.rewardedAd != nil && self.adAvailability;
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
     self.adAvailability = NO;
-    self.interstitialAd = nil;
-    self.interstitialAdDelegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 #pragma mark - Bidding Data
@@ -145,7 +151,7 @@
         return;
     }
 
-    GADInterstitialSignalRequest *request = [[GADInterstitialSignalRequest alloc] initWithSignalType:requesterType];
+    GADRewardedSignalRequest *request = [[GADRewardedSignalRequest alloc] initWithSignalType:requesterType];
     [adapter collectBiddingDataWithSignalRequest:request
                                           adData:adData
                                         delegate:delegate];

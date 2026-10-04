@@ -6,12 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IronSource/ISAdapterNativeAdData.h>
 
 @interface ISAdMobNativeAdData : ISAdapterNativeAdData
 
-@property (nonatomic, strong) GADNativeAd  *nativeAd;
+@property (nonatomic, strong) GADNativeAd *nativeAd;
 
 - (instancetype)initWithNativeAd:(GADNativeAd *)nativeAd;
 - (instancetype)init NS_UNAVAILABLE;

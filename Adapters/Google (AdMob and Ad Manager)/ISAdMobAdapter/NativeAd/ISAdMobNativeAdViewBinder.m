@@ -5,12 +5,16 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <ISAdMobNativeAdViewBinder.h>
+#import "ISAdMobNativeAdViewBinder.h"
+#import "ISAdMobConstants.h"
+#import <IronSource/ISNativeAdViewHolder.h>
+#import <IronSource/UIView+ISNativeView.h>
+#import <IronSource/ISLog.h>
 
-@interface ISAdMobNativeAdViewBinder()
+@interface ISAdMobNativeAdViewBinder ()
 
-@property (nonatomic, strong) GADNativeAd  *nativeAd;
-@property (nonatomic, strong) GADNativeAdView  *admobNativeAdView;
+@property (nonatomic, strong) GADNativeAd     *nativeAd;
+@property (nonatomic, strong) GADNativeAdView *admobNativeAdView;
 
 @end
 
@@ -29,30 +33,30 @@
 
 - (void)setNativeAdView:(UIView *)nativeAdView {
     if (nativeAdView == nil) {
-        LogInternal_Error(@"nativeAdView is nil");
+        LogInternal_Error(logError, logNativeAdViewNil);
         return;
     }
 
     self.admobNativeAdView = [[GADNativeAdView alloc] init];
 
     ISNativeAdViewHolder *nativeAdViewHolder = self.adViewHolder;
-    
+
     [self.admobNativeAdView setHeadlineView:nativeAdViewHolder.titleView];
     [self.admobNativeAdView setAdvertiserView:nativeAdViewHolder.advertiserView];
     [self.admobNativeAdView setIconView:nativeAdViewHolder.iconView];
     [self.admobNativeAdView setBodyView:nativeAdViewHolder.bodyView];
-    
+
     LevelPlayMediaView *levelPlayMediaView = nativeAdViewHolder.mediaView;
     if (levelPlayMediaView) {
         GADMediaView *adMobMediaView = [[GADMediaView alloc] init];
         [levelPlayMediaView addSubviewAndAdjust:adMobMediaView];
         [self.admobNativeAdView setMediaView:adMobMediaView];
     }
-    
+
     [self.admobNativeAdView setCallToActionView:nativeAdViewHolder.callToActionView];
     [self.admobNativeAdView setNativeAd:self.nativeAd];
 }
- 
+
 - (UIView *)networkNativeAdView {
     return self.admobNativeAdView;
 }
