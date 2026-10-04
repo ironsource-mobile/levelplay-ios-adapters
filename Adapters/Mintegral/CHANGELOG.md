@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.21.0
+* Fixed privacy settings handling
+
 ## Version 5.20.0
 * Supporting SDK version 8.1.7
 

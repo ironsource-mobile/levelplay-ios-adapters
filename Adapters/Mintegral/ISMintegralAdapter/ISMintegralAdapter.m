@@ -20,10 +20,6 @@
 static InitState initState = INIT_STATE_NONE;
 static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
-static NSNumber *consentCollectingUserData = nil;
-static NSNumber *doNotSellCollectingUserData = nil;
-static BOOL coppaCollectingUserData = NO;
-
 @interface ISMintegralAdapter ()
 
 @end
@@ -103,14 +99,6 @@ static BOOL coppaCollectingUserData = NO;
 
             LogAdapterApi_Internal(logAppIdAndAppKey, appId, appKey);
 
-            if (consentCollectingUserData != nil) {
-                [self setConsent:[consentCollectingUserData boolValue]];
-            }
-
-            if (doNotSellCollectingUserData != nil) {
-                [self setCCPAValue:[doNotSellCollectingUserData boolValue]];
-            }
-
             MTGSDK *mtgSDK = [MTGSDK sharedInstance];
             [self setChannelCode:mtgSDK];
             [mtgSDK initializeWithAppID:appId
@@ -133,8 +121,6 @@ static BOOL coppaCollectingUserData = NO;
     LogAdapterDelegate_Internal(logInitSuccess);
 
     initState = INIT_STATE_SUCCESS;
-
-    [self setCOPPAValue:coppaCollectingUserData];
 
     NSArray *initDelegatesList = initializationDelegates.allObjects;
 
@@ -187,47 +173,25 @@ static BOOL coppaCollectingUserData = NO;
 }
 
 - (void)setConsent:(BOOL)consent {
-    switch (initState) {
-        case INIT_STATE_NONE:
-            consentCollectingUserData = @(consent);
-            break;
-        case INIT_STATE_IN_PROGRESS:
-            LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
-            [[MTGSDK sharedInstance] setConsentStatus:consent];
-            break;
-        case INIT_STATE_SUCCESS:
-        case INIT_STATE_FAILED:
-            break;
+    LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
+
+    if (initState == INIT_STATE_SUCCESS || initState == INIT_STATE_FAILED) {
+        LogAdapterApi_Warning(logConsentAfterInit);
     }
+
+    [[MTGSDK sharedInstance] setConsentStatus:consent];
 }
 
 - (void)setCCPAValue:(BOOL)doNotSell {
-    switch (initState) {
-        case INIT_STATE_NONE:
-            doNotSellCollectingUserData = @(doNotSell);
-            break;
-        case INIT_STATE_IN_PROGRESS:
-            LogAdapterApi_Internal(logCCPA, doNotSell ? @"YES" : @"NO");
-            [[MTGSDK sharedInstance] setDoNotTrackStatus:doNotSell];
-            break;
-        case INIT_STATE_SUCCESS:
-        case INIT_STATE_FAILED:
-            break;
-    }
-}
+    LogAdapterApi_Internal(logCCPA, doNotSell ? @"YES" : @"NO");
+
+    [[MTGSDK sharedInstance] setDoNotTrackStatus:doNotSell];
+}           
 
 - (void)setCOPPAValue:(BOOL)isChildDirected {
     LogAdapterApi_Internal(logCOPPA, isChildDirected ? @"YES" : @"NO");
 
-    if (!isChildDirected) {
-        return;
-    }
-
-    if (initState == INIT_STATE_SUCCESS) {
-        [[MTGSDK sharedInstance] setCoppa:MTGBoolYes];
-    } else {
-        coppaCollectingUserData = MTGBoolYes;
-    }
+    [[MTGSDK sharedInstance] setCoppa:isChildDirected ? MTGBoolYes : MTGBoolNo];
 }
 
 #pragma mark - Helper Methods

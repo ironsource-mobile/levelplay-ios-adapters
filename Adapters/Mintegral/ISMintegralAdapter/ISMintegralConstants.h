@@ -62,6 +62,7 @@ static NSString * const logConsent = @"setConsentStatus = %@";
 static NSString * const logCCPA = @"setDoNotTrackStatus = %@";
 static NSString * const logCOPPA = @"value = %@";
 static NSString * const logMetaDataSet = @"key = %@, value = %@";
+static NSString * const logConsentAfterInit = @"Mintegral recommends setting consent before SDK initialization; the value set after init may not take effect";
 
 // Error codes
 static const NSInteger mintegralNoFillEmptyError = -1;
