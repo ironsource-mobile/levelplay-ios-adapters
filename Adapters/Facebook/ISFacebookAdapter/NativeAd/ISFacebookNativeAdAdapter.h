@@ -6,11 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ISFacebookAdapter.h>
-#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <IronSource/LevelPlayBaseNativeAdAdapter.h>
 
-@interface ISFacebookNativeAdAdapter : ISBaseNativeAdAdapter
-
-- (instancetype)initWithFacebookAdapter:(ISFacebookAdapter *)adapter;
+@interface ISFacebookNativeAdAdapter : LevelPlayBaseNativeAdAdapter
 
 @end

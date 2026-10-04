@@ -5,34 +5,35 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
-
-#import "ISFacebookAdapter.h"
-#import "ISFacebookRewardedVideoAdapter.h"
-#import "ISFacebookInterstitialAdapter.h"
-#import "ISFacebookBannerAdapter.h"
-#import <ISFacebookNativeAdAdapter.h>
 #import <FBAudienceNetwork/FBAdSettings.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISMetaDataUtils.h>
+#import <IronSource/ISConfigurations.h>
+#import <IronSource/ISAdapterErrors.h>
+#import <IronSource/ISConcurrentMutableSet.h>
+#import "ISFacebookAdapter.h"
+#import "ISFacebookConstants.h"
 
-// Handle init callback for all adapter instances
-static ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> *initCallbackDelegates = nil;
+// Init state
 static InitState initState = INIT_STATE_NONE;
 
-static NSString* _mediationService = nil;
+// Handle init callback for all adapter instances
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
 
-@interface ISFacebookAdapter () <ISNetworkInitCallbackProtocol>
-
-@end
+static NSString *mediationService = nil;
 
 @implementation ISFacebookAdapter
 
-#pragma mark - IronSource Protocol Methods
+#pragma mark - LevelPlay Protocol Methods
 
-- (NSString *)version {
+- (NSString *)adapterVersion {
     return FacebookAdapterVersion;
 }
 
-- (NSString *)sdkVersion {
+- (NSString *)networkSDKVersion {
     return FB_AD_SDK_VERSION;
 }
 
@@ -40,107 +41,103 @@ static NSString* _mediationService = nil;
     return FacebookAdapterVersion;
 }
 
-#pragma mark - Initializations Methods And Callbacks
+#pragma mark - Initialization Methods And Callbacks
 
-- (instancetype)initAdapter:(NSString *)name
-{
-    self = [super initAdapter:name];
-    
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        if (initCallbackDelegates == nil) {
-            initCallbackDelegates =  [ISConcurrentMutableSet<ISNetworkInitCallbackProtocol> set];
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
         }
-        
-        // Rewarded video
-        ISFacebookRewardedVideoAdapter *rewardedVideoAdapter = [[ISFacebookRewardedVideoAdapter alloc] initWithFacebookAdapter:self];
-        [self setRewardedVideoAdapter:rewardedVideoAdapter];
-
-        // Interstitial
-        ISFacebookInterstitialAdapter *interstitialAdapter = [[ISFacebookInterstitialAdapter alloc] initWithFacebookAdapter:self];
-        [self setInterstitialAdapter:interstitialAdapter];
-        
-        // Banner
-        ISFacebookBannerAdapter *bannerAdapter = [[ISFacebookBannerAdapter alloc] initWithFacebookAdapter:self];
-        [self setBannerAdapter:bannerAdapter];
-
-        // NativeAd
-        ISFacebookNativeAdAdapter *netiveAdAdapter = [[ISFacebookNativeAdAdapter alloc] initWithFacebookAdapter:self];
-        [self setNativeAdAdapter:netiveAdAdapter];
-        
-        // The network's capability to load a Rewarded Video ad while another Rewarded Video ad of that network is showing
-        LWSState = LOAD_WHILE_SHOW_BY_INSTANCE;
     }
-    
     return self;
 }
 
-- (void)initSDKWithPlacementIds:(NSString *)allPlacementIds {
-        
-    // add self to the init delegates only in case the initialization has not finished yet
-    if (initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) {
-        [initCallbackDelegates addObject:self];
+- (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
+    NSString *placementIds = [adData getString:placementIdsKey];
+
+    // Configuration Validation
+    if (!placementIds || placementIds.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementIdsKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ISAdapterErrorMissingParams
+                                errorMessage:errorMessage];
+        return;
     }
-    
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ISAdapterErrorInternal
+                                errorMessage:logInitFailedMessage];
+        return;
+    }
+
+    // Add delegate to the init delegates only in case the initialization has not finished yet
+    if ((initState == INIT_STATE_NONE || initState == INIT_STATE_IN_PROGRESS) && delegate) {
+        [initializationDelegates addObject:delegate];
+    }
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
         initState = INIT_STATE_IN_PROGRESS;
-        
-        NSArray* placementIdsArray = [allPlacementIds componentsSeparatedByString:@","];
+
+        NSArray *placementIdsArray = [placementIds componentsSeparatedByString:@","];
 
         FBAdInitSettings *initSettings = [[FBAdInitSettings alloc] initWithPlacementIDs:placementIdsArray
                                                                        mediationService:[self getMediationService]];
-                
-        // check if debug mode needed
-        FBAdLogLevel logLevel =[ISConfigurations getConfigurations].adaptersDebug ? FBAdLogLevelVerbose : FBAdLogLevelNone;
+
+        FBAdLogLevel logLevel = [ISConfigurations getConfigurations].adaptersDebug ? FBAdLogLevelVerbose : FBAdLogLevelNone;
         [FBAdSettings setLogLevel:logLevel];
-        
-        LogAdapterApi_Internal(@"Initialize Meta with placementIds = %@", placementIdsArray);
-        
+
+        LogAdapterApi_Internal(logPlacementIds, placementIdsArray);
+
         ISFacebookAdapter * __weak weakSelf = self;
         [FBAudienceNetworkAds initializeWithSettings:initSettings
                                    completionHandler:^(FBAdInitResults *results) {
-                                
+            __typeof__(self) strongSelf = weakSelf;
             if (results.success) {
-                // call init callback delegate success
-                [weakSelf initializationSuccess];
+                [strongSelf initializationSuccess];
             } else {
-                // call init callback delegate failed
-                [weakSelf initializationFailure];
+                [strongSelf initializationFailure];
             }
         }];
     });
 }
 
 - (void)initializationSuccess {
-    LogAdapterDelegate_Internal(@"");
+    LogAdapterDelegate_Internal(logInitSuccess);
 
     initState = INIT_STATE_SUCCESS;
-    
+
     // set mediation service
     [FBAdSettings setMediationService:[self getMediationService]];
 
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackSuccess];
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 - (void)initializationFailure {
-    LogAdapterDelegate_Internal(@"");
+    LogAdapterDelegate_Internal(logInitFailed);
 
     initState = INIT_STATE_FAILED;
-    
-    NSArray* initDelegatesList = initCallbackDelegates.allObjects;
-    
-    for(id<ISNetworkInitCallbackProtocol> initDelegate in initDelegatesList){
-        [initDelegate onNetworkInitCallbackFailed:@"Meta SDK init failed"];
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidFailWithErrorCode:ISAdapterErrorInternal
+                                    errorMessage:logInitFailedMessage];
     }
-    
-    [initCallbackDelegates removeAllObjects];
+
+    [initializationDelegates removeAllObjects];
 }
 
 #pragma mark - Legal Methods
@@ -150,30 +147,29 @@ static NSString* _mediationService = nil;
     if (values.count == 0) {
         return;
     }
-    
-    // this is a list of 1 value
+
     NSString *value = values[0];
-    LogAdapterApi_Internal(@"key = %@, value = %@", key, value);
-    
+    LogAdapterApi_Internal(logMetaDataSet, key, value);
+
     NSString *formattedValue = [ISMetaDataUtils formatValue:value
                                                     forType:(META_DATA_VALUE_BOOL)];
-    
+
     if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                           flag:kMetaDataMixAudienceKey
+                                           flag:metaDataMixedAudienceKey
                                        andValue:formattedValue]) {
         [self setMixedAudience:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
     }
 }
 
 - (void)setMixedAudience:(BOOL)isMixedAudience {
-    LogAdapterApi_Internal(@"isMixedAudience = %@", isMixedAudience ? @"YES" : @"NO");
+    LogAdapterApi_Internal(logMixedAudience, isMixedAudience ? @"YES" : @"NO");
     [FBAdSettings setMixedAudience:isMixedAudience];
 }
 
 #pragma mark - Test Mode
 
 - (void)setTestMode:(BOOL)enabled {
-    LogAdapterApi_Internal(@"setTestMode = %@", enabled ? @"YES" : @"NO");
+    LogAdapterApi_Internal(logTestMode, enabled ? @"YES" : @"NO");
     if (enabled) {
         [FBAdSettings addTestDevice:[FBAdSettings testDeviceHash]];
     } else {
@@ -183,31 +179,26 @@ static NSString* _mediationService = nil;
 
 #pragma mark - Helper Methods
 
-- (InitState)getInitState {
-    return initState;
-}
-
-- (NSDictionary *)getBiddingData {
+- (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate {
     if (initState == INIT_STATE_FAILED) {
-        LogAdapterApi_Internal(@"returning nil as token since init failed");
-        return nil;
+        LogAdapterApi_Internal(logTokenFailed);
+        [delegate failureWithError:logTokenFailed];
+        return;
     }
-    
+
     NSString *bidderToken = [FBAdSettings bidderToken];
     NSString *returnedToken = bidderToken ? bidderToken : @"";
-    LogAdapterApi_Internal(@"token = %@", returnedToken);
-    
-    return @{@"token": returnedToken};
+    LogAdapterApi_Internal(logToken, returnedToken);
+    [delegate successWithBiddingData:@{tokenKey: returnedToken}];
 }
 
-
 - (NSString *)getMediationService {
-    if (!_mediationService) {
-        _mediationService = [NSString stringWithFormat:@"%@_%@:%@", kMediationName, [LevelPlay sdkVersion], FacebookAdapterVersion];
-        LogAdapterApi_Internal(@"mediationService = %@", _mediationService);
+    if (!mediationService) {
+        mediationService = [NSString stringWithFormat:mediationServiceFormat, mediationName, [LevelPlay sdkVersion], FacebookAdapterVersion];
+        LogAdapterApi_Internal(logMediationService, mediationService);
     }
-    
-    return _mediationService;
+
+    return mediationService;
 }
 
 @end

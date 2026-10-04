@@ -1,5 +1,5 @@
 //
-//  ISFacebookInterstitialAdapter.m
+//  ISFacebookRewardedAdapter.m
 //  ISFacebookAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
@@ -8,25 +8,25 @@
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
-#import "ISFacebookInterstitialAdapter.h"
-#import "ISFacebookInterstitialDelegate.h"
+#import "ISFacebookRewardedAdapter.h"
+#import "ISFacebookRewardedDelegate.h"
 #import "ISFacebookAdapter+Internal.h"
 #import "ISFacebookAdapter.h"
 #import "ISFacebookConstants.h"
 
-@interface ISFacebookInterstitialAdapter ()
+@interface ISFacebookRewardedAdapter ()
 
-@property (nonatomic, strong) FBInterstitialAd                *interstitialAd;
-@property (nonatomic, strong) ISFacebookInterstitialDelegate  *interstitialAdDelegate;
+@property (nonatomic, strong) FBRewardedVideoAd            *rewardedAd;
+@property (nonatomic, strong) ISFacebookRewardedDelegate   *rewardedAdDelegate;
 
 @end
 
-@implementation ISFacebookInterstitialAdapter
+@implementation ISFacebookRewardedAdapter
 
-#pragma mark - Interstitial Methods
+#pragma mark - Rewarded Methods
 
 - (void)loadAdWithAdData:(ISAdData *)adData
-                delegate:(id<ISInterstitialAdDelegate>)delegate {
+                delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     NSString *placementId = [adData getString:placementIdKey];
     LogAdapterApi_Internal(logPlacementId, placementId);
 
@@ -55,18 +55,18 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.interstitialAdDelegate = [[ISFacebookInterstitialDelegate alloc] initWithDelegate:delegate];
+        self.rewardedAdDelegate = [[ISFacebookRewardedDelegate alloc] initWithDelegate:delegate];
 
-        self.interstitialAd = [[FBInterstitialAd alloc] initWithPlacementID:placementId];
-        self.interstitialAd.delegate = self.interstitialAdDelegate;
+        self.rewardedAd = [[FBRewardedVideoAd alloc] initWithPlacementID:placementId];
+        self.rewardedAd.delegate = self.rewardedAdDelegate;
 
-        [self.interstitialAd loadAdWithBidPayload:adData.serverData];
+        [self.rewardedAd loadAdWithBidPayload:adData.serverData];
     });
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
-                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+                        delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logCallbackEmpty);
 
     if (![self isAdAvailableWithAdData:adData]) {
@@ -81,7 +81,14 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![self.interstitialAd showAdFromRootViewController:viewController]) {
+        // set dynamic user id to ad if exists
+        NSString *userId = [self dynamicUserId];
+        if (userId.length) {
+            [self.rewardedAd setRewardDataWithUserID:userId
+                                        withCurrency:@""];
+        }
+
+        if (![self.rewardedAd showAdFromRootViewController:viewController]) {
             NSString *errorMessage = [NSString stringWithFormat:errorShowFailed, networkName];
             NSError *error = [NSError errorWithDomain:networkName
                                                  code:ERROR_CODE_GENERIC
@@ -94,14 +101,14 @@
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && self.interstitialAd.isAdValid;
+    return self.rewardedAd != nil && self.rewardedAd.isAdValid;
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logCallbackEmpty);
-    self.interstitialAd.delegate = nil;
-    self.interstitialAd = nil;
-    self.interstitialAdDelegate = nil;
+    self.rewardedAd.delegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 #pragma mark - Bidding Data

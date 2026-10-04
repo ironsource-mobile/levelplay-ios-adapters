@@ -10,13 +10,13 @@
 		0188584E61827559D8E6278E /* ISFacebookNativeAdViewBinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E36A2C7E30D0C0A1ACC146 /* ISFacebookNativeAdViewBinder.m */; };
 		04262F49C6E33CC9D236C3FC /* ISFacebookNativeAdDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3460E8A16E03F78E04BFEA /* ISFacebookNativeAdDelegate.m */; };
 		073BFFE19E2B8D66793B490F /* ISFacebookBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 529CAD36F8671ACF25DA2441 /* ISFacebookBannerAdapter.m */; };
+		0C1E23C0B87AFDF20914DF6B /* ISFacebookRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 573D27819271AB3D96300C2D /* ISFacebookRewardedAdapter.h */; };
 		0D8B5CA34C9050C414193E14 /* ISFacebookNativeAdData.h in Headers */ = {isa = PBXBuildFile; fileRef = 4195A77D856D1A03222816DD /* ISFacebookNativeAdData.h */; };
 		11E38CA14BCA3F2E9B307133 /* ISFacebookBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D0C03E744AAA61D63EAFF97 /* ISFacebookBannerDelegate.h */; };
 		1572D8A0FD67D26CADF07521 /* ISFacebookInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5CDE46CB7E462D0AEE0CBD /* ISFacebookInterstitialAdapter.m */; };
-		18DFF59C435B1FE7B27BD7AD /* ISFacebookRewardedVideoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF6D547DDA7800797CCBED0 /* ISFacebookRewardedVideoAdapter.h */; };
-		37089B6ED4CC8B3281A84C35 /* ISFacebookRewardedVideoDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 95A2AFF3E120B77B3739B428 /* ISFacebookRewardedVideoDelegate.h */; };
 		3DCE317E10389E4A3803B537 /* ISFacebookAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 86F935FB08907464C8D27041 /* ISFacebookAdapter+Internal.h */; };
 		6B8E04275D4B6303216C7548 /* ISFacebookAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = FCC6E9CDBBE62578C2154681 /* ISFacebookAdapter.m */; };
+		7198A8B3D25245ADDB7EED7A /* ISFacebookRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 481DC55E42F4063FFB4BC30E /* ISFacebookRewardedDelegate.h */; };
 		77EEDF33EFFE713E21938C8C /* ISFacebookNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDCB45E0F2550565FAEDF37 /* ISFacebookNativeAdAdapter.m */; };
 		77F3CAA812CDC3052CFE318E /* ISFacebookNativeAdDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 551C02D133FAE0DA4F5A3A23 /* ISFacebookNativeAdDelegate.h */; };
 		85FA968B75BC7FF46C8D0B7D /* ISFacebookNativeAdViewBinder.h in Headers */ = {isa = PBXBuildFile; fileRef = 24D5041B0A94BD8E9886B80F /* ISFacebookNativeAdViewBinder.h */; };
@@ -24,11 +24,11 @@
 		92B3B4CDA5793AC0D718AD01 /* ISFacebookAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C2A7034EDF4E49A25A1FAD87 /* ISFacebookAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A3EED265AEE9D9D3981F3566 /* ISFacebookInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF16CCEE71428CB0D1615CBC /* ISFacebookInterstitialDelegate.m */; };
 		A9854244A7BD55466642C2BE /* ISFacebookBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A445E5F0DA002FCE6B619F23 /* ISFacebookBannerDelegate.m */; };
+		B0758EF29D078E25F19398FB /* ISFacebookRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C715615831EBFD6513EF00 /* ISFacebookRewardedAdapter.m */; };
 		B49C313A6B4D3221276CE741 /* ISFacebookBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 86883CB2237CCAAFD67648FD /* ISFacebookBannerAdapter.h */; };
+		C2DBDBBD5337E4DB472FCDED /* ISFacebookRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 673AEDC30220ADC59F8D3493 /* ISFacebookRewardedDelegate.m */; };
 		C3A8AC9EC5581D267AD8588E /* ISFacebookNativeAdAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 221EE1BE27462F1790DD9EBD /* ISFacebookNativeAdAdapter.h */; };
 		CB4C0B269C312D689576C4B9 /* ISFacebookNativeAdData.m in Sources */ = {isa = PBXBuildFile; fileRef = 074A7C7727B480CC7DE60E49 /* ISFacebookNativeAdData.m */; };
-		DE62F4AB9A801E7EECCE8C32 /* ISFacebookRewardedVideoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF796CD47C81F2ACE0A2C07 /* ISFacebookRewardedVideoAdapter.m */; };
-		E2B1D952DD175252DAB0FA7B /* ISFacebookRewardedVideoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B13874F97504C6D6E87E684 /* ISFacebookRewardedVideoDelegate.m */; };
 		E85DFE21536846C45FD8BAFA /* ISFacebookInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = DCD47E9D41DA078F443CD035 /* ISFacebookInterstitialDelegate.h */; };
 		F9C6F142D9378136B278C6B0 /* ISFacebookConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E4F2F30BF389CFB1B826F20 /* ISFacebookConstants.h */; };
 /* End PBXBuildFile section */
@@ -42,22 +42,22 @@
 		3C5CDE46CB7E462D0AEE0CBD /* ISFacebookInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookInterstitialAdapter.m; sourceTree = "<group>"; };
 		3EDCB45E0F2550565FAEDF37 /* ISFacebookNativeAdAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookNativeAdAdapter.m; sourceTree = "<group>"; };
 		4195A77D856D1A03222816DD /* ISFacebookNativeAdData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookNativeAdData.h; sourceTree = "<group>"; };
+		481DC55E42F4063FFB4BC30E /* ISFacebookRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookRewardedDelegate.h; sourceTree = "<group>"; };
 		529CAD36F8671ACF25DA2441 /* ISFacebookBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookBannerAdapter.m; sourceTree = "<group>"; };
 		551C02D133FAE0DA4F5A3A23 /* ISFacebookNativeAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookNativeAdDelegate.h; sourceTree = "<group>"; };
-		5BF796CD47C81F2ACE0A2C07 /* ISFacebookRewardedVideoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookRewardedVideoAdapter.m; sourceTree = "<group>"; };
+		573D27819271AB3D96300C2D /* ISFacebookRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookRewardedAdapter.h; sourceTree = "<group>"; };
+		673AEDC30220ADC59F8D3493 /* ISFacebookRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookRewardedDelegate.m; sourceTree = "<group>"; };
+		72C715615831EBFD6513EF00 /* ISFacebookRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookRewardedAdapter.m; sourceTree = "<group>"; };
 		73E36A2C7E30D0C0A1ACC146 /* ISFacebookNativeAdViewBinder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookNativeAdViewBinder.m; sourceTree = "<group>"; };
 		86883CB2237CCAAFD67648FD /* ISFacebookBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookBannerAdapter.h; sourceTree = "<group>"; };
 		86F935FB08907464C8D27041 /* ISFacebookAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISFacebookAdapter+Internal.h"; sourceTree = "<group>"; };
 		87FDE579B856BA753C3D8270 /* ISFacebookInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookInterstitialAdapter.h; sourceTree = "<group>"; };
-		95A2AFF3E120B77B3739B428 /* ISFacebookRewardedVideoDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookRewardedVideoDelegate.h; sourceTree = "<group>"; };
-		9B13874F97504C6D6E87E684 /* ISFacebookRewardedVideoDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookRewardedVideoDelegate.m; sourceTree = "<group>"; };
 		A445E5F0DA002FCE6B619F23 /* ISFacebookBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookBannerDelegate.m; sourceTree = "<group>"; };
 		AF16CCEE71428CB0D1615CBC /* ISFacebookInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookInterstitialDelegate.m; sourceTree = "<group>"; };
 		C2A7034EDF4E49A25A1FAD87 /* ISFacebookAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookAdapter.h; sourceTree = "<group>"; };
 		DA3460E8A16E03F78E04BFEA /* ISFacebookNativeAdDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookNativeAdDelegate.m; sourceTree = "<group>"; };
 		DCD47E9D41DA078F443CD035 /* ISFacebookInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookInterstitialDelegate.h; sourceTree = "<group>"; };
 		E84B9AAC0354C51F3F1621FA /* ISFacebookAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISFacebookAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EBF6D547DDA7800797CCBED0 /* ISFacebookRewardedVideoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISFacebookRewardedVideoAdapter.h; sourceTree = "<group>"; };
 		FCC6E9CDBBE62578C2154681 /* ISFacebookAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISFacebookAdapter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,17 +107,6 @@
 			path = NativeAd;
 			sourceTree = "<group>";
 		};
-		BC586FEC02F3EFC2A9A8F161 /* RewardedVideo */ = {
-			isa = PBXGroup;
-			children = (
-				EBF6D547DDA7800797CCBED0 /* ISFacebookRewardedVideoAdapter.h */,
-				5BF796CD47C81F2ACE0A2C07 /* ISFacebookRewardedVideoAdapter.m */,
-				95A2AFF3E120B77B3739B428 /* ISFacebookRewardedVideoDelegate.h */,
-				9B13874F97504C6D6E87E684 /* ISFacebookRewardedVideoDelegate.m */,
-			);
-			path = RewardedVideo;
-			sourceTree = "<group>";
-		};
 		D3E209A22F92BC0026094121 /* ISFacebookAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,9 +117,20 @@
 				8030D852C89FBC7F5E6A5672 /* Banner */,
 				0A32BCCD03EC38B01321F1E3 /* Interstitial */,
 				A1026126FDD3B45783D16B21 /* NativeAd */,
-				BC586FEC02F3EFC2A9A8F161 /* RewardedVideo */,
+				EF16F50EDE06F322399F9898 /* Rewarded */,
 			);
 			path = ISFacebookAdapter;
+			sourceTree = "<group>";
+		};
+		EF16F50EDE06F322399F9898 /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				573D27819271AB3D96300C2D /* ISFacebookRewardedAdapter.h */,
+				72C715615831EBFD6513EF00 /* ISFacebookRewardedAdapter.m */,
+				481DC55E42F4063FFB4BC30E /* ISFacebookRewardedDelegate.h */,
+				673AEDC30220ADC59F8D3493 /* ISFacebookRewardedDelegate.m */,
+			);
+			path = Rewarded;
 			sourceTree = "<group>";
 		};
 		F8D3E5286BAF57395087B80C /* Products */ = {
@@ -159,8 +159,8 @@
 				0D8B5CA34C9050C414193E14 /* ISFacebookNativeAdData.h in Headers */,
 				77F3CAA812CDC3052CFE318E /* ISFacebookNativeAdDelegate.h in Headers */,
 				85FA968B75BC7FF46C8D0B7D /* ISFacebookNativeAdViewBinder.h in Headers */,
-				18DFF59C435B1FE7B27BD7AD /* ISFacebookRewardedVideoAdapter.h in Headers */,
-				37089B6ED4CC8B3281A84C35 /* ISFacebookRewardedVideoDelegate.h in Headers */,
+				0C1E23C0B87AFDF20914DF6B /* ISFacebookRewardedAdapter.h in Headers */,
+				7198A8B3D25245ADDB7EED7A /* ISFacebookRewardedDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,8 +255,8 @@
 				CB4C0B269C312D689576C4B9 /* ISFacebookNativeAdData.m in Sources */,
 				04262F49C6E33CC9D236C3FC /* ISFacebookNativeAdDelegate.m in Sources */,
 				0188584E61827559D8E6278E /* ISFacebookNativeAdViewBinder.m in Sources */,
-				DE62F4AB9A801E7EECCE8C32 /* ISFacebookRewardedVideoAdapter.m in Sources */,
-				E2B1D952DD175252DAB0FA7B /* ISFacebookRewardedVideoDelegate.m in Sources */,
+				B0758EF29D078E25F19398FB /* ISFacebookRewardedAdapter.m in Sources */,
+				C2DBDBBD5337E4DB472FCDED /* ISFacebookRewardedDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

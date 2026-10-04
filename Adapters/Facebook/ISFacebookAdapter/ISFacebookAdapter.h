@@ -6,13 +6,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const FacebookAdapterVersion = @"5.4.0";
+static NSString * const FacebookAdapterVersion = @"5.5.0";
 static NSString * Githash = @"";
 
-//System Frameworks For Facebook Adapter
+// System Frameworks For Facebook Adapter
 @import AdSupport;
 @import AudioToolbox;
 @import AVFoundation;
@@ -31,6 +31,6 @@ static NSString * Githash = @"";
 @import VideoToolbox;
 @import WebKit;
 
-@interface ISFacebookAdapter : ISBaseAdapter
+@interface ISFacebookAdapter : LevelPlayBaseAdapter
 
 @end

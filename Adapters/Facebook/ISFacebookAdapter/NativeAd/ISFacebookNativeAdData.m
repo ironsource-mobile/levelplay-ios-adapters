@@ -6,6 +6,9 @@
 //
 
 #import "ISFacebookNativeAdData.h"
+#import "ISFacebookConstants.h"
+#import <IronSource/ISNativeAdDataImage.h>
+#import <IronSource/ISLog.h>
 
 @implementation ISFacebookNativeAdData
 
@@ -18,22 +21,22 @@
 }
 
 - (NSString *)title {
-    LogAdapterDelegate_Internal(@"headline = %@", self.nativeAd.headline);
+    LogAdapterDelegate_Internal(logHeadline, self.nativeAd.headline);
     return self.nativeAd.headline;
 }
 
 - (NSString *)advertiser {
-    LogAdapterDelegate_Internal(@"advertiser = %@", self.nativeAd.advertiserName);
+    LogAdapterDelegate_Internal(logAdvertiser, self.nativeAd.advertiserName);
     return self.nativeAd.advertiserName;
 }
 
 - (NSString *)body {
-    LogAdapterDelegate_Internal(@"body = %@", self.nativeAd.bodyText);
+    LogAdapterDelegate_Internal(logBody, self.nativeAd.bodyText);
     return self.nativeAd.bodyText;
 }
 
 - (NSString *)callToAction {
-    LogAdapterDelegate_Internal(@"callToAction = %@", self.nativeAd.callToAction);
+    LogAdapterDelegate_Internal(logCallToAction, self.nativeAd.callToAction);
     return self.nativeAd.callToAction;
 }
 
@@ -41,11 +44,11 @@
     UIImage *icon = self.nativeAd.iconImage;
 
     if (icon) {
-        LogAdapterDelegate_Internal(@"");
+        LogAdapterDelegate_Internal(logCallbackEmpty);
         return [[ISNativeAdDataImage alloc] initWithImage:icon
                                                       url:nil];
     }
-    
+
     return nil;
 }
 

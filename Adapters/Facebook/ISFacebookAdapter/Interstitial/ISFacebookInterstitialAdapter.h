@@ -6,10 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISFacebookAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISFacebookInterstitialAdapter : ISBaseInterstitialAdapter
-
-- (instancetype)initWithFacebookAdapter:(ISFacebookAdapter *)adapter;
+@interface ISFacebookInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end

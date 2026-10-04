@@ -6,18 +6,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import <ISFacebookNativeAdAdapter.h>
+#import <IronSource/ISAdOptionsPosition.h>
+
+@protocol ISNativeAdDelegate;
 
 @interface ISFacebookNativeAdDelegate : NSObject <FBNativeAdDelegate>
 
-+ (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
+@property (nonatomic, assign) ISAdOptionsPosition        adOptionsPosition;
+@property (nonatomic, strong) UIViewController           *viewController;
+@property (nonatomic, weak)   id<ISNativeAdDelegate>     delegate;
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                  adOptionsPosition:(ISAdOptionsPosition)adOptionsPosition
-                     viewController:(UIViewController *)viewController
-                           delegate:(id<ISNativeAdAdapterDelegate>)delegate;
+- (instancetype)initWithAdOptionsPosition:(ISAdOptionsPosition)adOptionsPosition
+                          viewController:(UIViewController *)viewController
+                                delegate:(id<ISNativeAdDelegate>)delegate;
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)new NS_UNAVAILABLE;
 
 @end

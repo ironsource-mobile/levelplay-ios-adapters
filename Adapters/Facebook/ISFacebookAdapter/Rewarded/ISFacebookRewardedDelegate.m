@@ -1,19 +1,19 @@
 //
-//  ISFacebookInterstitialDelegate.m
+//  ISFacebookRewardedDelegate.m
 //  ISFacebookAdapter
 //
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISFacebookInterstitialDelegate.h"
+#import "ISFacebookRewardedDelegate.h"
 #import "ISFacebookConstants.h"
-#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISBaseRewardedVideo.h>
 #import <IronSource/ISAdapterErrorType.h>
 #import <IronSource/ISLog.h>
 
-@implementation ISFacebookInterstitialDelegate
+@implementation ISFacebookRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _delegate = delegate;
@@ -21,14 +21,14 @@
     return self;
 }
 
-#pragma mark - FBInterstitialAdDelegate
+#pragma mark - FBRewardedVideoAdDelegate
 
-- (void)interstitialAdDidLoad:(FBInterstitialAd *)interstitialAd {
+- (void)rewardedVideoAdDidLoad:(FBRewardedVideoAd *)rewardedVideoAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidLoad];
 }
 
-- (void)interstitialAd:(FBInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
+- (void)rewardedVideoAd:(FBRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error {
     LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
 
     ISAdapterErrorType errorType = (error.code == facebookNoFillErrorCode) ?
@@ -39,17 +39,22 @@
                                    errorMessage:error.localizedDescription];
 }
 
-- (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd {
+- (void)rewardedVideoAdWillLogImpression:(FBRewardedVideoAd *)rewardedVideoAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidOpen];
 }
 
-- (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
+- (void)rewardedVideoAdDidClick:(FBRewardedVideoAd *)rewardedVideoAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClick];
 }
 
-- (void)interstitialAdDidClose:(FBInterstitialAd *)interstitialAd {
+- (void)rewardedVideoAdVideoComplete:(FBRewardedVideoAd *)rewardedVideoAd {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adRewarded];
+}
+
+- (void)rewardedVideoAdDidClose:(FBRewardedVideoAd *)rewardedVideoAd {
     LogAdapterDelegate_Internal(logCallbackEmpty);
     [self.delegate adDidClose];
 }

@@ -6,11 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISFacebookAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseBannerAdapter.h>
 
-@interface ISFacebookBannerAdapter : ISBaseBannerAdapter
-
-- (instancetype)initWithFacebookAdapter:(ISFacebookAdapter *)adapter;
+@interface ISFacebookBannerAdapter : LevelPlayBaseBannerAdapter
 
 @end
-
