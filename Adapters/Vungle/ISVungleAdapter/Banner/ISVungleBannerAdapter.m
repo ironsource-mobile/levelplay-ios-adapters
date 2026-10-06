@@ -53,6 +53,7 @@
         self.bannerAd = [[VungleBannerView alloc] initWithPlacementId:placementId
                                                         vungleAdSize:adSize];
         self.bannerAd.delegate = self.bannerAdDelegate;
+        self.bannerAd.mediationPartnerName = mediationPartnerName;
         self.bannerAd.adapterAdFormat = adapterFormatBanner;
 
         if (![VungleAds isInLine:placementId] && [size.sizeDescription isEqualToString:sizeCustom]) {
