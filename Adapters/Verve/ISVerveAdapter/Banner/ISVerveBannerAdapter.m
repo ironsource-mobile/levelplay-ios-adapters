@@ -13,7 +13,7 @@
 
 @interface ISVerveBannerAdapter ()
 
-@property (nonatomic, strong) HyBidAdView *bannerAd;
+@property (nonatomic, strong) HyBidAdView *bannerAdView;
 @property (nonatomic, strong) ISVerveBannerDelegate *bannerAdDelegate;
 
 @end
@@ -42,13 +42,12 @@
 
     HyBidAdSize *bannerSize = [self getBannerSize:size];
 
-    ISVerveBannerDelegate *bannerAdDelegate = [[ISVerveBannerDelegate alloc] initWithDelegate:delegate];
-    self.bannerAdDelegate = bannerAdDelegate;
+    self.bannerAdDelegate = [[ISVerveBannerDelegate alloc] initWithDelegate:delegate];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.bannerAd = [[HyBidAdView alloc] initWithSize:bannerSize];
-        [self.bannerAd renderAdWithContent:adData.serverData
-                              withDelegate:bannerAdDelegate];
+        self.bannerAdView = [[HyBidAdView alloc] initWithSize:bannerSize];
+        [self.bannerAdView renderAdWithContent:adData.serverData
+                              withDelegate:self.bannerAdDelegate];
     });
 }
 
@@ -56,9 +55,9 @@
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.bannerAd) {
-            self.bannerAd.delegate = nil;
-            self.bannerAd = nil;
+        if (self.bannerAdView) {
+            self.bannerAdView.delegate = nil;
+            self.bannerAdView = nil;
         }
     });
 

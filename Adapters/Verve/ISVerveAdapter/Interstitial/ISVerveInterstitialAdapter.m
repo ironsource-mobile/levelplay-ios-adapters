@@ -13,8 +13,8 @@
 
 @interface ISVerveInterstitialAdapter ()
 
-@property (nonatomic, strong) HyBidInterstitialAd *ad;
-@property (nonatomic, strong) ISVerveInterstitialDelegate *adDelegate;
+@property (nonatomic, strong) HyBidInterstitialAd *interstitialAd;
+@property (nonatomic, strong) ISVerveInterstitialDelegate *interstitialAdDelegate;
 
 @end
 
@@ -38,10 +38,9 @@
         return;
     }
 
-    ISVerveInterstitialDelegate *adDelegate = [[ISVerveInterstitialDelegate alloc] initWithDelegate:delegate];
-    self.adDelegate = adDelegate;
-    self.ad = [[HyBidInterstitialAd alloc] initWithDelegate:adDelegate];
-    [self.ad prepareAdWithContent:adData.serverData];
+    self.interstitialAdDelegate = [[ISVerveInterstitialDelegate alloc] initWithDelegate:delegate];
+    self.interstitialAd = [[HyBidInterstitialAd alloc] initWithDelegate:self.interstitialAdDelegate];
+    [self.interstitialAd prepareAdWithContent:adData.serverData];
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
@@ -59,19 +58,19 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad showFromViewController:viewController];
+        [self.interstitialAd showFromViewController:viewController];
     });
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.ad != nil && self.ad.isReady;
+    return self.interstitialAd != nil && self.interstitialAd.isReady;
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
-    self.ad = nil;
-    self.adDelegate = nil;
+    self.interstitialAd = nil;
+    self.interstitialAdDelegate = nil;
 }
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {

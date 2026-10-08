@@ -31,6 +31,10 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDele
     return HyBid.sdkVersion;
 }
 
++ (NSString *)networkAdapterVersion {
+    return VerveAdapterVersion;
+}
+
 #pragma mark - Initialization Methods And Callbacks
 
 - (instancetype)init {

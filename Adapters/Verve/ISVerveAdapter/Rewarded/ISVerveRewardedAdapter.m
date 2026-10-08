@@ -13,8 +13,8 @@
 
 @interface ISVerveRewardedAdapter ()
 
-@property (nonatomic, strong) HyBidRewardedAd *ad;
-@property (nonatomic, strong) ISVerveRewardedDelegate *adDelegate;
+@property (nonatomic, strong) HyBidRewardedAd *rewardedAd;
+@property (nonatomic, strong) ISVerveRewardedDelegate *rewardedAdDelegate;
 
 @end
 
@@ -38,10 +38,9 @@
         return;
     }
 
-    ISVerveRewardedDelegate *adDelegate = [[ISVerveRewardedDelegate alloc] initWithDelegate:delegate];
-    self.adDelegate = adDelegate;
-    self.ad = [[HyBidRewardedAd alloc] initWithDelegate:adDelegate];
-    [self.ad prepareAdWithContent:adData.serverData];
+    self.rewardedAdDelegate = [[ISVerveRewardedDelegate alloc] initWithDelegate:delegate];
+    self.rewardedAd = [[HyBidRewardedAd alloc] initWithDelegate:self.rewardedAdDelegate];
+    [self.rewardedAd prepareAdWithContent:adData.serverData];
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
@@ -59,19 +58,19 @@
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad showFromViewController:viewController];
+        [self.rewardedAd showFromViewController:viewController];
     });
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.ad != nil && [self.ad isReady];
+    return self.rewardedAd != nil && [self.rewardedAd isReady];
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterDelegate_Internal(logCallbackEmpty);
 
-    self.ad = nil;
-    self.adDelegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
 }
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
