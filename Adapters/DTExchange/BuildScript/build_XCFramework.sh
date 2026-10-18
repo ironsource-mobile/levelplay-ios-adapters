@@ -7,6 +7,9 @@ fi
 export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
 ADAPTER_WORKSPACE="${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace"
+if [ ! -d "${ADAPTER_WORKSPACE}" ]; then
+  ADAPTER_WORKSPACE="${PROJECT_DIR}/${PROJECT_NAME}.xcodeproj/project.xcworkspace"
+fi
 
 
 
