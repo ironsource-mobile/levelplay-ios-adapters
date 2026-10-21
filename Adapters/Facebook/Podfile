@@ -1,7 +1,0 @@
-# Uncomment the next line to define a global platform for your project
-platform :ios, '15.0'
-
-target 'ISFacebookAdapter' do
-  pod 'IronSourceSDK', '9.6.1.0'
-  pod 'FBAudienceNetwork', '6.22.0'
-end

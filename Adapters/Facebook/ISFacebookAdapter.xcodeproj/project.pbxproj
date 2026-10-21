@@ -178,6 +178,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				5D5FF481D49BB2380DE76B2B /* PBXTargetDependency */,
+				7E931C853110F7DBB5A3ADF9 /* PBXTargetDependency */,
 			);
 			name = ISFacebookAdapter;
 			packageProductDependencies = (
@@ -210,6 +212,10 @@
 			);
 			mainGroup = 8CE88424CAD3E82D1E0C0CD0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				82B8A635FAC8D234F83F6CF9 /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */,
+				0A1A9C36EEB6A7020333539B /* XCRemoteSwiftPackageReference "LevelPlay-Swift-Package" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F8D3E5286BAF57395087B80C /* Products */;
 			projectDirPath = "";
@@ -261,6 +267,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5D5FF481D49BB2380DE76B2B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = "TEMP_C14C20CB-574F-4551-950E-EF7232433E4E" /* UnityMediationSDK */;
+		};
+		7E931C853110F7DBB5A3ADF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = "TEMP_CD04D8C7-78CC-43C7-ADBF-0A1F853E80B4" /* FBAudienceNetwork */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5D18597F11099CAB4613B5BC /* Release */ = {
@@ -460,6 +477,38 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0A1A9C36EEB6A7020333539B /* XCRemoteSwiftPackageReference "LevelPlay-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ironsource-mobile/LevelPlay-Swift-Package";
+			requirement = {
+				kind = exactVersion;
+				version = 9.6.1;
+			};
+		};
+		82B8A635FAC8D234F83F6CF9 /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/FBAudienceNetwork";
+			requirement = {
+				kind = exactVersion;
+				version = 6.22.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		"TEMP_C14C20CB-574F-4551-950E-EF7232433E4E" /* UnityMediationSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A1A9C36EEB6A7020333539B /* XCRemoteSwiftPackageReference "LevelPlay-Swift-Package" */;
+			productName = UnityMediationSDK;
+		};
+		"TEMP_CD04D8C7-78CC-43C7-ADBF-0A1F853E80B4" /* FBAudienceNetwork */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 82B8A635FAC8D234F83F6CF9 /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */;
+			productName = FBAudienceNetwork;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FBCD9645F81E9573C860C8AA /* Project object */;
 }

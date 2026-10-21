@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.6.0
+* Supporting SDK version 6.22.1
+
 ## Version 5.5.0
 * General improvements and performance enhancements
 * **Important**: for this adapter version native ads are supported from SDK version 9.6.1 and above
