@@ -271,11 +271,11 @@
 /* Begin PBXTargetDependency section */
 		5D5FF481D49BB2380DE76B2B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = "TEMP_EC625196-9365-48D4-8FAF-DDDAEA7727D8" /* UnityMediationSDK */;
+			productRef = "TEMP_A015A5CC-B59A-4565-B114-044509DBB93A" /* UnityMediationSDK */;
 		};
 		7E931C853110F7DBB5A3ADF9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = "TEMP_E425366A-6555-46D2-A7CE-16A100225A46" /* FBAudienceNetwork */;
+			productRef = "TEMP_987457B2-0638-43A5-8123-C016EC97EBA5" /* FBAudienceNetwork */;
 		};
 /* End PBXTargetDependency section */
 
@@ -498,12 +498,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		"TEMP_E425366A-6555-46D2-A7CE-16A100225A46" /* FBAudienceNetwork */ = {
+		"TEMP_987457B2-0638-43A5-8123-C016EC97EBA5" /* FBAudienceNetwork */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 82B8A635FAC8D234F83F6CF9 /* XCRemoteSwiftPackageReference "FBAudienceNetwork" */;
 			productName = FBAudienceNetwork;
 		};
-		"TEMP_EC625196-9365-48D4-8FAF-DDDAEA7727D8" /* UnityMediationSDK */ = {
+		"TEMP_A015A5CC-B59A-4565-B114-044509DBB93A" /* UnityMediationSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0A1A9C36EEB6A7020333539B /* XCRemoteSwiftPackageReference "LevelPlay-Swift-Package" */;
 			productName = UnityMediationSDK;
