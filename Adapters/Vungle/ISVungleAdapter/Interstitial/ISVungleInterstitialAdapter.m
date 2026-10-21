@@ -45,6 +45,7 @@
     self.interstitialAdDelegate = [[ISVungleInterstitialDelegate alloc] initWithDelegate:delegate];
     self.interstitialAd = [[VungleInterstitial alloc] initWithPlacementId:placementId];
     self.interstitialAd.delegate = self.interstitialAdDelegate;
+    self.interstitialAd.mediationPartnerName = mediationPartnerName;
     self.interstitialAd.adapterAdFormat = adapterFormatInterstitial;
     [self.interstitialAd load:adData.serverData];
 }
