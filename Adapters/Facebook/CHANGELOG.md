@@ -2,7 +2,6 @@
 
 ## Version 5.6.0
 * Supporting SDK version 6.22.1
-* **From this version, the adapter is available through Swift Package Manager only. CocoaPods is no longer supported.**
 
 ## Version 5.5.0
 * General improvements and performance enhancements
