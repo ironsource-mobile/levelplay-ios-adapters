@@ -10,7 +10,7 @@
 #import <IronSource/IronSource.h>
 #import <AppLovinSDK/AppLovinSDK.h>
 
-static NSString * const AppLovinAdapterVersion = @"5.9.0";
+static NSString * const AppLovinAdapterVersion = @"5.10.0";
 static NSString * Githash = @"";
 
 //System Frameworks For AppLovin Adapter
