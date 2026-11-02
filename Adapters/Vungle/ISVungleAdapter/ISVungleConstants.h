@@ -11,6 +11,9 @@
 static NSString * const networkName = @"Vungle";
 static NSString * const mediationName = @"ironsource";
 
+// Canonical dashboard name for the Vungle SDK's mediationPartnerName declaration
+static NSString * const mediationPartnerName = @"ironsource";
+
 // Configuration keys
 static NSString * const appIdKey = @"AppID";
 static NSString * const placementIdKey = @"PlacementId";
