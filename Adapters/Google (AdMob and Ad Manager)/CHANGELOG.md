@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.18.0
+* Adaptive banners now use Google's large anchored adaptive size (`GADLargeAnchoredAdaptiveBannerAdSizeWithWidth`), replacing the deprecated anchored adaptive API
+* **Important**: adaptive banners may be taller than in previous versions. Make sure your banner layout supports the new height before updating
+
 ## Version 5.17.0
 * General improvements and performance enhancements
 * Removed support for Native Banner ads

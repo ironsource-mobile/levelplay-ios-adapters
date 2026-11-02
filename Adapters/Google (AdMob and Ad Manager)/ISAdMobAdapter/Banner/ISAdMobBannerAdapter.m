@@ -165,7 +165,7 @@
     __block GADAdSize adaptiveSize;
 
     void (^calculateAdaptiveSize)(void) = ^{
-        adaptiveSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width);
+        adaptiveSize = GADLargeAnchoredAdaptiveBannerAdSizeWithWidth(width);
     };
 
     if ([NSThread isMainThread]) {
