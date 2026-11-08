@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const FyberAdapterVersion = @"5.14.0";
+static NSString * const FyberAdapterVersion = @"5.15.0";
 static NSString * Githash = @"";
 
 // System Frameworks For Fyber Adapter
