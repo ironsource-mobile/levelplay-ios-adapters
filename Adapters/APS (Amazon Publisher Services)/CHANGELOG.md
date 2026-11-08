@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 5.13.0
+* **Important!** The adapter now initializes the APS SDK, so initializing APS separately in your app is no longer required. Make sure the APS App ID is configured on the LevelPlay platform before updating
+* Added test mode support
+
+---
+
+### ⚠️ Breaking Change – APS SDK Initialization
+
+**All adapter releases listed **above** this section initialize the APS SDK automatically, using the APS App ID configured on the LevelPlay platform.**  
+Adapter releases listed **below this section** require the app to initialize the APS SDK itself.
+
+---
+
 ## Version 5.12.0
 * Add support for Creative ID
 

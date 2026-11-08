@@ -11,6 +11,7 @@
 static NSString * const networkName = @"APS";
 
 // Configuration keys
+static NSString * const appIdKey = @"appId";
 static NSString * const uuidKey = @"uuid";
 static NSString * const apsFormatKey = @"apsFormat";
 static NSString * const dimensionsKey = @"dimensions";
@@ -34,6 +35,10 @@ static NSString * const usPrivacyOptOut = @"1YY-";
 
 // Log format strings
 static NSString * const logUuid = @"uuid = %@";
+static NSString * const logAppId = @"appId = %@";
+static NSString * const logInitSuccess = @"Init success";
+static NSString * const logInitFailed = @"Init failed";
+static NSString * const logTestMode = @"setTestMode = %@";
 static NSString * const logCreativeId = @"creativeId = %@";
 static NSString * const logToken = @"token = %@";
 static NSString * const logError = @"error = %@";
@@ -47,7 +52,6 @@ static NSString * const logUnsupportedBannerSize = @"Unsupported banner size";
 static NSString * const logMissingConfigurationParam = @"Missing APS LevelPlay Platform configuration: %@";
 static NSString * const logInvalidAdSize = @"Missing APS LevelPlay Platform configuration: ad size (%ld, %ld)";
 static NSString * const logErrorReason = @"errorReason = %@";
-static NSString * const logAPSHandledByMediation = @"APS loading is handled by Mediation and does not require any additional implementation in your code.";
 static NSString * const logCallbackEmpty = @"";
 
 // APS error descriptions
@@ -76,6 +80,14 @@ static const CGFloat rectangleWidth = 300;
 static const CGFloat rectangleHeight = 250;
 static const CGFloat leaderboardWidth = 728;
 static const CGFloat leaderboardHeight = 90;
+
+// Init state
+typedef NS_ENUM(NSInteger, InitState) {
+    INIT_STATE_NONE,
+    INIT_STATE_IN_PROGRESS,
+    INIT_STATE_SUCCESS,
+    INIT_STATE_FAILED
+};
 
 // Banner size descriptions
 static NSString * const sizeBanner = @"BANNER";

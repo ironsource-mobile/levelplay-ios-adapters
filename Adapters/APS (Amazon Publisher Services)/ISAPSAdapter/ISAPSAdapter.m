@@ -7,14 +7,15 @@
 
 #import <IronSource/ISLog.h>
 #import <IronSource/ISMetaDataUtils.h>
+#import <IronSource/ISConcurrentMutableSet.h>
 #import "ISAPSAdapter+Internal.h"
 #import "ISAPSLoadDelegate.h"
 
 static NSString *usPrivacyValue = usPrivacyNotApplicable;
 
-@interface ISAPSAdapter () <ISSetAPSDataProtocol>
-
-@end
+static InitState initState = INIT_STATE_NONE;
+static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDelegates = nil;
+static BOOL isTestMode = NO;
 
 @implementation ISAPSAdapter
 
@@ -32,11 +33,17 @@ static NSString *usPrivacyValue = usPrivacyNotApplicable;
     return APSAdapterVersion;
 }
 
-- (void)setAPSDataWithAdUnit:(NSString *)adUnit apsData:(NSDictionary *)apsData {
-    LogAdapterApi_Error(logAPSHandledByMediation);
-}
-
 #pragma mark - Initialization Methods And Callbacks
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        if (initializationDelegates == nil) {
+            initializationDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
+        }
+    }
+    return self;
+}
 
 - (void)init:(ISAdData *)adData delegate:(id<ISNetworkInitializationDelegate>)delegate {
     NSString *uuid = [adData getString:uuidKey];
@@ -51,7 +58,98 @@ static NSString *usPrivacyValue = usPrivacyNotApplicable;
 
     LogAdapterApi_Internal(logUuid, uuid);
 
-    [delegate onInitDidSucceed];
+    NSString *appId = [adData getString:appIdKey];
+
+    if (!appId || appId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingConfigurationParam, appIdKey];
+        LogAdapterApi_Error(logError, errorMessage);
+        [delegate onInitDidFailWithErrorCode:ERROR_CODE_INIT_FAILED errorMessage:errorMessage];
+        return;
+    }
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [delegate onInitDidSucceed];
+        return;
+    }
+
+    if (initState == INIT_STATE_FAILED) {
+        [delegate onInitDidFailWithErrorCode:ISAdapterErrorInternal errorMessage:logInitFailed];
+        return;
+    }
+
+    if (delegate) {
+        [initializationDelegates addObject:delegate];
+    }
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        LogAdapterApi_Internal(logAppId, appId);
+
+        initState = INIT_STATE_IN_PROGRESS;
+
+        __weak typeof(self) weakSelf = self;
+        [APS initializeWithAppKey:appId
+                       completion:^(NSError * _Nullable error) {
+            __typeof__(self) strongSelf = weakSelf;
+            if (error) {
+                LogAdapterDelegate_Internal(logError, error.localizedDescription);
+                [strongSelf initializationFailure];
+            } else {
+                [strongSelf initializationSuccess];
+            }
+        }];
+    });
+}
+
+- (void)initializationSuccess {
+    LogAdapterDelegate_Internal(logInitSuccess);
+
+    if (isTestMode) {
+        [self applyTestMode:YES];
+    }
+
+    initState = INIT_STATE_SUCCESS;
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidSucceed];
+    }
+
+    [initializationDelegates removeAllObjects];
+}
+
+- (void)initializationFailure {
+    LogAdapterDelegate_Internal(logInitFailed);
+
+    initState = INIT_STATE_FAILED;
+
+    NSArray *initDelegatesList = initializationDelegates.allObjects;
+
+    for (id<ISNetworkInitializationDelegate> initDelegate in initDelegatesList) {
+        [initDelegate onInitDidFailWithErrorCode:ISAdapterErrorInternal
+                                     errorMessage:logInitFailed];
+    }
+
+    [initializationDelegates removeAllObjects];
+}
+
+#pragma mark - Test Mode
+
+- (void)setTestMode:(BOOL)enabled {
+    LogAdapterApi_Internal(logTestMode, enabled ? @"YES" : @"NO");
+    isTestMode = enabled;
+
+    if (initState == INIT_STATE_SUCCESS) {
+        [self applyTestMode:enabled];
+    }
+}
+
+- (void)applyTestMode:(BOOL)enabled {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [DTBAds sharedInstance].testMode = enabled;
+#pragma clang diagnostic pop
 }
 
 #pragma mark - Legal Methods
