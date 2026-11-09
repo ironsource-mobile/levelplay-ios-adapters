@@ -2,6 +2,7 @@
 
 ## Version 5.17.0
 * Supporting SDK version 7.8.0
+* Supporting Mediation Partner Name
 
 ## Version 5.16.0
 * Supporting SDK version 7.7.8
