@@ -46,6 +46,7 @@
 
     self.rewardedAd = [[VungleRewarded alloc] initWithPlacementId:placementId];
     self.rewardedAd.delegate = self.rewardedAdDelegate;
+    self.rewardedAd.mediationPartnerName = mediationPartnerName;
     self.rewardedAd.adapterAdFormat = adapterFormatRewarded;
 
     [self.rewardedAd load:adData.serverData];

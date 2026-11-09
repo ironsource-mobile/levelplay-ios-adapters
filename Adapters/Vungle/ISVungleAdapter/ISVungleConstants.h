@@ -9,7 +9,7 @@
 
 // Network name
 static NSString * const networkName = @"Vungle";
-static NSString * const mediationName = @"ironsource";
+static NSString * const mediationPartnerName = @"ironsource";
 
 // Configuration keys
 static NSString * const appIdKey = @"AppID";

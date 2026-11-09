@@ -82,7 +82,7 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
         LogAdapterApi_Internal(logAppId, appId);
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            [VungleAds setIntegrationName:mediationName
+            [VungleAds setIntegrationName:mediationPartnerName
                                   version:[self adapterVersion]];
 
             ISVungleAdapter * __weak weakSelf = self;
