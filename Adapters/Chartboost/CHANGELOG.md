@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.10.0
+* Removed the use of the deprecated Chartboost `isCached` API for interstitial and rewarded ads
+
 ## Version 5.9.0
 * Supporting SDK version 9.14.2
 

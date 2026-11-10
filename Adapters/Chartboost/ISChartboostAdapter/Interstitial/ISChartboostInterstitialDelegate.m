@@ -82,7 +82,7 @@
     [self.delegate adDidClose];
 }
 
-/// Called when a loaded ad has expired. Availability is reflected through isCached, so no load callback is re-sent.
+/// Called when a loaded ad has expired.
 - (void)didExpireAd:(CHBExpirationEvent *)event {
     LogAdapterDelegate_Internal(logAdExpired);
 }

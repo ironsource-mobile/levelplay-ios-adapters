@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const ChartboostAdapterVersion = @"5.9.0";
+static NSString * const ChartboostAdapterVersion = @"5.10.0";
 static NSString * Githash = @"";
 
 //System Frameworks For Chartboost Adapter

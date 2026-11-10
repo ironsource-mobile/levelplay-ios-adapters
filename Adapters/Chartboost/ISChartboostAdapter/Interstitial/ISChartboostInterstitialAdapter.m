@@ -76,7 +76,7 @@
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.interstitialAd != nil && self.interstitialAd.isCached;
+    return self.interstitialAd != nil;
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {

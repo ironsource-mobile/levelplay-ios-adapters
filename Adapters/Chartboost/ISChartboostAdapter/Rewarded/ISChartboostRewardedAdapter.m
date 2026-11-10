@@ -76,7 +76,7 @@
 }
 
 - (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
-    return self.rewardedAd != nil && self.rewardedAd.isCached;
+    return self.rewardedAd != nil;
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
