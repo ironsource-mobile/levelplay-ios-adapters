@@ -9,11 +9,14 @@
 #import <BidMachine/BidMachine-Swift.h>
 
 @protocol ISInterstitialAdDelegate;
+@class ISBidMachineInterstitialAdapter;
 
 @interface ISBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
 
+@property (nonatomic, weak) ISBidMachineInterstitialAdapter *adapter;
 @property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
+- (instancetype)initWithAdapter:(ISBidMachineInterstitialAdapter *)adapter
+                       delegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

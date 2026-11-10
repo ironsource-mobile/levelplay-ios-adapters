@@ -6,7 +6,10 @@
 //
 
 #import <IronSource/LevelPlayBaseInterstitialAdapter.h>
+#import <BidMachine/BidMachine-Swift.h>
 
 @interface ISBidMachineInterstitialAdapter : LevelPlayBaseInterstitialAdapter
+
+- (void)setInterstitialAd:(BidMachineInterstitial *)ad;
 
 @end

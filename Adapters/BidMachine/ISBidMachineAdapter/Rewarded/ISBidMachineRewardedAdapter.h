@@ -6,7 +6,10 @@
 //
 
 #import <IronSource/LevelPlayBaseRewardedAdapter.h>
+#import <BidMachine/BidMachine-Swift.h>
 
 @interface ISBidMachineRewardedAdapter : LevelPlayBaseRewardedAdapter
+
+- (void)setRewardedAd:(BidMachineRewarded *)ad;
 
 @end
