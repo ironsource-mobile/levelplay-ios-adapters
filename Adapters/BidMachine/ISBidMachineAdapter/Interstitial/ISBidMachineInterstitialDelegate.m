@@ -9,6 +9,7 @@
 #import "ISBidMachineInterstitialAdapter.h"
 #import "ISBidMachineConstants.h"
 #import <IronSource/ISLog.h>
+#import <IronSource/ISAdapterErrors.h>
 #import <IronSource/ISAdapterErrorType.h>
 #import <IronSource/ISBaseInterstitial.h>
 
@@ -70,6 +71,10 @@
     LogAdapterDelegate_Internal(logAdExpired);
 
     [self.adapter setInterstitialAd:nil];
+
+    [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                      errorCode:ISAdapterErrorAdExpired
+                                   errorMessage:logAdExpired];
 }
 
 @end
