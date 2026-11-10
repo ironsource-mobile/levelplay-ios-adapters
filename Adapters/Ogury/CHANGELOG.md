@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.10.0
+* Supporting SDK version 5.4.0
+* **From this version, the adapter is available through Swift Package Manager only. CocoaPods is no longer supported.**
+
 ## Version 5.9.0
 * Supporting SDK version 5.3.1
 * Min iOS version updated to 15.0
