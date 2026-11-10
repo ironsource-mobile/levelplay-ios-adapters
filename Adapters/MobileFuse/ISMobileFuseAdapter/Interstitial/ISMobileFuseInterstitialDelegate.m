@@ -1,12 +1,21 @@
+//
+//  ISMobileFuseInterstitialDelegate.m
+//  ISMobileFuseAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
+#import <IronSource/ISLog.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISBaseInterstitial.h>
 #import "ISMobileFuseInterstitialDelegate.h"
+#import "ISMobileFuseConstants.h"
 
 @implementation ISMobileFuseInterstitialDelegate
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                    andDelegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
     self = [super init];
     if (self) {
-        _placementId = placementId;
         _delegate = delegate;
     }
     return self;
@@ -14,50 +23,52 @@
 
 /// Ad has loaded - you are able to show the ad after this callback is triggered
 - (void)onAdLoaded:(MFAd *)ad {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidLoad];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidLoad];
 }
 
 /// No ad is currently available to display to this user
 - (void)onAdNotFilled:(MFAd *)ad {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    NSError *smashError = [ISError createError:ERROR_RV_LOAD_NO_FILL
-                                   withMessage:@"MobileFuse no fill"];
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidFailToLoadWithError:smashError];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeNoFill
+                                      errorCode:ERROR_IS_LOAD_NO_FILL
+                                   errorMessage:logNoFill];
 }
 
 - (void)onAdError:(MFAd *)ad withError:(MFAdError *)error {
-    LogAdapterDelegate_Internal(@"placementId = %@ with error = %@", self.placementId, error);
-    if(error.code == MobileFuseAlreadyLoaded || error.code == MobileFuseLoadError){
-        [self.delegate adapterInterstitialDidFailToLoadWithError:error];
-    }else{
-        [self.delegate adapterInterstitialDidFailToShowWithError:error];
+    LogAdapterDelegate_Internal(logLoadFailed, networkName, error.description);
+
+    if (error.code == MobileFuseAlreadyLoaded || error.code == MobileFuseLoadError) {
+        [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                          errorCode:error.code
+                                       errorMessage:error.description];
+    } else {
+        [self.delegate adDidFailToShowWithErrorCode:error.code
+                                       errorMessage:error.description];
     }
 }
 
 /// Triggered when the ad begins to show to the user
 - (void)onAdRendered:(MFAd *)ad {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidOpen];
-    [self.delegate adapterInterstitialDidShow];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
 /// Triggered when the ad is clicked by the user
 - (void)onAdClicked:(MFAd *)ad {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidClick];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
 
 /// The ad has been displayed and closed
 - (void)onAdClosed:(MFAd *)ad {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidClose];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClose];
 }
 
 /// Triggered when a loaded ad has expired - you should manually try to load a new ad here
 - (void)onAdExpired:(MFAd *)ad {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
+    LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 
 @end

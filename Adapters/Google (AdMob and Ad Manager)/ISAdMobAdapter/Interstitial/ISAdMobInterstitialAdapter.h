@@ -6,15 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISAdMobAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISAdMobInterstitialAdapter : ISBaseInterstitialAdapter
-
-- (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
-
-- (void)onAdUnitAvailabilityChangeWithAdUnitId:(NSString *)adUnitId
-                                  availability:(BOOL)availability
-                                interstitialAd:(GADInterstitialAd *)interstitialAd;
+@interface ISAdMobInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end
-

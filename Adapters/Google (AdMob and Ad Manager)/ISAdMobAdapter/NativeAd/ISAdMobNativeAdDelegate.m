@@ -5,73 +5,70 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <ISAdMobNativeAdDelegate.h>
-#import <ISAdMobNativeAdData.h>
-#import <ISAdMobNativeAdViewBinder.h>
+#import "ISAdMobNativeAdDelegate.h"
+#import "ISAdMobNativeAdData.h"
+#import "ISAdMobNativeAdViewBinder.h"
+#import "ISAdMobConstants.h"
+#import <IronSource/ISNativeAdDelegate.h>
+#import <IronSource/ISAdapterErrorType.h>
+#import <IronSource/ISLog.h>
 
 @implementation ISAdMobNativeAdDelegate
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                  viewController:(UIViewController *)viewController
-                     andDelegate:(id<ISNativeAdAdapterDelegate>)delegate {
+- (instancetype)initWithViewController:(UIViewController *)viewController
+                              delegate:(id<ISNativeAdDelegate>)delegate {
     self = [super init];
     if (self) {
         _viewController = viewController;
-        _adUnitId = adUnitId;
         _delegate = delegate;
     }
     return self;
 }
 
-/// Called when a native ad is received.
+#pragma mark - GADNativeAdLoaderDelegate
+
 - (void)adLoader:(nonnull GADAdLoader *)adLoader didReceiveNativeAd:(nonnull GADNativeAd *)nativeAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+
     ISAdapterNativeAdData *adData = [[ISAdMobNativeAdData alloc] initWithNativeAd:nativeAd];
     ISAdapterNativeAdViewBinder *binder = [[ISAdMobNativeAdViewBinder alloc] initWithNativeAd:nativeAd];
-    
+
     nativeAd.delegate = self;
     nativeAd.rootViewController = self.viewController;
-    
-    [self.delegate adapterNativeAdDidLoadWithAdData:adData
-                                       adViewBinder:binder];
+
+    [self.delegate adDidLoadWithAdData:adData
+                          adViewBinder:binder];
 }
 
-/// Called when adLoader fails to load an ad.
 - (void)adLoader:(nonnull GADAdLoader *)adLoader didFailToReceiveAdWithError:(nonnull NSError *)error {
-    LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", self.adUnitId, error);
-    NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_NT_LOAD_NO_FILL
-                                                                                                             withMessage:@"AdMob no fill"] : error;
-    [self.delegate adapterNativeAdDidFailToLoadWithError:smashError];
+    LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
+
+    ISAdapterErrorType errorType = (error.code == GADErrorNoFill) ?
+        ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+
+    [self.delegate adDidFailToLoadWithErrorType:errorType
+                                      errorCode:error.code
+                                   errorMessage:error.localizedDescription];
 }
 
-/// Called before presenting the user a full screen view in response to an ad action. Use this
-/// opportunity to stop animations, time sensitive interactions, etc.
-///
-/// Normally the user looks at the ad, dismisses it, and control returns to your application with
-/// the nativeAdDidDismissScreen: message. However, if the user hits the Home button or clicks on an
-/// App Store link, your application will be backgrounded. The next method called will be the
-/// applicationWillResignActive: of your UIApplicationDelegate object.
+#pragma mark - GADNativeAdDelegate
+
 - (void)nativeAdWillPresentScreen:(nonnull GADNativeAd *)nativeAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 
-/// Called when an impression is recorded for an ad.
 - (void)nativeAdDidRecordImpression:(nonnull GADNativeAd *)nativeAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterNativeAdDidShow];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
-/// Called when a click is recorded for an ad.
 - (void)nativeAdDidRecordClick:(nonnull GADNativeAd *)nativeAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterNativeAdDidClick];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
 
-/// Called after dismissing a full screen view. Use this opportunity to restart anything you may
-/// have stopped as part of nativeAdWillPresentScreen:.
 - (void)nativeAdDidDismissScreen:(nonnull GADNativeAd *)nativeAd {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 
 @end

@@ -1,17 +1,21 @@
+//
+//  ISAdMobAdapter+Internal.h
+//  ISAdMobAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
 #import "ISAdMobAdapter.h"
 #import "ISAdMobConstants.h"
+#import <IronSource/ISBiddingDataProtocol.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 @interface ISAdMobAdapter ()
 
-- (void)initAdMobSDKWithAdapterConfig:(ISAdapterConfig *)adapterConfig;
+- (GADRequest *)createGADRequestWithAdData:(NSDictionary *)adData;
 
-- (void)collectBiddingDataWithAdData:(GADRequest *)request
-                            adFormat:(GADAdFormat)adFormat
-                            delegate:(id<ISBiddingDataDelegate>)delegate;
-
-- (GADRequest *)createGADRequestForLoadWithAdData:(NSDictionary *)adData
-                                       serverData:(NSString *)serverData;
-
-- (InitState)getInitState;
+- (void)collectBiddingDataWithSignalRequest:(GADSignalRequest *)request
+                                     adData:(ISAdData *)adData
+                                   delegate:(id<ISBiddingDataDelegate>)delegate;
 
 @end

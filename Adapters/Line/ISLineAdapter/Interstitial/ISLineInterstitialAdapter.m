@@ -5,196 +5,133 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISLineInterstitialAdapter.h"
 #import "ISLineInterstitialDelegate.h"
+#import "ISLineAdapter+Internal.h"
 
 @interface ISLineInterstitialAdapter ()
 
-@property (nonatomic, weak)   ISLineAdapter                   *adapter;
-@property (nonatomic, strong) FADInterstitial                 *ad;
-@property (nonatomic, strong) FADAdLoader                     *adLoader;
-@property (nonatomic, strong) ISLineInterstitialDelegate      *lineAdDelegate;
-@property (nonatomic, weak) id<ISInterstitialAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) FADInterstitial *interstitialAd;
+@property (nonatomic, strong) FADAdLoader *interstitialAdLoader;
+@property (nonatomic, strong) ISLineInterstitialDelegate *interstitialAdDelegate;
+@property (nonatomic, assign) BOOL adAvailability;
 
 @end
 
 @implementation ISLineInterstitialAdapter
 
-- (instancetype)initWithLineAdapter:(ISLineAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _ad = nil;
-        _adLoader = nil;
-        _smashDelegate = nil;
-        _lineAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Interstitial Methods
 
-#pragma mark - Interstitial API
+- (void)loadAdWithAdData:(ISAdData *)adData
+                delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *appId = [adData getString:appIdKey];
+    NSString *slotId = [adData getString:slotIdKey];
+    LogAdapterApi_Internal(logAppIdAndSlotId, appId, slotId);
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *appId = [self getAppId:adapterConfig];
-    
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:appId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAppId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    self.adAvailability = NO;
+
+    ISLineAdapter *adapter = (ISLineAdapter *)[self getNetworkAdapter];
+
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorInternal
+                                  errorMessage:logAdapterNil];
         return;
     }
 
-    NSString *slotId = [self getSlotId:adapterConfig];
-    
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:slotId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kSlotId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    self.interstitialAdDelegate = [[ISLineInterstitialDelegate alloc] initWithDelegate:delegate];
+    self.interstitialAdLoader = [adapter getAdLoader:appId];
+
+    if (self.interstitialAdLoader == nil) {
+        LogAdapterApi_Internal(logError, logAdLoaderNil);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ERROR_CODE_GENERIC
+                                  errorMessage:logAdLoaderNil];
         return;
     }
 
-    self.smashDelegate = delegate;
+    FADBidData *bidData = [[FADBidData alloc] initWithBidResponse:adData.serverData
+                                                    withWatermark:nil];
 
-    LogAdapterApi_Internal(@"appId = %@, slotId = %@", appId, slotId);
+    __weak ISLineInterstitialAdapter *weakSelf = self;
+    [self.interstitialAdLoader loadInterstitialAdWithBidData:bidData
+                                           withLoadCallback:^(FADInterstitial *_Nullable ad, NSError *_Nullable error) {
+        __typeof__(self) strongSelf = weakSelf;
 
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-            [self.adapter initSDKWithAppId:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-        case INIT_STATE_FAILED:
-            LogAdapterApi_Internal(@"init failed - slotId = %@", slotId);
-            [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                      withMessage:@"LineSDK init failed"]];
-            break;
-    }
-}
-
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *appId = [self getAppId:adapterConfig];
-    NSString *slotId = [self getSlotId:adapterConfig];
-
-    LogAdapterApi_Internal(@"appId = %@, slotId = %@", appId, slotId);
-
-    // create interstitial ad delegate
-    ISLineInterstitialDelegate *adDelegate = [[ISLineInterstitialDelegate alloc] initWithSlotId:slotId
-                                                                                        adapter:self
-                                                                                        andDelegate:delegate];
-    self.lineAdDelegate = adDelegate;
-    self.adLoader = [self.adapter getAdLoader:appId];
-    if (self.adLoader == nil){
-        NSError *error = [ISError createError:ERROR_CODE_GENERIC
-                                  withMessage:[NSString stringWithFormat:@"%@ - adLoader is nil", kAdapterName]];
-        [delegate adapterInterstitialDidFailToLoadWithError:error];
-        return;
-    }
-    
-    FADBidData *bidData = [[FADBidData alloc] initWithBidResponse: serverData withWatermark: nil];
-    void (^interstitialLoadCallback)(FADInterstitial *_Nullable, NSError *_Nullable) = ^(FADInterstitial *_Nullable ad, NSError *_Nullable error) {
-        if (error)
-        {
-            [delegate adapterInterstitialDidFailToLoadWithError:error];
+        if (error) {
+            LogAdapterDelegate_Internal(logError, error.localizedDescription);
+            ISAdapterErrorType errorType = (error.code == lineNoFillErrorCode) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+            [delegate adDidFailToLoadWithErrorType:errorType
+                                         errorCode:error.code
+                                      errorMessage:error.localizedDescription];
             return;
         }
-        
-        if (!ad)
-        {
-            NSError *error = [ISError createError:ERROR_CODE_GENERIC
-                                      withMessage:[NSString stringWithFormat:@"%@ no ad", kAdapterName]];
-            [delegate adapterInterstitialDidFailToLoadWithError:error];
+
+        if (!ad) {
+            LogAdapterDelegate_Internal(logError, logNoAd);
+            [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeNoFill
+                                         errorCode:ERROR_CODE_GENERIC
+                                      errorMessage:logNoAd];
             return;
         }
-        self.ad = ad;
-        [delegate adapterInterstitialDidLoad];
-    };
-    [self.adLoader loadInterstitialAdWithBidData:bidData
-                                withLoadCallback:interstitialLoadCallback];
+
+        strongSelf.interstitialAd = ad;
+        [strongSelf.interstitialAd setEventListener:strongSelf.interstitialAdDelegate];
+        strongSelf.adAvailability = YES;
+        [delegate adDidLoad];
+    }];
 }
 
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *slotId = [self getSlotId:adapterConfig];
-    
-    LogAdapterDelegate_Internal(@"slotId = %@", slotId);
-    
-    if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    if (![self isAdAvailableWithAdData:adData]) {
+        self.adAvailability = NO;
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialDidFailToShowWithError:error];
+                                  withMessage:[NSString stringWithFormat:logShowFailed, networkName]];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToShowWithErrorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    if (self.ad) {
-        [self.ad setEventListener: self.lineAdDelegate];
-        [self.ad showWithViewController:viewController];
-    } else {
-        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:@"No ad loaded yet"];
-        [delegate adapterInterstitialDidFailToShowWithError:error];
-    }
+
+    [self.interstitialAd showWithViewController:viewController];
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    return self.ad != nil;
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return self.interstitialAd != nil && self.adAvailability;
 }
 
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    NSString *appId = [self getAppId:adapterConfig];
-    NSString *slotId = [self getSlotId:adapterConfig];
-    [self.adapter collectBiddingDataWithDelegate:delegate
-                                           appId:appId
-                                          slotId:slotId];
-}
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
 
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterInterstitialInitSuccess];
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    [self.smashDelegate adapterInterstitialInitFailedWithError:error];
-}
-
-#pragma mark - Memory Handling
-
-- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *slotId = [self getSlotId:adapterConfig];
-    LogAdapterDelegate_Internal(@"slotId = %@", slotId);
-    
-    self.ad = nil;
-    [self.ad setEventListener:nil];
-    self.smashDelegate = nil;
-    self.lineAdDelegate.delegate = nil;
-    self.lineAdDelegate = nil;
-    self.adLoader = nil;
+    [self.interstitialAd setEventListener:nil];
+    self.interstitialAd = nil;
+    self.interstitialAdDelegate = nil;
+    self.interstitialAdLoader = nil;
+    self.adAvailability = NO;
 }
 
 #pragma mark - Helper Methods
 
-- (NSString *)getSlotId:(ISAdapterConfig *)adapterConfig {
-    return [self getStringValueFromAdapterConfig:adapterConfig
-                                          forKey:kSlotId];
-}
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISLineAdapter *adapter = (ISLineAdapter *)[self getNetworkAdapter];
 
-- (NSString *)getAppId:(ISAdapterConfig *)adapterConfig {
-    return [self getStringValueFromAdapterConfig:adapterConfig
-                                          forKey:kAppId];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
+
+    [adapter collectBiddingDataWithDelegate:delegate
+                                      appId:[adData getString:appIdKey]
+                                     slotId:[adData getString:slotIdKey]];
 }
 
 @end

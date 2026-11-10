@@ -1,51 +1,61 @@
+//
+//  ISOguryInterstitialDelegate.m
+//  ISOguryAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
+#import <OguryAds/OguryAds.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISAdapterErrorType.h>
 #import "ISOguryInterstitialDelegate.h"
+#import "ISOguryConstants.h"
 
 @implementation ISOguryInterstitialDelegate
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                     andDelegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
     self = [super init];
     if (self) {
-        _adUnitId = adUnitId;
         _delegate = delegate;
     }
     return self;
 }
 
-/// The SDK is ready to display the ad provided by the ad server.
-- (void)interstitialAdDidLoad:(OguryInterstitialAd *)interstitial {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterInterstitialDidLoad];
+#pragma mark - OguryInterstitialAdDelegate
+
+- (void)interstitialAdDidLoad:(OguryInterstitialAd *)interstitialAd {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidLoad];
 }
 
-/// The ad failed to load or display.
 - (void)interstitialAd:(OguryInterstitialAd *)interstitialAd didFailWithError:(OguryAdError *)error {
-    LogAdapterDelegate_Internal(@"adUnitId = %@ with error = %@", self.adUnitId, error);
-    if ( error.type == OguryAdErrorTypeLoad )
-    {
-        [self.delegate adapterInterstitialDidFailToLoadWithError:error];
-    }else{
-        [self.delegate adapterInterstitialDidFailToShowWithError:error];
+    LogAdapterDelegate_Internal(logError, error);
+
+    if (error.type == OguryAdErrorTypeLoad) {
+        ISAdapterErrorType errorType = (error.code == OguryLoadErrorCodeNoFill) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+        [self.delegate adDidFailToLoadWithErrorType:errorType
+                                          errorCode:error.code
+                                       errorMessage:error.localizedDescription];
+    } else {
+        [self.delegate adDidFailToShowWithErrorCode:error.code
+                                       errorMessage:error.localizedDescription];
     }
 }
 
-///  The ad has triggered an impression.
-- (void)interstitialAdDidTriggerImpression:(OguryInterstitialAd *)interstitial {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterInterstitialDidOpen];
-    [self.delegate adapterInterstitialDidShow];
+- (void)interstitialAdDidTriggerImpression:(OguryInterstitialAd *)interstitialAd {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
-/// The ad has been clicked by the user.
-- (void)interstitialAdDidClick:(OguryInterstitialAd *)interstitial {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterInterstitialDidClick];
+- (void)interstitialAdDidClick:(OguryInterstitialAd *)interstitialAd {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
 
-/// The ad has been closed by the user.
-- (void)interstitialAdDidClose:(OguryInterstitialAd *)interstitial {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterInterstitialDidClose];
+- (void)interstitialAdDidClose:(OguryInterstitialAd *)interstitialAd {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClose];
 }
 
 @end

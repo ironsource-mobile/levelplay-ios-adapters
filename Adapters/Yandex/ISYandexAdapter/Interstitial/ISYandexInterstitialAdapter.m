@@ -5,180 +5,158 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+@import YandexMobileAds;
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISYandexInterstitialAdapter.h"
-#import "ISYandexInterstitialAdDelegate.h"
+#import "ISYandexInterstitialDelegate.h"
+#import "ISYandexAdapter+Internal.h"
+#import "ISYandexAdapter.h"
+#import "ISYandexConstants.h"
 
 @interface ISYandexInterstitialAdapter ()
 
-@property (nonatomic, weak)   ISYandexAdapter *adapter;
-@property (nonatomic, strong) YMAInterstitialAd *ad;
-@property (nonatomic, strong) YMAInterstitialAdLoader *adLoader;
-@property (nonatomic, strong) ISYandexInterstitialAdDelegate *yandexAdDelegate;
-@property (nonatomic, weak)   id<ISInterstitialAdapterDelegate> smashDelegate;
-
+@property (nonatomic, strong) YMAInterstitialAd *interstitialAd;
+@property (nonatomic, strong) YMAInterstitialAdLoader *interstitialAdLoader;
+@property (nonatomic, strong) ISYandexInterstitialDelegate *interstitialAdDelegate;
 @property (nonatomic, assign) BOOL adAvailability;
 
 @end
 
 @implementation ISYandexInterstitialAdapter
 
-- (instancetype)initWithYandexAdapter:(ISYandexAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _ad = nil;
-        _adLoader = nil;
-        _smashDelegate = nil;
-        _yandexAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Interstitial Methods
 
-#pragma mark - Interstitial API's
+- (void)loadAdWithAdData:(ISAdData *)adData delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+    LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *appId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                     forKey:kAppId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:appId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAppId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    // validate adUnitId
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:adUnitId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAdUnitId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
-        return;
-    }
-    
-    self.smashDelegate = delegate;
-    
-    LogAdapterApi_Internal(@"appId = %@, adUnitId = %@", appId, adUnitId);
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithAppId:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-    }
-}
-
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-
-    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
 
     self.adAvailability = NO;
-    
-    // create banner ad delegate
-    ISYandexInterstitialAdDelegate *adDelegate = [[ISYandexInterstitialAdDelegate alloc] initWithAdapter:self
-                                                                                                adUnitId:adUnitId
-                                                                                             andDelegate:delegate];
-    self.yandexAdDelegate = adDelegate;
-    
+
+    // create delegate for showing ads
+    self.interstitialAdDelegate = [[ISYandexInterstitialDelegate alloc] initWithDelegate:delegate];
+
     // create adLoader
-    YMAInterstitialAdLoader *adLoader = [[YMAInterstitialAdLoader alloc] init];
-    adLoader.delegate = adDelegate;
-    
-    // save interstitial ad to local variable
-    self.adLoader = adLoader;
+    self.interstitialAdLoader = [[YMAInterstitialAdLoader alloc] init];
 
-    // get ad request parameters
-    YMAAdRequestConfiguration *adRequest = [self.adapter createAdRequestWithBidResponse:serverData
-                                                                               adUnitId:adUnitId];
-        
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // load ad
-        [self.adLoader loadAdWithRequestConfiguration:adRequest];
-    });
-}
-
-- (void)showInterstitialWithViewController:(UIViewController *)viewController 
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-
-    if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
-        self.adAvailability = NO;
-
-        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialDidFailToShowWithError:error];
+    // get ad request parameters from adapter
+    ISYandexAdapter *adapter = (ISYandexAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorInternal
+                                         userInfo:@{NSLocalizedDescriptionKey:logAdapterNil}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    
+    YMAAdRequest *adRequest = [adapter createAdRequestWithBidResponse:adData.serverData
+                                                              adUnitId:adUnitId];
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        // load ad
-        [self.ad showFromViewController:viewController];
+        __weak typeof(self) weakSelf = self;
+        [self.interstitialAdLoader loadAdWith:adRequest completionHandler:^(YMAInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf) {
+                return;
+            }
+
+            if (error) {
+                LogAdapterDelegate_Internal(logCallbackFailed, adUnitId, error.localizedDescription);
+                ISAdapterErrorType errorType = (error.code == yandexNoFillErrorCode) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+                strongSelf.interstitialAd = nil;
+                strongSelf.adAvailability = NO;
+                [delegate adDidFailToLoadWithErrorType:errorType
+                                             errorCode:error.code
+                                          errorMessage:error.localizedDescription];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Store ad object first to retain it
+                    strongSelf.interstitialAd = interstitialAd;
+                    strongSelf.interstitialAd.delegate = strongSelf.interstitialAdDelegate;
+                    strongSelf.adAvailability = YES;
+
+                    // Extract creative IDs and pass as extra data if available
+                    NSString *creativeId = [ISYandexAdapter buildCreativeIdStringFromCreatives:strongSelf.interstitialAd.adInfo.creatives];
+                    LogAdapterDelegate_Internal(logCreativeId, creativeId);
+
+                    if (creativeId.length) {
+                        NSDictionary<NSString *, id> *extraData = @{creativeIdKey: creativeId};
+                        [delegate adDidLoadWithExtraData:extraData];
+                    } else {
+                        [delegate adDidLoad];
+                    }
+                });
+            }
+        }];
     });
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    return self.ad != nil && self.adAvailability;
-}
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
 
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    YMABidderTokenRequestConfiguration *requestConfiguration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType:YMAAdTypeInterstitial];
+    if (![self isAdAvailableWithAdData:adData]) {
+        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
+                                  withMessage:[NSString stringWithFormat:logShowFailed, networkName]];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToShowWithErrorCode:error.code
+                                  errorMessage:error.localizedDescription];
+        return;
+    }
 
-    requestConfiguration.parameters = [self.adapter getConfigParams];
-
-    [self.adapter collectBiddingDataWithRequestConfiguration:requestConfiguration
-                                                    delegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterInterstitialInitSuccess];
-}
-
-#pragma mark - Memory Handling
-
-- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
-    
-    self.ad.delegate = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad = nil;
+        [self.interstitialAd showFromViewController:viewController];
     });
-    self.adLoader.delegate = nil;
-    self.adLoader = nil;
-    self.smashDelegate = nil;
-    self.yandexAdDelegate = nil;
+}
+
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.interstitialAd.delegate = nil;
+        self.interstitialAd = nil;
+        self.interstitialAdLoader = nil;
+        self.interstitialAdDelegate = nil;
+    });
+}
+
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return self.interstitialAd != nil && self.adAvailability;
 }
 
 #pragma mark - Helper Methods
 
-- (void)onAdUnitAvailabilityChangeWithAdUnitId:(NSString *)adUnitId
-                                  availability:(BOOL)availability
-                                interstitialAd:(YMAInterstitialAd *)interstitialAd {
-    self.ad = interstitialAd;
-    self.ad.delegate = self.yandexAdDelegate;
-    self.adAvailability = availability;
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    ISYandexAdapter *adapter = (ISYandexAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
+
+    YMABidderTokenRequest *requestConfiguration = [YMABidderTokenRequest interstitialWithTargeting:nil
+                                                                                        parameters:[adapter getConfigParams]];
+
+    [adapter collectBiddingDataWithRequestConfiguration:requestConfiguration
+                                                delegate:delegate];
 }
 
 @end

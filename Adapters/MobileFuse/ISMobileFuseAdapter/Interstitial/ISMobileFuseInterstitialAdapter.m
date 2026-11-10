@@ -1,147 +1,101 @@
+//
+//  ISMobileFuseInterstitialAdapter.m
+//  ISMobileFuseAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
+#import <MobileFuseSDK/MFInterstitialAd.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISMobileFuseInterstitialAdapter.h"
 #import "ISMobileFuseInterstitialDelegate.h"
-#import <MobileFuseSDK/MFInterstitialAd.h>
+#import "ISMobileFuseAdapter+Internal.h"
+#import "ISMobileFuseConstants.h"
 
 @interface ISMobileFuseInterstitialAdapter ()
 
-@property (nonatomic, weak)   ISMobileFuseAdapter *adapter;
-@property (nonatomic, strong) MFInterstitialAd *ad;
-@property (nonatomic, strong) ISMobileFuseInterstitialDelegate *mobileFuseAdDelegate;
-@property (nonatomic, weak) id<ISInterstitialAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) MFInterstitialAd *interstitialAd;
+@property (nonatomic, strong) ISMobileFuseInterstitialDelegate *interstitialAdDelegate;
 
 @end
 
 @implementation ISMobileFuseInterstitialAdapter
 
-- (instancetype)initWithMobileFuseAdapter:(ISMobileFuseAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _ad = nil;
-        _smashDelegate = nil;
-        _mobileFuseAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Interstitial Methods
 
-#pragma mark - Interstitial API
+- (void)loadAdWithAdData:(ISAdData *)adData
+                delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *placementId = [adData getString:placementIdKey];
+    LogAdapterApi_Internal(logPlacementId, placementId);
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kPlacementId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:placementId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kPlacementId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    if (!placementId || placementId.length == 0) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:logMissingPlacementId}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
 
-    self.smashDelegate = delegate;
-
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
-
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithPlacementId:kPlacementId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-        case INIT_STATE_FAILED:
-            LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
-            [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                      withMessage:@"MobileFuseSDK init failed"]];
-            break;
-    }
-}
-
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
     // create interstitial ad delegate
-    ISMobileFuseInterstitialDelegate *adDelegate = [[ISMobileFuseInterstitialDelegate alloc] initWithPlacementId:placementId
-                                                                                                     andDelegate:delegate];
-    self.mobileFuseAdDelegate = adDelegate;
+    self.interstitialAdDelegate = [[ISMobileFuseInterstitialDelegate alloc] initWithDelegate:delegate];
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad = [[MFInterstitialAd alloc] initWithPlacementId:placementId];
-        [self.ad registerAdCallbackReceiver:adDelegate];
+        self.interstitialAd = [[MFInterstitialAd alloc] initWithPlacementId:placementId];
+        [self.interstitialAd registerAdCallbackReceiver:self.interstitialAdDelegate];
         // load ad
-        [self.ad loadAdWithBiddingResponseToken:serverData];
+        [self.interstitialAd loadAdWithBiddingResponseToken:adData.serverData];
     });
 }
 
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kPlacementId];
-    
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    
-    if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
-        
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    if (![self isAdAvailableWithAdData:adData]) {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialDidFailToShowWithError:error];
+                                  withMessage:[NSString stringWithFormat:logNoAdsToShow, networkName]];
+        LogAdapterApi_Internal(logError, error.description);
+        [delegate adDidFailToShowWithErrorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         // show ad
-        [viewController.view addSubview:self.ad];
-        [self.ad showAd];
+        [viewController.view addSubview:self.interstitialAd];
+        [self.interstitialAd showAd];
     });
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    return self.ad != nil && self.ad.isLoaded;
-    
-}
-
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    [self.adapter collectBiddingDataWithDelegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterInterstitialInitSuccess];
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    [self.smashDelegate adapterInterstitialInitFailedWithError:error];
-}
-
-#pragma mark - Memory Handling
-
-- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kPlacementId];
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad destroy];
-        self.ad = nil;
+        [self.interstitialAd destroy];
+        self.interstitialAd = nil;
     });
-    self.smashDelegate = nil;
-    self.mobileFuseAdDelegate = nil;
+    self.interstitialAdDelegate = nil;
+}
+
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return self.interstitialAd != nil && self.interstitialAd.isLoaded;
+}
+
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    ISMobileFuseAdapter *adapter = (ISMobileFuseAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
 
 @end

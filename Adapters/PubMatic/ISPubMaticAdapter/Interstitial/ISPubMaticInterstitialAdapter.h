@@ -6,11 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISPubMaticAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISPubMaticInterstitialAdapter : ISBaseInterstitialAdapter
-
-- (instancetype)initWithPubMaticAdapter:(ISPubMaticAdapter *)adapter;
+@interface ISPubMaticInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end
-

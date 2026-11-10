@@ -7,15 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <OpenWrapSDK/OpenWrapSDK.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import "ISPubMaticInterstitialAdapter.h"
+
+@protocol ISInterstitialAdDelegate;
 
 @interface ISPubMaticInterstitialDelegate : NSObject <POBInterstitialDelegate>
 
-@property (nonatomic, strong)   NSString                             *adUnitId;
-@property (nonatomic, weak)     id<ISInterstitialAdapterDelegate>    delegate;
+@property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                        andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

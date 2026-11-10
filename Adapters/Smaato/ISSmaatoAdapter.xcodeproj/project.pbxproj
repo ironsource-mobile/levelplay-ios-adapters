@@ -1,0 +1,425 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		38221414FE30105C6C4AE4DB /* ISSmaatoRewardedDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C0A4128B69ED6F6B471F1566 /* ISSmaatoRewardedDelegate.h */; };
+		3D14C9F30B8131791975546C /* ISSmaatoRewardedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A16A7534BD99AC4967EAF151 /* ISSmaatoRewardedDelegate.m */; };
+		42CC5B70B9A6135FB86C5A97 /* ISSmaatoBannerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9ECDFDDF83894DFDB34B23 /* ISSmaatoBannerAdapter.m */; };
+		46C10CFBD337F4630B575DDE /* ISSmaatoInterstitialAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = AB244C0F7552B77AF8CD2C0D /* ISSmaatoInterstitialAdapter.h */; };
+		47B0207FEAB279E4111AFF5C /* ISSmaatoRewardedAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D9A44D48EFA2C41C3817FB /* ISSmaatoRewardedAdapter.m */; };
+		48D137FE1CFDAA5E82A9237E /* ISSmaatoInterstitialAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7139F5D8C75B637AE6630A37 /* ISSmaatoInterstitialAdapter.m */; };
+		4A4E6DD8F40C37D5A9F928A1 /* ISSmaatoAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 08235BA7B69A65EEE1AB6EFF /* ISSmaatoAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5B17E22109707DAADB504F1D /* ISSmaatoRewardedAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B96819EDA7E6D6CEC1BE03E /* ISSmaatoRewardedAdapter.h */; };
+		65A8D5C6E18CC5A526F7B290 /* ISSmaatoInterstitialDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B1D5ED524661672517053 /* ISSmaatoInterstitialDelegate.m */; };
+		75DBE56C2299AA818E5AAFC0 /* ISSmaatoAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9F313B7A80EE6E915122A55 /* ISSmaatoAdapter.m */; };
+		937D0C5DBF9879830A02370A /* ISSmaatoAdapter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 26C2BF6A0710E8B6512F1DE7 /* ISSmaatoAdapter+Internal.h */; };
+		CA149B99D71B83CEF0D48F14 /* ISSmaatoInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C354CEB1C902BD4F1CE312A /* ISSmaatoInterstitialDelegate.h */; };
+		CDDFBC1AD3E35738B8E1C1EC /* ISSmaatoBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 893EFE6ED936524AE1215934 /* ISSmaatoBannerDelegate.m */; };
+		ECCE403294023021ED3A2DE0 /* ISSmaatoConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = D11AF123EF11A8FF2E4E24AC /* ISSmaatoConstants.h */; };
+		F40F470CE7D734AE80E7F40E /* ISSmaatoBannerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B7031C5E3D4BE6F3511E0F3D /* ISSmaatoBannerDelegate.h */; };
+		FE0E364480EA6080A420B20F /* ISSmaatoBannerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 66E957883552B68F7FEF6D2C /* ISSmaatoBannerAdapter.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08235BA7B69A65EEE1AB6EFF /* ISSmaatoAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoAdapter.h; sourceTree = "<group>"; };
+		11D9A44D48EFA2C41C3817FB /* ISSmaatoRewardedAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISSmaatoRewardedAdapter.m; sourceTree = "<group>"; };
+		1B96819EDA7E6D6CEC1BE03E /* ISSmaatoRewardedAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoRewardedAdapter.h; sourceTree = "<group>"; };
+		26C2BF6A0710E8B6512F1DE7 /* ISSmaatoAdapter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISSmaatoAdapter+Internal.h"; sourceTree = "<group>"; };
+		2F5B1D5ED524661672517053 /* ISSmaatoInterstitialDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISSmaatoInterstitialDelegate.m; sourceTree = "<group>"; };
+		66E957883552B68F7FEF6D2C /* ISSmaatoBannerAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoBannerAdapter.h; sourceTree = "<group>"; };
+		7139F5D8C75B637AE6630A37 /* ISSmaatoInterstitialAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISSmaatoInterstitialAdapter.m; sourceTree = "<group>"; };
+		775FA1E4270CE8C10504C745 /* ISSmaatoAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISSmaatoAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		893EFE6ED936524AE1215934 /* ISSmaatoBannerDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISSmaatoBannerDelegate.m; sourceTree = "<group>"; };
+		9C354CEB1C902BD4F1CE312A /* ISSmaatoInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoInterstitialDelegate.h; sourceTree = "<group>"; };
+		A16A7534BD99AC4967EAF151 /* ISSmaatoRewardedDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISSmaatoRewardedDelegate.m; sourceTree = "<group>"; };
+		A9F313B7A80EE6E915122A55 /* ISSmaatoAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISSmaatoAdapter.m; sourceTree = "<group>"; };
+		AB244C0F7552B77AF8CD2C0D /* ISSmaatoInterstitialAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoInterstitialAdapter.h; sourceTree = "<group>"; };
+		AE9ECDFDDF83894DFDB34B23 /* ISSmaatoBannerAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ISSmaatoBannerAdapter.m; sourceTree = "<group>"; };
+		B7031C5E3D4BE6F3511E0F3D /* ISSmaatoBannerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoBannerDelegate.h; sourceTree = "<group>"; };
+		C0A4128B69ED6F6B471F1566 /* ISSmaatoRewardedDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoRewardedDelegate.h; sourceTree = "<group>"; };
+		D11AF123EF11A8FF2E4E24AC /* ISSmaatoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ISSmaatoConstants.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		305402D10EF1AB2D05267FEA = {
+			isa = PBXGroup;
+			children = (
+				40056061FF741AC13690CC9F /* ISSmaatoAdapter */,
+				36B4C359D29C6A710DD33727 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		36B4C359D29C6A710DD33727 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				775FA1E4270CE8C10504C745 /* ISSmaatoAdapter.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		40056061FF741AC13690CC9F /* ISSmaatoAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				08235BA7B69A65EEE1AB6EFF /* ISSmaatoAdapter.h */,
+				A9F313B7A80EE6E915122A55 /* ISSmaatoAdapter.m */,
+				26C2BF6A0710E8B6512F1DE7 /* ISSmaatoAdapter+Internal.h */,
+				D11AF123EF11A8FF2E4E24AC /* ISSmaatoConstants.h */,
+				7FC69FE39092D30AFC8DF951 /* Banner */,
+				573844B7536EB27CB4EF136E /* Interstitial */,
+				9E28B487368EDF07C5789DBD /* Rewarded */,
+			);
+			path = ISSmaatoAdapter;
+			sourceTree = "<group>";
+		};
+		573844B7536EB27CB4EF136E /* Interstitial */ = {
+			isa = PBXGroup;
+			children = (
+				AB244C0F7552B77AF8CD2C0D /* ISSmaatoInterstitialAdapter.h */,
+				7139F5D8C75B637AE6630A37 /* ISSmaatoInterstitialAdapter.m */,
+				9C354CEB1C902BD4F1CE312A /* ISSmaatoInterstitialDelegate.h */,
+				2F5B1D5ED524661672517053 /* ISSmaatoInterstitialDelegate.m */,
+			);
+			path = Interstitial;
+			sourceTree = "<group>";
+		};
+		7FC69FE39092D30AFC8DF951 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				66E957883552B68F7FEF6D2C /* ISSmaatoBannerAdapter.h */,
+				AE9ECDFDDF83894DFDB34B23 /* ISSmaatoBannerAdapter.m */,
+				B7031C5E3D4BE6F3511E0F3D /* ISSmaatoBannerDelegate.h */,
+				893EFE6ED936524AE1215934 /* ISSmaatoBannerDelegate.m */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		9E28B487368EDF07C5789DBD /* Rewarded */ = {
+			isa = PBXGroup;
+			children = (
+				1B96819EDA7E6D6CEC1BE03E /* ISSmaatoRewardedAdapter.h */,
+				11D9A44D48EFA2C41C3817FB /* ISSmaatoRewardedAdapter.m */,
+				C0A4128B69ED6F6B471F1566 /* ISSmaatoRewardedDelegate.h */,
+				A16A7534BD99AC4967EAF151 /* ISSmaatoRewardedDelegate.m */,
+			);
+			path = Rewarded;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		428EACBFB5078C8C841DC18C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				937D0C5DBF9879830A02370A /* ISSmaatoAdapter+Internal.h in Headers */,
+				4A4E6DD8F40C37D5A9F928A1 /* ISSmaatoAdapter.h in Headers */,
+				FE0E364480EA6080A420B20F /* ISSmaatoBannerAdapter.h in Headers */,
+				F40F470CE7D734AE80E7F40E /* ISSmaatoBannerDelegate.h in Headers */,
+				ECCE403294023021ED3A2DE0 /* ISSmaatoConstants.h in Headers */,
+				46C10CFBD337F4630B575DDE /* ISSmaatoInterstitialAdapter.h in Headers */,
+				CA149B99D71B83CEF0D48F14 /* ISSmaatoInterstitialDelegate.h in Headers */,
+				5B17E22109707DAADB504F1D /* ISSmaatoRewardedAdapter.h in Headers */,
+				38221414FE30105C6C4AE4DB /* ISSmaatoRewardedDelegate.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		5EC7776E76E5D93AC48F95D3 /* ISSmaatoAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 414E83F97ED77E7946302DC3 /* Build configuration list for PBXNativeTarget "ISSmaatoAdapter" */;
+			buildPhases = (
+				F0B3101FF4B1905779C66369 /* Create XCFramework */,
+				428EACBFB5078C8C841DC18C /* Headers */,
+				66384D61AF72CDEB6315AD4E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ISSmaatoAdapter;
+			packageProductDependencies = (
+			);
+			productName = ISSmaatoAdapter;
+			productReference = 775FA1E4270CE8C10504C745 /* ISSmaatoAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E0454549AC2F9F00A81FCA98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					5EC7776E76E5D93AC48F95D3 = {
+						DevelopmentTeam = NLKYWCU5C3;
+						ProvisioningStyle = AUTOMATIC;
+					};
+				};
+			};
+			buildConfigurationList = DB84A1063F812A06C19BFE47 /* Build configuration list for PBXProject "ISSmaatoAdapter" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 305402D10EF1AB2D05267FEA;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 36B4C359D29C6A710DD33727 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5EC7776E76E5D93AC48F95D3 /* ISSmaatoAdapter */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F0B3101FF4B1905779C66369 /* Create XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Create XCFramework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "chmod +x BuildScript/add_Git_Hash.sh\nBuildScript/add_Git_Hash.sh\nBuildScript/build_XCFramework.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		66384D61AF72CDEB6315AD4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75DBE56C2299AA818E5AAFC0 /* ISSmaatoAdapter.m in Sources */,
+				42CC5B70B9A6135FB86C5A97 /* ISSmaatoBannerAdapter.m in Sources */,
+				CDDFBC1AD3E35738B8E1C1EC /* ISSmaatoBannerDelegate.m in Sources */,
+				48D137FE1CFDAA5E82A9237E /* ISSmaatoInterstitialAdapter.m in Sources */,
+				65A8D5C6E18CC5A526F7B290 /* ISSmaatoInterstitialDelegate.m in Sources */,
+				47B0207FEAB279E4111AFF5C /* ISSmaatoRewardedAdapter.m in Sources */,
+				3D14C9F30B8131791975546C /* ISSmaatoRewardedDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1A9627A00521FF322EAE2A10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		205A01C50ACFD9318D457114 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3E4D2F013D9ED75F223A1F59 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISSmaatoAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISSmaatoAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		79D27047EB61C4464C8A73B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = AUTOMATIC;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NLKYWCU5C3;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ISSmaatoAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ironsrcmobile.ISSmaatoAdapter;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		414E83F97ED77E7946302DC3 /* Build configuration list for PBXNativeTarget "ISSmaatoAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3E4D2F013D9ED75F223A1F59 /* Debug */,
+				79D27047EB61C4464C8A73B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DB84A1063F812A06C19BFE47 /* Build configuration list for PBXProject "ISSmaatoAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				205A01C50ACFD9318D457114 /* Debug */,
+				1A9627A00521FF322EAE2A10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E0454549AC2F9F00A81FCA98 /* Project object */;
+}

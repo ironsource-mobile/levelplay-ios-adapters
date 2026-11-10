@@ -1,166 +1,120 @@
+//
+//  ISBigoInterstitialAdapter.m
+//  ISBigoAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
+#import <BigoADS/BigoAdSdk.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISBigoInterstitialAdapter.h"
 #import "ISBigoInterstitialDelegate.h"
+#import "ISBigoAdapter+Internal.h"
 #import "ISBigoAdapter.h"
+#import "ISBigoConstants.h"
 
 @interface ISBigoInterstitialAdapter ()
 
-@property (nonatomic, weak)   ISBigoAdapter *adapter;
-@property (nonatomic, strong) BigoInterstitialAd *ad;
-@property (nonatomic, strong) BigoInterstitialAdLoader *adLoader;
-@property (nonatomic, strong) ISBigoInterstitialDelegate *bigoAdDelegate;
-@property (nonatomic, weak) id<ISInterstitialAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) BigoInterstitialAd           *interstitialAd;
+@property (nonatomic, strong) BigoInterstitialAdLoader     *interstitialAdLoader;
+@property (nonatomic, strong) ISBigoInterstitialDelegate   *interstitialAdDelegate;
 
 @end
 
 @implementation ISBigoInterstitialAdapter
 
-- (instancetype)initWithBigoAdapter:(ISBigoAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _ad = nil;
-        _smashDelegate = nil;
-        _bigoAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Interstitial Methods
 
-#pragma mark - Interstitial API
+- (void)loadAdWithAdData:(ISAdData *)adData
+                delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *slotId = [adData getString:slotIdKey];
+    LogAdapterApi_Internal(logSlotId, slotId);
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *appKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                     forKey:kAppId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:appKey]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAppId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    if (!slotId || slotId.length == 0) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:logMissingSlotId}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
 
-    NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kSlotId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:slotId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kSlotId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    ISBigoAdapter *adapter = (ISBigoAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorMissingParams
+                                  errorMessage:logAdapterNil];
         return;
     }
 
-    self.smashDelegate = delegate;
+    self.interstitialAdDelegate = [[ISBigoInterstitialDelegate alloc] initWithAdapter:self
+                                                                             delegate:delegate];
 
-    LogAdapterApi_Internal(@"appId = %@, slotId = %@", appKey, slotId);
-
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithAppKey:appKey];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-        case INIT_STATE_FAILED:
-            LogAdapterApi_Internal(@"init failed - slotId = %@", slotId);
-            [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                      withMessage:@"Bigo SDK init failed"]];
-            break;
-    }
-}
-
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kSlotId];
-
-    LogAdapterApi_Internal(@"slotId = %@", slotId);
-    
-    ISBigoInterstitialDelegate *adDelegate = [[ISBigoInterstitialDelegate alloc]
-                                              initWithSlotId:slotId
-                                        andInterstitialAdapter:self
-                                                   andDelegate:delegate];
-    self.bigoAdDelegate = adDelegate;
-    
     BigoInterstitialAdRequest *request = [[BigoInterstitialAdRequest alloc] initWithSlotId:slotId];
-    [request setServerBidPayload:serverData];
-    
-    ISBigoAdapter *bigoAdapter = [[ISBigoAdapter alloc] init];
-    NSString *mediationInfo = [bigoAdapter getMediationInfo];
-    
-    self.adLoader = [[BigoInterstitialAdLoader alloc] initWithInterstitialAdLoaderDelegate:adDelegate];
-    self.adLoader.ext = mediationInfo;
-    [self.adLoader loadAd:request];
-    
+    [request setServerBidPayload:adData.serverData];
+
+    self.interstitialAdLoader = [[BigoInterstitialAdLoader alloc] initWithInterstitialAdLoaderDelegate:self.interstitialAdDelegate];
+    self.interstitialAdLoader.ext = [adapter getMediationInfo];
+    [self.interstitialAdLoader loadAd:request];
 }
 
-- (void)setInterstitialAd:(BigoInterstitialAd *)ad {
-    self.ad = ad;
-    [ad setAdInteractionDelegate:self.bigoAdDelegate];
-}
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
 
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kSlotId];
-    
-    LogAdapterDelegate_Internal(@"slotId = %@", slotId);
-    
-    if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
-        
-        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialDidFailToShowWithError:error];
+    if (![self isAdAvailableWithAdData:adData]) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ERROR_CODE_NO_ADS_TO_SHOW
+                                         userInfo:@{NSLocalizedDescriptionKey:logShowFailed}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToShowWithErrorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad show:viewController];
+        [self.interstitialAd show:viewController];
     });
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    return self.ad != nil && ![self.ad isExpired];
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return self.interstitialAd != nil && ![self.interstitialAd isExpired];
 }
 
-
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    [self.adapter collectBiddingDataWithDelegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterInterstitialInitSuccess];
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    [self.smashDelegate adapterInterstitialInitFailedWithError:error];
-}
-
-#pragma mark - Memory Handling
-
-- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *slotId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kSlotId];
-    LogAdapterDelegate_Internal(@"slotId = %@", slotId);
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.ad destroy];
-        self.ad = nil;
+        [self.interstitialAd destroy];
+        self.interstitialAd = nil;
     });
-    self.smashDelegate = nil;
-    self.bigoAdDelegate = nil;
+    self.interstitialAdDelegate = nil;
+    self.interstitialAdLoader = nil;
+}
+
+#pragma mark - Helper Methods
+
+- (void)storeInterstitialAd:(BigoInterstitialAd *)ad {
+    self.interstitialAd = ad;
+    [self.interstitialAd setAdInteractionDelegate:self.interstitialAdDelegate];
+}
+
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    ISBigoAdapter *adapter = (ISBigoAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
+
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
 
 @end

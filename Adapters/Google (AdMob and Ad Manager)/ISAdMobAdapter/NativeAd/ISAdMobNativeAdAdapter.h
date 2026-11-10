@@ -6,10 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <ISAdMobAdapter.h>
+#import <IronSource/LevelPlayBaseNativeAdAdapter.h>
 
-@interface ISAdMobNativeAdAdapter : ISBaseNativeAdAdapter
-
-- (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter;
+@interface ISAdMobNativeAdAdapter : LevelPlayBaseNativeAdAdapter
 
 @end

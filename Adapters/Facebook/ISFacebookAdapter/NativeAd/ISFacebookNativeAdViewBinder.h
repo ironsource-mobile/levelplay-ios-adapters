@@ -6,8 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <UIKit/UIKit.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <IronSource/ISAdapterNativeAdViewBinder.h>
+#import <IronSource/ISAdOptionsPosition.h>
 
 @interface ISFacebookNativeAdViewBinder : ISAdapterNativeAdViewBinder
 
@@ -18,6 +20,3 @@
 - (instancetype)new NS_UNAVAILABLE;
 
 @end
-
-
-

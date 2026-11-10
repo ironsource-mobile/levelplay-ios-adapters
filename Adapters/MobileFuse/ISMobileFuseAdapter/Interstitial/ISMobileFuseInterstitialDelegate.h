@@ -1,16 +1,20 @@
+//
+//  ISMobileFuseInterstitialDelegate.h
+//  ISMobileFuseAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import "ISMobileFuseInterstitialAdapter.h"
 #import <MobileFuseSDK/MobileFuse.h>
 #import <MobileFuseSDK/IMFAdCallbackReceiver.h>
 
+@protocol ISInterstitialAdDelegate;
 
 @interface ISMobileFuseInterstitialDelegate : NSObject <IMFAdCallbackReceiver>
 
-@property (nonatomic, strong)   NSString                            *placementId;
-@property (nonatomic, weak)     id<ISInterstitialAdapterDelegate>   delegate;
+@property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                    andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

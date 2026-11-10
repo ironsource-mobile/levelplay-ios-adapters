@@ -6,18 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <UIKit/UIKit.h>
 #import <OpenWrapSDK/OpenWrapSDK.h>
-#import "ISPubMaticAdapter.h"
+
+@protocol ISBannerAdDelegate;
 
 @interface ISPubMaticBannerDelegate : NSObject <POBBannerViewDelegate>
 
-@property (nonatomic, strong)   NSString                        *adUnitId;
-@property (nonatomic, weak)     ISPubMaticAdapter               *adapter;
-@property (nonatomic, weak)     id<ISBannerAdapterDelegate>     delegate;
+@property (nonatomic, weak) UIViewController *viewController;
+@property (nonatomic, weak) id<ISBannerAdDelegate> delegate;
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                         adapter:(ISPubMaticAdapter *)adapter
-                        andDelegate:(id<ISBannerAdapterDelegate>)delegate;
+- (instancetype)initWithViewController:(UIViewController *)viewController
+                              delegate:(id<ISBannerAdDelegate>)delegate;
 
 @end

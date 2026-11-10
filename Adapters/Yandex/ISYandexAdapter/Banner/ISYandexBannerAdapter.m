@@ -5,169 +5,139 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+@import YandexMobileAds;
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISYandexBannerAdapter.h"
-#import "ISYandexBannerAdDelegate.h"
+#import "ISYandexBannerDelegate.h"
+#import "ISYandexAdapter+Internal.h"
+#import "ISYandexAdapter.h"
+#import "ISYandexConstants.h"
 
 @interface ISYandexBannerAdapter ()
 
-@property (nonatomic, weak)   ISYandexAdapter *adapter;
-@property (nonatomic, strong) YMAAdView *ad;
-@property (nonatomic, strong) ISYandexBannerAdDelegate *yandexAdDelegate;
-@property (nonatomic, weak)   id<ISBannerAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) YMABannerAdView *bannerAdView;
+@property (nonatomic, strong) ISYandexBannerDelegate *bannerAdDelegate;
 
 @end
 
 @implementation ISYandexBannerAdapter
 
-- (instancetype)initWithYandexAdapter:(ISYandexAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _smashDelegate = nil;
-        _ad = nil;
-        _yandexAdDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Banner Methods
 
-#pragma mark - Banner API's
+- (void)loadAdWithAdData:(ISAdData *)adData
+          viewController:(UIViewController *)viewController
+                    size:(ISBannerSize *)size
+                delegate:(id<ISBannerAdDelegate>)delegate {
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+    LogAdapterApi_Internal(logAdUnitId, adUnitId);
 
-
-- (void)initBannerForBiddingWithUserId:(NSString *)userId 
-                         adapterConfig:(ISAdapterConfig *)adapterConfig
-                              delegate:(id<ISBannerAdapterDelegate>)delegate {
-    NSString *appId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                     forKey:kAppId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:appId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAppId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerInitFailedWithError:error];
+    // validate adUnitId
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:adUnitId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAdUnitId];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterBannerInitFailedWithError:error];
+
+    ISYandexAdapter *adapter = (ISYandexAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorInternal
+                                         userInfo:@{NSLocalizedDescriptionKey:logAdapterNil}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    self.smashDelegate = delegate;
-    
-    LogAdapterApi_Internal(@"appId = %@, adUnitId = %@", appId, adUnitId);
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithAppId:appId];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterBannerInitSuccess];
-            break;
-    }
-}
 
-- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
-                                       adData:(NSDictionary *)adData 
-                                   serverData:(NSString *)serverData
-                               viewController:(UIViewController *)viewController
-                                         size:(ISBannerSize *)size
-                                     delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-    
     // get size
     YMABannerAdSize *adSize = [self getBannerSize:size];
 
     // create banner ad delegate
-    ISYandexBannerAdDelegate *adDelegate = [[ISYandexBannerAdDelegate alloc] initWithAdUnitId:adUnitId
-                                                                                  andDelegate:delegate];
-    self.yandexAdDelegate = adDelegate;
+    self.bannerAdDelegate = [[ISYandexBannerDelegate alloc] initWithDelegate:delegate];
+
+    // get ad request parameters from adapter
+    YMAAdRequest *adRequest = [adapter createAdRequestWithBidResponse:adData.serverData
+                                                              adUnitId:adUnitId];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         // create banner view
-        YMAAdView *adView = [[YMAAdView alloc] initWithAdUnitID: adUnitId
-                                                         adSize: adSize];
-        adView.delegate = adDelegate;
-        
-        // add banner ad to local variable
-        self.ad = adView;
-        
-        // get ad request parameters
-        YMAMutableAdRequest *adRequest = [self.adapter createAdRequestWithBidResponse:serverData];
-    
+        self.bannerAdView = [[YMABannerAdView alloc] initWithAdSize:adSize];
+        self.bannerAdView.delegate = self.bannerAdDelegate;
+
         // load ad
-        [self.ad loadAdWithRequest:adRequest];
+        [self.bannerAdView loadAdWithRequest:adRequest];
     });
 }
 
-- (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                        forKey:kAdUnitId];
-    
-    LogAdapterDelegate_Internal(@"adUnitId = %@", adUnitId);
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterDelegate_Internal(logCallbackEmpty);
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.ad.delegate = nil;
-        self.ad = nil;
-        self.smashDelegate = nil;
-        self.yandexAdDelegate = nil;
+        self.bannerAdView.delegate = nil;
+        self.bannerAdView = nil;
+        self.bannerAdDelegate = nil;
     });
-}
-
-- (void)collectBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
-                                           adData:(NSDictionary *)adData
-                                         delegate:(id<ISBiddingDataDelegate>)delegate {
-    
-    YMABidderTokenRequestConfiguration *requestConfiguration = [[YMABidderTokenRequestConfiguration alloc] initWithAdType:YMAAdTypeBanner];
-    
-    if (adData) {
-        if ([adData objectForKey:@"bannerSize"]) {
-            ISBannerSize *size = [adData objectForKey:@"bannerSize"];
-            YMABannerAdSize *adSize = [self getBannerSize:size];
-            [requestConfiguration setBannerAdSize:adSize];
-        }
-    }
-    
-    requestConfiguration.parameters = [self.adapter getConfigParams];
-
-    [self.adapter collectBiddingDataWithRequestConfiguration:requestConfiguration
-                                                    delegate:delegate];
-}
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterBannerInitSuccess];
 }
 
 #pragma mark - Helper Methods
 
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    ISYandexAdapter *adapter = (ISYandexAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
+
+    YMABidderTokenRequest *requestConfiguration = nil;
+    NSDictionary *adUnitData = adData.adUnitData;
+    if ([adUnitData objectForKey:bannerSizeKey]) {
+        ISBannerSize *size = [adUnitData objectForKey:bannerSizeKey];
+        YMABannerAdSize *adSize = [self getBannerSize:size];
+        requestConfiguration = [YMABidderTokenRequest bannerWithSize:adSize
+                                                            targeting:nil
+                                                           parameters:[adapter getConfigParams]];
+    } else {
+        // Create a default banner size if none specified
+        YMABannerAdSize *defaultSize = [YMABannerAdSize fixedWithWidth:bannerWidth height:bannerHeight];
+        requestConfiguration = [YMABidderTokenRequest bannerWithSize:defaultSize
+                                                            targeting:nil
+                                                           parameters:[adapter getConfigParams]];
+    }
+
+    [adapter collectBiddingDataWithRequestConfiguration:requestConfiguration
+                                                delegate:delegate];
+}
+
 - (YMABannerAdSize *)getBannerSize:(ISBannerSize *)size {
     YMABannerAdSize *adSize = nil;
-    
-    if ([size.sizeDescription isEqualToString:@"BANNER"]) {
-        adSize = [YMABannerAdSize fixedSizeWithWidth:320 height:50];
-    } else if ([size.sizeDescription isEqualToString:@"LARGE"]) {
-        adSize = [YMABannerAdSize fixedSizeWithWidth:320 height:90];
-    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
-        adSize = [YMABannerAdSize fixedSizeWithWidth:300 height:250];
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
+
+    if ([size.sizeDescription isEqualToString:sizeBanner]) {
+        adSize = [YMABannerAdSize fixedWithWidth:bannerWidth height:bannerHeight];
+    } else if ([size.sizeDescription isEqualToString:sizeLarge]) {
+        adSize = [YMABannerAdSize fixedWithWidth:largeBannerWidth height:largeBannerHeight];
+    } else if ([size.sizeDescription isEqualToString:sizeRectangle]) {
+        adSize = [YMABannerAdSize fixedWithWidth:rectangleWidth height:rectangleHeight];
+    } else if ([size.sizeDescription isEqualToString:sizeSmart]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            adSize = [YMABannerAdSize fixedSizeWithWidth:728 height:90];
+            adSize = [YMABannerAdSize fixedWithWidth:leaderboardWidth height:leaderboardHeight];
         } else {
-            adSize = [YMABannerAdSize fixedSizeWithWidth:320 height:50];
+            adSize = [YMABannerAdSize fixedWithWidth:bannerWidth height:bannerHeight];
         }
-    } else if ([size.sizeDescription isEqualToString:@"CUSTOM"]) {
-        adSize = [YMABannerAdSize fixedSizeWithWidth:size.width height:size.height];
+    } else if ([size.sizeDescription isEqualToString:sizeCustom]) {
+        adSize = [YMABannerAdSize fixedWithWidth:size.width height:size.height];
     }
-    
+
     return adSize;
 }
 

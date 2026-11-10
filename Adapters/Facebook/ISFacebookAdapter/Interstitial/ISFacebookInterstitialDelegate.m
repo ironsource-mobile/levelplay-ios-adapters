@@ -7,81 +7,51 @@
 
 #import "ISFacebookInterstitialDelegate.h"
 #import "ISFacebookConstants.h"
+#import <IronSource/ISBaseInterstitial.h>
+#import <IronSource/ISAdapterErrorType.h>
+#import <IronSource/ISLog.h>
 
 @implementation ISFacebookInterstitialDelegate
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                        andDelegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
     self = [super init];
     if (self) {
-        _placementId = placementId;
         _delegate = delegate;
     }
     return self;
 }
 
-/**
- Sent when an FBInterstitialAd successfully loads an ad.
- @param interstitialAd An FBInterstitialAd object sending the message.
- */
+#pragma mark - FBInterstitialAdDelegate
+
 - (void)interstitialAdDidLoad:(FBInterstitialAd *)interstitialAd {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidLoad];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidLoad];
 }
 
-/**
- Sent when an FBInterstitialAd failes to load an ad.
- @param interstitialAd An FBInterstitialAd object sending the message.
- @param error An error object containing details of the error.
- */
-- (void)interstitialAd:(FBInterstitialAd *)interstitialAd
-      didFailWithError:(NSError *)error {
-    LogAdapterDelegate_Internal(@"placementId = %@, error = %@", self.placementId, error.description);
+- (void)interstitialAd:(FBInterstitialAd *)interstitialAd didFailWithError:(NSError *)error {
+    LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
 
-    NSInteger errorCode;
-    NSString *errorReason;
+    ISAdapterErrorType errorType = (error.code == facebookNoFillErrorCode) ?
+        ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
 
-    if (error) {
-        errorCode = error.code == kMetaNoFillErrorCode ? ERROR_IS_LOAD_NO_FILL : error.code;
-        errorReason = error.description;
-    } else {
-        errorCode = ERROR_CODE_GENERIC;
-        errorReason = @"Load attempt failed";
-    }
-    
-    NSError *interstitialError = [NSError errorWithDomain:kAdapterName
-                                                     code:errorCode
-                                                 userInfo:@{NSLocalizedDescriptionKey:errorReason}];
-    
-    [self.delegate adapterInterstitialDidFailToLoadWithError:interstitialError];
+    [self.delegate adDidFailToLoadWithErrorType:errorType
+                                      errorCode:error.code
+                                   errorMessage:error.localizedDescription];
 }
 
-/**
- Sent immediately before the impression of an FBInterstitialAd object will be logged.
- @param interstitialAd An FBInterstitialAd object sending the message.
- */
 - (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidOpen];
-    [self.delegate adapterInterstitialDidShow];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
-/**
- Sent after an ad in the FBInterstitialAd object is clicked. The appropriate app store view or app browser will be launched.
- @param interstitialAd An FBInterstitialAd object sending the message.
- */
 - (void)interstitialAdDidClick:(FBInterstitialAd *)interstitialAd {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidClick];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
 
-/**
- Sent after an FBInterstitialAd object has been dismissed from the screen, returning control to your application.
- @param interstitialAd An FBInterstitialAd object sending the message.
- */
 - (void)interstitialAdDidClose:(FBInterstitialAd *)interstitialAd {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterInterstitialDidClose];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClose];
 }
 
 @end

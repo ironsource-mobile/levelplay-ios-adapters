@@ -5,226 +5,150 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <GoogleMobileAds/GoogleMobileAds.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISAdMobInterstitialAdapter.h"
 #import "ISAdMobInterstitialDelegate.h"
+#import "ISAdMobAdapter+Internal.h"
+#import "ISAdMobAdapter.h"
+#import "ISAdMobConstants.h"
 
 @interface ISAdMobInterstitialAdapter ()
 
-@property (nonatomic, weak) ISAdMobAdapter *adapter;
-
-@property (nonatomic, strong) ISConcurrentMutableDictionary *adUnitIdToAds;
-@property (nonatomic, strong) ISConcurrentMutableDictionary *adUnitIdToSmashDelegate;
-@property (nonatomic, strong) ISConcurrentMutableDictionary *adUnitIdToAdsAvailability;
-@property (nonatomic, strong) ISConcurrentMutableDictionary *adUnitIdToAdDelegate;
+@property (nonatomic, strong) GADInterstitialAd            *interstitialAd;
+@property (nonatomic, strong) ISAdMobInterstitialDelegate  *interstitialAdDelegate;
+@property (nonatomic, assign) BOOL                          adAvailability;
 
 @end
 
 @implementation ISAdMobInterstitialAdapter
 
-- (instancetype)initWithAdMobAdapter:(ISAdMobAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter                                = adapter;
-        _adUnitIdToAds                          = [ISConcurrentMutableDictionary dictionary];
-        _adUnitIdToSmashDelegate                = [ISConcurrentMutableDictionary dictionary];
-        _adUnitIdToAdsAvailability              = [ISConcurrentMutableDictionary dictionary];
-        _adUnitIdToAdDelegate                   = [ISConcurrentMutableDictionary dictionary];
+#pragma mark - Interstitial Methods
+
+- (void)loadAdWithAdData:(ISAdData *)adData
+                delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *adUnitId = [adData getString:adUnitIdKey];
+    LogAdapterApi_Internal(logAdUnitId, adUnitId);
+
+    if (!adUnitId || adUnitId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, adUnitIdKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
+        return;
     }
-    return self;
-}
 
-#pragma mark - Interstitial API
+    ISAdMobAdapter *adapter = (ISAdMobAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorInternal
+                                  errorMessage:logAdapterNil];
+        return;
+    }
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    [self initInterstitialWithUserId:userId
-                       adapterConfig:adapterConfig
-                            delegate:delegate];
-}
+    self.adAvailability = NO;
 
-- (void)initInterstitialWithUserId:(NSString *)userId
-                     adapterConfig:(ISAdapterConfig *)adapterConfig
-                          delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        
-        
-        /* Configuration Validation */
-        if (![self.adapter isConfigValueValid:adUnitId]) {
-            NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAdUnitId];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterInterstitialInitFailedWithError:error];
+    GADInterstitialAdLoadCompletionHandler loadHandler = ^(GADInterstitialAd *_Nullable interstitialAd, NSError *_Nullable error) {
+        if (error) {
+            LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
+            ISAdapterErrorType errorType = (error.code == GADErrorNoFill) ?
+                ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+            [delegate adDidFailToLoadWithErrorType:errorType
+                                         errorCode:error.code
+                                      errorMessage:error.localizedDescription];
             return;
         }
-        
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        
-        [self.adUnitIdToSmashDelegate setObject:delegate
-                                         forKey:adUnitId];
-        
-        switch ([self.adapter getInitState]) {
-            case INIT_STATE_NONE:
-            case INIT_STATE_IN_PROGRESS:
-                [self.adapter initAdMobSDKWithAdapterConfig:adapterConfig];
-                break;
-            case INIT_STATE_FAILED: {
-                LogAdapterApi_Internal(@"init failed - adUnitId = %@", adUnitId);
-                [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                                          withMessage:@"AdMob SDK init failed"]];
-                break;
-            }
-            case INIT_STATE_SUCCESS:
-                [delegate adapterInterstitialInitSuccess];
-                break;
+
+        if (!interstitialAd) {
+            NSString *errorMessage = [NSString stringWithFormat:errorAdIsNil, adFormatInterstitial];
+            LogAdapterDelegate_Internal(logError, errorMessage);
+            [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                         errorCode:ERROR_CODE_GENERIC
+                                      errorMessage:errorMessage];
+            return;
         }
-    });
-}
 
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    LogAdapterApi_Internal(@"");
-    
-    [self loadInterstitialInternal:adapterConfig
-                            adData:adData
-                        serverData:serverData
-                          delegate:delegate];
-}
+        self.interstitialAd = interstitialAd;
+        self.adAvailability = YES;
 
-- (void)loadInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                   adData:(NSDictionary *)adData
-                                 delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    LogAdapterApi_Internal(@"");
-    
-    [self loadInterstitialInternal:adapterConfig
-                            adData:adData
-                        serverData:nil
-                          delegate:delegate];
-}
+        NSString *creativeId = interstitialAd.responseInfo.responseIdentifier;
+        LogAdapterDelegate_Internal(logCreativeId, creativeId);
 
-- (void)loadInterstitialInternal:(ISAdapterConfig *)adapterConfig
-                          adData:(NSDictionary *)adData
-                      serverData:(NSString *)serverData
-                        delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        
-        [self.adUnitIdToAdsAvailability setObject:@NO
-                                           forKey:adUnitId];
+        if (creativeId.length) {
+            NSDictionary *extraData = @{creativeIdKey: creativeId};
+            [delegate adDidLoadWithExtraData:extraData];
+        } else {
+            [delegate adDidLoad];
+        }
+    };
 
-        [self.adUnitIdToSmashDelegate setObject:delegate
-                                         forKey:adUnitId];
-        
-        GADRequest *request = [self.adapter createGADRequestForLoadWithAdData:adData
-                                                                   serverData:serverData];
-        
-        ISAdMobInterstitialDelegate *interstitialAdDelegate = [[ISAdMobInterstitialDelegate alloc] initWithAdapter:self
-                                                                                                          adUnitId:adUnitId
-                                                                                                       andDelegate:delegate];
-        [self.adUnitIdToAdDelegate setObject:interstitialAdDelegate
-                                      forKey:adUnitId];
-        
+    if (adData.serverData) {
+        [GADInterstitialAd loadWithAdResponseString:adData.serverData
+                                  completionHandler:loadHandler];
+    } else {
+        GADRequest *request = [adapter createGADRequestWithAdData:adData.adUnitData];
         [GADInterstitialAd loadWithAdUnitID:adUnitId
                                     request:request
-                          completionHandler:[interstitialAdDelegate completionBlock]];
-    });
+                          completionHandler:loadHandler];
+    }
 }
 
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    if (![self isAdAvailableWithAdData:adData]) {
+        NSString *errorMessage = [NSString stringWithFormat:errorShowFailed, networkName];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ERROR_CODE_NO_ADS_TO_SHOW
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToShowWithErrorCode:error.code
+                                  errorMessage:error.localizedDescription];
+        return;
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-        LogAdapterApi_Internal(@"adUnitId = %@", adUnitId);
-        
-        GADInterstitialAd *interstitialAd = [self.adUnitIdToAds objectForKey:adUnitId];
-        
-        ISAdMobInterstitialDelegate *interstitialAdDelegate = [self.adUnitIdToAdDelegate objectForKey:adUnitId];
-        
-        interstitialAd.fullScreenContentDelegate = interstitialAdDelegate;
-        
-        // Show the ad if it's ready.
-        if (interstitialAd != nil && [self hasInterstitialWithAdapterConfig:adapterConfig]) {
-            [interstitialAd presentFromRootViewController:viewController];
-        } else {
-            NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                      withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-            LogAdapterApi_Internal(@"error = %@", error);
-            [delegate adapterInterstitialDidFailToShowWithError:error];
-            
-        }
-        
-        //change interstitial availability to false
-        [self.adUnitIdToAdsAvailability setObject:@NO
-                                           forKey:adUnitId];
+        self.interstitialAdDelegate = [[ISAdMobInterstitialDelegate alloc] initWithDelegate:delegate];
+        self.interstitialAd.fullScreenContentDelegate = self.interstitialAdDelegate;
+        [self.interstitialAd presentFromRootViewController:viewController];
+        self.adAvailability = NO;
     });
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *adUnitId = adapterConfig.settings[kAdUnitId];
-    NSNumber *available = [self.adUnitIdToAdsAvailability objectForKey:adUnitId];
-    return [available boolValue];
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return self.interstitialAd != nil && self.adAvailability;
 }
 
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        GADRequest *request = [GADRequest request];
-        request.requestAgent = kRequestAgent;
-        NSMutableDictionary *additionalParameters = [[NSMutableDictionary alloc] init];
-        additionalParameters[kAdMobQueryInfoType] = kAdMobRequesterType;
-
-        GADExtras *extras = [[GADExtras alloc] init];
-        extras.additionalParameters = additionalParameters;
-        [request registerAdNetworkExtras:extras];
-        
-        [self.adapter collectBiddingDataWithAdData:request
-                                          adFormat:GADAdFormatInterstitial
-                                          delegate:delegate];
-    });
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
+    self.adAvailability = NO;
+    self.interstitialAd = nil;
+    self.interstitialAdDelegate = nil;
 }
 
-#pragma mark - Init Delegate
+#pragma mark - Bidding Data
 
-- (void)onNetworkInitCallbackSuccess {
-    NSArray *interstitialAdUnitIds = self.adUnitIdToSmashDelegate.allKeys;
-
-    for (NSString *adUnitId in interstitialAdUnitIds) {
-        id<ISInterstitialAdapterDelegate> delegate = [self.adUnitIdToSmashDelegate objectForKey:adUnitId];
-        [delegate adapterInterstitialInitSuccess];
-    }
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    
-    NSArray *interstitialAdUnitIds = self.adUnitIdToSmashDelegate.allKeys;
-
-    for (NSString *adUnitId in interstitialAdUnitIds) {
-        id<ISInterstitialAdapterDelegate> delegate = [self.adUnitIdToSmashDelegate objectForKey:adUnitId];
-        [delegate adapterInterstitialInitFailedWithError:error];
-    }
-}
-
-#pragma mark - Availability
-
-- (void)onAdUnitAvailabilityChangeWithAdUnitId:(NSString *)adUnitId
-                                  availability:(BOOL)availability
-                                interstitialAd:(GADInterstitialAd *)interstitialAd {
-    if (availability) {
-        [self.adUnitIdToAds setObject:interstitialAd
-                               forKey:adUnitId];
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISAdMobAdapter *adapter = (ISAdMobAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
     }
 
-    [self.adUnitIdToAdsAvailability setObject:@(availability)
-                                       forKey:adUnitId];
+    GADInterstitialSignalRequest *request = [[GADInterstitialSignalRequest alloc] initWithSignalType:requesterType];
+    [adapter collectBiddingDataWithSignalRequest:request
+                                          adData:adData
+                                        delegate:delegate];
 }
 
 @end

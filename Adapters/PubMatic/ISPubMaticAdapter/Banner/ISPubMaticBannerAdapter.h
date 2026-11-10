@@ -6,11 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISPubMaticAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseBannerAdapter.h>
 
-@interface ISPubMaticBannerAdapter : ISBaseBannerAdapter
-
-- (instancetype)initWithPubMaticAdapter:(ISPubMaticAdapter *)adapter;
+@interface ISPubMaticBannerAdapter : LevelPlayBaseBannerAdapter
 
 @end
-

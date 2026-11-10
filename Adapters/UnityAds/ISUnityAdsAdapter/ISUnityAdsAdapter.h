@@ -6,18 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const UnityAdsAdapterVersion = @"4.3.58";
+static NSString * const UnityAdsAdapterVersion = @"5.13.0";
 static NSString * Githash = @"";
 
 //System Frameworks For UnityAds Adapter
-
 @import AdSupport;
 @import CoreTelephony;
 @import StoreKit;
 
-@interface ISUnityAdsAdapter : ISBaseAdapter
+@interface ISUnityAdsAdapter : LevelPlayBaseAdapter
 
 @end

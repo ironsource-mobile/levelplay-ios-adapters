@@ -7,70 +7,46 @@
 
 #import "ISFacebookBannerDelegate.h"
 #import "ISFacebookConstants.h"
+#import <IronSource/ISBaseBanner.h>
+#import <IronSource/ISAdapterErrorType.h>
+#import <IronSource/ISLog.h>
 
 @implementation ISFacebookBannerDelegate
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                        andDelegate:(id<ISBannerAdapterDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate {
     self = [super init];
     if (self) {
-        _placementId = placementId;
         _delegate = delegate;
     }
     return self;
 }
 
-/**
- Sent when an ad has been successfully loaded.
- @param adView An FBAdView object sending the message.
- */
+#pragma mark - FBAdViewDelegate
+
 - (void)adViewDidLoad:(FBAdView *)adView {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterBannerDidLoad:adView];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidLoadWithView:adView];
 }
 
-/**
- Sent after an FBAdView fails to load the ad.
- @param adView An FBAdView object sending the message.
- @param error An error object containing details of the error.
- */
 - (void)adView:(FBAdView *)adView didFailWithError:(NSError *)error {
-    LogAdapterDelegate_Internal(@"placementId = %@, error = %@", self.placementId, error);
+    LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
 
-    NSInteger errorCode;
-    NSString *errorReason;
+    ISAdapterErrorType errorType = (error.code == facebookNoFillErrorCode) ?
+        ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
 
-    if (error) {
-        errorCode = error.code == kMetaNoFillErrorCode ? ERROR_BN_LOAD_NO_FILL : error.code;
-        errorReason = error.description;
-    } else {
-        errorCode = ERROR_CODE_GENERIC;
-        errorReason = @"Load attempt failed";
-    }
-    
-    NSError *bannerError = [NSError errorWithDomain:kAdapterName
-                                               code:errorCode
-                                           userInfo:@{NSLocalizedDescriptionKey:errorReason}];
-
-    [self.delegate adapterBannerDidFailToLoadWithError:bannerError];
+    [self.delegate adDidFailToLoadWithErrorType:errorType
+                                      errorCode:error.code
+                                   errorMessage:error.localizedDescription];
 }
 
-/**
- Sent immediately before the impression of an FBAdView object will be logged.
- @param adView An FBAdView object sending the message.
- */
 - (void)adViewWillLogImpression:(FBAdView *)adView {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterBannerDidShow];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
-/**
- Sent after an ad has been clicked by the person.
- @param adView An FBAdView object sending the message.
- */
 - (void)adViewDidClick:(FBAdView *)adView {
-    LogAdapterDelegate_Internal(@"placementId = %@", self.placementId);
-    [self.delegate adapterBannerDidClick];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
 
 @end

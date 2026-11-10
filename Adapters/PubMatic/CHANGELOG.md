@@ -1,0 +1,42 @@
+# Changelog
+
+## Version 5.12.0
+* Supporting SDK version 5.5.0
+
+## Version 5.11.0
+* Supporting SDK version 5.4.1
+
+## Version 5.10.0
+* Supporting SDK version 5.4.0
+
+## Version 5.9.0
+* General improvements and performance enhancements
+
+## Version 5.8.0
+* Supporting SDK version 5.3.0
+
+## Version 5.7.0
+* Supporting SDK version 5.2.0
+
+## Version 5.6.0
+* Supporting SDK version 5.1.1
+
+## Version 5.5.0
+* Supporting SDK version 5.1.0
+
+## Version 5.4.0
+* Supporting SDK version 5.0.1
+
+## Version 5.3.0
+* Supporting SDK version 5.0.0
+
+## Version 5.2.0
+* Supporting SDK version 4.12.0
+
+## Version 5.1.0
+* Supporting SDK version 4.11.0
+
+## Version 5.0.0
+* Supporting SDK version 9.0.0
+* The adapter is compatible with LevelPlay 9.0.0 and above
+* Adds bidding support

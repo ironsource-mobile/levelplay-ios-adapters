@@ -1,17 +1,22 @@
+//
+//  ISBigoBannerDelegate.h
+//  ISBigoAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
 
-#import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import "ISBigoBannerAdapter.h"
 #import <BigoADS/BigoBannerAdLoader.h>
 
+@protocol ISBannerAdDelegate;
+@class ISBigoBannerAdapter;
+@class BigoBannerAd;
 
 @interface ISBigoBannerDelegate : NSObject <BigoBannerAdLoaderDelegate, BigoAdInteractionDelegate>
 
-@property (nonatomic, strong) NSString* slotId;
-@property (nonatomic, weak) ISBigoBannerAdapter*        adapter;
-@property (nonatomic, weak) id<ISBannerAdapterDelegate> delegate;
+@property (nonatomic, weak) ISBigoBannerAdapter     *adapter;
+@property (nonatomic, weak) id<ISBannerAdDelegate>  delegate;
 
-- (instancetype)initWithSlotId:(NSString *)adUnitId
-                andBannerAdapter:(ISBigoBannerAdapter *)adapter
-                     andDelegate:(id<ISBannerAdapterDelegate>)delegate;
+- (instancetype)initWithAdapter:(ISBigoBannerAdapter *)adapter
+                       delegate:(id<ISBannerAdDelegate>)delegate;
+
 @end

@@ -5,153 +5,98 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISYSOInterstitialAdapter.h"
-#import "ISYSOInterstitialAdDelegate.h"
+#import "ISYSOInterstitialDelegate.h"
+#import "ISYSOAdapter+Internal.h"
 
 @interface ISYSOInterstitialAdapter ()
 
-@property (nonatomic, weak)   ISYSOAdapter *adapter;
-@property (nonatomic, strong) ISYSOInterstitialAdDelegate *adDelegate;
-@property (nonatomic, weak)   id<ISInterstitialAdapterDelegate> smashDelegate;
+@property (nonatomic, strong) ISYSOInterstitialDelegate *interstitialAdDelegate;
 
 @end
 
 @implementation ISYSOInterstitialAdapter
 
-- (instancetype)initWithYSOAdapter:(ISYSOAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter = adapter;
-        _adDelegate = nil;
-        _smashDelegate = nil;
-    }
-    return self;
-}
+#pragma mark - Interstitial Methods
 
-#pragma mark - Interstitial API
+- (void)loadAdWithAdData:(ISAdData *)adData
+                delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *placementKey = [adData getString:placementKeyKey];
+    LogAdapterApi_Internal(logPlacementKey, placementKey);
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
-    NSString *placementKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                     forKey:kPlacementKey];
-
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:placementKey]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kPlacementKey];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    if (!placementKey || placementKey.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementKeyKey];
+        LogAdapterApi_Internal(logError, errorMessage);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:ISAdapterErrorMissingParams
+                                  errorMessage:errorMessage];
         return;
     }
-    
-    LogAdapterApi_Internal(@"placementKey = %@", placementKey);
-    
-    self.smashDelegate = delegate;
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithPlacementKey:placementKey];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-        case INIT_STATE_FAILED:
-            LogAdapterApi_Internal(@"init failed - placementKey = %@", placementKey);
-            [delegate adapterInterstitialInitFailedWithError:[ISError createError:ERROR_CODE_INIT_FAILED
-                                                              withMessage:@"YSO SDK init failed"]];
-            break;
-    }
-}
 
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *placementKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementKey];
+    self.interstitialAdDelegate = [[ISYSOInterstitialDelegate alloc] initWithDelegate:delegate];
 
-    LogAdapterApi_Internal(@"placementKey = %@", placementKey);
-    
-    // create interstitial ad delegate
-    ISYSOInterstitialAdDelegate *adDelegate = [[ISYSOInterstitialAdDelegate alloc] initWithPlacementKey:placementKey
-                                                                                               adapter:self.adapter
-                                                                                           andDelegate:delegate];
-    self.adDelegate = adDelegate;
-    
-    // load ad
     [YsoNetwork interstitialLoadWithKey:placementKey
-                                   json:serverData
-                                 onLoad:^(e_ActionError error) {
-        [self.adDelegate handleOnLoad:error];
+                             json:adData.serverData
+                           onLoad:^(e_ActionError error) {
+        [self.interstitialAdDelegate handleOnLoad:error];
     }];
 }
 
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    NSString *placementKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                     forKey:kPlacementKey];
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *placementKey = [adData getString:placementKeyKey];
+    LogAdapterApi_Internal(logPlacementKey, placementKey);
 
-    LogAdapterApi_Internal(@"placementKey = %@", placementKey);
-
-    if (![self hasInterstitialWithAdapterConfig:adapterConfig]) {
+    if (![self isAdAvailableWithAdData:adData]) {
         NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-        LogAdapterApi_Internal(@"error = %@", error);
-        [delegate adapterInterstitialDidFailToShowWithError:error];
+                                  withMessage:[NSString stringWithFormat:logShowFailed, networkName]];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToShowWithErrorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [YsoNetwork interstitialShowWithKey:placementKey
-                             viewController:viewController
-                                  onDisplay:^(YNWebView * _Nullable view) {
-            [self.adDelegate handleOnDisplay:view];
+                       viewController:viewController
+                            onDisplay:^(YNWebView *_Nullable view) {
+            [self.interstitialAdDelegate handleOnDisplay:view];
         }
-                                    onClick:^{
-            [self.adDelegate handleOnClick];
+                              onClick:^{
+            [self.interstitialAdDelegate handleOnClick];
         }
-                                    onClose:^(BOOL display, BOOL complete) {
-            [self.adDelegate handleOnClose:display complete:complete];
+                              onClose:^(BOOL display, BOOL complete) {
+            [self.interstitialAdDelegate handleOnClose:display complete:complete];
         }];
     });
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *placementKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                     forKey:kPlacementKey];
-    return [YsoNetwork interstitialIsReadyWithKey:placementKey];
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return [YsoNetwork interstitialIsReadyWithKey:[adData getString:placementKeyKey]];
 }
 
-- (void)collectInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig 
-                                                 adData:(NSDictionary *)adData
-                                               delegate:(id<ISBiddingDataDelegate>)delegate {
-    [self.adapter collectBiddingDataWithDelegate:delegate];
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    self.interstitialAdDelegate = nil;
 }
 
-#pragma mark - Init Delegate
+#pragma mark - Helper Methods
 
-- (void)onNetworkInitCallbackSuccess {
-    [self.smashDelegate adapterInterstitialInitSuccess];
-}
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISYSOAdapter *adapter = (ISYSOAdapter *)[self getNetworkAdapter];
 
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    [self.smashDelegate adapterInterstitialInitFailedWithError:error];
-}
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
 
-#pragma mark - Memory Handling
-
-- (void)destroyInterstitialAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *placementKey = [self getStringValueFromAdapterConfig:adapterConfig
-                                                            forKey:kPlacementKey];
-    LogAdapterApi_Internal(@"placementKey = %@", placementKey);
-    self.adDelegate = nil;
-    self.smashDelegate = nil;
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
 
 @end

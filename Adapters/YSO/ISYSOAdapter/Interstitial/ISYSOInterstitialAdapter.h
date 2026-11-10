@@ -6,10 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ISYSOAdapter+Internal.h"
+#import <IronSource/LevelPlayBaseInterstitialAdapter.h>
 
-@interface ISYSOInterstitialAdapter : ISBaseInterstitialAdapter
-
-- (instancetype)initWithYSOAdapter:(ISYSOAdapter *)adapter;
+@interface ISYSOInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
 @end

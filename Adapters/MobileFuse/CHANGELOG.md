@@ -1,0 +1,67 @@
+# Changelog
+
+## Version 5.7.0
+* Supporting SDK version 1.13.1
+
+## Version 5.6.0
+* Supporting SDK version 1.13.0
+* Updated minimum supported iOS version to 15.0
+
+## Version 5.5.0
+* Supporting SDK version 1.12.0
+
+## Version 5.4.0
+* Supporting SDK version 1.11.1
+
+## Version 5.3.0
+* General improvements and performance enhancements
+
+## Version 5.2.0
+* Supporting SDK version 1.11.0
+
+## Version 5.1.0
+* Supporting SDK version 1.10.0
+
+## Version 5.0.0
+* The adapter is compatible with LevelPlay 9.0.0 and above
+
+---
+
+### ⚠️ Breaking Change – Minimum SDK Requirement
+
+**All adapter releases listed **above** this section support LevelPlay SDK 9.0.0 and above only.**  
+Adapter releases listed **below this section** continue to support earlier LevelPlay SDK versions.
+
+---
+
+## Version 4.3.9
+* Supporting SDK version 1.9.3
+* **Important!** This adapter is compatible with ironSource SDK 8.9.0 and above
+
+## Version 4.3.8
+* Supporting SDK version 1.9.2
+
+## Version 4.3.7
+* Supporting SDK version 1.9.1
+
+## Version 4.3.6
+* Supporting SDK version 1.9.0
+
+## Version 4.3.5
+* Added missing Rewarded Video availability and AdExpired callbacks
+
+## Version 4.3.4
+* Add Banner Smart Size Support
+
+## Version 4.3.3
+* Supporting SDK version 1.8.2
+
+## Version 4.3.2
+* Supporting SDK version 1.8.0
+
+## Version 4.3.1
+* Supporting SDK version 1.7.6
+* COPPA Support – using setMetaData API "levelplay_childdirected"
+* US Privacy Support – using setMetaData API "do_not_sell"
+* GDPR Support – using SetConsent API
+* Min iS SDK: 8.4.0+

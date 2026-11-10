@@ -6,191 +6,115 @@
 //
 
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISFacebookInterstitialAdapter.h"
 #import "ISFacebookInterstitialDelegate.h"
+#import "ISFacebookAdapter+Internal.h"
+#import "ISFacebookAdapter.h"
+#import "ISFacebookConstants.h"
 
 @interface ISFacebookInterstitialAdapter ()
 
-@property (nonatomic, weak) ISFacebookAdapter   *adapter;
-
-@property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToAdDelegate;
-@property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToAd;
+@property (nonatomic, strong) FBInterstitialAd                *interstitialAd;
+@property (nonatomic, strong) ISFacebookInterstitialDelegate  *interstitialAdDelegate;
 
 @end
 
 @implementation ISFacebookInterstitialAdapter
 
-- (instancetype)initWithFacebookAdapter:(ISFacebookAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter                                  = adapter;
-        _adUnitPlacementIdToSmashDelegate         = [ISConcurrentMutableDictionary dictionary];
-        _adUnitPlacementIdToAdDelegate            = [ISConcurrentMutableDictionary dictionary];
-        _adUnitPlacementIdToAd                    = [ISConcurrentMutableDictionary dictionary];
-    }
-    return self;
-}
+#pragma mark - Interstitial Methods
 
-- (void)initInterstitialForBiddingWithUserId:(NSString *)userId
-                               adapterConfig:(ISAdapterConfig *)adapterConfig
-                                    delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    NSString *allPlacementIds = [self getStringValueFromAdapterConfig:adapterConfig
-                                                               forKey:kAllPlacementIds];
+- (void)loadAdWithAdData:(ISAdData *)adData
+                delegate:(id<ISInterstitialAdDelegate>)delegate {
+    NSString *placementId = [adData getString:placementIdKey];
+    LogAdapterApi_Internal(logPlacementId, placementId);
 
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:placementId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kPlacementId];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterInterstitialInitFailedWithError:error];
+    if (!placementId || placementId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementIdKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    if (![self.adapter isConfigValueValid:allPlacementIds]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAllPlacementIds];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterInterstitialInitFailedWithError:error];
+
+    if (!adData.serverData) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, serverDataKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
 
-    //add to interstitial delegate map
-    [self.adUnitPlacementIdToSmashDelegate setObject:delegate
-                                              forKey:placementId];
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithPlacementIds:allPlacementIds];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterInterstitialInitSuccess];
-            break;
-        case INIT_STATE_FAILED: {
-            LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_INIT_FAILED
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Meta SDK init failed"}];
-            [delegate adapterInterstitialInitFailedWithError:error];
-            break;
-        }
-    }
-}
-
-- (void)loadInterstitialForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                             adData:(NSDictionary *)adData
-                                         serverData:(NSString *)serverData
-                                           delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                               forKey:kPlacementId];
-        LogAdapterApi_Internal(@"placementId = %@", placementId);
-        
-        @try {
-            // add delegate to dictionary
-            [self.adUnitPlacementIdToSmashDelegate setObject:delegate
-                                                      forKey:placementId];
-            
-            ISFacebookInterstitialDelegate *interstitialAdDelegate = [[ISFacebookInterstitialDelegate alloc] initWithPlacementId:placementId
-                                                                                                                     andDelegate:delegate];
-            [self.adUnitPlacementIdToAdDelegate setObject:interstitialAdDelegate
-                                                   forKey:placementId];
+        self.interstitialAdDelegate = [[ISFacebookInterstitialDelegate alloc] initWithDelegate:delegate];
 
-            FBInterstitialAd *ad = [[FBInterstitialAd alloc] initWithPlacementID:placementId];
-            ad.delegate = interstitialAdDelegate;
-            
-            [self.adUnitPlacementIdToAd setObject:ad
-                                           forKey:placementId];
-            
-            // load the ad
-            [ad loadAdWithBidPayload:serverData];
-            
-        } @catch (NSException *exception) {
-            LogAdapterApi_Internal(@"exception = %@", exception);
-            NSError *error = [NSError errorWithDomain:kAdapterName
+        self.interstitialAd = [[FBInterstitialAd alloc] initWithPlacementID:placementId];
+        self.interstitialAd.delegate = self.interstitialAdDelegate;
+
+        [self.interstitialAd loadAdWithBidPayload:adData.serverData];
+    });
+}
+
+- (void)showAdWithViewController:(UIViewController *)viewController
+                          adData:(ISAdData *)adData
+                        delegate:(id<ISInterstitialAdDelegate>)delegate {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    if (![self isAdAvailableWithAdData:adData]) {
+        NSString *errorMessage = [NSString stringWithFormat:errorShowFailed, networkName];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ERROR_CODE_NO_ADS_TO_SHOW
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToShowWithErrorCode:error.code
+                                  errorMessage:error.localizedDescription];
+        return;
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![self.interstitialAd showAdFromRootViewController:viewController]) {
+            NSString *errorMessage = [NSString stringWithFormat:errorShowFailed, networkName];
+            NSError *error = [NSError errorWithDomain:networkName
                                                  code:ERROR_CODE_GENERIC
-                                             userInfo:@{NSLocalizedDescriptionKey:exception.description}];
-            [delegate adapterInterstitialDidFailToLoadWithError:error];
+                                             userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+            LogAdapterApi_Internal(logError, error);
+            [delegate adDidFailToShowWithErrorCode:error.code
+                                      errorMessage:error.localizedDescription];
         }
     });
 }
 
-- (void)showInterstitialWithViewController:(UIViewController *)viewController
-                             adapterConfig:(ISAdapterConfig *)adapterConfig
-                                  delegate:(id<ISInterstitialAdapterDelegate>)delegate {
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                               forKey:kPlacementId];
-        LogAdapterApi_Internal(@"placementId = %@", placementId);
-        
-        @try {
-            
-            if ([self hasInterstitialWithAdapterConfig:adapterConfig]) {
-                FBInterstitialAd *ad = [self.adUnitPlacementIdToAd objectForKey:placementId];
-                
-                if (![ad showAdFromRootViewController:viewController]) {
-                    NSError *error = [ISError createError:ERROR_CODE_GENERIC
-                                              withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-                    [delegate adapterInterstitialDidFailToShowWithError:error];
-                }
-            } else {
-                NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                          withMessage:[NSString stringWithFormat: @"%@ show failed", kAdapterName]];
-                [delegate adapterInterstitialDidFailToShowWithError:error];
-            }
-            
-        } @catch (NSException *exception) {
-            LogAdapterApi_Internal(@"exception = %@", exception);
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_GENERIC
-                                             userInfo:@{NSLocalizedDescriptionKey:exception.description}];
-            [delegate adapterInterstitialDidFailToShowWithError:error];
-        }
-        
-    });
+- (BOOL)isAdAvailableWithAdData:(ISAdData *)adData {
+    return self.interstitialAd != nil && self.interstitialAd.isAdValid;
 }
 
-- (BOOL)hasInterstitialWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    FBInterstitialAd *ad = [self.adUnitPlacementIdToAd objectForKey:placementId];
-    return ad.adValid;
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
+    self.interstitialAd.delegate = nil;
+    self.interstitialAd = nil;
+    self.interstitialAdDelegate = nil;
 }
 
-- (NSDictionary *)getInterstitialBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                       adData:(NSDictionary *)adData {
-    LogAdapterApi_Internal(@"");
-    return [self.adapter getBiddingData];
-}
+#pragma mark - Bidding Data
 
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    NSArray *placementIds = self.adUnitPlacementIdToSmashDelegate.allKeys;
-    
-    for (NSString *placementId in placementIds) {
-        id<ISInterstitialAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
-        [delegate adapterInterstitialInitSuccess];
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISFacebookAdapter *adapter = (ISFacebookAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
     }
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    
-    NSArray *placementIds = self.adUnitPlacementIdToSmashDelegate.allKeys;
-    
-    for (NSString *placementId in placementIds) {
-        id<ISInterstitialAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
-        [delegate adapterInterstitialInitFailedWithError:error];
-    }
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
 
 @end

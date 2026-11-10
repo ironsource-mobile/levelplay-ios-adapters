@@ -6,15 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const BigoAdapterVersion = @"5.1.0";
+static NSString * const BigoAdapterVersion = @"5.13.0";
 static NSString * Githash = @"";
 
-@interface ISBigoAdapter : ISBaseAdapter
+@interface ISBigoAdapter : LevelPlayBaseAdapter
 
-@property (nonatomic, strong, readonly) NSString *mediationInfo;
-
-- (NSString *)getMediationInfo;
 @end

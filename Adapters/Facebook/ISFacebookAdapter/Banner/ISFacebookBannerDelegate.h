@@ -7,19 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol ISBannerAdDelegate;
 
 @interface ISFacebookBannerDelegate : NSObject <FBAdViewDelegate>
 
-@property (nonatomic, strong) NSString* placementId;
-@property (nonatomic, weak) id<ISBannerAdapterDelegate> delegate;
+@property (nonatomic, weak) id<ISBannerAdDelegate> delegate;
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                        andDelegate:(id<ISBannerAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate;
 
 @end
-
-NS_ASSUME_NONNULL_END
-

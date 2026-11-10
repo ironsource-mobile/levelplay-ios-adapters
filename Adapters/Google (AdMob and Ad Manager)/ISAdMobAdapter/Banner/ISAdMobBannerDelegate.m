@@ -5,78 +5,69 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import "ISAdMobBannerAdapter.h"
 #import "ISAdMobBannerDelegate.h"
 #import "ISAdMobConstants.h"
+#import <IronSource/ISBaseBanner.h>
+#import <IronSource/ISAdapterErrorType.h>
+#import <IronSource/ISLog.h>
 
 @implementation ISAdMobBannerDelegate
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                     andDelegate:(id<ISBannerAdapterDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate {
     self = [super init];
     if (self) {
-        _adUnitId = adUnitId;
         _delegate = delegate;
     }
     return self;
 }
 
-/// Tells the delegate that an ad request successfully received an ad. The delegate may want to add
-/// the banner view to the view hierarchy if it hasn't been added yet.
+#pragma mark - GADBannerViewDelegate
+
 - (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
     NSString *creativeId = bannerView.responseInfo.responseIdentifier;
-    LogAdapterDelegate_Internal(@"adUnitId = %@ , %@ = %@", self.adUnitId, kCreativeId, creativeId);
+    LogAdapterDelegate_Internal(logCreativeId, creativeId);
 
     if (creativeId.length) {
-        NSDictionary<NSString *, id> *extraData = @{kCreativeId: creativeId};
-        [self.delegate adapterBannerDidLoad:bannerView
-                                  extraData:extraData];
+        NSDictionary *extraData = @{creativeIdKey: creativeId};
+        [self.delegate adDidLoadWithView:bannerView extraData:extraData];
     } else {
-        [self.delegate adapterBannerDidLoad:bannerView];
+        [self.delegate adDidLoadWithView:bannerView];
     }
 }
 
-/// Tells the delegate that an ad request failed. The failure is normally due to network
-/// connectivity or ad availablility (i.e., no fill).
 - (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
-    LogAdapterDelegate_Internal(@"adUnitID = %@ with error = %@", self.adUnitId, error);
-    NSError *smashError = (error.code == GADErrorNoFill) ? [ISError createError:ERROR_BN_LOAD_NO_FILL
-                                                                                                             withMessage:@"AdMob no fill"] : error;
-    [self.delegate adapterBannerDidFailToLoadWithError:smashError];
+    LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
+
+    ISAdapterErrorType errorType = (error.code == GADErrorNoFill) ?
+        ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+
+    [self.delegate adDidFailToLoadWithErrorType:errorType
+                                      errorCode:error.code
+                                   errorMessage:error.localizedDescription];
 }
 
-/// Tells the delegate that an impression has been recorded for an ad.
 - (void)bannerViewDidRecordImpression:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterBannerDidShow];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
-/// Tells the delegate that a click has been recorded for the ad.
 - (void)bannerViewDidRecordClick:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterBannerDidClick];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
 
-#pragma mark  Click-Time Lifecycle Notifications
-/// Tells the delegate that a full screen view will be presented in response to the user clicking on
-/// an ad. The delegate may want to pause animations and time sensitive interactions.
 - (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterBannerWillPresentScreen];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adWillPresentScreen];
 }
 
-/// Tells the delegate that the full screen view will be dismissed.
 - (void)bannerViewWillDismissScreen:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
+    LogAdapterDelegate_Internal(logCallbackEmpty);
 }
 
-/// Tells the delegate that the full screen view has been dismissed. The delegate should restart
-/// anything paused while handling adViewWillPresentScreen:.
 - (void)bannerViewDidDismissScreen:(GADBannerView *)bannerView {
-    LogAdapterDelegate_Internal(@"adUnitId = %@", self.adUnitId);
-    [self.delegate adapterBannerDidDismissScreen];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidDismissScreen];
 }
-
-
 
 @end

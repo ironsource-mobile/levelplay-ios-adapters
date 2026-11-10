@@ -5,149 +5,91 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
+#import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
+#import <IronSource/ISNativeAdProperties.h>
 #import "ISFacebookNativeAdAdapter.h"
 #import "ISFacebookNativeAdDelegate.h"
-#import "ISFacebookConstants.h"
 #import "ISFacebookAdapter+Internal.h"
+#import "ISFacebookAdapter.h"
+#import "ISFacebookConstants.h"
 
 @interface ISFacebookNativeAdAdapter ()
 
-@property (nonatomic, weak) ISFacebookAdapter       *adapter;
-@property (nonatomic, strong) FBNativeAd            *nativeAd;
-
-@property (nonatomic, weak) id<ISNativeAdAdapterDelegate>     adUnitPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ISFacebookNativeAdDelegate        *adUnitPlacementIdToAdDelegate;
+@property (nonatomic, strong) FBNativeAd                   *nativeAd;
+@property (nonatomic, strong) ISFacebookNativeAdDelegate   *nativeAdDelegate;
 
 @end
 
 @implementation ISFacebookNativeAdAdapter
 
-- (instancetype)initWithFacebookAdapter:(ISFacebookAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter                                        = adapter;
-        _adUnitPlacementIdToSmashDelegate               = nil;
-        _adUnitPlacementIdToAdDelegate                  = nil;
-    }
-    return self;
-}
+#pragma mark - Native Ad Methods
 
-#pragma mark - Native Ad API
+- (void)loadAdWithAdData:(ISAdData *)adData
+          viewController:(UIViewController *)viewController
+                delegate:(id<ISNativeAdDelegate>)delegate {
+    NSString *placementId = [adData getString:placementIdKey];
+    LogAdapterApi_Internal(logPlacementId, placementId);
 
-- (void)initNativeAdForBiddingWithUserId:(NSString *)userId
-                           adapterConfig:(ISAdapterConfig *)adapterConfig
-                                delegate:(id<ISNativeAdAdapterDelegate>)delegate {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    NSString *allPlacementIds = [self getStringValueFromAdapterConfig:adapterConfig
-                                                               forKey:kAllPlacementIds];
-    
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:placementId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kPlacementId];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterNativeAdInitFailedWithError:error];
+    if (!placementId || placementId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementIdKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    if (![self.adapter isConfigValueValid:allPlacementIds]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAllPlacementIds];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterNativeAdInitFailedWithError:error];
+
+    if (!adData.serverData) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, serverDataKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    self.adUnitPlacementIdToSmashDelegate = delegate;
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithPlacementIds:allPlacementIds];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterNativeAdInitSuccess];
-            break;
-        case INIT_STATE_FAILED: {
-            LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_INIT_FAILED
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Meta SDK init failed"}];
-            [delegate adapterNativeAdInitFailedWithError:error];
-            break;
-        }
-    }
-}
 
-- (void)loadNativeAdForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                         adData:(NSDictionary *)adData
-                                     serverData:(NSString *)serverData
-                                 viewController:(UIViewController *)viewController
-                                       delegate:(id<ISNativeAdAdapterDelegate>)delegate {
-    
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    //save reference to native ad delegate
-    self.adUnitPlacementIdToSmashDelegate = delegate;
+    ISNativeAdProperties *nativeAdProperties = [self getNativeAdPropertiesWithAdData:adData];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        ISNativeAdProperties* nativeAdProperties = [super getNativeAdPropertiesWithAdapterConfig:adapterConfig];
+        self.nativeAdDelegate = [[ISFacebookNativeAdDelegate alloc] initWithAdOptionsPosition:nativeAdProperties.adOptionsPosition
+                                                                              viewController:viewController
+                                                                                    delegate:delegate];
 
-        // creating ad options for facebook
-        ISAdOptionsPosition adOptionsPosition = nativeAdProperties.adOptionsPosition;
+        self.nativeAd = [[FBNativeAd alloc] initWithPlacementID:placementId];
+        self.nativeAd.delegate = self.nativeAdDelegate;
 
-        // initiating ad
-        self.nativeAd = [[FBNativeAd alloc] initWithPlacementID: placementId];
-        
-        
-        ISFacebookNativeAdDelegate *facebookDelegate = [[ISFacebookNativeAdDelegate alloc] initWithPlacementId:placementId
-                                                                                             adOptionsPosition:adOptionsPosition
-                                                                                                viewController:viewController
-                                                                                                      delegate:delegate];
-        
-        //save reference to facebook native ad delegate
-        self.adUnitPlacementIdToAdDelegate = facebookDelegate;
-        self.nativeAd.delegate = facebookDelegate;
-     
-        // load ad
-        [self.nativeAd loadAdWithBidPayload:serverData];
+        [self.nativeAd loadAdWithBidPayload:adData.serverData];
     });
 }
 
-- (void)destroyNativeAdWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    LogAdapterDelegate_Internal(@"placementId = %@", placementId);
-    
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
     [self.nativeAd unregisterView];
+    self.nativeAd.delegate = nil;
     self.nativeAd = nil;
-    self.adUnitPlacementIdToSmashDelegate = nil;
-    self.adUnitPlacementIdToAdDelegate = nil;
+    self.nativeAdDelegate = nil;
 }
 
-- (NSDictionary *)getNativeAdBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                   adData:(NSDictionary *)adData {
-    return [self.adapter getBiddingData];
+#pragma mark - Bidding Data
+
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISFacebookAdapter *adapter = (ISFacebookAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
+    }
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
-
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    [self.adUnitPlacementIdToSmashDelegate adapterNativeAdInitSuccess];
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    
-    [self.adUnitPlacementIdToSmashDelegate adapterNativeAdInitFailedWithError:error];
-}
-
 
 @end

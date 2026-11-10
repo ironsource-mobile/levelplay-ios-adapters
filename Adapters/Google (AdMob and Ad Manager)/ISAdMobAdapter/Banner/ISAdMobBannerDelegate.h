@@ -7,14 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+
+@protocol ISBannerAdDelegate;
 
 @interface ISAdMobBannerDelegate : NSObject <GADBannerViewDelegate>
 
-@property (nonatomic, strong) NSString* adUnitId;
-@property (nonatomic, weak) id<ISBannerAdapterDelegate> delegate;
+@property (nonatomic, weak) id<ISBannerAdDelegate> delegate;
 
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId
-                     andDelegate:(id<ISBannerAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate;
 
 @end

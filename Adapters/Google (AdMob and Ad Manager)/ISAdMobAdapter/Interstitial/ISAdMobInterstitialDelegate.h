@@ -7,18 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <GoogleMobileAds/GoogleMobileAds.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
-#import "ISAdMobInterstitialAdapter.h"
+
+@protocol ISInterstitialAdDelegate;
 
 @interface ISAdMobInterstitialDelegate : NSObject <GADFullScreenContentDelegate>
 
-@property (nonatomic, strong)   NSString                            *adUnitId;
-@property (nonatomic, weak)     ISAdMobInterstitialAdapter          *adapter;
-@property (nonatomic, weak)     id<ISInterstitialAdapterDelegate>   delegate;
-@property (nonatomic,copy)      void(^completionBlock)              (GADInterstitialAd *rewardedAd, NSError *error);
+@property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithAdapter:(ISAdMobInterstitialAdapter *)adapter
-                       adUnitId:(NSString *)adUnitId
-                    andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end

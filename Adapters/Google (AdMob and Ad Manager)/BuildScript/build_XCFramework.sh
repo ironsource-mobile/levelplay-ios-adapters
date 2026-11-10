@@ -7,6 +7,9 @@ fi
 export RW_MULTIPLATFORM_BUILD_IN_PROGRESS=1
 
 ADAPTER_WORKSPACE="${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace"
+if [ ! -d "${ADAPTER_WORKSPACE}" ]; then
+  ADAPTER_WORKSPACE="${PROJECT_DIR}/${PROJECT_NAME}.xcodeproj/project.xcworkspace"
+fi
 
 
 
@@ -47,6 +50,3 @@ xcodebuild -create-xcframework \
 -framework "${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework" \
 -framework "${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework" \
 -output "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework"
-
-mkdir -p "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Assets"
-find "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework" -name '*.nib' -exec mv {} "${PROJECT_DIR}/ReleaseCandidates/${PROJECT_NAME}/${PROJECT_NAME}.xcframework/Assets" \;

@@ -5,10 +5,10 @@
 //  Copyright © 2021-2025 Unity Technologies. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
+#import <IronSource/LevelPlayBaseAdapter.h>
+#import <IronSource/IronSource.h>
 
-static NSString * const PangleAdapterVersion = @"5.6.0";
+static NSString * const PangleAdapterVersion = @"5.40.0";
 static NSString * Githash = @"";
 
 // System Frameworks For Pangle Adapter
@@ -37,7 +37,6 @@ static NSString * Githash = @"";
 @import UIKit;
 @import WebKit;
 
-
-@interface ISPangleAdapter : ISBaseAdapter
+@interface ISPangleAdapter : LevelPlayBaseAdapter
 
 @end

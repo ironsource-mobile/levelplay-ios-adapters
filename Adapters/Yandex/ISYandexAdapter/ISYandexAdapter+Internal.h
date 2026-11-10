@@ -7,23 +7,18 @@
 
 #import "ISYandexAdapter.h"
 #import "ISYandexConstants.h"
-#import "YandexMobileAds/YandexMobileAds.h"
+@import YandexMobileAds;
 
 @interface ISYandexAdapter()
 
-- (void)initSDKWithAppId:(NSString *)appId;
-
-- (void)collectBiddingDataWithRequestConfiguration:(YMABidderTokenRequestConfiguration *)requestConfiguration
+- (void)collectBiddingDataWithRequestConfiguration:(YMABidderTokenRequest *)requestConfiguration
                                           delegate:(id<ISBiddingDataDelegate>)delegate;
-
-- (InitState)getInitState;
 
 - (NSDictionary *)getConfigParams;
 
-- (YMAMutableAdRequest *)createAdRequestWithBidResponse:(NSString *)bidResponse;
+- (YMAAdRequest *)createAdRequestWithBidResponse:(NSString *)bidResponse
+                                        adUnitId:(NSString *)adUnitId;
 
-- (YMAMutableAdRequestConfiguration *)createAdRequestWithBidResponse:(NSString *)bidResponse
-                                                            adUnitId:(NSString *)adUnitId;
++ (NSString *)buildCreativeIdStringFromCreatives:(NSArray<YMACreative *> *)creatives;
 
 @end
-

@@ -6,15 +6,16 @@
 //
 
 #import "ISVerveBannerDelegate.h"
-#import "ISVerveBannerAdapter.h"
+#import "ISVerveConstants.h"
+#import <IronSource/ISBaseBanner.h>
+#import <IronSource/ISAdapterErrorType.h>
+#import <IronSource/ISLog.h>
 
 @implementation ISVerveBannerDelegate
 
-- (instancetype)initWithZoneId:(NSString *)zoneId
-                     andDelegate:(id<ISBannerAdapterDelegate>)delegate {
+- (instancetype)initWithDelegate:(id<ISBannerAdDelegate>)delegate {
     self = [super init];
     if (self) {
-        _zoneId = zoneId;
         _delegate = delegate;
     }
     return self;
@@ -23,31 +24,32 @@
 /// calls this method when ad successfully loaded and ready to be displayed.
 /// @param adView adView object that was loaded
 - (void)adViewDidLoad:(HyBidAdView *)adView {
-    LogAdapterDelegate_Internal(@"zoneId = %@", self.zoneId);
-    [self.delegate adapterBannerDidLoad:adView];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidLoadWithView:adView];
 }
+
 /// calls this method when ad was not loaded for some reasons
 /// @param adView adView object that was loaded
 /// @param error the reason of failing loading
 - (void)adView:(HyBidAdView *)adView didFailWithError:(NSError *)error {
-    LogAdapterDelegate_Internal(@"zoneId = %@ with error = %@", self.zoneId, error);
-    NSError *smashError = error.code == HyBidErrorCodeNoFill ? [ISError createError:ERROR_BN_LOAD_NO_FILL
-                                        withMessage:@"Verve no fill"] : error;
-    
-    [self.delegate adapterBannerDidFailToLoadWithError:smashError];
-
+    LogAdapterDelegate_Internal(logLoadFailed, networkName, error);
+    ISAdapterErrorType errorType = (error.code == HyBidErrorCodeNoFill) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+    [self.delegate adDidFailToLoadWithErrorType:errorType
+                                      errorCode:error.code
+                                   errorMessage:error.localizedDescription];
 }
 
 /// calls this method when user clicked on the ad
 /// @param adView adView object that was clicked
 - (void)adViewDidTrackClick:(HyBidAdView *)adView {
-    LogAdapterDelegate_Internal(@"zoneId = %@", self.zoneId);
-    [self.delegate adapterBannerDidClick];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidClick];
 }
+
 /// calls this method when ad was displayed and is viewable by the user
 - (void)adViewDidTrackImpression:(HyBidAdView *)adView {
-    LogAdapterDelegate_Internal(@"zoneId = %@", self.zoneId);
-    [self.delegate adapterBannerDidShow];
+    LogAdapterDelegate_Internal(logCallbackEmpty);
+    [self.delegate adDidOpen];
 }
 
 @end

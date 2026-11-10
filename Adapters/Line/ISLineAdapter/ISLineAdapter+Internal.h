@@ -7,16 +7,16 @@
 
 #import "ISLineAdapter.h"
 #import "ISLineConstants.h"
+#import <IronSource/ISAdapterErrors.h>
+#import <IronSource/ISBiddingDataProtocol.h>
+#import <FiveAd/FiveAd.h>
 
+@interface ISLineAdapter ()
 
-@interface ISLineAdapter()
-
-- (void)initSDKWithAppId:(NSString *)appId;
+- (FADAdLoader *)getAdLoader:(NSString *)appId;
 
 - (void)collectBiddingDataWithDelegate:(id<ISBiddingDataDelegate>)delegate
                                  appId:(NSString *)appId
                                 slotId:(NSString *)slotId;
-
-- (InitState)getInitState;
 
 @end

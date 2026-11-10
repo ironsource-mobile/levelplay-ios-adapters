@@ -6,238 +6,161 @@
 //
 
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
+#import <IronSource/ISError.h>
+#import <IronSource/ISLog.h>
 #import "ISFacebookBannerAdapter.h"
 #import "ISFacebookBannerDelegate.h"
+#import "ISFacebookAdapter+Internal.h"
+#import "ISFacebookAdapter.h"
+#import "ISFacebookConstants.h"
 
 @interface ISFacebookBannerAdapter ()
 
-@property (nonatomic, weak) ISFacebookAdapter       *adapter;
-
-@property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToSmashDelegate;
-@property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToAdDelegate;
-@property (nonatomic, strong) ISConcurrentMutableDictionary     *adUnitPlacementIdToAd;
+@property (nonatomic, strong) FBAdView                  *bannerAd;
+@property (nonatomic, strong) ISFacebookBannerDelegate  *bannerAdDelegate;
 
 @end
 
 @implementation ISFacebookBannerAdapter
 
-- (instancetype)initWithFacebookAdapter:(ISFacebookAdapter *)adapter {
-    self = [super init];
-    if (self) {
-        _adapter                                        = adapter;
-        _adUnitPlacementIdToSmashDelegate               = [ISConcurrentMutableDictionary dictionary];
-        _adUnitPlacementIdToAdDelegate                  = [ISConcurrentMutableDictionary dictionary];
-        _adUnitPlacementIdToAd                          = [ISConcurrentMutableDictionary dictionary];
-        
-    }
-    return self;
-}
+#pragma mark - Banner Methods
 
-- (void)initBannerForBiddingWithUserId:(NSString *)userId
-                         adapterConfig:(ISAdapterConfig *)adapterConfig
-                              delegate:(id<ISBannerAdapterDelegate>)delegate {
-    
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
-    NSString *allPlacementIds = [self getStringValueFromAdapterConfig:adapterConfig
-                                                               forKey:kAllPlacementIds];
-    
-    /* Configuration Validation */
-    if (![self.adapter isConfigValueValid:placementId]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kPlacementId];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterBannerInitFailedWithError:error];
+- (void)loadAdWithAdData:(ISAdData *)adData
+          viewController:(UIViewController *)viewController
+                    size:(ISBannerSize *)size
+                delegate:(id<ISBannerAdDelegate>)delegate {
+    NSString *placementId = [adData getString:placementIdKey];
+    LogAdapterApi_Internal(logPlacementId, placementId);
+
+    if (!placementId || placementId.length == 0) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, placementIdKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    if (![self.adapter isConfigValueValid:allPlacementIds]) {
-        NSError *error = [self.adapter errorForMissingCredentialFieldWithName:kAllPlacementIds];
-        LogAdapterApi_Internal(@"error.description = %@", error.description);
-        [delegate adapterBannerInitFailedWithError:error];
+
+    if (!adData.serverData) {
+        NSString *errorMessage = [NSString stringWithFormat:logMissingParam, serverDataKey];
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ISAdapterErrorMissingParams
+                                         userInfo:@{NSLocalizedDescriptionKey:errorMessage}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
         return;
     }
-    
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    //add to banner delegate map
-    [self.adUnitPlacementIdToSmashDelegate setObject:delegate
-                                              forKey:placementId];
-    
-    switch ([self.adapter getInitState]) {
-        case INIT_STATE_NONE:
-        case INIT_STATE_IN_PROGRESS:
-            [self.adapter initSDKWithPlacementIds:allPlacementIds];
-            break;
-        case INIT_STATE_SUCCESS:
-            [delegate adapterBannerInitSuccess];
-            break;
-        case INIT_STATE_FAILED: {
-            LogAdapterApi_Internal(@"init failed - placementId = %@", placementId);
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_INIT_FAILED
-                                             userInfo:@{NSLocalizedDescriptionKey:@"Meta SDK init failed"}];
-            [delegate adapterBannerInitFailedWithError:error];
-            break;
-        }
+
+    CGRect bannerFrame = [self getBannerFrame:size];
+    if (CGRectEqualToRect(bannerFrame, CGRectZero)) {
+        NSError *error = [NSError errorWithDomain:networkName
+                                             code:ERROR_BN_UNSUPPORTED_SIZE
+                                         userInfo:@{NSLocalizedDescriptionKey:logUnsupportedBannerSize}];
+        LogAdapterApi_Internal(logError, error);
+        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                     errorCode:error.code
+                                  errorMessage:error.localizedDescription];
+        return;
     }
-}
 
-- (void)loadBannerForBiddingWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                       adData:(NSDictionary *)adData
-                                   serverData:(NSString *)serverData
-                               viewController:(UIViewController *)viewController
-                                         size:(ISBannerSize *)size
-                                     delegate:(id <ISBannerAdapterDelegate>)delegate {
-    
-    NSString *placementId = [self getStringValueFromAdapterConfig:adapterConfig
-                                                           forKey:kPlacementId];
+    FBAdSize fbSize = [self getBannerSize:size];
 
-    LogAdapterApi_Internal(@"placementId = %@", placementId);
-    
-    //add to banner delegate map
-    [self.adUnitPlacementIdToSmashDelegate setObject:delegate
-                                              forKey:placementId];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        @try {
-            
-            // get size
-            FBAdSize fbSize = [self getBannerSize:size];
-            
-            // get banner frame
-            CGRect bannerFrame = [self getBannerFrame:size];
-            
-            if (CGRectEqualToRect(bannerFrame, CGRectZero)) {
-                NSError *error = [NSError errorWithDomain:kAdapterName
-                                                     code:ERROR_BN_UNSUPPORTED_SIZE
-                                                 userInfo:@{NSLocalizedDescriptionKey:@"Meta unsupported banner size"}];
-                [delegate adapterBannerDidFailToLoadWithError:error];
-                return;
-            }
-            
-            ISFacebookBannerDelegate *bannerAdDelegate = [[ISFacebookBannerDelegate alloc] initWithPlacementId:placementId
-                                                                                                   andDelegate:delegate];
-            [self.adUnitPlacementIdToAdDelegate setObject:bannerAdDelegate
-                                                   forKey:placementId];
-            
-            // create banner view
-            FBAdView *ad = [[FBAdView alloc] initWithPlacementID:placementId
-                                                                adSize:fbSize
-                                                    rootViewController:viewController];
-            ad.frame = bannerFrame;
-            
-            // Set a delegate
-            ad.delegate = bannerAdDelegate;
-            
-            // add banner ad to dictionary
-            [self.adUnitPlacementIdToAd setObject:ad
-                                           forKey:placementId];
-            
-            // load the ad
-            [ad loadAdWithBidPayload:serverData];
-            
-        } @catch (NSException *exception) {
-            LogAdapterApi_Internal(@"exception = %@", exception);
-            NSError *error = [NSError errorWithDomain:kAdapterName
-                                                 code:ERROR_CODE_GENERIC
-                                             userInfo:@{NSLocalizedDescriptionKey:exception.description}];
-            [delegate adapterBannerDidFailToLoadWithError:error];
-        }
+        self.bannerAdDelegate = [[ISFacebookBannerDelegate alloc] initWithDelegate:delegate];
+
+        FBAdView *banner = [[FBAdView alloc] initWithPlacementID:placementId
+                                                          adSize:fbSize
+                                              rootViewController:viewController];
+        banner.frame = bannerFrame;
+        banner.delegate = self.bannerAdDelegate;
+        self.bannerAd = banner;
+
+        [banner loadAdWithBidPayload:adData.serverData];
     });
 }
 
-- (void)destroyBannerWithAdapterConfig:(ISAdapterConfig *)adapterConfig {
-    // there is no required implementation for Meta destroy banner
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logCallbackEmpty);
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bannerAd.delegate = nil;
+        [self.bannerAd removeFromSuperview];
+        self.bannerAd = nil;
+        self.bannerAdDelegate = nil;
+    });
 }
 
-- (NSDictionary *)getBannerBiddingDataWithAdapterConfig:(ISAdapterConfig *)adapterConfig
-                                                 adData:(NSDictionary *)adData {
-    LogAdapterApi_Internal(@"");
-    return [self.adapter getBiddingData];
-}
+#pragma mark - Bidding Data
 
-#pragma mark - Init Delegate
-
-- (void)onNetworkInitCallbackSuccess {
-    NSArray *placementIds = self.adUnitPlacementIdToSmashDelegate.allKeys;
-    
-    for (NSString *placementId in placementIds) {
-        id<ISBannerAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
-        [delegate adapterBannerInitSuccess];
+- (void)collectBiddingDataWithAdData:(ISAdData *)adData
+                            delegate:(id<ISBiddingDataDelegate>)delegate {
+    ISFacebookAdapter *adapter = (ISFacebookAdapter *)[self getNetworkAdapter];
+    if (!adapter) {
+        LogAdapterApi_Internal(logError, logAdapterNil);
+        [delegate failureWithError:logAdapterNil];
+        return;
     }
-}
-
-- (void)onNetworkInitCallbackFailed:(NSString *)errorMessage {
-    NSError *error = [ISError createErrorWithDomain:kAdapterName
-                                               code:ERROR_CODE_INIT_FAILED
-                                            message:errorMessage];
-    
-    NSArray *placementIds = self.adUnitPlacementIdToSmashDelegate.allKeys;
-    
-    for (NSString *placementId in placementIds) {
-        id<ISBannerAdapterDelegate> delegate = [self.adUnitPlacementIdToSmashDelegate objectForKey:placementId];
-        [delegate adapterBannerInitFailedWithError:error];
-    }
+    [adapter collectBiddingDataWithDelegate:delegate];
 }
 
 #pragma mark - Helper Methods
 
 - (FBAdSize)getBannerSize:(ISBannerSize *)size {
-    // Initing the banner size so it will have a default value. Since FBAdSize doesn't support CGSizeZero we used the default banner size isntead
     FBAdSize fbSize = kFBAdSizeHeight50Banner;
-    
-    if ([size.sizeDescription isEqualToString:@"BANNER"]) {
+
+    if ([size.sizeDescription isEqualToString:sizeBanner]) {
         fbSize = kFBAdSizeHeight50Banner;
-    } else if ([size.sizeDescription isEqualToString:@"LARGE"]) {
+    } else if ([size.sizeDescription isEqualToString:sizeLarge]) {
         fbSize = kFBAdSizeHeight90Banner;
-    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
+    } else if ([size.sizeDescription isEqualToString:sizeRectangle]) {
         fbSize = kFBAdSizeHeight250Rectangle;
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            fbSize = kFBAdSizeHeight90Banner;
-        } else {
+    } else if ([size.sizeDescription isEqualToString:sizeSmart]) {
+        fbSize = [self isLargeScreen] ? kFBAdSizeHeight90Banner : kFBAdSizeHeight50Banner;
+    } else if ([size.sizeDescription isEqualToString:sizeCustom]) {
+        if (size.height == bannerHeight) {
             fbSize = kFBAdSizeHeight50Banner;
-        }
-    } else if ([size.sizeDescription isEqualToString:@"CUSTOM"]) {
-        if (size.height == 50) {
-            fbSize = kFBAdSizeHeight50Banner;
-        } else if (size.height == 90) {
+        } else if (size.height == largeHeight) {
             fbSize = kFBAdSizeHeight90Banner;
-        } else if (size.height == 250) {
+        } else if (size.height == rectangleHeight) {
             fbSize = kFBAdSizeHeight250Rectangle;
         }
     }
-    
+
     return fbSize;
 }
 
 - (CGRect)getBannerFrame:(ISBannerSize *)size {
     CGRect rect = CGRectZero;
 
-    if ([size.sizeDescription isEqualToString:@"BANNER"]) {
-        rect = CGRectMake(0, 0, 320, 50);
-    } else if ([size.sizeDescription isEqualToString:@"LARGE"]) {
-        rect = CGRectMake(0, 0, 320, 90);
-    } else if ([size.sizeDescription isEqualToString:@"RECTANGLE"]) {
-        rect = CGRectMake(0, 0, 300, 250);
-    } else if ([size.sizeDescription isEqualToString:@"SMART"]) {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            rect = CGRectMake(0, 0, 728, 90);
-        } else {
-            rect = CGRectMake(0, 0, 320, 50);
-        }
-    } else if ([size.sizeDescription isEqualToString:@"CUSTOM"]) {
-        if (size.height == 50) {
-            rect = CGRectMake(0, 0, 320, 50);
-        } else if (size.height == 90) {
-            rect = CGRectMake(0, 0, 320, 90);
-        } else if (size.height == 250) {
-            rect = CGRectMake(0, 0, 300, 250);
+    if ([size.sizeDescription isEqualToString:sizeBanner]) {
+        rect = CGRectMake(0, 0, bannerWidth, bannerHeight);
+    } else if ([size.sizeDescription isEqualToString:sizeLarge]) {
+        rect = CGRectMake(0, 0, bannerWidth, largeHeight);
+    } else if ([size.sizeDescription isEqualToString:sizeRectangle]) {
+        rect = CGRectMake(0, 0, rectangleWidth, rectangleHeight);
+    } else if ([size.sizeDescription isEqualToString:sizeSmart]) {
+        rect = [self isLargeScreen] ? CGRectMake(0, 0, leaderboardWidth, leaderboardHeight)
+                                    : CGRectMake(0, 0, bannerWidth, bannerHeight);
+    } else if ([size.sizeDescription isEqualToString:sizeCustom]) {
+        if (size.height == bannerHeight) {
+            rect = CGRectMake(0, 0, bannerWidth, bannerHeight);
+        } else if (size.height == largeHeight) {
+            rect = CGRectMake(0, 0, bannerWidth, largeHeight);
+        } else if (size.height == rectangleHeight) {
+            rect = CGRectMake(0, 0, rectangleWidth, rectangleHeight);
         }
     }
-    
+
     return rect;
+}
+
+- (BOOL)isLargeScreen {
+    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
 }
 
 @end

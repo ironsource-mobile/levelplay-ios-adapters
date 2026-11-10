@@ -7,18 +7,13 @@
 
 #import <Foundation/Foundation.h>
 #import <FBAudienceNetwork/FBAudienceNetwork.h>
-#import <IronSource/ISBaseAdapter+Internal.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol ISInterstitialAdDelegate;
 
 @interface ISFacebookInterstitialDelegate : NSObject <FBInterstitialAdDelegate>
 
-@property (nonatomic, strong) NSString* placementId;
-@property (nonatomic, weak) id<ISInterstitialAdapterDelegate> delegate;
+@property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;
 
-- (instancetype)initWithPlacementId:(NSString *)placementId
-                        andDelegate:(id<ISInterstitialAdapterDelegate>)delegate;
+- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -1,15 +1,17 @@
+//
+//  ISBigoBannerAdapter.h
+//  ISBigoAdapter
+//
+//  Copyright © 2021-2025 Unity Technologies. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
-#import "ISBigoAdapter+Internal.h"
-#import <BigoADS/BigoBannerAdLoader.h>
-#import <BigoADS/BigoAdSize.h>
-#import "ISBigoAdapter.h"
+#import <IronSource/LevelPlayBaseBannerAdapter.h>
 
+@class BigoBannerAd;
 
-@interface ISBigoBannerAdapter : ISBaseBannerAdapter
+@interface ISBigoBannerAdapter : LevelPlayBaseBannerAdapter
 
-- (instancetype)initWithBigoAdapter:(ISBigoAdapter *)adapter;
-
-- (void)setBannerAd:(BigoBannerAd *)ad;
+- (void)storeBannerAd:(BigoBannerAd *)ad;
 
 @end
-
