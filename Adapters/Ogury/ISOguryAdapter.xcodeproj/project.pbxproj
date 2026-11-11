@@ -142,8 +142,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				79FF2944C3D020B601AD78D0 /* PBXTargetDependency */,
-				C6AFF2929E1DF3B9524F2CE5 /* PBXTargetDependency */,
 			);
 			name = ISOguryAdapter;
 			packageProductDependencies = (
@@ -176,10 +174,6 @@
 			);
 			mainGroup = B236D21BDB28DDED369ACD95;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (
-				B1ABB5705EAFAFD141041483 /* XCRemoteSwiftPackageReference "LevelPlay-Swift-Package" */,
-				200AF84A25DDB1121E0F3226 /* XCRemoteSwiftPackageReference "ogury-sdk-spm" */,
-			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A4BB667ADED726E5774B7B72 /* Products */;
 			projectDirPath = "";
@@ -227,17 +221,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		79FF2944C3D020B601AD78D0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = "TEMP_17590D5C-791E-4141-8B45-AD80747999F0" /* UnityMediationSDK */;
-		};
-		C6AFF2929E1DF3B9524F2CE5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = "TEMP_27BECB5C-114A-4602-90C1-B6966E6EEC95" /* OgurySdk */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2FA657EA17F6472DA55447CB /* Debug */ = {
@@ -439,38 +422,6 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		200AF84A25DDB1121E0F3226 /* XCRemoteSwiftPackageReference "ogury-sdk-spm" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Ogury/ogury-sdk-spm";
-			requirement = {
-				kind = exactVersion;
-				version = 5.4.0;
-			};
-		};
-		B1ABB5705EAFAFD141041483 /* XCRemoteSwiftPackageReference "LevelPlay-Swift-Package" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ironsource-mobile/LevelPlay-Swift-Package";
-			requirement = {
-				kind = exactVersion;
-				version = 9.7.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		"TEMP_17590D5C-791E-4141-8B45-AD80747999F0" /* UnityMediationSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B1ABB5705EAFAFD141041483 /* XCRemoteSwiftPackageReference "LevelPlay-Swift-Package" */;
-			productName = UnityMediationSDK;
-		};
-		"TEMP_27BECB5C-114A-4602-90C1-B6966E6EEC95" /* OgurySdk */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 200AF84A25DDB1121E0F3226 /* XCRemoteSwiftPackageReference "ogury-sdk-spm" */;
-			productName = OgurySdk;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD21F6460B0C0C2AB5457AA7 /* Project object */;
 }
