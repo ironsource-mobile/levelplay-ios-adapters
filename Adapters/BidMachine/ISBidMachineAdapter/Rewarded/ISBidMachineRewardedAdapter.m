@@ -67,7 +67,8 @@
             return;
         }
 
-        strongSelf.rewardedAdDelegate = [[ISBidMachineRewardedDelegate alloc] initWithDelegate:delegate];
+        strongSelf.rewardedAdDelegate = [[ISBidMachineRewardedDelegate alloc] initWithAdapter:strongSelf
+                                                                                     delegate:delegate];
         strongSelf.rewardedAd = rewarded;
 
         strongSelf.rewardedAd.delegate = strongSelf.rewardedAdDelegate;
@@ -100,6 +101,10 @@
 }
 
 #pragma mark - Helper Methods
+
+- (void)setRewardedAd:(BidMachineRewarded *)ad {
+    _rewardedAd = ad;
+}
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
     NSString *placementId = [adData getString:placementIdKey];

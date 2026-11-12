@@ -6,16 +6,20 @@
 //
 
 #import "ISBidMachineInterstitialDelegate.h"
+#import "ISBidMachineInterstitialAdapter.h"
 #import "ISBidMachineConstants.h"
 #import <IronSource/ISLog.h>
+#import <IronSource/ISAdapterErrors.h>
 #import <IronSource/ISAdapterErrorType.h>
 #import <IronSource/ISBaseInterstitial.h>
 
 @implementation ISBidMachineInterstitialDelegate
 
-- (instancetype)initWithDelegate:(id<ISInterstitialAdDelegate>)delegate {
+- (instancetype)initWithAdapter:(ISBidMachineInterstitialAdapter *)adapter
+                       delegate:(id<ISInterstitialAdDelegate>)delegate {
     self = [super init];
     if (self) {
+        _adapter = adapter;
         _delegate = delegate;
     }
     return self;
@@ -61,6 +65,16 @@
 - (void)didDismissAd:(id <BidMachineAdProtocol> _Nonnull)ad {
     LogAdapterDelegate_Internal(logEmptyCallback);
     [self.delegate adDidClose];
+}
+
+- (void)didExpired:(id <BidMachineAdProtocol> _Nonnull)ad {
+    LogAdapterDelegate_Internal(logAdExpired);
+
+    [self.adapter setInterstitialAd:nil];
+
+    [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                      errorCode:ISAdapterErrorAdExpired
+                                   errorMessage:logAdExpired];
 }
 
 @end
