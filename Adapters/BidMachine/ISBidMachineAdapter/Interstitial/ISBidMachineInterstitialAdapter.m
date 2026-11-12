@@ -67,7 +67,8 @@
             return;
         }
 
-        strongSelf.interstitialAdDelegate = [[ISBidMachineInterstitialDelegate alloc] initWithDelegate:delegate];
+        strongSelf.interstitialAdDelegate = [[ISBidMachineInterstitialDelegate alloc] initWithAdapter:strongSelf
+                                                                                             delegate:delegate];
         strongSelf.interstitialAd = interstitial;
 
         strongSelf.interstitialAd.delegate = strongSelf.interstitialAdDelegate;
@@ -100,6 +101,10 @@
 }
 
 #pragma mark - Helper Methods
+
+- (void)setInterstitialAd:(BidMachineInterstitial *)ad {
+    _interstitialAd = ad;
+}
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
     NSString *placementId = [adData getString:placementIdKey];
