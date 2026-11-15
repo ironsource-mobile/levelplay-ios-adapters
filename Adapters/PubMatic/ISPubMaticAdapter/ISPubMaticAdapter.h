@@ -9,7 +9,7 @@
 #import <IronSource/LevelPlayBaseAdapter.h>
 #import <IronSource/IronSource.h>
 
-static NSString * const PubMaticAdapterVersion = @"5.12.0";
+static NSString * const PubMaticAdapterVersion = @"5.13.0";
 static NSString * Githash = @"";
 
 //System Frameworks For PubMatic Adapter
