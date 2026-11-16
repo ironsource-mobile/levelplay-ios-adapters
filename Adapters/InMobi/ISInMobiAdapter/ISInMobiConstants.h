@@ -30,6 +30,7 @@ static NSString * const creativeIdKey = @"creativeId";
 
 // Metadata keys
 static NSString * const metaDataAgeRestrictedKey = @"inMobi_AgeRestricted";
+static NSString * const metaDataChildDirectedKey = @"LevelPlay_ChildDirected";
 static NSString * const metaDataDoNotSellKey = @"do_not_sell";
 
 // InMobi specific keys
