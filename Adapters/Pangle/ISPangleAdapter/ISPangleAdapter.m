@@ -179,14 +179,31 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
     config.PAConsent = ccpa ? PAGPAConsentTypeNoConsent : PAGPAConsentTypeConsent;
 }
 
+- (NSInteger)childDirectedTypeFromValue:(NSString *)value {
+    NSScanner *scanner = [NSScanner scannerWithString:value];
+    NSInteger integerValue;
+    if ([scanner scanInteger:&integerValue] && scanner.isAtEnd) {
+        return integerValue;
+    }
+
+    NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                    forType:(META_DATA_VALUE_BOOL)];
+    if (!formattedValue.length) {
+        return pangleChildDirectedTypeDefault;
+    }
+
+    return [ISMetaDataUtils getMetaDataBooleanValue:formattedValue] ? pangleChildDirectedTypeChild : pangleChildDirectedTypeNonChild;
+}
+
 - (void)setCOPPAValue:(NSString *)value {
     NSString *coppaValueString;
+    NSInteger childDirectedType = [self childDirectedTypeFromValue:value];
 
-    if (value.integerValue == pangleChildDirectedTypeChild) {
+    if (childDirectedType == pangleChildDirectedTypeChild) {
         childDirected = pangleChildDirectedTypeChild;
         coppaValueString = logChildTypeChild;
     }
-    else if (value.integerValue == pangleChildDirectedTypeNonChild) {
+    else if (childDirectedType == pangleChildDirectedTypeNonChild) {
         childDirected = pangleChildDirectedTypeNonChild;
         coppaValueString = logChildTypeNonChild;
     }
