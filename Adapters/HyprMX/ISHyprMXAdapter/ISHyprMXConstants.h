@@ -20,6 +20,7 @@ static NSString * const tokenKey = @"token";
 
 // Meta data keys
 static NSString * const metaDataAgeRestrictionKey = @"HyprMX_ageRestricted";
+static NSString * const metaDataChildDirectedKey = @"LevelPlay_ChildDirected";
 
 // Log strings - General
 static NSString * const logCallbackEmpty = @"";

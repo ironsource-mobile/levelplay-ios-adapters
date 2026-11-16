@@ -155,6 +155,9 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initializationDe
 
     if ([ISMetaDataUtils isValidMetaDataWithKey:key
                                            flag:metaDataAgeRestrictionKey
+                                       andValue:formattedValue] ||
+        [ISMetaDataUtils isValidMetaDataWithKey:key
+                                           flag:metaDataChildDirectedKey
                                        andValue:formattedValue]) {
         [self setAgeRestrictionValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
     }
