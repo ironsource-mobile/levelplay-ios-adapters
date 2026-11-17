@@ -67,7 +67,8 @@
             return;
         }
 
-        strongSelf.rewardedAdDelegate = [[ISBidMachineRewardedDelegate alloc] initWithDelegate:delegate];
+        strongSelf.rewardedAdDelegate = [[ISBidMachineRewardedDelegate alloc] initWithAdapter:strongSelf
+                                                                                     delegate:delegate];
         strongSelf.rewardedAd = rewarded;
 
         strongSelf.rewardedAd.delegate = strongSelf.rewardedAdDelegate;
@@ -99,7 +100,18 @@
     return self.rewardedAd && [self.rewardedAd canShow];
 }
 
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logEmptyCallback);
+    self.rewardedAd.delegate = nil;
+    self.rewardedAd = nil;
+    self.rewardedAdDelegate = nil;
+}
+
 #pragma mark - Helper Methods
+
+- (void)releaseAd {
+    self.rewardedAd = nil;
+}
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
     NSString *placementId = [adData getString:placementIdKey];

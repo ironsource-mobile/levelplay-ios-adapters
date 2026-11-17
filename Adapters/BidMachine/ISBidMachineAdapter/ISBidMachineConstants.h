@@ -43,6 +43,7 @@ static NSString * const logCreativeId = @"creativeId = %@";
 static NSString * const logEmptyCallback = @"";
 static NSString * const logAdapterNil = @"Adapter instance is nil";
 static NSString * const logMissingParam = @"Missing or invalid %@";
+static NSString * const logAdExpired = @"ads are expired";
 
 // Error codes
 static const NSInteger bidMachineNoFillErrorCode = 103;

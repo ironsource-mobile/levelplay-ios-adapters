@@ -9,4 +9,6 @@
 
 @interface ISBidMachineRewardedAdapter : LevelPlayBaseRewardedAdapter
 
+- (void)releaseAd;
+
 @end

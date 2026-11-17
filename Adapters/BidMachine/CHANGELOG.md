@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.11.0
+* Added reporting of ad expiry for rewarded and interstitial ads
+
 ## Version 5.10.0
 * Supporting SDK version 3.8.2
 

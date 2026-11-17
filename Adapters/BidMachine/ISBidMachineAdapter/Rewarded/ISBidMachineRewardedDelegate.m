@@ -6,16 +6,20 @@
 //
 
 #import "ISBidMachineRewardedDelegate.h"
+#import "ISBidMachineRewardedAdapter.h"
 #import "ISBidMachineConstants.h"
 #import <IronSource/ISLog.h>
 #import <IronSource/ISAdapterErrorType.h>
+#import <IronSource/ISAdapterErrors.h>
 #import <IronSource/ISBaseRewardedVideo.h>
 
 @implementation ISBidMachineRewardedDelegate
 
-- (instancetype)initWithDelegate:(id<ISRewardedVideoAdDelegate>)delegate {
+- (instancetype)initWithAdapter:(ISBidMachineRewardedAdapter *)adapter
+                       delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     self = [super init];
     if (self) {
+        _adapter = adapter;
         _delegate = delegate;
     }
     return self;
@@ -61,6 +65,14 @@
 - (void)didReceiveReward:(id<BidMachineAdProtocol>)ad {
     LogAdapterDelegate_Internal(logEmptyCallback);
     [self.delegate adRewarded];
+}
+
+- (void)didExpired:(id <BidMachineAdProtocol> _Nonnull)ad {
+    LogAdapterDelegate_Internal(logAdExpired);
+    [self.adapter releaseAd];
+    [self.delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeAdExpired
+                                      errorCode:ISAdapterErrorAdExpired
+                                   errorMessage:logAdExpired];
 }
 
 - (void)didDismissAd:(id <BidMachineAdProtocol> _Nonnull)ad {

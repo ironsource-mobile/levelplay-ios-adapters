@@ -9,4 +9,6 @@
 
 @interface ISBidMachineInterstitialAdapter : LevelPlayBaseInterstitialAdapter
 
+- (void)releaseAd;
+
 @end

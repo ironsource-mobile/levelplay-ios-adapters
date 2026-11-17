@@ -67,7 +67,8 @@
             return;
         }
 
-        strongSelf.interstitialAdDelegate = [[ISBidMachineInterstitialDelegate alloc] initWithDelegate:delegate];
+        strongSelf.interstitialAdDelegate = [[ISBidMachineInterstitialDelegate alloc] initWithAdapter:strongSelf
+                                                                                             delegate:delegate];
         strongSelf.interstitialAd = interstitial;
 
         strongSelf.interstitialAd.delegate = strongSelf.interstitialAdDelegate;
@@ -99,7 +100,18 @@
     return self.interstitialAd && [self.interstitialAd canShow];
 }
 
+- (void)destroyAdWithAdData:(ISAdData *)adData {
+    LogAdapterApi_Internal(logEmptyCallback);
+    self.interstitialAd.delegate = nil;
+    self.interstitialAd = nil;
+    self.interstitialAdDelegate = nil;
+}
+
 #pragma mark - Helper Methods
+
+- (void)releaseAd {
+    self.interstitialAd = nil;
+}
 
 - (void)collectBiddingDataWithAdData:(ISAdData *)adData delegate:(id<ISBiddingDataDelegate>)delegate {
     NSString *placementId = [adData getString:placementIdKey];
