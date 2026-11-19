@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.14.0
+* Supporting SDK version 5.7.0
+* Updated minimum supported iOS version to 15.0
+
 ## Version 5.13.0
 * **Important!** The adapter now initializes the APS SDK, so initializing APS separately in your app is no longer required. Make sure the APS App ID is configured on the LevelPlay platform before updating
 * Added test mode support
