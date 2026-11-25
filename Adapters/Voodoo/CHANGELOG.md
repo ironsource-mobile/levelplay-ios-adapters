@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.9.0
+* Supporting SDK version 4.31.0
+* Updated minimum supported iOS version to 15.0
+
 ## Version 5.8.0
 * Supporting SDK version 4.30.2
 

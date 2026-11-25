@@ -1,11 +1,11 @@
 # Uncomment the next line to define a global platform for your project
 source 'https://cdn.cocoapods.org/'
 
-platform :ios, '14.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target 'ISVoodooAdapter' do
   pod 'IronSourceSDK', '9.8.0.0'
-  pod 'VoodooAdn', '4.30.2'
+  pod 'VoodooAdn', '4.31.0'
 
 end
