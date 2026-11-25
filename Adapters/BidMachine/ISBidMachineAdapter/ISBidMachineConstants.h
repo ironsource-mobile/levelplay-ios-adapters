@@ -10,6 +10,9 @@
 // Network name
 static NSString * const networkName = @"BidMachine";
 
+// Mediation name
+static NSString * const mediationName = @"ironsource";
+
 // Configuration keys
 static NSString * const sourceIdKey = @"sourceId";
 static NSString * const placementIdKey = @"placementId";
@@ -21,15 +24,12 @@ static NSString * const tokenKey = @"token";
 
 // Metadata keys
 static NSString * const metaDataCOPPAKey = @"BidMachine_COPPA";
-static NSString * const metaDataCCPAConsentValue = @"1YN-";
-static NSString * const metaDataCCPANoConsentValue = @"1YY-";
 
 // Log format strings
 static NSString * const logSourceId = @"sourceId = %@";
 static NSString * const logPlacementId = @"placementId = %@";
 static NSString * const logError = @"Error: %@";
 static NSString * const logConsent = @"consent = %@";
-static NSString * const logCCPA = @"CCPA = %@";
 static NSString * const logCOPPA = @"COPPA = %@";
 static NSString * const logInitSuccess = @"Init success";
 static NSString * const logLoadFailed = @"Failed to load %@ ad";
@@ -44,9 +44,6 @@ static NSString * const logEmptyCallback = @"";
 static NSString * const logAdapterNil = @"Adapter instance is nil";
 static NSString * const logMissingParam = @"Missing or invalid %@";
 static NSString * const logAdExpired = @"ads are expired";
-
-// Error codes
-static const NSInteger bidMachineNoFillErrorCode = 103;
 
 // Banner size descriptions
 static NSString * const sizeBanner = @"BANNER";

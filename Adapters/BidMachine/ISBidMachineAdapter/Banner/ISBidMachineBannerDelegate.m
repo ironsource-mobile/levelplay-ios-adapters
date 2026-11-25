@@ -25,33 +25,21 @@
     return self;
 }
 
-- (void)didLoadAd:(id <BidMachineAdProtocol> _Nonnull)ad {
-    NSString *creativeId = ad.auctionInfo.creativeId;
-    LogAdapterDelegate_Internal(logCreativeId, creativeId);
-    if (creativeId.length) {
-        NSDictionary<NSString *, id> *extraData = @{creativeIdKey: creativeId};
-        [self.delegate adDidLoadWithView:self.banner
-                               extraData:extraData];
-    } else {
-        [self.delegate adDidLoadWithView:self.banner];
-    }
+- (void)bannerDidPresent:(BidMachineBanner * _Nonnull)ad {
+    LogAdapterDelegate_Internal(logEmptyCallback);
 }
 
-- (void)didFailLoadAd:(id <BidMachineAdProtocol> _Nonnull)ad
-                     :(NSError * _Nonnull)error {
-    LogAdapterDelegate_Internal(logError, error.description);
-    ISAdapterErrorType errorType = (error.code == bidMachineNoFillErrorCode) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
-    [self.delegate adDidFailToLoadWithErrorType:errorType
-                                      errorCode:error.code
-                                   errorMessage:error.description];
-}
-
-- (void)didTrackImpression:(id <BidMachineAdProtocol> _Nonnull)ad {
+- (void)bannerDidTrackImpression:(BidMachineBanner * _Nonnull)ad {
     LogAdapterDelegate_Internal(logEmptyCallback);
     [self.delegate adDidOpen];
 }
 
-- (void)didUserInteraction:(id <BidMachineAdProtocol> _Nonnull)ad {
+- (void)bannerDidFailPresent:(BidMachineBanner * _Nonnull)ad
+                       error:(BidMachineError * _Nonnull)error {
+    LogAdapterDelegate_Internal(logError, error.description);
+}
+
+- (void)bannerDidClick:(BidMachineBanner * _Nonnull)ad {
     LogAdapterDelegate_Internal(logEmptyCallback);
     [self.delegate adDidClick];
 }

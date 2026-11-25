@@ -30,36 +30,13 @@
     NSString *placementId = [adData getString:placementIdKey];
     LogAdapterApi_Internal(logPlacementId, placementId);
 
-    NSError *placementError = nil;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placement:BidMachineAdFormat.rewarded
-                                                               error:&placementError
-                                                             builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
-        if (placementId.length > 0) {
-            [builder withPlacementId:placementId];
-        }
-    }];
-
-    if (!placement || placementError) {
-        LogInternal_Error(logError, placementError.description);
-        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
-                                     errorCode:placementError.code
-                                  errorMessage:placementError.description];
-        return;
-    }
-
-    BidMachineAuctionRequest *auctionRequest = [BidMachineSdk.shared auctionRequestWithPlacement:placement
-                                                                                         builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
-        [builder withPayload:adData.serverData];
-    }];
-
     __weak ISBidMachineRewardedAdapter *weakSelf = self;
-    [BidMachineSdk.shared rewardedWithRequest:auctionRequest
-                                   completion:^(BidMachineRewarded * _Nullable rewarded, NSError * _Nullable error) {
+    void (^completion)(BidMachineRewarded * _Nullable, BidMachineError * _Nullable) = ^(BidMachineRewarded * _Nullable rewarded, BidMachineError * _Nullable error) {
         __typeof__(self) strongSelf = weakSelf;
         if (error || !rewarded) {
             NSInteger code = error ? error.code : ERROR_CODE_NO_ADS_TO_SHOW;
             NSString *description = error ? error.description : [NSString stringWithFormat:logLoadFailed, networkName];
-            ISAdapterErrorType errorType = (code == bidMachineNoFillErrorCode) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+            ISAdapterErrorType errorType = (code == BidMachineErrorCodeNoContent) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
             LogInternal_Error(logError, description);
             [delegate adDidFailToLoadWithErrorType:errorType
                                          errorCode:code
@@ -67,32 +44,59 @@
             return;
         }
 
-        strongSelf.rewardedAdDelegate = [[ISBidMachineRewardedDelegate alloc] initWithAdapter:strongSelf
-                                                                                     delegate:delegate];
-        strongSelf.rewardedAd = rewarded;
+        if (!strongSelf) {
+            LogInternal_Error(logError, logAdapterNil);
+            [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                         errorCode:ISAdapterErrorInternal
+                                      errorMessage:logAdapterNil];
+            return;
+        }
 
+        strongSelf.rewardedAdDelegate = [[ISBidMachineRewardedDelegate alloc] initWithAdapter:strongSelf
+                                                                                             delegate:delegate];
+        strongSelf.rewardedAd = rewarded;
         strongSelf.rewardedAd.delegate = strongSelf.rewardedAdDelegate;
-        [strongSelf.rewardedAd loadAd];
-    }];
+
+        NSString *creativeId = rewarded.auctionInfo.creativeId;
+        LogAdapterDelegate_Internal(logCreativeId, creativeId);
+        if (creativeId.length) {
+            NSDictionary<NSString *, id> *extraData = @{creativeIdKey: creativeId};
+            [delegate adDidLoadWithExtraData:extraData];
+        } else {
+            [delegate adDidLoad];
+        }
+    };
+
+    BidMachineInstance *instance = ISBidMachineAdapter.bidMachineInstance;
+    if (adData.serverData.length > 0) {
+        [instance loadRewardedWithPayload:adData.serverData
+                                   completion:completion];
+    } else {
+        BidMachinePlacement *placement = nil;
+        if (placementId.length > 0) {
+            placement = [[BidMachinePlacement alloc] initWithId:placementId extras:@{}];
+        }
+        [instance loadRewardedWithPlacement:placement
+                                     completion:completion];
+    }
 }
 
 - (void)showAdWithViewController:(UIViewController *)viewController
                           adData:(ISAdData *)adData
                         delegate:(id<ISRewardedVideoAdDelegate>)delegate {
     LogAdapterApi_Internal(logEmptyCallback);
-    
-    if (![self isAdAvailableWithAdData:adData]) {
-        NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
-                                  withMessage:[NSString stringWithFormat:logShowFailed, networkName]];
-        LogAdapterApi_Internal(logError, error);
-        [delegate adDidFailToShowWithErrorCode:error.code
-                                  errorMessage:error.localizedDescription];
-        return;
-    }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.rewardedAd.controller = viewController;
-        [self.rewardedAd presentAd];
+        if (![self isAdAvailableWithAdData:adData]) {
+            NSError *error = [ISError createError:ERROR_CODE_NO_ADS_TO_SHOW
+                                      withMessage:[NSString stringWithFormat:logShowFailed, networkName]];
+            LogAdapterApi_Internal(logError, error);
+            [delegate adDidFailToShowWithErrorCode:error.code
+                                      errorMessage:error.localizedDescription];
+            return;
+        }
+
+        [self.rewardedAd showFrom:viewController];
     });
 }
 
@@ -125,9 +129,8 @@
         return;
     }
     
-    [adapter collectBiddingDataWithAdFormat:BidMachineAdFormat.rewarded
-                              placementId:placementId
-                                 delegate:delegate];
+    [adapter collectBiddingDataWithPlacementId:placementId
+                                      delegate:delegate];
 }
 
 @end

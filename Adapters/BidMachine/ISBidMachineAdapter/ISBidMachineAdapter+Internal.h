@@ -11,9 +11,11 @@
 
 @interface ISBidMachineAdapter ()
 
+// BidMachine instance, nil until the SDK is initialized
++ (BidMachineInstance *)bidMachineInstance;
+
 // Bidding data collection
-- (void)collectBiddingDataWithAdFormat:(BidMachineAdFormat *)adFormat
-                           placementId:(NSString *)placementId
-                              delegate:(id<ISBiddingDataDelegate>)delegate;
+- (void)collectBiddingDataWithPlacementId:(NSString *)placementId
+                                 delegate:(id<ISBiddingDataDelegate>)delegate;
 
 @end
