@@ -168,7 +168,7 @@
         LPMAdSize *adaptiveSize = [size toLPMAdSize];
         if (adaptiveSize.width > 0) {
             bannerSize = [BidMachineBannerSize adaptiveWithWidth:(uint32_t)adaptiveSize.width
-                                                       maxHeight:0];
+                                                       maxHeight:(uint32_t)MAX(0, adaptiveSize.height)];
         }
     }
 
