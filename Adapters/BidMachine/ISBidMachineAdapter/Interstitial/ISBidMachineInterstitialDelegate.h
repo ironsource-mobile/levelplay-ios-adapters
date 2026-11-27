@@ -11,7 +11,7 @@
 @protocol ISInterstitialAdDelegate;
 @class ISBidMachineInterstitialAdapter;
 
-@interface ISBidMachineInterstitialDelegate : NSObject <BidMachineAdDelegate>
+@interface ISBidMachineInterstitialDelegate : NSObject <BidMachineInterstitialDelegate>
 
 @property (nonatomic, weak) ISBidMachineInterstitialAdapter *adapter;
 @property (nonatomic, weak) id<ISInterstitialAdDelegate> delegate;

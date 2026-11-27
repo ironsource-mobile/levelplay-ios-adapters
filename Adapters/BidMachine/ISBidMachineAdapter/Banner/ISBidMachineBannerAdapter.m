@@ -8,6 +8,7 @@
 #import <BidMachine/BidMachine-Swift.h>
 #import <IronSource/ISError.h>
 #import <IronSource/ISLog.h>
+#import <IronSource/LPMAdSize.h>
 #import "ISBidMachineBannerAdapter.h"
 #import "ISBidMachineBannerDelegate.h"
 #import "ISBidMachineAdapter+Internal.h"
@@ -32,8 +33,8 @@
     NSString *placementId = [adData getString:placementIdKey];
     LogAdapterApi_Internal(logPlacementId, placementId);
 
-    BidMachineAdFormat *bannerFormat = [self getBannerFormat:size];
-    if (bannerFormat == nil) {
+    BidMachineBannerSize *bannerSize = [self getBannerSize:size];
+    if (bannerSize == nil) {
         NSError *error = [NSError errorWithDomain:networkName
                                              code:ERROR_BN_UNSUPPORTED_SIZE
                                          userInfo:@{NSLocalizedDescriptionKey:logUnsupportedBannerSize}];
@@ -44,36 +45,13 @@
         return;
     }
 
-    NSError *placementError = nil;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placement:bannerFormat
-                                                               error:&placementError
-                                                             builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
-        if (placementId.length > 0) {
-            [builder withPlacementId:placementId];
-        }
-    }];
-
-    if (!placement || placementError) {
-        LogInternal_Error(logError, placementError.description);
-        [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
-                                     errorCode:placementError.code
-                                  errorMessage:placementError.description];
-        return;
-    }
-
-    BidMachineAuctionRequest *auctionRequest = [BidMachineSdk.shared auctionRequestWithPlacement:placement
-                                                                                         builder:^(id<BidMachineAuctionRequestBuilderProtocol> builder) {
-        [builder withPayload:adData.serverData];
-    }];
-
     __weak ISBidMachineBannerAdapter *weakSelf = self;
-    [BidMachineSdk.shared bannerWithRequest:auctionRequest
-                                 completion:^(BidMachineBanner * _Nullable banner, NSError * _Nullable error) {
+    void (^completion)(BidMachineBanner * _Nullable, BidMachineError * _Nullable) = ^(BidMachineBanner * _Nullable banner, BidMachineError * _Nullable error) {
         __typeof__(self) strongSelf = weakSelf;
         if (error || !banner) {
             NSInteger code = error ? error.code : ERROR_CODE_NO_ADS_TO_SHOW;
             NSString *description = error ? error.description : [NSString stringWithFormat:logLoadFailed, networkName];
-            ISAdapterErrorType errorType = (code == bidMachineNoFillErrorCode) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
+            ISAdapterErrorType errorType = (code == BidMachineErrorCodeNoContent) ? ISAdapterErrorTypeNoFill : ISAdapterErrorTypeInternal;
             LogInternal_Error(logError, description);
             [delegate adDidFailToLoadWithErrorType:errorType
                                          errorCode:code
@@ -81,22 +59,57 @@
             return;
         }
 
+        if (!strongSelf) {
+            LogInternal_Error(logError, logAdapterNil);
+            [delegate adDidFailToLoadWithErrorType:ISAdapterErrorTypeInternal
+                                         errorCode:ISAdapterErrorInternal
+                                      errorMessage:logAdapterNil];
+            return;
+        }
+
         strongSelf.bannerAdDelegate = [[ISBidMachineBannerDelegate alloc] initWithBanner:banner
                                                                                  delegate:delegate];
         strongSelf.bannerAdView = banner;
+        strongSelf.bannerAdView.rootViewController = viewController;
+        strongSelf.bannerAdView.delegate = strongSelf.bannerAdDelegate;
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            strongSelf.bannerAdView.controller = viewController;
-            strongSelf.bannerAdView.delegate = strongSelf.bannerAdDelegate;
-            [strongSelf.bannerAdView loadAd];
-        });
-    }];
+        CGSize bannerViewSize = bannerSize.cgSize;
+        if (bannerViewSize.height <= 0) {
+            bannerViewSize = banner.adSize.cgSize;
+        }
+        banner.frame = CGRectMake(0, 0, bannerViewSize.width, bannerViewSize.height);
+
+        NSString *creativeId = banner.auctionInfo.creativeId;
+        LogAdapterDelegate_Internal(logCreativeId, creativeId);
+        if (creativeId.length) {
+            NSDictionary<NSString *, id> *extraData = @{creativeIdKey: creativeId};
+            [delegate adDidLoadWithView:banner
+                              extraData:extraData];
+        } else {
+            [delegate adDidLoadWithView:banner];
+        }
+    };
+
+    BidMachineInstance *instance = ISBidMachineAdapter.bidMachineInstance;
+    if (adData.serverData.length > 0) {
+        [instance loadBannerWithPayload:adData.serverData
+                                   size:bannerSize
+                             completion:completion];
+    } else {
+        BidMachinePlacement *placement = nil;
+        if (placementId.length > 0) {
+            placement = [[BidMachinePlacement alloc] initWithId:placementId extras:@{}];
+        }
+        [instance loadBannerWithPlacement:placement
+                                     size:bannerSize
+                               completion:completion];
+    }
 }
 
 - (void)destroyAdWithAdData:(ISAdData *)adData {
     LogAdapterApi_Internal(logEmptyCallback);
 
-    self.bannerAdView.controller = nil;
+    self.bannerAdView.rootViewController = nil;
     self.bannerAdView.delegate = nil;
     self.bannerAdView = nil;
     self.bannerAdDelegate = nil;
@@ -112,9 +125,9 @@
 
     if ([adUnitData objectForKey:bannerSizeKey]) {
         ISBannerSize *size = [adUnitData objectForKey:bannerSizeKey];
-        BidMachineAdFormat *bannerFormat = [self getBannerFormat:size];
+        BidMachineBannerSize *bannerSize = [self getBannerSize:size];
 
-        if (bannerFormat == nil) {
+        if (bannerSize == nil) {
             LogAdapterApi_Internal(logTokenFailed);
             [delegate failureWithError:logTokenFailed];
             return;
@@ -128,28 +141,38 @@
             return;
         }
 
-        [adapter collectBiddingDataWithAdFormat:bannerFormat
-                                  placementId:placementId
-                                     delegate:delegate];
+        [adapter collectBiddingDataWithPlacementId:placementId
+                                          delegate:delegate];
     } else {
         LogAdapterApi_Internal(logTokenFailed);
         [delegate failureWithError:logTokenFailed];
     }
 }
 
-- (BidMachineAdFormat *)getBannerFormat:(ISBannerSize *)size {
+- (BidMachineBannerSize *)getBannerSize:(ISBannerSize *)size {
+    BidMachineBannerSize *bannerSize = nil;
+
     if ([size.sizeDescription isEqualToString:sizeBanner]) {
-        return BidMachineAdFormat.banner320x50;
+        bannerSize = BidMachineBannerSize.banner;
     } else if ([size.sizeDescription isEqualToString:sizeRectangle]) {
-        return BidMachineAdFormat.banner300x250;
+        bannerSize = BidMachineBannerSize.mrec;
     } else if ([size.sizeDescription isEqualToString:sizeSmart]) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            return BidMachineAdFormat.banner728x90;
+            bannerSize = BidMachineBannerSize.leaderboard;
         } else {
-            return BidMachineAdFormat.banner320x50;
+            bannerSize = BidMachineBannerSize.banner;
         }
     }
-    return nil;
+
+    if (size.isAdaptive) {
+        LPMAdSize *adaptiveSize = [size toLPMAdSize];
+        if (adaptiveSize.width > 0) {
+            bannerSize = [BidMachineBannerSize adaptiveWithWidth:(uint32_t)adaptiveSize.width
+                                                       maxHeight:(uint32_t)MAX(0, adaptiveSize.height)];
+        }
+    }
+
+    return bannerSize;
 }
 
 @end

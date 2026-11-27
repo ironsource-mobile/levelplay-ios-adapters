@@ -11,7 +11,7 @@
 @protocol ISRewardedVideoAdDelegate;
 @class ISBidMachineRewardedAdapter;
 
-@interface ISBidMachineRewardedDelegate : NSObject <BidMachineAdDelegate>
+@interface ISBidMachineRewardedDelegate : NSObject <BidMachineRewardedDelegate>
 
 @property (nonatomic, weak) ISBidMachineRewardedAdapter *adapter;
 @property (nonatomic, weak) id<ISRewardedVideoAdDelegate> delegate;

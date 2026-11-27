@@ -11,7 +11,7 @@
 @protocol ISBannerAdDelegate;
 @class BidMachineBanner;
 
-@interface ISBidMachineBannerDelegate : NSObject <BidMachineAdDelegate>
+@interface ISBidMachineBannerDelegate : NSObject <BidMachineBannerDelegate>
 
 @property (nonatomic, strong) BidMachineBanner         *banner;
 @property (nonatomic, weak) id<ISBannerAdDelegate>     delegate;

@@ -15,9 +15,26 @@
 #import "ISBidMachineAdapter.h"
 #import "ISBidMachineConstants.h"
 
+@interface ISBidMachineConsentProvider : NSObject <BidMachineConsentProvider>
+
+@property (nonatomic, strong, nullable) NSNumber *coppa;
+@property (nonatomic, strong, nullable) NSNumber *gdprApplies;
+@property (nonatomic, strong, nullable) NSNumber *gdprConsent;
+@property (nonatomic, strong, nullable) NSNumber *nonPersonalized;
+@property (nonatomic, copy, nullable) NSString *gppString;
+@property (nonatomic, copy, nullable) NSArray<NSNumber *> *gppSids;
+
+@end
+
+@implementation ISBidMachineConsentProvider
+
+@end
+
 // Handle init callback for all adapter instances
 static InitState initState = INIT_STATE_NONE;
 static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDelegates = nil;
+static BidMachineInstance *bidMachineInstance = nil;
+static ISBidMachineConsentProvider *consentProvider = nil;
 
 @interface ISBidMachineAdapter ()
 
@@ -46,6 +63,9 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDele
     if (self) {
         if (initCallbackDelegates == nil) {
             initCallbackDelegates = [ISConcurrentMutableSet<ISNetworkInitializationDelegate> set];
+        }
+        if (consentProvider == nil) {
+            consentProvider = [[ISBidMachineConsentProvider alloc] init];
         }
     }
     return self;
@@ -79,14 +99,15 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDele
 
         LogAdapterDelegate_Internal(logSourceId, sourceId);
 
-        [BidMachineSdk.shared populate:^(id<BidMachineInfoBuilderProtocol> builder) {
-            BOOL enableLogs = [ISConfigurations getConfigurations].adaptersDebug;
-            [builder withLoggingMode:enableLogs];
-            [builder withEventLoggingMode:enableLogs];
-            [builder withBidLoggingMode:enableLogs];
-        }];
+        BidMachineSdk.isLoggingEnabled = [ISConfigurations getConfigurations].adaptersDebug;
 
-        [BidMachineSdk.shared initializeSdk:sourceId];
+        BidMachineConfiguration *configuration = [[BidMachineConfiguration alloc] init];
+        configuration.mediationInfo = [[BidMachineMediationInfo alloc] initWithName:mediationName
+                                                                            version:[LevelPlay sdkVersion]
+                                                                     adapterVersion:BidMachineAdapterVersion];
+
+        bidMachineInstance = [BidMachineSdk initializeWithSourceId:sourceId
+                                                     configuration:configuration];
         [self initializationSuccess];
     });
 }
@@ -116,52 +137,36 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDele
     NSString *value = values[0];
     LogAdapterApi_Internal(logMetaDataSet, key, value);
 
-    if ([ISMetaDataUtils isValidCCPAMetaDataWithKey:key
-                                           andValue:value]) {
-        [self setCCPAValue:[ISMetaDataUtils getMetaDataBooleanValue:value]];
-
-    } else {
-        NSString *formattedValue = [ISMetaDataUtils formatValue:value
-                                                        forType:(META_DATA_VALUE_BOOL)];
-        if ([ISMetaDataUtils isValidMetaDataWithKey:key
-                                               flag:metaDataCOPPAKey
-                                           andValue:formattedValue]) {
-            [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
-        }
+    NSString *formattedValue = [ISMetaDataUtils formatValue:value
+                                                    forType:(META_DATA_VALUE_BOOL)];
+    if ([ISMetaDataUtils isValidMetaDataWithKey:key
+                                           flag:metaDataCOPPAKey
+                                       andValue:formattedValue]) {
+        [self setCOPPAValue:[ISMetaDataUtils getMetaDataBooleanValue:formattedValue]];
     }
 }
 
 - (void)setConsent:(BOOL)consent {
     LogAdapterApi_Internal(logConsent, consent ? @"YES" : @"NO");
-    [BidMachineSdk.shared.regulationInfo
-     populate:^(id<BidMachineRegulationInfoBuilderProtocol> builder) {
-        [builder withGDPRZone:YES];
-        [builder withGDPRConsent:consent];
-    }];
-}
-
-- (void)setCCPAValue:(BOOL)ccpa {
-    NSString *ccpaConsentString = (ccpa) ? metaDataCCPANoConsentValue : metaDataCCPAConsentValue;
-    LogAdapterApi_Internal(logCCPA, ccpaConsentString);
-    [BidMachineSdk.shared.regulationInfo
-     populate:^(id<BidMachineRegulationInfoBuilderProtocol> builder) {
-        [builder withUSPrivacyString:ccpaConsentString];
-    }];
+    consentProvider.gdprApplies = @YES;
+    consentProvider.gdprConsent = @(consent);
+    BidMachineSdk.consentProvider = consentProvider;
 }
 
 - (void)setCOPPAValue:(BOOL)coppa {
     LogAdapterApi_Internal(logCOPPA, coppa ? @"YES" : @"NO");
-    [BidMachineSdk.shared.regulationInfo
-     populate:^(id<BidMachineRegulationInfoBuilderProtocol> builder) {
-        [builder withCOPPA:coppa];
-    }];
+    consentProvider.coppa = @(coppa);
+    BidMachineSdk.consentProvider = consentProvider;
 }
 
 #pragma mark - Helper Methods
 
-- (void)collectBiddingDataWithAdFormat:(BidMachineAdFormat *)adFormat
-                           placementId:(NSString *)placementId
-                              delegate:(id<ISBiddingDataDelegate>)delegate {
++ (BidMachineInstance *)bidMachineInstance {
+    return bidMachineInstance;
+}
+
+- (void)collectBiddingDataWithPlacementId:(NSString *)placementId
+                                 delegate:(id<ISBiddingDataDelegate>)delegate {
 
     // BidMachine token can only be fetched after successful initialization
     if (initState != INIT_STATE_SUCCESS) {
@@ -170,22 +175,19 @@ static ISConcurrentMutableSet<ISNetworkInitializationDelegate> *initCallbackDele
         return;
     }
 
-    NSError *placementError = nil;
-    BidMachinePlacement *placement = [BidMachineSdk.shared placement:adFormat
-                                                               error:&placementError
-                                                             builder:^(id<BidMachinePlacementBuilderProtocol> builder) {
-        if (placementId.length > 0) {
-            [builder withPlacementId:placementId];
-        }
-    }];
-
-    if (!placement || placementError) {
-        LogInternal_Error(logError, placementError.description);
-        [delegate failureWithError:placementError.description];
-        return;
+    NSMutableArray<BidMachinePlacement *> *placements = [NSMutableArray array];
+    if (placementId.length > 0) {
+        [placements addObject:[[BidMachinePlacement alloc] initWithId:placementId extras:@{}]];
     }
 
-    [BidMachineSdk.shared tokenWithPlacement:placement completion:^(NSString * _Nullable token) {
+    [bidMachineInstance collectTokenWithPlacements:placements
+                                        completion:^(NSString * _Nullable token, BidMachineError * _Nullable error) {
+        if (error) {
+            LogInternal_Error(logError, error.description);
+            [delegate failureWithError:error.description];
+            return;
+        }
+
         if (!token) {
             LogAdapterApi_Internal(logTokenFailed);
             [delegate failureWithError:logTokenFailed];
